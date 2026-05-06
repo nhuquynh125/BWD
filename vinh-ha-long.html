@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vịnh Hạ Long Neon • LUNAR HERITAGE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        :root { --neon-cyan: #00f7ff; --neon-purple: #c026d3; }
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .title-font { font-family: 'Space Grotesk', sans-serif; }
+        .neon-glow { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-purple); }
+        .hero-bg { background: radial-gradient(circle at 30% 20%, #1a0033 0%, #0a0a2a 50%, #000000 100%); }
+        .glass { background: rgba(255,255,255,0.07); backdrop-filter: blur(20px); }
+        .three-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-12px); box-shadow: 0 0 40px #00f7ff; border-color: #00f7ff; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white overflow-x-hidden">
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
+                    🌕 <span class="absolute -top-1 -right-1 text-xl">🏮</span>
+                </div>
+                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
+                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
+                <a href="index.html" class="hover:text-[#00f7ff]">Trang chủ</a>
+                <a href="vinh-ha-long.html" class="text-[#00f7ff] font-bold">Vịnh Hạ Long Neon</a>
+                <a href="co-do-hue.html" class="hover:text-[#00f7ff]">Cố đô Huế</a>
+                <a href="hoi-an.html" class="hover:text-[#00f7ff]">Hội An</a>
+                <a href="ruong-bac-thang.html" class="hover:text-[#00f7ff]">Ruộng Bậc Thang</a>
+            </div>
+
+            <a href="index.html" class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold hover:scale-105 transition-transform">
+                <i class="fa-solid fa-arrow-left"></i> QUAY VỀ TRANG CHỦ
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO 3D LUNG LINH (có xoay camera bằng chuột) -->
+    <section class="hero-bg min-h-screen pt-32 relative flex items-center overflow-hidden">
+        <canvas id="three-canvas" class="three-canvas"></canvas>
+        
+        <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
+            <div class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8">
+                🌊 DI SẢN UNESCO • VỊNH HẠ LONG NEON
+            </div>
+            
+            <h1 class="text-7xl lg:text-8xl title-font leading-none neon-glow tracking-[-4px]">
+                VỊNH HẠ LONG<br>NEON
+            </h1>
+            
+            <p class="mt-6 text-3xl text-[#000000] font-light max-w-lg">
+                Hàng nghìn đảo đá karst lung linh dưới ánh trăng neon tương lai
+            </p>
+            
+            <div class="mt-12 flex items-center gap-x-6">
+                <button onclick="window.location.href='index.html'" 
+                        class="bg-white text-black font-bold px-10 py-6 rounded-3xl text-2xl flex items-center gap-x-4 hover:shadow-2xl transition-all">
+                    <i class="fa-solid fa-home"></i> TRANG CHỦ
+                </button>
+                <button onclick="launchLantern()" 
+                        class="border-2 border-[#00f7ff] text-white px-10 py-6 rounded-3xl text-2xl flex items-center gap-x-4 hover:bg-white/10 transition-all">
+                    🏮 THẮP ĐÈN LỒNG NEON
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PHẦN NỘI DUNG CHI TIẾT (MỚI) ==================== -->
+    <section class="py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
+                <!-- Ảnh lớn -->
+                <div class="lg:col-span-7">
+                    <img src="./ha-long.jpg" alt="Vịnh Hạ Long Neon" 
+                         class="w-full rounded-3xl shadow-2xl shadow-[#00f7ff]/40">
+                </div>
+                
+                <!-- Mô tả chính -->
+                <div class="lg:col-span-5">
+                    <h2 class="title-font text-5xl neon-glow mb-6">Di sản kỳ vĩ dưới ánh trăng neon</h2>
+                    <p class="text-zinc-300 text-xl leading-relaxed">
+                        Hàng nghìn đảo đá karst nhô lên từ mặt nước xanh ngọc. Trong LUNAR HERITAGE, 
+                        những đảo đá được bao phủ bởi ánh sáng neon huyền ảo, tạo nên không gian vừa cổ kính vừa tương lai rực rỡ.
+                    </p>
+                    <div class="mt-10 flex items-center gap-4">
+                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
+                            <p class="text-[#00f7ff] text-4xl">🏛️</p>
+                            <p class="font-bold mt-2">UNESCO 1994 & 2000</p>
+                        </div>
+                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
+                            <p class="text-[#00f7ff] text-4xl">🪨</p>
+                            <p class="font-bold mt-2">1.960 đảo đá</p>
+                        </div>
+                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
+                            <p class="text-[#00f7ff] text-4xl">📏</p>
+                            <p class="font-bold mt-2">1.553 km²</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KHÁM PHÁ VỊNH HẠ LONG NEON -->
+    <section class="py-24">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="title-font text-6xl text-center neon-glow mb-16">Khám phá Vịnh Hạ Long Neon</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🌊</div>
+                    <h3 class="text-3xl font-semibold mb-3">Đảo đá bay lơ lửng</h3>
+                    <p class="text-zinc-400">Hàng trăm đảo đá được bao quanh bởi ánh sáng neon tím – xanh – vàng, tạo hiệu ứng hologram 3D sống động.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🚤</div>
+                    <h3 class="text-3xl font-semibold mb-3">Du thuyền neon</h3>
+                    <p class="text-zinc-400">Du thuyền hiện đại với đèn LED neon chạy dọc thân tàu, phản chiếu lung linh trên mặt nước.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🪨</div>
+                    <h3 class="text-3xl font-semibold mb-3">Hang động cyber</h3>
+                    <p class="text-zinc-400">Hang động được chiếu sáng bằng công nghệ neon, tạo hiệu ứng ánh sáng 3D lung linh chưa từng có.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LỊCH SỬ & DI SẢN -->
+    <section class="py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="px-6 py-2 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl">LỊCH SỬ & DI SẢN</span>
+            </div>
+            <div class="max-w-3xl mx-auto text-zinc-300 text-lg leading-relaxed">
+                Vịnh Hạ Long là kỳ quan thiên nhiên thế giới, được UNESCO công nhận hai lần (1994 và 2000). 
+                Trong LUNAR HERITAGE, chúng tôi tái tạo lại toàn bộ vịnh dưới ánh sáng neon tương lai, 
+                kết hợp truyền thống với công nghệ 3D để bạn có thể bay lượn và khám phá từng đảo đá một cách sống động.
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="py-24 bg-gradient-to-b from-zinc-900 to-black text-center">
+        <h2 class="title-font text-5xl neon-glow mb-8">Bạn sẵn sàng bay vào Vịnh Hạ Long Neon?</h2>
+        <button onclick="launchLantern()" 
+                class="inline-flex items-center gap-x-4 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold text-2xl px-14 py-7 rounded-3xl hover:scale-110 transition-all">
+            🏮 THẮP ĐÈN LỒNG & BAY NGAY
+        </button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center">
+        <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
+        <p class="text-zinc-400 mt-3">Vịnh Hạ Long Neon • Di sản Việt Nam dưới ánh trăng tương lai</p>
+        <p class="text-xs text-zinc-500 mt-12">© 2026 VKU • BWD 2026</p>
+    </footer>
+    <script>
+        let scene, camera, renderer;
+        let islands = [], lanterns = [], particles;
+        let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+        let autoRotate = true;
+
+        function initThree() {
+            const canvas = document.getElementById('three-canvas');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x0a0a2a, 30, 280);
+
+            camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 300);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Ánh sáng neon
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+            const neonLight = new THREE.PointLight(0xc026d3, 3, 300);
+            neonLight.position.set(0, 30, 50);
+            scene.add(neonLight);
+
+            // Nước (water plane)
+            const waterGeo = new THREE.PlaneGeometry(400, 400);
+            const waterMat = new THREE.MeshPhongMaterial({
+                color: 0x00aaff,
+                shininess: 100,
+                emissive: 0x0088ff,
+                transparent: true,
+                opacity: 0.65,
+                side: THREE.DoubleSide
+            });
+            const water = new THREE.Mesh(waterGeo, waterMat);
+            water.rotation.x = -Math.PI / 2;
+            water.position.y = -8;
+            scene.add(water);
+
+            // Tạo 28 đảo đá neon
+            for (let i = 0; i < 28; i++) {
+                const size = 6 + Math.random() * 14;
+                const geo = new THREE.ConeGeometry(size, 18 + Math.random() * 22, 5);
+                const mat = new THREE.MeshPhongMaterial({
+                    color: 0x00ffaa,
+                    emissive: (i % 3 === 0) ? 0xc026d3 : (i % 3 === 1 ? 0x00f7ff : 0xfacc15),
+                    emissiveIntensity: 1.2,
+                    shininess: 30
+                });
+                const island = new THREE.Mesh(geo, mat);
+                island.position.set(
+                    (Math.random() - 0.5) * 160,
+                    -8,
+                    (Math.random() - 0.5) * 140 - 30
+                );
+                island.rotation.y = Math.random() * Math.PI;
+                scene.add(island);
+                islands.push(island);
+            }
+
+            // Particles neon
+            const particleCount = 1200;
+            const pGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i]     = (Math.random() - 0.5) * 300;
+                positions[i + 1] = Math.random() * 80;
+                positions[i + 2] = (Math.random() - 0.5) * 300;
+            }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const pMat = new THREE.PointsMaterial({ size: 1.8, color: 0x00f7ff, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending });
+            particles = new THREE.Points(pGeo, pMat);
+            scene.add(particles);
+
+            // Đèn lồng bay
+            for (let i = 0; i < 18; i++) {
+                const group = new THREE.Group();
+                const body = new THREE.Mesh(new THREE.CylinderGeometry(2, 2.8, 4, 8), 
+                    new THREE.MeshPhongMaterial({ color: 0xffaa00, emissive: 0xff5500, emissiveIntensity: 1.5 }));
+                group.add(body);
+                group.position.set((Math.random()-0.5)*140, 20 + Math.random()*40, (Math.random()-0.5)*120);
+                scene.add(group);
+                lanterns.push(group);
+            }
+
+            camera.position.set(40, 35, 120);
+            camera.lookAt(0, 10, 0);
+
+            // Mouse control
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+                autoRotate = false;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = Date.now() * 0.001;
+
+                // Xoay camera
+                targetX = mouseX * 35;
+                targetY = mouseY * 25 + 30;
+                camera.position.x += (targetX - camera.position.x) * 0.07;
+                camera.position.y += (targetY - camera.position.y) * 0.07;
+                camera.lookAt(0, 12, 0);
+
+                // Nếu không kéo chuột thì tự động quay chậm
+                if (autoRotate) {
+                    camera.position.x = Math.sin(time * 0.15) * 110;
+                    camera.position.z = Math.cos(time * 0.15) * 110;
+                    camera.lookAt(0, 15, 0);
+                }
+
+                // Đảo đá nhấp nháy neon
+                islands.forEach((island, i) => {
+                    island.material.emissiveIntensity = 1.2 + Math.sin(time * 3 + i) * 0.6;
+                });
+
+                // Particles bay lên
+                particles.rotation.y += 0.0008;
+
+                // Đèn lồng bay lên
+                lanterns.forEach(l => {
+                    l.position.y += 0.18;
+                    if (l.position.y > 110) l.position.y = -30;
+                    l.rotation.y += 0.02;
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function launchLantern() {
+            alert("🏮 Đèn lồng neon đã bay khắp Vịnh Hạ Long!");
+        }
+
+        window.onload = () => {
+            initThree();
+            console.log('%c🌊 Vịnh Hạ Long Neon 3D – Mouse Drag để xoay ngắm đảo!', 'color:#00f7ff; font-size:22px; font-family:Space Grotesk');
+        };
+    </script>
+</body>
+</html>

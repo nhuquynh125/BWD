@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Social Network - Chia sẻ trải nghiệm du lịch Việt Nam</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <!-- Logo & Title -->
+            <div class="login-header">
+                <h1>Travel Share</h1>
+                <p>Chia sẻ trải nghiệm du lịch của bạn</p>
+            </div>
+
+            <!-- Login Tabs -->
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="google-login">Đăng nhập Google</button>
+                <button class="tab-btn" data-tab="phone-login">Đăng nhập điện thoại</button>
+            </div>
+
+            <!-- Google Login Tab -->
+            <div id="google-login" class="tab-content active">
+                <button class="btn btn-google" onclick="loginWithGoogle()">
+                    <span class="icon">G</span>
+                    Đăng nhập với Google
+                </button>
+                <p class="terms">Bằng cách đăng nhập, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a></p>
+            </div>
+
+            <!-- Phone Login Tab -->
+            <div id="phone-login" class="tab-content">
+                <form id="phoneForm">
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại (10 số)" pattern="[0-9]{10}" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="sendOTP()">Gửi mã OTP</button>
+                </form>
+
+                <!-- OTP Verification (hidden initially) -->
+                <div id="otpSection" class="otp-section" style="display: none;">
+                    <form id="otpForm">
+                        <div class="form-group">
+                            <label for="otp">Mã OTP</label>
+                            <input type="text" id="otp" name="otp" placeholder="Nhập mã 6 số" pattern="[0-9]{6}" maxlength="6" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="verifyOTP()">Xác nhận</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetPhoneForm()">Thay đổi số</button>
+                    </form>
+                    <p class="timer" id="timer">Gửi lại mã sau: <span id="countdown">60</span>s</p>
+                </div>
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="signup-link">
+                Chưa có tài khoản? <a href="signup.html">Đăng ký ngay</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân - Travel Social Network</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Travel Share</h1>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="Tìm bài viết, địa danh...">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="message-btn">💬</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Profile Cover & Info -->
+        <div class="profile-cover-section">
+            <div class="cover-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            
+            <div class="profile-header-info">
+                <div class="profile-avatar-container">
+                    <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-avatar-large">
+                    <button class="edit-avatar-btn" id="editAvatarBtn" style="display: none;">📷</button>
+                </div>
+
+                <div class="profile-basic-info">
+                    <h1 class="profile-name">Nguyễn Văn A</h1>
+                    <p class="profile-username">@nguyen_van_a</p>
+                    <p class="profile-bio">Yêu thích du lịch, khám phá những địa danh đẹp của Việt Nam 🌍 | Chia sẻ trải nghiệm du lịch</p>
+                    
+                    <div class="profile-meta">
+                        <span class="meta-item">📍 Hà Nội, Việt Nam</span>
+                        <span class="meta-item">📅 Tham gia tháng 3, 2024</span>
+                        <span class="meta-item">🔗 <a href="#">travelblog.com</a></span>
+                    </div>
+                </div>
+
+                <div class="profile-actions" id="profileActions">
+                    <button class="btn btn-primary" id="editProfileBtn">✏️ Chỉnh sửa hồ sơ</button>
+                </div>
+
+                <div class="profile-actions-other" id="profileActionsOther" style="display: none;">
+                    <button class="btn btn-primary" id="followBtn">👤 Theo dõi</button>
+                    <button class="btn btn-secondary" id="messageBtn">💬 Nhắn tin</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <!-- Stats -->
+            <div class="profile-stats">
+                <div class="stat-box">
+                    <span class="stat-number">24</span>
+                    <span class="stat-label">Bài viết</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">328</span>
+                    <span class="stat-label">Bạn bè</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">1.2K</span>
+                    <span class="stat-label">Lượt thích</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">48</span>
+                    <span class="stat-label">Được lưu lại</span>
+                </div>
+            </div>
+
+            <!-- Tabs & Feed -->
+            <div class="profile-tabs">
+                <button class="tab-btn active" onclick="switchTab('posts')">📝 Bài viết</button>
+                <button class="tab-btn" onclick="switchTab('photos')">🖼️ Ảnh</button>
+                <button class="tab-btn" onclick="switchTab('saved')">🔖 Được lưu lại</button>
+                <button class="tab-btn" id="friendsTabBtn" onclick="switchTab('friends')">👥 Bạn bè</button>
+            </div>
+
+            <div class="profile-content">
+                <!-- Posts Tab -->
+                <div id="posts-tab" class="tab-content active">
+                    <div class="posts-grid">
+                        <!-- Post 1 -->
+                        <article class="post-card">
+                            <div class="post-header">
+                                <div class="author-info">
+                                    <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                    <div>
+                                        <h3 class="post-author">Nguyễn Văn A</h3>
+                                        <span class="post-time">3 ngày trước</span>
+                                    </div>
+                                </div>
+                                <button class="post-menu-btn" id="postMenuBtn1">⋮</button>
+                            </div>
+
+                            <div class="post-content">
+                                <p>Sáng nay thức dậy sớm để xem bình minh ở Vịnh Hạ Long. Cảnh tượng thật tuyệt vời! 🌅</p>
+                                <div class="post-location">📍 Vịnh Hạ Long, Quảng Ninh</div>
+                            </div>
+
+                            <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                            <div class="post-stats">
+                                <span>156 lượt thích</span>
+                                <span>24 bình luận</span>
+                                <span>8 chia sẻ</span>
+                            </div>
+
+                            <div class="post-actions">
+                                <button class="action-btn">👍 Thích</button>
+                                <button class="action-btn">💬 Bình luận</button>
+                                <button class="action-btn">📤 Chia sẻ</button>
+                            </div>
+                        </article>
+
+                        <!-- Post 2 -->
+                        <article class="post-card">
+                            <div class="post-header">
+                                <div class="author-info">
+                                    <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                    <div>
+                                        <h3 class="post-author">Nguyễn Văn A</h3>
+                                        <span class="post-time">1 tuần trước</span>
+                                    </div>
+                                </div>
+                                <button class="post-menu-btn" id="postMenuBtn2">⋮</button>
+                            </div>
+
+                            <div class="post-content">
+                                <p>Phố cổ Hội An lúc hoàng hôn - một bức tranh sống động 🎨 #DuLichVietNam #HoiAn</p>
+                                <div class="post-location">📍 Phố cổ Hội An, Quảng Nam</div>
+                            </div>
+
+                            <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                            <div class="post-stats">
+                                <span>243 lượt thích</span>
+                                <span>45 bình luận</span>
+                                <span>12 chia sẻ</span>
+                            </div>
+
+                            <div class="post-actions">
+                                <button class="action-btn">👍 Thích</button>
+                                <button class="action-btn">💬 Bình luận</button>
+                                <button class="action-btn">📤 Chia sẻ</button>
+                            </div>
+                        </article>
+
+                        <!-- Post 3 -->
+                        <article class="post-card">
+                            <div class="post-header">
+                                <div class="author-info">
+                                    <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                    <div>
+                                        <h3 class="post-author">Nguyễn Văn A</h3>
+                                        <span class="post-time">2 tuần trước</span>
+                                    </div>
+                                </div>
+                                <button class="post-menu-btn" id="postMenuBtn3">⋮</button>
+                            </div>
+
+                            <div class="post-content">
+                                <p>Sa Pa mùa đông - tuyết trắng phủ khắp núi non 🏔️ Đây là lần thứ 5 tôi ghé thăm nơi này</p>
+                                <div class="post-location">📍 Sa Pa, Lào Cai</div>
+                            </div>
+
+                            <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                            <div class="post-stats">
+                                <span>189 lượt thích</span>
+                                <span>32 bình luận</span>
+                                <span>15 chia sẻ</span>
+                            </div>
+
+                            <div class="post-actions">
+                                <button class="action-btn">👍 Thích</button>
+                                <button class="action-btn">💬 Bình luận</button>
+                                <button class="action-btn">📤 Chia sẻ</button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Photos Tab -->
+                <div id="photos-tab" class="tab-content" style="display: none;">
+                    <div class="photos-grid">
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                        <div class="photo-item"><img src="https://via.placeholder.com/300x300" alt="Photo"></div>
+                    </div>
+                </div>
+
+                <!-- Saved Tab -->
+                <div id="saved-tab" class="tab-content" style="display: none;">
+                    <div class="posts-grid">
+                        <article class="post-card">
+                            <div class="post-header">
+                                <div class="author-info">
+                                    <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                    <div>
+                                        <h3 class="post-author">Trần Thị Hương</h3>
+                                        <span class="post-time">5 ngày trước</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-content">
+                                <p>Tam Cốc - đảo ngũ cốc - một chuyến thuyền tuyệt vời 🚣 #DuLichVietNam</p>
+                                <div class="post-location">📍 Tam Cốc, Ninh Bình</div>
+                            </div>
+
+                            <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                            <div class="post-stats">
+                                <span>312 lượt thích</span>
+                                <span>67 bình luận</span>
+                                <span>24 chia sẻ</span>
+                            </div>
+
+                            <div class="post-actions">
+                                <button class="action-btn">👍 Thích</button>
+                                <button class="action-btn">💬 Bình luận</button>
+                                <button class="action-btn">📤 Chia sẻ</button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Friends Tab -->
+                <div id="friends-tab" class="tab-content" style="display: none;">
+                    <div class="friends-grid">
+                        <div class="friend-card">
+                            <img src="https://via.placeholder.com/100" alt="Avatar" class="friend-avatar">
+                            <h3 class="friend-name">Vũ Thái Huy</h3>
+                            <p class="friend-status">328 bạn chung</p>
+                            <button class="btn btn-sm btn-secondary" onclick="removeFriend()">👥 Hủy</button>
+                        </div>
+                        <div class="friend-card">
+                            <img src="https://via.placeholder.com/100" alt="Avatar" class="friend-avatar">
+                            <h3 class="friend-name">Phạm Thị Linh</h3>
+                            <p class="friend-status">245 bạn chung</p>
+                            <button class="btn btn-sm btn-secondary" onclick="removeFriend()">👥 Hủy</button>
+                        </div>
+                        <div class="friend-card">
+                            <img src="https://via.placeholder.com/100" alt="Avatar" class="friend-avatar">
+                            <h3 class="friend-name">Đỗ Văn Sơn</h3>
+                            <p class="friend-status">156 bạn chung</p>
+                            <button class="btn btn-sm btn-secondary" onclick="removeFriend()">👥 Hủy</button>
+                        </div>
+                        <div class="friend-card">
+                            <img src="https://via.placeholder.com/100" alt="Avatar" class="friend-avatar">
+                            <h3 class="friend-name">Lê Minh Tuấn</h3>
+                            <p class="friend-status">89 bạn chung</p>
+                            <button class="btn btn-sm btn-secondary" onclick="removeFriend()">👥 Hủy</button>
+                        </div>
+                        <div class="friend-card">
+                            <img src="https://via.placeholder.com/100" alt="Avatar" class="friend-avatar">
+                            <h3 class="friend-name">Ngô Thanh Tùng</h3>
+                            <p class="friend-status">156 bạn chung</p>
+                            <button class="btn btn-sm btn-secondary" onclick="removeFriend()">👥 Hủy</button>
+                        </div>
+                        <div class="friend-card">
+                            <img src="https://via.placeholder.com/100" alt="Avatar" class="friend-avatar">
+                            <h3 class="friend-name">Dương Minh Anh</h3>
+                            <p class="friend-status">234 bạn chung</p>
+                            <button class="btn btn-sm btn-secondary" onclick="removeFriend()">👥 Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Chỉnh sửa hồ sơ</h2>
+                <button class="close-btn" onclick="closeEditProfile()">×</button>
+            </div>
+
+            <form id="editProfileForm" class="edit-profile-form">
+                <div class="form-group">
+                    <label for="fullName">Tên đầy đủ</label>
+                    <input type="text" id="fullName" name="fullName" value="Nguyễn Văn A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Tiểu sử</label>
+                    <textarea id="bio" name="bio" rows="4" maxlength="150">Yêu thích du lịch, khám phá những địa danh đẹp của Việt Nam 🌍 | Chia sẻ trải nghiệm du lịch</textarea>
+                    <span class="char-count"><span id="bioCount">71</span>/150</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Vị trí</label>
+                    <input type="text" id="location" name="location" value="Hà Nội, Việt Nam" placeholder="Thành phố, Quốc gia">
+                </div>
+
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="url" id="website" name="website" value="travelblog.com" placeholder="https://example.com">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditProfile()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">💾 Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

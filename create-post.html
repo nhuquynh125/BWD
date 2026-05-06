@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo bài viết - Travel Social Network</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Travel Share</h1>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="Tìm bài viết, địa danh...">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="message-btn">💬</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <!-- Back to Dashboard -->
+            <div style="width: 100%; margin-bottom: 15px;">
+                <a href="dashboard.html" style="color: #667eea; text-decoration: none; font-weight: 500;">
+                    ← Quay lại Dashboard
+                </a>
+            </div>
+
+            <!-- Create Post Form -->
+            <div class="create-post-container">
+                <div class="create-post-wrapper">
+                    <h2>Chia sẻ trải nghiệm du lịch của bạn</h2>
+
+                    <form id="createPostForm" enctype="multipart/form-data">
+                        <!-- User Info -->
+                        <div class="poster-info">
+                            <img src="https://via.placeholder.com/48" alt="Avatar" class="poster-avatar">
+                            <div>
+                                <h3 class="poster-name">Tên người dùng</h3>
+                                <div class="privacy-selector">
+                                    <select id="privacy" name="privacy" class="privacy-select">
+                                        <option value="public">🌍 Công khai</option>
+                                        <option value="friends">👥 Chỉ bạn bè</option>
+                                        <option value="private">🔒 Chỉ mình tôi</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Post Content -->
+                        <div class="form-group">
+                            <label for="content">Nội dung bài viết</label>
+                            <textarea 
+                                id="content" 
+                                name="content" 
+                                placeholder="Kể về trải nghiệm du lịch của bạn..."
+                                rows="6"
+                                required
+                                minlength="10"
+                                maxlength="5000"
+                            ></textarea>
+                            <div class="char-count">
+                                <span id="charCount">0</span>/5000
+                            </div>
+                            <span class="error" id="contentError"></span>
+                        </div>
+
+                        <!-- Location Selection -->
+                        <div class="form-group">
+                            <label for="location">📍 Địa danh du lịch Việt Nam</label>
+                            <select id="location" name="location" required>
+                                <option value="">-- Chọn địa danh --</option>
+                                <option value="ha-long">Vịnh Hạ Long, Quảng Ninh</option>
+                                <option value="hoi-an">Phố cổ Hội An, Quảng Nam</option>
+                                <option value="bac-yen">Ruộng bậc thang Bắc Yên, Yên Bái</option>
+                                <option value="nha-trang">Nha Trang, Khánh Hòa</option>
+                                <option value="sa-pa">Sa Pa, Lào Cai</option>
+                                <option value="hoi-kham">Hội Khẩm, Hàng Ngoài, Hà Nội</option>
+                                <option value="mekong">Sông Mekong, Cần Thơ</option>
+                                <option value="phu-quoc">Phú Quốc, Kiên Giang</option>
+                                <option value="tam-coc">Tam Cốc, Ninh Bình</option>
+                                <option value="other">Địa danh khác</option>
+                            </select>
+                            <span class="error" id="locationError"></span>
+                        </div>
+
+                        <!-- Mood/Emotion -->
+                        <div class="form-group">
+                            <label>😊 Cảm xúc của bạn</label>
+                            <div class="mood-selector">
+                                <button type="button" class="mood-btn" data-mood="happy" onclick="selectMood(this)">
+                                    <span class="mood-emoji">😊</span>
+                                    <span class="mood-name">Vui vẻ</span>
+                                </button>
+                                <button type="button" class="mood-btn" data-mood="excited" onclick="selectMood(this)">
+                                    <span class="mood-emoji">🤩</span>
+                                    <span class="mood-name">Phấn khích</span>
+                                </button>
+                                <button type="button" class="mood-btn" data-mood="relaxed" onclick="selectMood(this)">
+                                    <span class="mood-emoji">😌</span>
+                                    <span class="mood-name">Thư giãn</span>
+                                </button>
+                                <button type="button" class="mood-btn" data-mood="adventurous" onclick="selectMood(this)">
+                                    <span class="mood-emoji">🧗</span>
+                                    <span class="mood-name">Mạo hiểm</span>
+                                </button>
+                                <button type="button" class="mood-btn" data-mood="grateful" onclick="selectMood(this)">
+                                    <span class="mood-emoji">🙏</span>
+                                    <span class="mood-name">Biết ơn</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="mood" name="mood">
+                            <span class="error" id="moodError"></span>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="form-group">
+                            <label for="images">📸 Hình ảnh (tối đa 5 ảnh)</label>
+                            <div class="image-upload-area">
+                                <input 
+                                    type="file" 
+                                    id="images" 
+                                    name="images" 
+                                    multiple 
+                                    accept="image/*"
+                                    onchange="handleImageUpload(event)"
+                                    style="display: none;"
+                                >
+                                <div class="upload-placeholder" onclick="document.getElementById('images').click()">
+                                    <span class="upload-icon">📷</span>
+                                    <p>Nhấp để tải lên ảnh hoặc kéo ảnh vào đây</p>
+                                    <span class="upload-hint">JPG, PNG, GIF tối đa 10MB mỗi ảnh</span>
+                                </div>
+                                <div class="image-preview" id="imagePreview"></div>
+                            </div>
+                            <span class="error" id="imageError"></span>
+                        </div>
+
+                        <!-- Hashtags -->
+                        <div class="form-group">
+                            <label for="hashtags">#️⃣ Hashtags (tùy chọn)</label>
+                            <input 
+                                type="text" 
+                                id="hashtags" 
+                                name="hashtags" 
+                                placeholder="Nhập hashtags phân cách bằng dấu cách. VD: #DuLichVietNam #HaLong"
+                                maxlength="200"
+                            >
+                            <div class="char-count">
+                                <span id="hashtagCount">0</span>/200
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="discardPost()">
+                                Hủy
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                ✓ Đăng bài viết
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Preview Sidebar -->
+                <div class="preview-sidebar">
+                    <h3>Xem trước</h3>
+                    <div class="post-preview">
+                        <div class="post-header">
+                            <div class="author-info">
+                                <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                <div>
+                                    <h3 class="post-author">Tên người dùng</h3>
+                                    <span class="post-time">Vừa xong</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-content-preview">
+                            <p id="contentPreview">Kể về trải nghiệm du lịch của bạn...</p>
+                            <div class="location-preview" id="locationPreview" style="display: none;">
+                                📍 <span id="locationName"></span>
+                            </div>
+                            <div class="mood-preview" id="moodPreview" style="display: none;">
+                                <span class="mood-emoji-preview" id="moodEmojiPreview"></span>
+                            </div>
+                        </div>
+
+                        <div id="imagePreviewPost" class="image-preview-post" style="display: none;"></div>
+
+                        <div class="post-stats">
+                            <span>0 lượt thích</span>
+                            <span>0 bình luận</span>
+                            <span>0 chia sẻ</span>
+                        </div>
+
+                        <div class="post-actions">
+                            <button class="action-btn" disabled>
+                                <span>👍</span> Thích
+                            </button>
+                            <button class="action-btn" disabled>
+                                <span>💬</span> Bình luận
+                            </button>
+                            <button class="action-btn" disabled>
+                                <span>📤</span> Chia sẻ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="create-post.js"></script>
+</body>
+</html>

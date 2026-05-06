@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Travel Social Network</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header/Navigation -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Travel Share</h1>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm bài viết, địa danh...">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn" onclick="openNotifications()">
+                        🔔
+                        <span class="notification-badge" id="notificationBadge">3</span>
+                    </button>
+                    <button class="message-btn" onclick="openMessages()">💬</button>
+                    <div class="user-menu">
+                        <img src="https://via.placeholder.com/40" alt="Avatar" class="user-avatar" onclick="toggleUserMenu()">
+                        <div class="dropdown-menu" id="userDropdownMenu">
+                            <a href="profile.html">👤 Hồ sơ cá nhân</a>
+                            <a href="settings.html">⚙️ Cài đặt</a>
+                            <hr>
+                            <a href="index.html" onclick="logout()">🚪 Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item active">
+                        <span class="icon">🏠</span>
+                        <span>Trang chủ</span>
+                    </a>
+                    <a href="explore.html" class="nav-item">
+                        <span class="icon">🔍</span>
+                        <span>Khám phá</span>
+                    </a>
+                    <a href="friends.html" class="nav-item">
+                        <span class="icon">👥</span>
+                        <span>Bạn bè</span>
+                        <span class="badge">12</span>
+                    </a>
+                    <a href="messages.html" class="nav-item">
+                        <span class="icon">💬</span>
+                        <span>Tin nhắn</span>
+                        <span class="badge">5</span>
+                    </a>
+                    <a href="bookmarks.html" class="nav-item">
+                        <span class="icon">🔖</span>
+                        <span>Lưu lại</span>
+                    </a>
+                </nav>
+
+                <!-- Create Post Button -->
+                <button class="btn btn-primary btn-lg create-post-btn" onclick="openCreatePost()">
+                    ✏️ Tạo bài viết
+                </button>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat">
+                        <span class="stat-label">Bài viết</span>
+                        <span class="stat-value">24</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Lượt thích</span>
+                        <span class="stat-value">156</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Feed -->
+            <main class="feed">
+                <!-- Feed Header -->
+                <div class="feed-header">
+                    <h2>Bạn bè của bạn</h2>
+                    <div class="feed-tabs">
+                        <button class="tab-btn active" onclick="filterFeed('all')">Tất cả</button>
+                        <button class="tab-btn" onclick="filterFeed('following')">Đang theo dõi</button>
+                        <button class="tab-btn" onclick="filterFeed('nearby')">Gần đây</button>
+                    </div>
+                </div>
+
+                <!-- Posts Feed -->
+                <div class="posts-container" id="postsContainer">
+                    <!-- Post 1 -->
+                    <article class="post-card">
+                        <div class="post-header">
+                            <div class="author-info">
+                                <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                <div>
+                                    <h3 class="post-author">Nguyễn Hữu Hùng</h3>
+                                    <span class="post-time">2 giờ trước</span>
+                                </div>
+                            </div>
+                            <button class="post-menu-btn">⋮</button>
+                        </div>
+
+                        <div class="post-content">
+                            <p>Vừa ghé thăm vịnh Hạ Long - thật tuyệt vời! Nước xanh trong, núi đá kỳ vĩ. Đây là chuyến đi mà tôi sẽ không bao giờ quên! 😍</p>
+                            <div class="post-location">
+                                📍 Vịnh Hạ Long, Quảng Ninh
+                            </div>
+                        </div>
+
+                        <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                        <!-- Post Stats -->
+                        <div class="post-stats">
+                            <span class="like-count" id="likeCount1">156</span>
+                            <span class="comment-count">24</span>
+                            <span class="share-count">8</span>
+                        </div>
+
+                        <!-- Post Actions -->
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="toggleLike(this, 1)">
+                                <span class="emotion-icon">👍</span>
+                                <span>Thích</span>
+                            </button>
+                            <div class="emotion-picker" style="display: none;">
+                                <button onclick="reactWithEmotion(1, '❤️')">❤️</button>
+                                <button onclick="reactWithEmotion(1, '😂')">😂</button>
+                                <button onclick="reactWithEmotion(1, '😮')">😮</button>
+                                <button onclick="reactWithEmotion(1, '😢')">😢</button>
+                                <button onclick="reactWithEmotion(1, '😡')">😡</button>
+                            </div>
+                            <button class="action-btn" onclick="openComments(1)">
+                                💬 Bình luận
+                            </button>
+                            <button class="action-btn" onclick="sharePost(1)">
+                                📤 Chia sẻ
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Post 2 -->
+                    <article class="post-card">
+                        <div class="post-header">
+                            <div class="author-info">
+                                <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                <div>
+                                    <h3 class="post-author">Trần Thị Hương</h3>
+                                    <span class="post-time">4 giờ trước</span>
+                                </div>
+                            </div>
+                            <button class="post-menu-btn">⋮</button>
+                        </div>
+
+                        <div class="post-content">
+                            <p>Phố cổ Hội An đêm lên thơm ngát hương hoa đăng. Mọi góc đường đều là những bức tranh sống động. Bạn nào chưa đến thì nhất định phải ghé! ✨</p>
+                            <div class="post-location">
+                                📍 Phố cổ Hội An, Quảng Nam
+                            </div>
+                        </div>
+
+                        <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                        <div class="post-stats">
+                            <span class="like-count" id="likeCount2">243</span>
+                            <span class="comment-count">45</span>
+                            <span class="share-count">12</span>
+                        </div>
+
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="toggleLike(this, 2)">
+                                <span class="emotion-icon">👍</span>
+                                <span>Thích</span>
+                            </button>
+                            <div class="emotion-picker" style="display: none;">
+                                <button onclick="reactWithEmotion(2, '❤️')">❤️</button>
+                                <button onclick="reactWithEmotion(2, '😂')">😂</button>
+                                <button onclick="reactWithEmotion(2, '😮')">😮</button>
+                                <button onclick="reactWithEmotion(2, '😢')">😢</button>
+                                <button onclick="reactWithEmotion(2, '😡')">😡</button>
+                            </div>
+                            <button class="action-btn" onclick="openComments(2)">
+                                💬 Bình luận
+                            </button>
+                            <button class="action-btn" onclick="sharePost(2)">
+                                📤 Chia sẻ
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Post 3 -->
+                    <article class="post-card">
+                        <div class="post-header">
+                            <div class="author-info">
+                                <img src="https://via.placeholder.com/48" alt="Avatar" class="post-avatar">
+                                <div>
+                                    <h3 class="post-author">Lê Minh Tuấn</h3>
+                                    <span class="post-time">1 ngày trước</span>
+                                </div>
+                            </div>
+                            <button class="post-menu-btn">⋮</button>
+                        </div>
+
+                        <div class="post-content">
+                            <p>Ruộng bậc thang Bắc Yên - một tác phẩm của thiên nhiên! Mỗi mùa lúa chín là một tranh vẽ màu vàng tuyệt đẹp. 🌾</p>
+                            <div class="post-location">
+                                📍 Ruộng bậc thang Bắc Yên, Yên Bái
+                            </div>
+                        </div>
+
+                        <img src="https://via.placeholder.com/600x400" alt="Post image" class="post-image">
+
+                        <div class="post-stats">
+                            <span class="like-count" id="likeCount3">189</span>
+                            <span class="comment-count">32</span>
+                            <span class="share-count">15</span>
+                        </div>
+
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="toggleLike(this, 3)">
+                                <span class="emotion-icon">👍</span>
+                                <span>Thích</span>
+                            </button>
+                            <div class="emotion-picker" style="display: none;">
+                                <button onclick="reactWithEmotion(3, '❤️')">❤️</button>
+                                <button onclick="reactWithEmotion(3, '😂')">😂</button>
+                                <button onclick="reactWithEmotion(3, '😮')">😮</button>
+                                <button onclick="reactWithEmotion(3, '😢')">😢</button>
+                                <button onclick="reactWithEmotion(3, '😡')">😡</button>
+                            </div>
+                            <button class="action-btn" onclick="openComments(3)">
+                                💬 Bình luận
+                            </button>
+                            <button class="action-btn" onclick="sharePost(3)">
+                                📤 Chia sẻ
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Load More -->
+                <button class="btn btn-secondary btn-lg" style="width: 100%; margin-top: 20px;" onclick="loadMorePosts()">
+                    Tải thêm bài viết
+                </button>
+            </main>
+
+            <!-- Right Sidebar (Suggestions) -->
+            <aside class="right-sidebar">
+                <div class="suggestions-widget">
+                    <h3>Gợi ý cho bạn</h3>
+                    <div class="suggestion-item">
+                        <img src="https://via.placeholder.com/40" alt="Avatar">
+                        <div class="suggestion-info">
+                            <h4>Vũ Thái Huy</h4>
+                            <span>10 bạn chung</span>
+                        </div>
+                        <button class="btn btn-sm" onclick="addFriend()">Theo dõi</button>
+                    </div>
+                    <div class="suggestion-item">
+                        <img src="https://via.placeholder.com/40" alt="Avatar">
+                        <div class="suggestion-info">
+                            <h4>Phạm Thị Linh</h4>
+                            <span>8 bạn chung</span>
+                        </div>
+                        <button class="btn btn-sm" onclick="addFriend()">Theo dõi</button>
+                    </div>
+                    <div class="suggestion-item">
+                        <img src="https://via.placeholder.com/40" alt="Avatar">
+                        <div class="suggestion-info">
+                            <h4>Đỗ Văn Sơn</h4>
+                            <span>5 bạn chung</span>
+                        </div>
+                        <button class="btn btn-sm" onclick="addFriend()">Theo dõi</button>
+                    </div>
+                </div>
+
+                <div class="trending-widget">
+                    <h3>Xu hướng</h3>
+                    <a href="#" class="trending-item">
+                        <div class="trending-title">#DuLịchViệtNam</div>
+                        <div class="trending-count">45.2K bài viết</div>
+                    </a>
+                    <a href="#" class="trending-item">
+                        <div class="trending-title">#VịnhHạLong</div>
+                        <div class="trending-count">23.5K bài viết</div>
+                    </a>
+                    <a href="#" class="trending-item">
+                        <div class="trending-title">#PhốCổHộiAn</div>
+                        <div class="trending-count">18.7K bài viết</div>
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

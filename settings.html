@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cài đặt – WanderNet</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #151820;
+  --surface2: #1c2030;
+  --border: #252a3a;
+  --accent: #e8a87c;
+  --accent2: #6c9fcf;
+  --danger: #e8747c;
+  --success: #4ecb71;
+  --text: #e8eaf0;
+  --text-muted: #7a8099;
+  --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* SIDEBAR NAV */
+.sidenav {
+  width: 72px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 0; gap: 8px;
+  position: sticky; top: 0; height: 100vh; flex-shrink: 0;
+}
+.logo { font-family: 'DM Serif Display', serif; color: var(--accent); font-size: 22px; margin-bottom: 20px; }
+.nav-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s; color: var(--text-muted);
+  text-decoration: none; font-size: 18px;
+}
+.nav-icon:hover { background: var(--surface2); color: var(--text); }
+.nav-icon.active { background: var(--accent); color: #0d0f14; }
+.nav-bottom { margin-top: auto; }
+.avatar-sm {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: #fff; cursor: pointer;
+}
+
+/* SETTINGS LAYOUT */
+.settings-layout {
+  display: flex; flex: 1; min-width: 0;
+}
+
+/* SETTINGS SIDEBAR */
+.settings-nav {
+  width: 260px; flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 32px 0;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.settings-nav::-webkit-scrollbar { width: 4px; }
+.settings-nav::-webkit-scrollbar-thumb { background: var(--border); }
+
+.settings-nav-header {
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.settings-nav-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; font-weight: 400;
+}
+.settings-nav-header p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+.nav-group { margin-bottom: 6px; }
+.nav-group-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-muted); font-weight: 600;
+  padding: 10px 20px 6px;
+}
+.settings-nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  cursor: pointer; transition: all .15s;
+  border-left: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+.settings-nav-item:hover { background: var(--surface2); color: var(--text); }
+.settings-nav-item.active {
+  background: rgba(232,168,124,.08);
+  border-left-color: var(--accent);
+  color: var(--text);
+}
+.settings-nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-badge {
+  margin-left: auto; font-size: 10.5px; font-weight: 700;
+  background: var(--danger); color: #fff;
+  padding: 2px 7px; border-radius: 10px;
+}
+
+/* MAIN SETTINGS */
+.settings-main {
+  flex: 1; overflow-y: auto; padding: 40px 48px;
+  max-width: 780px;
+}
+.settings-main::-webkit-scrollbar { width: 6px; }
+.settings-main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.page-header { margin-bottom: 32px; }
+.page-header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 30px; font-weight: 400; margin-bottom: 6px;
+}
+.page-header p { font-size: 13.5px; color: var(--text-muted); }
+
+/* SECTIONS */
+.settings-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.section-title {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title h3 { font-size: 14.5px; font-weight: 600; }
+.section-title .sec-icon { font-size: 18px; }
+.section-title p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* PROFILE SECTION */
+.profile-edit {
+  padding: 24px;
+  display: flex; gap: 24px; align-items: flex-start;
+}
+.avatar-edit-area { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+.big-avatar {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: linear-gradient(135deg,#e8a87c,#d4691e);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 700; color: #fff;
+  position: relative; cursor: pointer;
+}
+.avatar-overlay {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(0,0,0,.5); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 20px; opacity: 0; transition: opacity .2s;
+}
+.big-avatar:hover .avatar-overlay { opacity: 1; }
+.avatar-hint { font-size: 11.5px; color: var(--text-muted); text-align: center; line-height: 1.4; }
+
+.profile-fields { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1/-1; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: .3px; }
+.form-input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text); font-size: 13.5px;
+  font-family: 'Sora', sans-serif;
+  outline: none; transition: border-color .2s;
+  width: 100%;
+}
+.form-input:focus { border-color: var(--accent); }
+.form-input::placeholder { color: var(--text-muted); }
+textarea.form-input { resize: vertical; min-height: 80px; }
+.char-count { font-size: 11px; color: var(--text-muted); text-align: right; }
+
+/* SETTING ROWS */
+.setting-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-row:hover { background: rgba(255,255,255,.02); }
+.setting-icon { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+.setting-info { flex: 1; }
+.setting-info h4 { font-size: 13.5px; font-weight: 500; margin-bottom: 2px; }
+.setting-info p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.setting-control { flex-shrink: 0; }
+
+/* TOGGLE */
+.toggle {
+  width: 46px; height: 26px;
+  background: var(--border);
+  border-radius: 13px;
+  position: relative;
+  cursor: pointer;
+  transition: background .25s;
+  border: none; outline: none;
+}
+.toggle.on { background: var(--accent); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  top: 3px; left: 3px;
+  transition: transform .25s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+}
+.toggle.on::after { transform: translateX(20px); }
+
+/* SELECT */
+.form-select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: var(--text); font-size: 13px;
+  font-family: 'Sora', sans-serif;
+  outline: none; cursor: pointer;
+  min-width: 140px;
+}
+.form-select option { background: var(--surface2); }
+
+/* RADIO GROUP */
+.radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.radio-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer; transition: all .2s;
+  font-size: 13px;
+}
+.radio-opt.selected { border-color: var(--accent); background: rgba(232,168,124,.1); color: var(--accent); }
+.radio-opt input { display: none; }
+
+/* THEME PICKER */
+.theme-picker { display: flex; gap: 10px; flex-wrap: wrap; }
+.theme-opt {
+  width: 60px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer;
+}
+.theme-swatch {
+  width: 52px; height: 36px; border-radius: 10px;
+  border: 2px solid transparent; transition: all .2s;
+  overflow: hidden; position: relative;
+}
+.theme-opt.selected .theme-swatch { border-color: var(--accent); }
+.theme-swatch::after {
+  content: '✓';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: #fff; font-weight: 700;
+  background: rgba(0,0,0,.4);
+  opacity: 0; transition: opacity .2s;
+}
+.theme-opt.selected .theme-swatch::after { opacity: 1; }
+.swatch-dark { background: linear-gradient(135deg,#0d0f14,#151820); }
+.swatch-dim { background: linear-gradient(135deg,#1a1f2e,#252a3a); }
+.swatch-light { background: linear-gradient(135deg,#f5f5f0,#e8e4da); }
+.swatch-forest { background: linear-gradient(135deg,#0d1a10,#1a3a1e); }
+.theme-name { font-size: 11px; color: var(--text-muted); }
+
+/* COLOR ACCENT */
+.accent-picker { display: flex; gap: 8px; }
+.accent-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid transparent; cursor: pointer;
+  transition: all .2s; position: relative;
+}
+.accent-dot.selected { border-color: #fff; transform: scale(1.15); }
+.accent-dot::after {
+  content: '✓'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #fff; font-weight: 700; opacity: 0; transition: opacity .2s;
+}
+.accent-dot.selected::after { opacity: 1; }
+
+/* PRIVACY LEVEL */
+.privacy-slider-wrap { display: flex; flex-direction: column; gap: 10px; }
+.privacy-options { display: flex; gap: 6px; }
+.privacy-opt {
+  flex: 1; padding: 8px 6px; text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer; transition: all .2s;
+  font-size: 11.5px; color: var(--text-muted);
+}
+.privacy-opt.selected { border-color: var(--accent); background: rgba(232,168,124,.1); color: var(--accent); font-weight: 600; }
+.privacy-opt .p-icon { font-size: 18px; margin-bottom: 3px; }
+
+/* NOTIFICATION GRID */
+.notif-grid { display: grid; grid-template-columns: 1fr 80px 80px 80px; gap: 0; }
+.notif-header {
+  display: contents;
+}
+.notif-header > div {
+  padding: 10px 22px 8px;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-muted); font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.notif-header > div:first-child { text-align: left; }
+.notif-row { display: contents; }
+.notif-row > div {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.notif-row > div:first-child { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 2px; }
+.notif-row:last-child > div { border-bottom: none; }
+.notif-name { font-size: 13.5px; }
+.notif-desc { font-size: 11.5px; color: var(--text-muted); }
+
+/* DANGER ZONE */
+.danger-zone { border-color: rgba(232,116,124,.3); }
+.danger-zone .section-title { border-bottom-color: rgba(232,116,124,.2); }
+.danger-zone .section-title h3 { color: var(--danger); }
+.danger-actions { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+.danger-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 16px;
+  background: rgba(232,116,124,.05);
+  border: 1px solid rgba(232,116,124,.15);
+  border-radius: 10px;
+}
+.danger-item-info { flex: 1; }
+.danger-item-info h4 { font-size: 13.5px; color: var(--text); margin-bottom: 3px; }
+.danger-item-info p { font-size: 12px; color: var(--text-muted); }
+.btn-danger {
+  background: none; border: 1px solid var(--danger);
+  color: var(--danger); font-size: 12.5px; font-weight: 600;
+  padding: 7px 16px; border-radius: 8px; cursor: pointer;
+  font-family: 'Sora', sans-serif; transition: all .2s;
+  white-space: nowrap; flex-shrink: 0;
+}
+.btn-danger:hover { background: var(--danger); color: #fff; }
+
+/* SAVE BAR */
+.save-bar {
+  position: sticky; bottom: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 14px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(12px);
+}
+.save-bar p { font-size: 12.5px; color: var(--text-muted); }
+.save-actions { display: flex; gap: 10px; }
+.btn-ghost {
+  background: none; border: 1px solid var(--border);
+  color: var(--text-muted); font-size: 13px; font-weight: 500;
+  padding: 9px 20px; border-radius: 10px; cursor: pointer;
+  font-family: 'Sora', sans-serif; transition: all .2s;
+}
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+.btn-primary {
+  background: var(--accent); border: none;
+  color: #0d0f14; font-size: 13px; font-weight: 700;
+  padding: 9px 24px; border-radius: 10px; cursor: pointer;
+  font-family: 'Sora', sans-serif; transition: all .2s;
+}
+.btn-primary:hover { background: #d4691e; transform: translateY(-1px); }
+.btn-primary.saved { background: var(--success); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 80px; right: 32px;
+  background: var(--success); color: #fff;
+  padding: 12px 20px; border-radius: 12px;
+  font-size: 13.5px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  transform: translateY(80px); opacity: 0;
+  transition: all .35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none; z-index: 999;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* CONNECTED APPS */
+.app-list { padding: 8px 0; }
+.app-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.app-item:last-child { border-bottom: none; }
+.app-item:hover { background: rgba(255,255,255,.02); }
+.app-logo {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.app-info h4 { font-size: 13.5px; font-weight: 500; margin-bottom: 2px; }
+.app-info p { font-size: 12px; color: var(--text-muted); }
+.app-status {
+  margin-left: auto; display: flex; align-items: center; gap: 10px;
+}
+.connected-badge {
+  font-size: 11.5px; color: var(--success); font-weight: 600;
+  background: rgba(78,203,113,.1); padding: 3px 10px; border-radius: 20px;
+}
+.btn-sm {
+  font-size: 12px; padding: 6px 14px;
+  border-radius: 8px; cursor: pointer;
+  font-family: 'Sora', sans-serif; transition: all .2s;
+  border: 1px solid var(--border); background: none;
+  color: var(--text-muted);
+}
+.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm.connect { border-color: var(--accent); color: var(--accent); }
+.btn-sm.connect:hover { background: var(--accent); color: #0d0f14; }
+</style>
+</head>
+<body>
+
+<!-- SIDENAV -->
+<nav class="sidenav">
+  <div class="logo">W</div>
+  <a href="index.html" class="nav-icon" title="Trang chủ">🏠</a>
+  <a href="explore.html" class="nav-icon" title="Khám phá">🧭</a>
+  <a href="messages.html" class="nav-icon" title="Tin nhắn">💬</a>
+  <a href="#" class="nav-icon" title="Thông báo">🔔</a>
+  <a href="#" class="nav-icon" title="Chuyến đi">🗺️</a>
+  <div class="nav-bottom">
+    <a href="settings.html" class="nav-icon active" title="Cài đặt">⚙️</a>
+    <div style="height:10px"></div>
+    <div class="avatar-sm">T</div>
+  </div>
+</nav>
+
+<!-- SETTINGS LAYOUT -->
+<div class="settings-layout">
+
+  <!-- SETTINGS NAV -->
+  <aside class="settings-nav">
+    <div class="settings-nav-header">
+      <h2>Cài đặt</h2>
+      <p>Quản lý tài khoản & tuỳ chọn</p>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Tài khoản</div>
+      <div class="settings-nav-item active" data-section="profile">
+        <span class="icon">👤</span> Hồ sơ cá nhân
+      </div>
+      <div class="settings-nav-item" data-section="security">
+        <span class="icon">🔐</span> Bảo mật & Đăng nhập
+      </div>
+      <div class="settings-nav-item" data-section="privacy">
+        <span class="icon">🛡️</span> Quyền riêng tư
+        <span class="nav-badge">2</span>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Trải nghiệm</div>
+      <div class="settings-nav-item" data-section="notifications">
+        <span class="icon">🔔</span> Thông báo
+      </div>
+      <div class="settings-nav-item" data-section="appearance">
+        <span class="icon">🎨</span> Giao diện
+      </div>
+      <div class="settings-nav-item" data-section="language">
+        <span class="icon">🌐</span> Ngôn ngữ & Khu vực
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Kết nối</div>
+      <div class="settings-nav-item" data-section="apps">
+        <span class="icon">🔗</span> Ứng dụng liên kết
+      </div>
+      <div class="settings-nav-item" data-section="data">
+        <span class="icon">📦</span> Dữ liệu & Xuất
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Khác</div>
+      <div class="settings-nav-item" data-section="danger">
+        <span class="icon">⚠️</span> Vùng nguy hiểm
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN SETTINGS CONTENT -->
+  <div class="settings-main" id="settingsMain">
+
+    <!-- ===== PROFILE ===== -->
+    <div id="section-profile">
+      <div class="page-header">
+        <h1>Hồ sơ cá nhân</h1>
+        <p>Cập nhật thông tin và ảnh đại diện hiển thị cho cộng đồng</p>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🧑‍💼</span>
+          <div><h3>Thông tin cơ bản</h3><p>Tên, bio và thông tin công khai</p></div>
+        </div>
+        <div class="profile-edit">
+          <div class="avatar-edit-area">
+            <div class="big-avatar">
+              T
+              <div class="avatar-overlay">📷</div>
+            </div>
+            <div class="avatar-hint">Nhấn để<br>thay ảnh</div>
+          </div>
+          <div class="profile-fields">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Họ</label>
+                <input class="form-input" type="text" value="Trần" placeholder="Họ">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tên</label>
+                <input class="form-input" type="text" value="Minh Tuấn" placeholder="Tên">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Tên người dùng</label>
+                <input class="form-input" type="text" value="@minhtuan.wanders" placeholder="@username">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ngày sinh</label>
+                <input class="form-input" type="date" value="1997-04-15">
+              </div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Tiểu sử</label>
+              <textarea class="form-input" id="bioInput" oninput="updateCount()">✈️ Phượt thủ | 🌍 23 quốc gia | 📍 Đà Nẵng | Đam mê khám phá, ẩm thực và nhiếp ảnh du lịch</textarea>
+              <div class="char-count"><span id="bioCount">88</span>/160</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Vị trí</label>
+                <input class="form-input" type="text" value="Đà Nẵng, Việt Nam" placeholder="Thành phố, Quốc gia">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Website</label>
+                <input class="form-input" type="url" placeholder="https://...">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">✈️</span>
+          <div><h3>Thông tin du lịch</h3><p>Phong cách và sở thích đi du lịch của bạn</p></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🗺️</div>
+          <div class="setting-info">
+            <h4>Phong cách du lịch</h4>
+            <p>Chọn những phong cách phù hợp với bạn</p>
+          </div>
+          <div class="setting-control">
+            <div class="radio-group" id="styleGroup">
+              <label class="radio-opt selected"><input type="checkbox" checked>🎒 Bụi</label>
+              <label class="radio-opt selected"><input type="checkbox" checked>📸 Nhiếp ảnh</label>
+              <label class="radio-opt"><input type="checkbox">🍜 Ẩm thực</label>
+              <label class="radio-opt"><input type="checkbox">🏔️ Phiêu lưu</label>
+              <label class="radio-opt"><input type="checkbox">🛁 Nghỉ dưỡng</label>
+            </div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">💰</div>
+          <div class="setting-info">
+            <h4>Ngân sách du lịch thông thường</h4>
+            <p>Giúp hệ thống gợi ý phù hợp hơn</p>
+          </div>
+          <div class="setting-control">
+            <div class="radio-group" id="budgetGroup">
+              <label class="radio-opt"><input type="radio" name="budget">💵 Tiết kiệm</label>
+              <label class="radio-opt selected"><input type="radio" name="budget" checked>💳 Vừa phải</label>
+              <label class="radio-opt"><input type="radio" name="budget">💎 Cao cấp</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECURITY ===== -->
+    <div id="section-security" style="display:none;">
+      <div class="page-header">
+        <h1>Bảo mật & Đăng nhập</h1>
+        <p>Quản lý mật khẩu và thiết bị đăng nhập</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🔑</span>
+          <div><h3>Mật khẩu</h3></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🔒</div>
+          <div class="setting-info">
+            <h4>Đổi mật khẩu</h4>
+            <p>Lần đổi cuối: 3 tháng trước</p>
+          </div>
+          <div class="setting-control">
+            <button class="btn-sm connect">Đổi mật khẩu</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📱</div>
+          <div class="setting-info">
+            <h4>Xác thực 2 bước (2FA)</h4>
+            <p>Bảo vệ tài khoản bằng OTP qua điện thoại</p>
+          </div>
+          <div class="setting-control">
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🔔</div>
+          <div class="setting-info">
+            <h4>Cảnh báo đăng nhập lạ</h4>
+            <p>Thông báo khi có thiết bị mới đăng nhập</p>
+          </div>
+          <div class="setting-control">
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">💻</span>
+          <div><h3>Phiên đăng nhập</h3><p>Các thiết bị đang đăng nhập tài khoản của bạn</p></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">💻</div>
+          <div class="setting-info">
+            <h4>Chrome – Windows 11 <span style="color:var(--success);font-size:11px;">● Hiện tại</span></h4>
+            <p>Đà Nẵng, Việt Nam · Vừa xong</p>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📱</div>
+          <div class="setting-info">
+            <h4>Safari – iPhone 15</h4>
+            <p>Đà Nẵng, Việt Nam · 2 giờ trước</p>
+          </div>
+          <div class="setting-control"><button class="btn-sm">Đăng xuất</button></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📱</div>
+          <div class="setting-info">
+            <h4>Chrome – Android</h4>
+            <p>Hà Nội, Việt Nam · 5 ngày trước</p>
+          </div>
+          <div class="setting-control"><button class="btn-sm">Đăng xuất</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PRIVACY ===== -->
+    <div id="section-privacy" style="display:none;">
+      <div class="page-header">
+        <h1>Quyền riêng tư</h1>
+        <p>Kiểm soát ai có thể xem thông tin và tương tác với bạn</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">👁️</span>
+          <div><h3>Hiển thị hồ sơ</h3></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">👥</div>
+          <div class="setting-info">
+            <h4>Ai có thể xem hồ sơ của bạn?</h4>
+            <p>Kiểm soát khả năng hiển thị hồ sơ công khai</p>
+          </div>
+          <div class="setting-control">
+            <div class="privacy-options" id="profileVis">
+              <div class="privacy-opt selected" data-val="public"><div class="p-icon">🌍</div>Công khai</div>
+              <div class="privacy-opt" data-val="friends"><div class="p-icon">👥</div>Bạn bè</div>
+              <div class="privacy-opt" data-val="private"><div class="p-icon">🔒</div>Chỉ mình tôi</div>
+            </div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📍</div>
+          <div class="setting-info">
+            <h4>Chia sẻ vị trí thực tế</h4>
+            <p>Cho phép hiển thị vị trí chính xác của bạn trên bản đồ</p>
+          </div>
+          <div class="setting-control">
+            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">✈️</div>
+          <div class="setting-info">
+            <h4>Hiển thị lịch sử chuyến đi</h4>
+            <p>Người khác có thể thấy bạn đã đến đâu</p>
+          </div>
+          <div class="setting-control">
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">💬</div>
+          <div class="setting-info">
+            <h4>Ai có thể nhắn tin cho bạn?</h4>
+          </div>
+          <div class="setting-control">
+            <select class="form-select">
+              <option>Tất cả mọi người</option>
+              <option selected>Người theo dõi</option>
+              <option>Chỉ bạn bè</option>
+              <option>Không ai</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🚫</span>
+          <div><h3>Chặn & Hạn chế</h3></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🚫</div>
+          <div class="setting-info">
+            <h4>Danh sách chặn</h4>
+            <p>0 tài khoản đang bị chặn</p>
+          </div>
+          <div class="setting-control"><button class="btn-sm connect">Quản lý</button></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🔕</div>
+          <div class="setting-info">
+            <h4>Tắt gợi ý tài khoản</h4>
+            <p>Không xuất hiện trong mục "Gợi ý kết bạn"</p>
+          </div>
+          <div class="setting-control">
+            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NOTIFICATIONS ===== -->
+    <div id="section-notifications" style="display:none;">
+      <div class="page-header">
+        <h1>Thông báo</h1>
+        <p>Chọn những gì bạn muốn được nhắc nhở</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🔔</span>
+          <div><h3>Tuỳ chỉnh thông báo</h3></div>
+        </div>
+        <div class="notif-grid">
+          <div class="notif-header">
+            <div>Loại thông báo</div>
+            <div>Trong app</div>
+            <div>Email</div>
+            <div>Push</div>
+          </div>
+          <div class="notif-row">
+            <div><div class="notif-name">❤️ Lượt thích</div><div class="notif-desc">Khi ai đó thích bài viết của bạn</div></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="notif-row">
+            <div><div class="notif-name">💬 Bình luận</div><div class="notif-desc">Bình luận mới trên bài viết của bạn</div></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="notif-row">
+            <div><div class="notif-name">👥 Theo dõi mới</div><div class="notif-desc">Khi có người theo dõi bạn</div></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="notif-row">
+            <div><div class="notif-name">✈️ Cập nhật chuyến đi</div><div class="notif-desc">Nhắc lịch và thay đổi itinerary</div></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="notif-row">
+            <div><div class="notif-name">💬 Tin nhắn</div><div class="notif-desc">Tin nhắn mới từ bạn bè</div></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="notif-row">
+            <div><div class="notif-name">🌍 Gợi ý địa điểm</div><div class="notif-desc">Đề xuất điểm đến mới dựa trên sở thích</div></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            <div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== APPEARANCE ===== -->
+    <div id="section-appearance" style="display:none;">
+      <div class="page-header">
+        <h1>Giao diện</h1>
+        <p>Tuỳ chỉnh màu sắc và phong cách hiển thị</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🌙</span>
+          <div><h3>Chủ đề</h3></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🎨</div>
+          <div class="setting-info">
+            <h4>Chọn giao diện</h4>
+            <p>Ảnh hưởng đến toàn bộ màu nền ứng dụng</p>
+          </div>
+          <div class="setting-control">
+            <div class="theme-picker" id="themePicker">
+              <div class="theme-opt selected" data-theme="dark">
+                <div class="theme-swatch swatch-dark"></div>
+                <div class="theme-name">Tối</div>
+              </div>
+              <div class="theme-opt" data-theme="dim">
+                <div class="theme-swatch swatch-dim"></div>
+                <div class="theme-name">Mờ</div>
+              </div>
+              <div class="theme-opt" data-theme="light">
+                <div class="theme-swatch swatch-light"></div>
+                <div class="theme-name">Sáng</div>
+              </div>
+              <div class="theme-opt" data-theme="forest">
+                <div class="theme-swatch swatch-forest"></div>
+                <div class="theme-name">Rừng</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">💠</div>
+          <div class="setting-info">
+            <h4>Màu nhấn</h4>
+            <p>Màu chính cho nút, liên kết và điểm nhấn</p>
+          </div>
+          <div class="setting-control">
+            <div class="accent-picker" id="accentPicker">
+              <div class="accent-dot selected" style="background:#e8a87c;" data-color="#e8a87c"></div>
+              <div class="accent-dot" style="background:#6c9fcf;" data-color="#6c9fcf"></div>
+              <div class="accent-dot" style="background:#4ecb71;" data-color="#4ecb71"></div>
+              <div class="accent-dot" style="background:#a78bfa;" data-color="#a78bfa"></div>
+              <div class="accent-dot" style="background:#f472b6;" data-color="#f472b6"></div>
+              <div class="accent-dot" style="background:#fbbf24;" data-color="#fbbf24"></div>
+            </div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🔡</div>
+          <div class="setting-info">
+            <h4>Cỡ chữ</h4>
+            <p>Điều chỉnh kích thước văn bản toàn ứng dụng</p>
+          </div>
+          <div class="setting-control">
+            <select class="form-select">
+              <option>Nhỏ</option>
+              <option selected>Vừa</option>
+              <option>Lớn</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">✨</div>
+          <div class="setting-info">
+            <h4>Hiệu ứng chuyển động</h4>
+            <p>Tắt để tăng hiệu suất trên thiết bị cũ</p>
+          </div>
+          <div class="setting-control">
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LANGUAGE ===== -->
+    <div id="section-language" style="display:none;">
+      <div class="page-header">
+        <h1>Ngôn ngữ & Khu vực</h1>
+        <p>Định dạng ngày tháng, đơn vị và múi giờ</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🌐</span>
+          <div><h3>Ngôn ngữ & Khu vực</h3></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">💬</div>
+          <div class="setting-info"><h4>Ngôn ngữ hiển thị</h4></div>
+          <div class="setting-control">
+            <select class="form-select">
+              <option selected>🇻🇳 Tiếng Việt</option>
+              <option>🇬🇧 English</option>
+              <option>🇯🇵 日本語</option>
+              <option>🇰🇷 한국어</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🕐</div>
+          <div class="setting-info"><h4>Múi giờ</h4><p>Ảnh hưởng đến lịch trình và nhắc lịch</p></div>
+          <div class="setting-control">
+            <select class="form-select">
+              <option selected>GMT+7 – Hà Nội</option>
+              <option>GMT+9 – Tokyo</option>
+              <option>GMT+0 – London</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📏</div>
+          <div class="setting-info"><h4>Đơn vị khoảng cách</h4></div>
+          <div class="setting-control">
+            <div class="radio-group">
+              <label class="radio-opt selected"><input type="radio" name="unit">km</label>
+              <label class="radio-opt"><input type="radio" name="unit">miles</label>
+            </div>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">💱</div>
+          <div class="setting-info"><h4>Đơn vị tiền tệ mặc định</h4></div>
+          <div class="setting-control">
+            <select class="form-select">
+              <option selected>VND – Việt Nam Đồng</option>
+              <option>USD – Đô la Mỹ</option>
+              <option>JPY – Yên Nhật</option>
+              <option>EUR – Euro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== APPS ===== -->
+    <div id="section-apps" style="display:none;">
+      <div class="page-header">
+        <h1>Ứng dụng liên kết</h1>
+        <p>Kết nối WanderNet với các dịch vụ bên ngoài</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">🔗</span>
+          <div><h3>Dịch vụ đã kết nối</h3></div>
+        </div>
+        <div class="app-list">
+          <div class="app-item">
+            <div class="app-logo" style="background:linear-gradient(135deg,#1877f2,#4aa3ff);">📘</div>
+            <div class="app-info"><h4>Facebook</h4><p>Đăng nhập & chia sẻ bài viết</p></div>
+            <div class="app-status">
+              <div class="connected-badge">✓ Đã kết nối</div>
+              <button class="btn-sm">Huỷ liên kết</button>
+            </div>
+          </div>
+          <div class="app-item">
+            <div class="app-logo" style="background:linear-gradient(135deg,#e1306c,#f77737);">📸</div>
+            <div class="app-info"><h4>Instagram</h4><p>Đồng bộ ảnh và bài viết</p></div>
+            <div class="app-status">
+              <div class="connected-badge">✓ Đã kết nối</div>
+              <button class="btn-sm">Huỷ liên kết</button>
+            </div>
+          </div>
+          <div class="app-item">
+            <div class="app-logo" style="background:linear-gradient(135deg,#0f9d58,#34c97a);">🗓️</div>
+            <div class="app-info"><h4>Google Calendar</h4><p>Đồng bộ lịch trình chuyến đi</p></div>
+            <div class="app-status">
+              <button class="btn-sm connect">+ Kết nối</button>
+            </div>
+          </div>
+          <div class="app-item">
+            <div class="app-logo" style="background:linear-gradient(135deg,#003580,#006ce4);">🏨</div>
+            <div class="app-info"><h4>Booking.com</h4><p>Nhập dữ liệu đặt phòng tự động</p></div>
+            <div class="app-status">
+              <button class="btn-sm connect">+ Kết nối</button>
+            </div>
+          </div>
+          <div class="app-item">
+            <div class="app-logo" style="background:linear-gradient(135deg,#00b2a9,#00d9cc);">✈️</div>
+            <div class="app-info"><h4>Skyscanner</h4><p>Theo dõi giá vé máy bay</p></div>
+            <div class="app-status">
+              <button class="btn-sm connect">+ Kết nối</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DATA ===== -->
+    <div id="section-data" style="display:none;">
+      <div class="page-header">
+        <h1>Dữ liệu & Xuất</h1>
+        <p>Quản lý và tải xuống dữ liệu của bạn</p>
+      </div>
+      <div class="settings-section">
+        <div class="section-title">
+          <span class="sec-icon">📦</span>
+          <div><h3>Xuất dữ liệu</h3></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📋</div>
+          <div class="setting-info"><h4>Xuất tất cả lịch trình</h4><p>Định dạng PDF hoặc JSON</p></div>
+          <div class="setting-control"><button class="btn-sm connect">Xuất PDF</button></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">🗺️</div>
+          <div class="setting-info"><h4>Xuất bản đồ địa điểm đã thăm</h4><p>File KML tương thích Google Maps</p></div>
+          <div class="setting-control"><button class="btn-sm connect">Xuất KML</button></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-icon">📊</div>
+          <div class="setting-info"><h4>Yêu cầu toàn bộ dữ liệu</h4><p>Bao gồm bài viết, tin nhắn, lịch sử – trong 48 giờ</p></div>
+          <div class="setting-control"><button class="btn-sm connect">Yêu cầu</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DANGER ===== -->
+    <div id="section-danger" style="display:none;">
+      <div class="page-header">
+        <h1>Vùng nguy hiểm</h1>
+        <p>Các hành động không thể hoàn tác – hãy cân nhắc kỹ</p>
+      </div>
+      <div class="settings-section danger-zone">
+        <div class="section-title">
+          <span class="sec-icon">⚠️</span>
+          <div><h3>Vùng nguy hiểm</h3><p>Không thể hoàn tác</p></div>
+        </div>
+        <div class="danger-actions">
+          <div class="danger-item">
+            <div class="danger-item-info">
+              <h4>🔕 Tạm dừng tài khoản</h4>
+              <p>Hồ sơ sẽ bị ẩn tạm thời. Bạn có thể khôi phục bất cứ lúc nào.</p>
+            </div>
+            <button class="btn-danger">Tạm dừng</button>
+          </div>
+          <div class="danger-item">
+            <div class="danger-item-info">
+              <h4>🗑️ Xoá tất cả bài viết</h4>
+              <p>Toàn bộ ảnh và bài viết sẽ bị xoá vĩnh viễn.</p>
+            </div>
+            <button class="btn-danger">Xoá bài viết</button>
+          </div>
+          <div class="danger-item">
+            <div class="danger-item-info">
+              <h4>❌ Xoá tài khoản vĩnh viễn</h4>
+              <p>Mọi dữ liệu, bài viết, chuyến đi và tin nhắn sẽ bị xoá hoàn toàn. Không thể khôi phục.</p>
+            </div>
+            <button class="btn-danger">Xoá tài khoản</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /settings-main -->
+</div><!-- /settings-layout -->
+
+<!-- SAVE BAR -->
+<div class="save-bar" id="saveBar">
+  <p>💡 Mọi thay đổi sẽ được áp dụng ngay sau khi lưu</p>
+  <div class="save-actions">
+    <button class="btn-ghost" onclick="resetForm()">Huỷ bỏ</button>
+    <button class="btn-primary" id="saveBtn" onclick="saveSettings()">Lưu thay đổi</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Đã lưu thay đổi thành công!</div>
+
+<script>
+// Nav switching
+document.querySelectorAll('.settings-nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    const sec = item.dataset.section;
+    document.querySelectorAll('[id^="section-"]').forEach(s => s.style.display = 'none');
+    document.getElementById('section-' + sec).style.display = '';
+    document.querySelector('.settings-main').scrollTop = 0;
+  });
+});
+
+// Bio char count
+function updateCount() {
+  const bio = document.getElementById('bioInput').value;
+  document.getElementById('bioCount').textContent = bio.length;
+}
+
+// Travel style chips
+document.querySelectorAll('#styleGroup .radio-opt').forEach(opt => {
+  opt.addEventListener('click', () => opt.classList.toggle('selected'));
+});
+document.querySelectorAll('#budgetGroup .radio-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('#budgetGroup .radio-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+// Privacy visibility
+document.querySelectorAll('#profileVis .privacy-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('#profileVis .privacy-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+// Theme picker
+document.querySelectorAll('#themePicker .theme-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('#themePicker .theme-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+// Accent picker
+document.querySelectorAll('#accentPicker .accent-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    document.querySelectorAll('#accentPicker .accent-dot').forEach(d => d.classList.remove('selected'));
+    dot.classList.add('selected');
+    document.documentElement.style.setProperty('--accent', dot.dataset.color);
+  });
+});
+
+// Radio opts (generic)
+document.querySelectorAll('.radio-opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const group = this.closest('.radio-group');
+    if (!group) return;
+    const isCheckbox = this.querySelector('input[type="checkbox"]');
+    if (!isCheckbox) {
+      group.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+    }
+  });
+});
+
+// Save
+function saveSettings() {
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = 'Đang lưu...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Đã lưu';
+    btn.classList.add('saved');
+    showToast();
+    setTimeout(() => {
+      btn.textContent = 'Lưu thay đổi';
+      btn.classList.remove('saved');
+      btn.disabled = false;
+    }, 3000);
+  }, 900);
+}
+
+function resetForm() {
+  document.querySelectorAll('.form-input').forEach(i => i.value = i.defaultValue || '');
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+// Danger zone confirm
+document.querySelectorAll('.btn-danger').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const action = this.textContent.trim();
+    if (confirm(`Bạn có chắc chắn muốn thực hiện: "${action}"?\nHành động này không thể hoàn tác.`)) {
+      alert('Yêu cầu đã được ghi nhận.');
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khám Phá – WanderNet</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #151820;
+  --surface2: #1c2030;
+  --border: #252a3a;
+  --accent: #e8a87c;
+  --accent2: #6c9fcf;
+  --text: #e8eaf0;
+  --text-muted: #7a8099;
+  --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidenav {
+  width: 72px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 8px;
+  position: sticky; top: 0; height: 100vh;
+  flex-shrink: 0;
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  color: var(--accent);
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.nav-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 18px;
+}
+.nav-icon:hover { background: var(--surface2); color: var(--text); }
+.nav-icon.active { background: var(--accent); color: #0d0f14; }
+.nav-bottom { margin-top: auto; }
+.avatar-sm {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: #fff;
+  cursor: pointer;
+}
+
+/* MAIN */
+.main-content { flex: 1; overflow-y: auto; }
+.main-content::-webkit-scrollbar { width: 6px; }
+.main-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* HERO SEARCH */
+.hero {
+  background: linear-gradient(135deg, #0d1a2e 0%, #1a0d2e 50%, #0d1a1a 100%);
+  padding: 60px 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(108,159,207,.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(232,168,124,.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 30px;
+}
+.hero h1 em { color: var(--accent); font-style: italic; }
+.search-mega {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+  max-width: 700px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.search-seg {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+.search-seg:last-child { border-right: none; flex: 0 0 auto; }
+.search-seg label {
+  display: block;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.search-seg input, .search-seg select {
+  background: none; border: none; outline: none;
+  color: var(--text); font-size: 14px;
+  font-family: 'Sora', sans-serif;
+  width: 100%;
+}
+.search-seg select option { background: var(--surface2); }
+.search-btn {
+  background: var(--accent);
+  border: none;
+  padding: 0 28px;
+  height: 100%;
+  color: #0d0f14;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.search-btn:hover { background: #d4691e; }
+
+.quick-tags {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 20px;
+}
+.tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .2s;
+}
+.tag:hover { border-color: var(--accent); color: var(--accent); }
+
+/* SECTION */
+.section { padding: 32px 48px; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.section-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+.see-all {
+  font-size: 12.5px;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+}
+.see-all:hover { text-decoration: underline; }
+
+/* CATEGORY CHIPS */
+.cat-strip {
+  display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;
+  margin-bottom: 24px;
+  scrollbar-width: none;
+}
+.cat-strip::-webkit-scrollbar { display: none; }
+.cat-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+  font-size: 13px;
+}
+.cat-chip:hover { border-color: var(--accent); background: rgba(232,168,124,.08); }
+.cat-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0d0f14;
+  font-weight: 600;
+}
+
+/* DESTINATION GRID */
+.dest-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.dest-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .25s;
+  position: relative;
+}
+.dest-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 16px 40px rgba(0,0,0,.4); }
+.dest-card.featured {
+  grid-column: span 2;
+}
+.dest-img {
+  width: 100%; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  position: relative;
+}
+.dest-card.featured .dest-img { height: 240px; }
+.dest-img.g1 { background: linear-gradient(135deg,#0d4a6e,#1a8fbf); }
+.dest-img.g2 { background: linear-gradient(135deg,#1a3a1a,#2d7a2d); }
+.dest-img.g3 { background: linear-gradient(135deg,#4a1a0d,#9e3d1e); }
+.dest-img.g4 { background: linear-gradient(135deg,#2d1a4a,#6b3aed); }
+.dest-img.g5 { background: linear-gradient(135deg,#0d2a4a,#1a5fbf); }
+.dest-img.g6 { background: linear-gradient(135deg,#3a2a0d,#8a6a1e); }
+.trending-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: var(--accent);
+  color: #0d0f14;
+  font-size: 10.5px; font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.wishlist-btn {
+  position: absolute; top: 10px; right: 10px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  transition: background .2s;
+}
+.wishlist-btn:hover { background: rgba(232,168,124,.3); }
+.dest-body { padding: 14px; }
+.dest-name {
+  font-weight: 600;
+  font-size: 14.5px;
+  margin-bottom: 4px;
+}
+.dest-country {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.dest-meta {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dest-stats { display: flex; gap: 12px; }
+.dest-stat { font-size: 11.5px; color: var(--text-muted); }
+.dest-stat span { color: var(--text); font-weight: 500; }
+.rating { color: var(--accent); font-size: 13px; font-weight: 600; }
+
+/* HORIZONTAL SCROLL CARDS */
+.h-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; }
+.h-scroll::-webkit-scrollbar { height: 4px; }
+.h-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* TRIP CARD */
+.trip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  min-width: 240px;
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.trip-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.trip-img {
+  width: 100%; height: 120px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+.trip-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.trip-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+.trip-footer {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.author {
+  display: flex; align-items: center; gap: 8px;
+}
+.author-ava {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+}
+.author-name { font-size: 12px; color: var(--text-muted); }
+.like-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all .2s;
+  border: none; background: none;
+}
+.like-btn:hover { background: rgba(232,168,124,.1); color: var(--accent); }
+
+/* MAP PREVIEW */
+.map-preview {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.map-visual {
+  background: linear-gradient(135deg, #0d1a2e, #1a2a4e);
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  position: relative;
+}
+.map-pins {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin {
+  position: absolute;
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.5));
+  animation: float 3s ease-in-out infinite;
+}
+.pin:nth-child(1) { top: 25%; left: 20%; animation-delay: 0s; }
+.pin:nth-child(2) { top: 40%; left: 55%; animation-delay: .5s; }
+.pin:nth-child(3) { top: 60%; left: 35%; animation-delay: 1s; }
+.pin:nth-child(4) { top: 30%; left: 70%; animation-delay: 1.5s; }
+.pin:nth-child(5) { top: 70%; left: 65%; animation-delay: .8s; }
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.map-nearby {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.map-nearby h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+.nearby-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px;
+  background: var(--surface2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.nearby-item:hover { background: rgba(232,168,124,.1); }
+.nearby-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.nearby-icon.n1 { background: linear-gradient(135deg,#2d5f8a,#6c9fcf); }
+.nearby-icon.n2 { background: linear-gradient(135deg,#1a5f3a,#4ecb71); }
+.nearby-icon.n3 { background: linear-gradient(135deg,#7c3aed,#a78bfa); }
+.nearby-info h5 { font-size: 13px; font-weight: 500; }
+.nearby-info p { font-size: 11.5px; color: var(--text-muted); }
+.nearby-dist {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* STORIES ROW */
+.stories { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 28px; scrollbar-width: none; }
+.stories::-webkit-scrollbar { display: none; }
+.story {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer; flex-shrink: 0;
+}
+.story-ring {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+}
+.story-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.s1 { background: linear-gradient(135deg,#0d4a6e,#6c9fcf); }
+.s2 { background: linear-gradient(135deg,#1a3a1a,#4ecb71); }
+.s3 { background: linear-gradient(135deg,#4a1a0d,#e8a87c); }
+.s4 { background: linear-gradient(135deg,#2d1a4a,#a78bfa); }
+.s5 { background: linear-gradient(135deg,#0d2a2a,#6bcccc); }
+.story-name { font-size: 11.5px; color: var(--text-muted); text-align: center; }
+
+/* FEED */
+.feed { display: flex; flex-direction: column; gap: 20px; }
+.post-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.post-card:hover { border-color: rgba(232,168,124,.3); }
+.post-header {
+  padding: 16px 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.post-ava {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+.p1 { background: linear-gradient(135deg,#e8a87c,#d4691e); }
+.p2 { background: linear-gradient(135deg,#6c9fcf,#2d5f8a); }
+.p3 { background: linear-gradient(135deg,#a78bfa,#7c3aed); }
+.post-user h4 { font-size: 14px; font-weight: 600; }
+.post-user p { font-size: 12px; color: var(--text-muted); }
+.post-more { margin-left: auto; color: var(--text-muted); cursor: pointer; }
+.post-img {
+  width: 100%; height: 280px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px;
+}
+.pg1 { background: linear-gradient(135deg,#0d2a4a,#1a5f8a,#6c9fcf); }
+.pg2 { background: linear-gradient(135deg,#1a2a0d,#2d6a1e,#4ecb71); }
+.pg3 { background: linear-gradient(135deg,#2a0d1a,#6a1e3a,#e8a87c); }
+.post-body { padding: 14px 18px; }
+.post-body p { font-size: 13.5px; line-height: 1.6; margin-bottom: 10px; }
+.post-location {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--accent);
+  margin-bottom: 12px;
+}
+.post-actions {
+  display: flex; gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.action-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all .2s;
+  border: none; background: none;
+  font-family: 'Sora', sans-serif;
+}
+.action-btn:hover { background: var(--surface2); color: var(--text); }
+.action-btn.liked { color: #e8747c; }
+
+/* SIDEBAR RIGHT */
+.sidebar-right {
+  width: 280px;
+  padding: 32px 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-right::-webkit-scrollbar { width: 4px; }
+.sidebar-right::-webkit-scrollbar-thumb { background: var(--border); }
+
+.widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.widget h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.weather-main {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 12px;
+}
+.weather-icon { font-size: 44px; }
+.weather-info h3 { font-size: 32px; font-weight: 300; }
+.weather-info p { font-size: 12px; color: var(--text-muted); }
+.weather-details { display: flex; gap: 14px; }
+.w-detail { font-size: 12px; color: var(--text-muted); }
+.w-detail span { color: var(--text); font-weight: 500; }
+
+.trending-list { display: flex; flex-direction: column; gap: 10px; }
+.trending-dest {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.trending-dest:hover { background: var(--surface2); }
+.t-rank {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--border);
+  width: 28px;
+  text-align: center;
+}
+.t-info h5 { font-size: 13px; font-weight: 500; }
+.t-info p { font-size: 11.5px; color: var(--text-muted); }
+.t-trend { margin-left: auto; font-size: 12px; color: var(--online); }
+
+.suggest-users { display: flex; flex-direction: column; gap: 10px; }
+.suggest-user {
+  display: flex; align-items: center; gap: 10px;
+}
+.follow-btn {
+  margin-left: auto;
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: none;
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+  transition: all .2s;
+}
+.follow-btn:hover { background: var(--accent); color: #0d0f14; }
+.su-info h5 { font-size: 13px; font-weight: 500; }
+.su-info p { font-size: 11.5px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- SIDENAV -->
+<nav class="sidenav">
+  <div class="logo">W</div>
+  <a href="index.html" class="nav-icon" title="Trang chủ">🏠</a>
+  <a href="explore.html" class="nav-icon active" title="Khám phá">🧭</a>
+  <a href="messages.html" class="nav-icon" title="Tin nhắn">💬</a>
+  <a href="#" class="nav-icon" title="Thông báo">🔔</a>
+  <a href="#" class="nav-icon" title="Chuyến đi">🗺️</a>
+  <div class="nav-bottom">
+    <a href="settings.html" class="nav-icon" title="Cài đặt">⚙️</a>
+    <div style="height:10px"></div>
+    <div class="avatar-sm">T</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main-content">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">✦ Khám phá thế giới</div>
+    <h1>Tìm <em>chuyến đi</em><br>tiếp theo của bạn</h1>
+    <div class="search-mega">
+      <div class="search-seg">
+        <label>Điểm đến</label>
+        <input type="text" placeholder="Hà Nội, Đà Nẵng, Tokyo...">
+      </div>
+      <div class="search-seg">
+        <label>Thời gian</label>
+        <input type="text" placeholder="Tháng 6 – Tháng 7">
+      </div>
+      <div class="search-seg" style="flex:0 0 140px;">
+        <label>Loại hình</label>
+        <select>
+          <option>Tất cả</option>
+          <option>Biển đảo</option>
+          <option>Núi rừng</option>
+          <option>Thành phố</option>
+          <option>Di sản</option>
+        </select>
+      </div>
+      <button class="search-btn">🔍 Tìm kiếm</button>
+    </div>
+    <div class="quick-tags">
+      <div class="tag">🏖️ Biển</div>
+      <div class="tag">🏔️ Leo núi</div>
+      <div class="tag">🏛️ Di sản</div>
+      <div class="tag">🍜 Ẩm thực</div>
+      <div class="tag">🎭 Văn hoá</div>
+      <div class="tag">🚴 Phiêu lưu</div>
+      <div class="tag">🧘 Nghỉ dưỡng</div>
+    </div>
+  </div>
+
+  <div style="display:flex;">
+  <div style="flex:1;min-width:0;">
+
+  <!-- STORIES -->
+  <div class="section" style="padding-bottom:0;">
+    <div class="section-header">
+      <h2>Stories du lịch</h2>
+      <a class="see-all">Xem tất cả →</a>
+    </div>
+    <div class="stories">
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s1">🌊</div></div>
+        <div class="story-name">Phú Quốc</div>
+      </div>
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s2">🌿</div></div>
+        <div class="story-name">Sapa</div>
+      </div>
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s3">🏮</div></div>
+        <div class="story-name">Hội An</div>
+      </div>
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s4">🏰</div></div>
+        <div class="story-name">Huế</div>
+      </div>
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s5">🚣</div></div>
+        <div class="story-name">Hạ Long</div>
+      </div>
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s1">⛩️</div></div>
+        <div class="story-name">Nhật Bản</div>
+      </div>
+      <div class="story">
+        <div class="story-ring"><div class="story-inner s2">🌸</div></div>
+        <div class="story-name">Hàn Quốc</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESTINATIONS -->
+  <div class="section">
+    <div class="section-header" style="margin-bottom:12px;">
+      <h2>Điểm đến nổi bật</h2>
+      <a class="see-all">Xem tất cả →</a>
+    </div>
+    <div class="cat-strip">
+      <div class="cat-chip active">🌏 Tất cả</div>
+      <div class="cat-chip">🇻🇳 Việt Nam</div>
+      <div class="cat-chip">🌏 Đông Nam Á</div>
+      <div class="cat-chip">🌸 Đông Á</div>
+      <div class="cat-chip">🌍 Châu Âu</div>
+      <div class="cat-chip">🌊 Đảo nhiệt đới</div>
+    </div>
+    <div class="dest-grid">
+      <div class="dest-card featured">
+        <div class="dest-img g1">
+          <div class="trending-badge">🔥 Trending</div>
+          <div class="wishlist-btn">🤍</div>
+          🌊
+        </div>
+        <div class="dest-body">
+          <div class="dest-name">Hạ Long Bay</div>
+          <div class="dest-country">📍 Quảng Ninh, Việt Nam</div>
+          <div class="dest-meta">
+            <div class="dest-stats">
+              <div class="dest-stat"><span>4.2k</span> bài viết</div>
+              <div class="dest-stat"><span>98%</span> đề xuất</div>
+            </div>
+            <div class="rating">★ 4.9</div>
+          </div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <div class="dest-img g2">
+          <div class="wishlist-btn">🤍</div>
+          🌿
+        </div>
+        <div class="dest-body">
+          <div class="dest-name">Sapa</div>
+          <div class="dest-country">📍 Lào Cai</div>
+          <div class="dest-meta">
+            <div class="dest-stats"><div class="dest-stat"><span>1.8k</span> bài viết</div></div>
+            <div class="rating">★ 4.7</div>
+          </div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <div class="dest-img g3">
+          <div class="wishlist-btn">❤️</div>
+          🏮
+        </div>
+        <div class="dest-body">
+          <div class="dest-name">Hội An</div>
+          <div class="dest-country">📍 Quảng Nam</div>
+          <div class="dest-meta">
+            <div class="dest-stats"><div class="dest-stat"><span>3.1k</span> bài viết</div></div>
+            <div class="rating">★ 4.8</div>
+          </div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <div class="dest-img g4">
+          <div class="wishlist-btn">🤍</div>
+          ⛩️
+        </div>
+        <div class="dest-body">
+          <div class="dest-name">Kyoto</div>
+          <div class="dest-country">📍 Nhật Bản</div>
+          <div class="dest-meta">
+            <div class="dest-stats"><div class="dest-stat"><span>5.6k</span> bài viết</div></div>
+            <div class="rating">★ 4.9</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LỊCH TRÌNH -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Lịch trình được yêu thích</h2>
+      <a class="see-all">Xem tất cả →</a>
+    </div>
+    <div class="h-scroll">
+      <div class="trip-card">
+        <div class="trip-img g1">🌊</div>
+        <h4>Hạ Long – Ninh Bình 5N4Đ</h4>
+        <p>Khám phá vẻ đẹp Vịnh Bắc Bộ và đất cố đô</p>
+        <div class="trip-footer">
+          <div class="author">
+            <div class="author-ava p1">M</div>
+            <div class="author-name">Mai Anh</div>
+          </div>
+          <button class="like-btn">❤️ 234</button>
+        </div>
+      </div>
+      <div class="trip-card">
+        <div class="trip-img g2">🌿</div>
+        <h4>Chinh phục Sapa 4N3Đ</h4>
+        <p>Trekking bản làng và ruộng bậc thang</p>
+        <div class="trip-footer">
+          <div class="author">
+            <div class="author-ava p2">H</div>
+            <div class="author-name">Hùng Leo</div>
+          </div>
+          <button class="like-btn">❤️ 189</button>
+        </div>
+      </div>
+      <div class="trip-card">
+        <div class="trip-img g3">🏮</div>
+        <h4>Đà Nẵng – Hội An 3N2Đ</h4>
+        <p>Biển, phố cổ và ẩm thực miền Trung</p>
+        <div class="trip-footer">
+          <div class="author">
+            <div class="author-ava p3">L</div>
+            <div class="author-name">Linh Phạm</div>
+          </div>
+          <button class="like-btn">❤️ 412</button>
+        </div>
+      </div>
+      <div class="trip-card">
+        <div class="trip-img g4">⛩️</div>
+        <h4>Tokyo – Kyoto – Osaka 7N</h4>
+        <p>Hành trình văn hoá Nhật Bản đầy đủ</p>
+        <div class="trip-footer">
+          <div class="author">
+            <div class="author-ava p1">K</div>
+            <div class="author-name">Khánh N</div>
+          </div>
+          <button class="like-btn liked">❤️ 891</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GẦN ĐÂY -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Gần bạn nhất</h2>
+    </div>
+    <div class="map-preview">
+      <div class="map-visual">
+        <div class="map-pins">
+          <div class="pin">📍</div>
+          <div class="pin">🏖️</div>
+          <div class="pin">🍜</div>
+          <div class="pin">🏛️</div>
+          <div class="pin">🌊</div>
+        </div>
+        🗺️
+      </div>
+      <div class="map-nearby">
+        <h3>Đà Nẵng & vùng lân cận</h3>
+        <div class="nearby-item">
+          <div class="nearby-icon n1">🏖️</div>
+          <div class="nearby-info">
+            <h5>Bãi biển Mỹ Khê</h5>
+            <p>Bãi biển · ★ 4.8</p>
+          </div>
+          <div class="nearby-dist">2km</div>
+        </div>
+        <div class="nearby-item">
+          <div class="nearby-icon n2">🌉</div>
+          <div class="nearby-info">
+            <h5>Cầu Rồng</h5>
+            <p>Di tích · ★ 4.6</p>
+          </div>
+          <div class="nearby-dist">4km</div>
+        </div>
+        <div class="nearby-item">
+          <div class="nearby-icon n3">🏮</div>
+          <div class="nearby-info">
+            <h5>Hội An Cổ Phố</h5>
+            <p>Di sản UNESCO · ★ 4.9</p>
+          </div>
+          <div class="nearby-dist">28km</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Bài viết mới nhất</h2>
+    </div>
+    <div class="feed">
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-ava p1">M</div>
+          <div class="post-user">
+            <h4>Mai Anh 🌸</h4>
+            <p>2 giờ trước · Hội An</p>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-img pg1">🏮</div>
+        <div class="post-body">
+          <div class="post-location">📍 Hội An, Quảng Nam</div>
+          <p>Đêm hoa đăng Hội An lần này khác hẳn những lần trước! Ánh đèn lung linh phản chiếu xuống dòng sông Hoài, thuyền nan xuôi ngược... thật sự là khoảnh khắc khó quên ✨🏮</p>
+          <div class="post-actions">
+            <button class="action-btn liked">❤️ 284</button>
+            <button class="action-btn">💬 48 bình luận</button>
+            <button class="action-btn">🔖 Lưu</button>
+            <button class="action-btn">↗️ Chia sẻ</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-ava p2">H</div>
+          <div class="post-user">
+            <h4>Hùng Backpacker</h4>
+            <p>5 giờ trước · Hà Giang</p>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-img pg2">🌿</div>
+        <div class="post-body">
+          <div class="post-location">📍 Đèo Mã Pí Lèng, Hà Giang</div>
+          <p>Đứng trên đỉnh Mã Pí Lèng nhìn xuống dòng sông Nho Quế xanh ngắt giữa vách đá dựng đứng – đây là một trong những cung đường đẹp nhất Việt Nam mà mình từng đi! 🏔️</p>
+          <div class="post-actions">
+            <button class="action-btn">❤️ 521</button>
+            <button class="action-btn">💬 93 bình luận</button>
+            <button class="action-btn">🔖 Lưu</button>
+            <button class="action-btn">↗️ Chia sẻ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /flex col -->
+
+  <!-- SIDEBAR RIGHT -->
+  <aside class="sidebar-right">
+    <div class="widget">
+      <h4>🌤 Thời tiết hiện tại</h4>
+      <div class="weather-main">
+        <div class="weather-icon">⛅</div>
+        <div class="weather-info">
+          <h3>29°C</h3>
+          <p>Đà Nẵng · Mây rải rác</p>
+        </div>
+      </div>
+      <div class="weather-details">
+        <div class="w-detail">Độ ẩm: <span>76%</span></div>
+        <div class="w-detail">Gió: <span>14 km/h</span></div>
+      </div>
+    </div>
+
+    <div class="widget">
+      <h4>🔥 Trending tuần này</h4>
+      <div class="trending-list">
+        <div class="trending-dest">
+          <div class="t-rank">1</div>
+          <div class="t-info"><h5>Phú Quốc</h5><p>12.4k bài viết</p></div>
+          <div class="t-trend">↑ 34%</div>
+        </div>
+        <div class="trending-dest">
+          <div class="t-rank">2</div>
+          <div class="t-info"><h5>Đà Lạt</h5><p>9.2k bài viết</p></div>
+          <div class="t-trend">↑ 21%</div>
+        </div>
+        <div class="trending-dest">
+          <div class="t-rank">3</div>
+          <div class="t-info"><h5>Hà Giang</h5><p>7.8k bài viết</p></div>
+          <div class="t-trend">↑ 18%</div>
+        </div>
+        <div class="trending-dest">
+          <div class="t-rank">4</div>
+          <div class="t-info"><h5>Ninh Bình</h5><p>5.1k bài viết</p></div>
+          <div class="t-trend">↑ 12%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget">
+      <h4>👥 Gợi ý kết bạn</h4>
+      <div class="suggest-users">
+        <div class="suggest-user">
+          <div class="post-ava p3" style="width:36px;height:36px;font-size:13px;">L</div>
+          <div class="su-info"><h5>Linh Phạm</h5><p>12 địa điểm chung</p></div>
+          <button class="follow-btn">+ Theo dõi</button>
+        </div>
+        <div class="suggest-user">
+          <div class="post-ava p1" style="width:36px;height:36px;font-size:13px;">T</div>
+          <div class="su-info"><h5>Tuấn Leo Núi</h5><p>8 địa điểm chung</p></div>
+          <button class="follow-btn">+ Theo dõi</button>
+        </div>
+        <div class="suggest-user">
+          <div class="post-ava p2" style="width:36px;height:36px;font-size:13px;">N</div>
+          <div class="su-info"><h5>Nam Phượt</h5><p>6 địa điểm chung</p></div>
+          <button class="follow-btn">+ Theo dõi</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  </div><!-- /flex row -->
+</div><!-- /main-content -->
+
+<script>
+document.querySelectorAll('.cat-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+document.querySelectorAll('.action-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    this.classList.toggle('liked');
+  });
+});
+document.querySelectorAll('.follow-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if(this.textContent === '+ Theo dõi') {
+      this.textContent = '✓ Đang theo';
+      this.style.background = 'var(--accent)';
+      this.style.color = '#0d0f14';
+    } else {
+      this.textContent = '+ Theo dõi';
+      this.style.background = '';
+      this.style.color = '';
+    }
+  });
+});
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.textContent = this.textContent === '🤍' ? '❤️' : '🤍';
+  });
+});
+</script>
+</body>
+</html>

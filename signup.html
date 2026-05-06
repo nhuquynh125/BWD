@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - Travel Social Network</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="signup-wrapper">
+            <!-- Header -->
+            <div class="signup-header">
+                <a href="index.html" class="back-btn">&larr;</a>
+                <h1>Tạo tài khoản</h1>
+                <p>Bắt đầu chia sẻ trải nghiệm du lịch của bạn</p>
+            </div>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm">
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Tên người dùng</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Nhập tên người dùng" 
+                        required
+                        minlength="3"
+                        maxlength="30"
+                    >
+                    <span class="error" id="usernameError"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="nhập email của bạn" 
+                        required
+                    >
+                    <span class="error" id="emailError"></span>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="signupPhone">Số điện thoại</label>
+                    <input 
+                        type="tel" 
+                        id="signupPhone" 
+                        name="phone" 
+                        placeholder="10 chữ số" 
+                        pattern="[0-9]{10}" 
+                        required
+                    >
+                    <span class="error" id="phoneError"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Ít nhất 8 ký tự" 
+                            required
+                            minlength="8"
+                        >
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁</button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                        <span class="strength-text" id="strengthText"></span>
+                    </div>
+                    <span class="error" id="passwordError"></span>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            placeholder="Nhập lại mật khẩu" 
+                            required
+                        >
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">👁</button>
+                    </div>
+                    <span class="error" id="confirmPasswordError"></span>
+                </div>
+
+                <!-- Terms & Privacy -->
+                <div class="form-group checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="terms" 
+                        name="terms" 
+                        required
+                    >
+                    <label for="terms">
+                        Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a>
+                    </label>
+                    <span class="error" id="termsError"></span>
+                </div>
+
+                <!-- Sign Up Button -->
+                <button type="submit" class="btn btn-primary btn-lg">Tạo tài khoản</button>
+            </form>
+
+            <!-- Or Divider -->
+            <div class="divider">
+                <span>hoặc</span>
+            </div>
+
+            <!-- Social Sign Up -->
+            <div class="social-signup">
+                <button type="button" class="btn btn-social btn-google" onclick="signupWithGoogle()">
+                    <span>G</span> Đăng ký với Google
+                </button>
+            </div>
+
+            <!-- Login Link -->
+            <div class="login-link">
+                Đã có tài khoản? <a href="index.html">Đăng nhập ngay</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="signup.js"></script>
+</body>
+</html>

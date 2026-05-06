@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hội An Neon • LUNAR HERITAGE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        :root { --neon-cyan: #00f7ff; --neon-purple: #c026d3; }
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .title-font { font-family: 'Space Grotesk', sans-serif; }
+        .neon-glow { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-purple); }
+        .hero-bg { background: radial-gradient(circle at 30% 20%, #1a0033 0%, #0a0a2a 50%, #000000 100%); }
+        .glass { background: rgba(255,255,255,0.07); backdrop-filter: blur(20px); }
+        .three-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-12px); box-shadow: 0 0 40px #00f7ff; border-color: #00f7ff; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white overflow-x-hidden">
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
+                    🌕 <span class="absolute -top-1 -right-1 text-xl">🏮</span>
+                </div>
+                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
+                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
+                <a href="index.html" class="hover:text-[#00f7ff]">Trang chủ</a>
+                <a href="vinh-ha-long.html" class="hover:text-[#00f7ff]">Vịnh Hạ Long Neon</a>
+                <a href="co-do-hue.html" class="hover:text-[#00f7ff]">Cố đô Huế Neon</a>
+                <a href="hoi-an.html" class="text-[#00f7ff] font-bold">Hội An Neon</a>
+                <a href="ruong-bac-thang.html" class="hover:text-[#00f7ff]">Ruộng Bậc Thang</a>
+            </div>
+
+            <a href="index.html" class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold hover:scale-105 transition-transform">
+                <i class="fa-solid fa-arrow-left"></i> QUAY VỀ TRANG CHỦ
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO 3D HOÀI AN NEON (Phố cổ + Cầu Chùa + Đèn lồng) -->
+    <section class="hero-bg min-h-screen pt-32 relative flex items-center overflow-hidden">
+        <canvas id="three-canvas" class="three-canvas"></canvas>
+        
+        <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
+            <div class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8">
+                🌉 DI SẢN UNESCO • HỘI AN NEON
+            </div>
+            
+            <h1 class="text-7xl lg:text-8xl title-font leading-none neon-glow tracking-[-4px]">
+                HỘI AN<br>NEON
+            </h1>
+            
+            <p class="mt-6 text-3xl text-[#000000] font-light max-w-lg">
+                Phố cổ 400 năm tuổi lung linh dưới hàng ngàn đèn lồng neon tương lai
+            </p>
+            
+            <div class="mt-12 flex items-center gap-x-6">
+                <button onclick="window.location.href='index.html'" 
+                        class="bg-white text-black font-bold px-10 py-6 rounded-3xl text-2xl flex items-center gap-x-4 hover:shadow-2xl transition-all">
+                    <i class="fa-solid fa-home"></i> TRANG CHỦ
+                </button>
+                <button onclick="launchLantern()" 
+                        class="border-2 border-[#00f7ff] text-white px-10 py-6 rounded-3xl text-2xl flex items-center gap-x-4 hover:bg-white/10 transition-all">
+                    🏮 THẮP ĐÈN LỒNG NEON
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PHẦN NỘI DUNG CHI TIẾT ==================== -->
+    <section class="py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
+                <!-- Ảnh lớn -->
+                <div class="lg:col-span-7">
+                    <img src="./hoian.jpg" alt="Hội An Neon" 
+                         class="w-full rounded-3xl shadow-2xl shadow-[#00f7ff]/40">
+                </div>
+                
+                <!-- Mô tả chính -->
+                <div class="lg:col-span-5">
+                    <h2 class="title-font text-5xl neon-glow mb-6">Phố cổ huyền ảo dưới ánh đèn lồng neon</h2>
+                    <p class="text-zinc-300 text-xl leading-relaxed">
+                        Những con phố đá ong vàng rực, mái ngói âm dương cổ kính và hàng ngàn chiếc đèn lồng rực rỡ. 
+                        Trong LUNAR HERITAGE, Hội An được tái hiện với ánh neon cyberpunk, kết hợp truyền thống và tương lai lung linh chưa từng có.
+                    </p>
+                    <div class="mt-10 flex items-center gap-4">
+                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
+                            <p class="text-[#00f7ff] text-4xl">🏛️</p>
+                            <p class="font-bold mt-2">UNESCO 1999</p>
+                        </div>
+                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
+                            <p class="text-[#00f7ff] text-4xl">🏮</p>
+                            <p class="font-bold mt-2">Hàng nghìn đèn lồng</p>
+                        </div>
+                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
+                            <p class="text-[#00f7ff] text-4xl">🌉</p>
+                            <p class="font-bold mt-2">Cầu Chùa Nhật Bản</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KHÁM PHÁ HỘI AN NEON -->
+    <section class="py-24">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="title-font text-6xl text-center neon-glow mb-16">Khám phá Hội An Neon</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🏮</div>
+                    <h3 class="text-3xl font-semibold mb-3">Đèn lồng bay lơ lửng</h3>
+                    <p class="text-zinc-400">Hàng ngàn chiếc đèn lồng neon tím – hồng – vàng bay khắp phố cổ, phản chiếu lung linh trên mặt sông Hoài.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🌉</div>
+                    <h3 class="text-3xl font-semibold mb-3">Cầu Chùa Nhật Bản neon</h3>
+                    <p class="text-zinc-400">Cây cầu biểu tượng được bao phủ bởi ánh sáng hologram neon, tạo hiệu ứng 3D sống động về đêm.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🏠</div>
+                    <h3 class="text-3xl font-semibold mb-3">Nhà cổ cyber</h3>
+                    <p class="text-zinc-400">Những ngôi nhà mái ngói âm dương cổ kính được chiếu sáng neon, kết hợp kiến trúc 400 năm với công nghệ tương lai.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LỊCH SỬ & DI SẢN -->
+    <section class="py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="px-6 py-2 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl">LỊCH SỬ & DI SẢN</span>
+            </div>
+            <div class="max-w-3xl mx-auto text-zinc-300 text-lg leading-relaxed">
+                Phố cổ Hội An là di sản văn hóa thế giới được UNESCO công nhận năm 1999. 
+                Nơi đây từng là thương cảng quốc tế sầm uất với sự giao thoa văn hóa Việt – Nhật – Trung. 
+                Trong LUNAR HERITAGE, chúng tôi tái tạo toàn bộ phố cổ dưới ánh đèn lồng neon tương lai, 
+                kết hợp kiến trúc cổ kính với công nghệ 3D để bạn có thể bay lượn giữa hàng ngàn đèn lồng lung linh.
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="py-24 bg-gradient-to-b from-zinc-900 to-black text-center">
+        <h2 class="title-font text-5xl neon-glow mb-8">Bạn sẵn sàng bay vào Hội An Neon?</h2>
+        <button onclick="launchLantern()" 
+                class="inline-flex items-center gap-x-4 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold text-2xl px-14 py-7 rounded-3xl hover:scale-110 transition-all">
+            🏮 THẮP ĐÈN LỒNG & BAY NGAY
+        </button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center">
+        <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
+        <p class="text-zinc-400 mt-3">Hội An Neon • Phố cổ lung linh dưới ánh trăng tương lai</p>
+        <p class="text-xs text-zinc-500 mt-12">© 2026 VKU • BWD 2026</p>
+    </footer>
+
+    <script>
+        let scene, camera, renderer;
+        let structures = [], lanterns = [], particles;
+        let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+        let autoRotate = true;
+
+        function initThree() {
+            const canvas = document.getElementById('three-canvas');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x0a0a2a, 30, 280);
+
+            camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 300);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Ánh sáng neon ấm áp của Hội An
+            scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+            const neonLight = new THREE.PointLight(0xc026d3, 4.5, 300);
+            neonLight.position.set(0, 45, 70);
+            scene.add(neonLight);
+
+            // Sông Hoài (water plane)
+            const waterGeo = new THREE.PlaneGeometry(420, 420);
+            const waterMat = new THREE.MeshPhongMaterial({
+                color: 0x00aaff,
+                shininess: 110,
+                emissive: 0x0088ff,
+                transparent: true,
+                opacity: 0.7,
+                side: THREE.DoubleSide
+            });
+            const water = new THREE.Mesh(waterGeo, waterMat);
+            water.rotation.x = -Math.PI / 2;
+            water.position.y = -9;
+            scene.add(water);
+
+            // === NHÀ CỔ HỘI AN (nhiều ngôi nhà mái ngói) ===
+            for (let i = 0; i < 24; i++) {
+                const group = new THREE.Group();
+                
+                // Thân nhà
+                const body = new THREE.Mesh(
+                    new THREE.BoxGeometry(14 + Math.random() * 8, 18 + Math.random() * 12, 16),
+                    new THREE.MeshPhongMaterial({
+                        color: 0xffe8b0,
+                        emissive: (i % 3 === 0) ? 0xc026d3 : (i % 3 === 1 ? 0x00f7ff : 0xfacc15),
+                        emissiveIntensity: 1.6,
+                        shininess: 35
+                    })
+                );
+                group.add(body);
+
+                // Mái ngói âm dương
+                const roof = new THREE.Mesh(
+                    new THREE.ConeGeometry(18, 10, 4),
+                    new THREE.MeshPhongMaterial({
+                        color: 0xffaa00,
+                        emissive: 0xc026d3,
+                        emissiveIntensity: 1.9
+                    })
+                );
+                roof.position.y = 14;
+                group.add(roof);
+
+                // Vị trí dọc hai bên phố
+                const side = (i % 2 === 0) ? -1 : 1;
+                const z = -70 + (i * 6);
+                group.position.set(side * (28 + Math.random() * 12), -8, z);
+                group.rotation.y = side * 0.1;
+                scene.add(group);
+                structures.push(group);
+            }
+
+            // === CẦU CHÙA NHẬT BẢN (trung tâm nổi bật) ===
+            const chuaCau = new THREE.Group();
+
+            // Thân cầu cong
+            const bridgeBody = new THREE.Mesh(
+                new THREE.BoxGeometry(58, 12, 18),
+                new THREE.MeshPhongMaterial({ color: 0xffe8b0, emissive: 0x00f7ff, emissiveIntensity: 1.7 })
+            );
+            bridgeBody.position.y = 4;
+            chuaCau.add(bridgeBody);
+
+            // Mái cầu
+            const bridgeRoof = new THREE.Mesh(
+                new THREE.ConeGeometry(64, 14, 4),
+                new THREE.MeshPhongMaterial({ color: 0xffaa00, emissive: 0xc026d3, emissiveIntensity: 2.1 })
+            );
+            bridgeRoof.position.y = 18;
+            chuaCau.add(bridgeRoof);
+
+            // Cột cầu hai bên
+            const pillarMat = new THREE.MeshPhongMaterial({ color: 0xffe8b0, emissive: 0xc026d3 });
+            const leftPillar = new THREE.Mesh(new THREE.BoxGeometry(8, 18, 8), pillarMat);
+            leftPillar.position.set(-24, 0, 0);
+            chuaCau.add(leftPillar);
+            const rightPillar = new THREE.Mesh(new THREE.BoxGeometry(8, 18, 8), pillarMat);
+            rightPillar.position.set(24, 0, 0);
+            chuaCau.add(rightPillar);
+
+            chuaCau.position.set(0, -8, 0);
+            chuaCau.rotation.y = Math.PI / 6; // nghiêng nhẹ cho đẹp
+            scene.add(chuaCau);
+            structures.push(chuaCau);
+
+            // Particles neon (ánh đèn lồng bay)
+            const particleCount = 1600;
+            const pGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i]     = (Math.random() - 0.5) * 320;
+                positions[i + 1] = Math.random() * 95;
+                positions[i + 2] = (Math.random() - 0.5) * 320;
+            }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const pMat = new THREE.PointsMaterial({ 
+                size: 2.0, 
+                color: 0xffee77, 
+                transparent: true, 
+                opacity: 0.95, 
+                blending: THREE.AdditiveBlending 
+            });
+            particles = new THREE.Points(pGeo, pMat);
+            scene.add(particles);
+
+            // Đèn lồng bay (nhiều hơn vì Hội An nổi tiếng đèn lồng)
+            for (let i = 0; i < 32; i++) {
+                const group = new THREE.Group();
+                const body = new THREE.Mesh(
+                    new THREE.CylinderGeometry(2.4, 3.2, 5, 8), 
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xffdd77, 
+                        emissive: 0xff5500, 
+                        emissiveIntensity: 2.2 
+                    })
+                );
+                group.add(body);
+                group.position.set(
+                    (Math.random()-0.5)*170, 
+                    18 + Math.random()*60, 
+                    (Math.random()-0.5)*160
+                );
+                scene.add(group);
+                lanterns.push(group);
+            }
+
+            camera.position.set(65, 52, 145);
+            camera.lookAt(0, 15, -20);
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+                autoRotate = false;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = Date.now() * 0.001;
+
+                targetX = mouseX * 45;
+                targetY = mouseY * 30 + 38;
+                camera.position.x += (targetX - camera.position.x) * 0.06;
+                camera.position.y += (targetY - camera.position.y) * 0.06;
+                camera.lookAt(0, 18, -20);
+
+                if (autoRotate) {
+                    camera.position.x = Math.sin(time * 0.11) * 130;
+                    camera.position.z = Math.cos(time * 0.11) * 130;
+                    camera.lookAt(0, 18, -20);
+                }
+
+                // Nhấp nháy neon
+                structures.forEach((structure, i) => {
+                    structure.traverse((child) => {
+                        if (child.material && child.material.emissiveIntensity !== undefined) {
+                            child.material.emissiveIntensity = 1.6 + Math.sin(time * 4 + i) * 0.9;
+                        }
+                    });
+                });
+
+                particles.rotation.y += 0.0012;
+
+                // Đèn lồng bay
+                lanterns.forEach(l => {
+                    l.position.y += 0.25;
+                    if (l.position.y > 130) l.position.y = -30;
+                    l.rotation.y += 0.03;
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function launchLantern() {
+            alert("🏮 Đèn lồng neon đã bay khắp Phố cổ Hội An!");
+        }
+
+        window.onload = () => {
+            initThree();
+            console.log('%c🌉 Hội An Neon 3D – Phố cổ lung linh với đèn lồng & Cầu Chùa! Mouse Drag để xoay ngắm', 'color:#00f7ff; font-size:22px; font-family:Space Grotesk');
+        };
+    </script>
+</body>
+</html>

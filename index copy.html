@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LUNAR HERITAGE – Di sản Việt Nam dưới ánh trăng neon tương lai. Website 3D immersive đạt giải Nhất BWD 2026">
+    <title>LUNAR HERITAGE • Di sản Việt Nam dưới ánh trăng neon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+
+    :root {
+        --neon-cyan: #00f7ff;
+        --neon-purple: #c026d3;
+        --neon-gold: #facc15;
+        --glass-bg: rgba(255, 255, 255, 0.07);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', system_ui, sans-serif;
+        background-color: #09090b;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    .title-font {
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* ==================== NEON EFFECTS ==================== */
+    .neon-glow {
+        text-shadow: 
+            0 0 8px var(--neon-cyan),
+            0 0 16px var(--neon-cyan),
+            0 0 24px var(--neon-purple);
+    }
+
+    /* ==================== HERO & BACKGROUND ==================== */
+    .hero-bg {
+        background: radial-gradient(circle at 30% 20%, #1a0033 0%, #0a0a2a 50%, #000000 100%);
+    }
+
+    .glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ==================== THREE.JS CANVAS ==================== */
+    .three-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* ==================== ANIMATIONS ==================== */
+    .floating-lantern {
+        animation: float-lantern 6s ease-in-out infinite;
+    }
+
+    @keyframes float-lantern {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50%      { transform: translateY(-30px) rotate(8deg); }
+    }
+
+    /* Đèn lồng bay trong section Di sản */
+    .lantern {
+        position: absolute;
+        font-size: 26px;
+        animation: floatHeritageLantern linear infinite;
+        text-shadow: 0 0 20px #ffaa00;
+        z-index: 1;
+        opacity: 0.85;
+    }
+
+    @keyframes floatHeritageLantern {
+        0%   { transform: translateY(120vh) rotate(0deg); }
+        100% { transform: translateY(-150px) rotate(1080deg); }
+    }
+
+    /* ==================== TYPOGRAPHY ==================== */
+    .section-header::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 9999px;
+    }
+
+    /* ==================== CARD STYLES ==================== */
+    .card-hover,
+    .neon-mode-card,
+    .heritage-card,
+    .folk-card {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover,
+    .folk-card:hover {
+        transform: translateY(-20px) scale(1.05);
+        box-shadow: 0 0 50px var(--neon-cyan), 0 0 90px var(--neon-purple);
+        border-color: var(--neon-cyan) !important;
+    }
+
+    /* Neon Mode Card - Card đặc biệt có badge */
+    .neon-mode-card {
+        position: relative;
+        border: 1px solid rgba(0, 247, 255, 0.3);
+    }
+
+    .neon-mode-card:hover {
+        transform: translateY(-12px);
+        border-color: var(--neon-cyan);
+        box-shadow: 
+            0 0 30px var(--neon-cyan),
+            0 0 60px var(--neon-purple),
+            0 25px 50px -12px rgb(0 247 255 / 0.4);
+    }
+
+    .neon-badge {
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.6);
+        opacity: 0;
+        background: var(--neon-cyan);
+        color: #000;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 20px;
+        border-radius: 9999px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+    }
+
+    .neon-mode-card:hover .neon-badge {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+        text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px var(--neon-purple);
+        animation: neonPulse 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes neonPulse {
+        from { text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px var(--neon-purple); }
+        to   { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-purple), 0 0 50px var(--neon-purple); }
+    }
+
+    .neon-mode-card:hover .neon-icon {
+        filter: drop-shadow(0 0 20px var(--neon-cyan)) 
+                drop-shadow(0 0 40px var(--neon-purple));
+        transform: scale(1.15);
+    }
+
+    /* Heritage Card - Card di sản nổi bật */
+    .heritage-card {
+        backdrop-filter: blur(20px);
+    }
+
+    .heritage-card:hover {
+        transform: translateY(-20px) scale(1.05);
+        border-color: var(--neon-cyan);
+        box-shadow: 
+            0 0 40px var(--neon-cyan),
+            0 0 80px var(--neon-purple),
+            0 30px 60px -15px rgb(0 247 255 / 0.5);
+    }
+
+    /* ==================== BUTTONS & INTERACTIVE ==================== */
+    .btn-neon {
+        transition: all 0.3s ease;
+    }
+
+    .btn-neon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px var(--neon-cyan);
+    }
+</style>
+</head>
+<body class="bg-zinc-950 text-white overflow-x-hidden">
+
+    <!-- NAVBAR (đã thêm link Trò chơi dân gian) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
+                    🌕 <span class="absolute -top-1 -right-1 text-xl">🏮</span>
+                </div>
+                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
+                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#home" onclick="smoothScrollTo('home')" class="hover:text-[#00f7ff] transition-colors">Khám phá 3D</a>
+                <a href="#journey" onclick="smoothScrollTo('journey')" class="hover:text-[#00f7ff] transition-colors">Hành trình thời gian</a>
+                <a href="#features" onclick="smoothScrollTo('features')" class="hover:text-[#00f7ff] transition-colors">Tính năng</a>
+                <a href="#heritage" onclick="smoothScrollTo('heritage')" class="hover:text-[#00f7ff] transition-colors">Di sản nổi bật</a>
+                <a href="#folk-games" onclick="smoothScrollTo('folk-games')" class="hover:text-[#00f7ff] transition-colors">Trò chơi dân gian</a>
+                <a href="#join" onclick="smoothScrollTo('join')" class="hover:text-[#00f7ff] transition-colors">Tham gia bảo tồn</a>
+            </div>
+
+            <button onclick="smoothScrollTo('join')" class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold text-base hover:scale-105 transition-transform">
+                <i class="fa-solid fa-rocket"></i> THAM GIA NGAY
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION với Three.js 3D -->
+    <section id="home" class="hero-bg min-h-screen pt-32 relative flex items-center overflow-hidden">
+        <canvas id="three-canvas" class="three-canvas"></canvas>
+        
+        <div class="max-w-screen-2xl mx-auto px-8 grid lg:grid-cols-12 gap-12 items-center relative z-10">
+            <div class="lg:col-span-7">
+                <div class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8">
+                    🌕 BWD 2026 • ĐỀ TÀI ĐỘC NHẤT
+                </div>
+                
+                <h1 class="text-6xl lg:text-7xl xl:text-8xl title-font leading-none neon-glow tracking-[-4px]">
+                    DI SẢN VIỆT NAM<br>
+                    DƯỚI ÁNH TRĂNG NEON
+                </h1>
+                
+                <p class="mt-8 text-3xl text-[#00f7ff] font-light max-w-lg">
+                    Khi truyền thống gặp công nghệ.<br>
+                    <span class="text-white">Không gian 3D immersive • Bảo tồn tương lai</span>
+                </p>
+                
+                <div class="mt-12 flex items-center gap-x-6">
+                    <button onclick="smoothScrollTo('journey')" 
+                            class="flex-1 lg:flex-none bg-white text-black font-bold px-10 py-7 rounded-3xl text-2xl flex items-center justify-center gap-x-4 hover:shadow-2xl transition-all">
+                        <i class="fa-solid fa-play"></i>
+                        KHÁM PHÁ 3D NGAY
+                    </button>
+                    <button onclick="launchLantern()" 
+                            class="flex-1 lg:flex-none border-2 border-[#00f7ff] text-white px-10 py-7 rounded-3xl text-2xl flex items-center justify-center gap-x-4 hover:bg-white/10 transition-all">
+                        🏮 THẮP ĐÈN LỒNG NEON
+                    </button>
+                </div>
+                
+                <div class="mt-16 flex items-center gap-8 text-sm">
+                    <div class="flex items-center gap-x-2">
+                        <span class="text-4xl">🌕</span>
+                        <div>
+                            <div class="font-bold text-4xl text-[#00f7ff]">3D</div>
+                            <div class="text-zinc-400">WebGL • Three.js v3.0</div>
+                        </div>
+                    </div>
+                    <div class="h-12 w-px bg-white/30"></div>
+                    <div class="flex items-center gap-x-2">
+                        <span class="text-4xl">🏮</span>
+                        <div>
+                            <div class="font-bold text-4xl text-[#c026d3]">Cyber-Folk</div>
+                            <div class="text-zinc-400">Truyền thống × Tương lai</div>
+                        </div>
+                    </div>
+                    <div class="h-12 w-px bg-white/30"></div>
+                    <div class="text-emerald-400 font-mono text-xl">ĐỘC NHẤT • NEON PARTICLES + GLOW</div>
+                </div>
+            </div>
+            
+            <!-- Floating 3D badge -->
+            <div class="lg:col-span-5 flex justify-center relative">
+                <div class="glass border border-[#00f7ff]/30 rounded-3xl p-6 text-center max-w-xs floating-lantern">
+                    <div class="text-8xl mb-4">🌕🏮</div>
+                    <h3 class="title-font text-3xl">LUNAR HERITAGE</h3>
+                    <p class="text-[#00f7ff] mt-2">Bảo tàng tương lai của di sản Việt Nam</p>
+                    <div class="mt-6 text-xs font-mono bg-black/50 px-4 py-2 rounded-3xl inline-flex items-center gap-x-2">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        ĐANG TRONG KHÔNG GIAN 3D
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <!-- JOURNEY SECTION – ĐÃ CẢI TIẾN HOVER NEON MODE -->
+    <section id="journey" class="py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="px-6 py-2 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl text-sm">HÀNH TRÌNH THỜI GIAN</span>
+                <h2 class="title-font text-6xl mt-6 neon-glow">Từ quá khứ thực tế<br>đến tương lai neon</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card Quá khứ -->
+                <div class="glass p-8 rounded-3xl border border-white/10 text-center card-hover">
+                    <div class="text-6xl mb-6">🪨</div>
+                    <h3 class="text-2xl font-semibold">Quá khứ</h3>
+                    <p class="mt-4 text-zinc-400">Vịnh Hạ Long, Cố đô Huế, Hội An cổ kính… được tái hiện chân thực</p>
+                </div>
+
+                <!-- Card NEON MODE – Hover sẽ hiện badge + glow mạnh -->
+                <div class="glass p-8 rounded-3xl border border-[#00f7ff]/30 text-center relative neon-mode-card">
+                    <!-- Badge NEON MODE chỉ hiện khi hover -->
+                    <div class="neon-badge absolute -top-4 left-1/2 -translate-x-1/2 bg-[#00f7ff] text-black text-xs font-bold px-6 py-1.5 rounded-3xl">
+                        NEON MODE
+                    </div>
+                    
+                    <div class="text-6xl mb-6 neon-icon transition-all duration-300">🌌</div>
+                    <h3 class="text-2xl font-semibold text-[#00f7ff]">Hiện tại × Tương lai</h3>
+                    <p class="mt-4 text-zinc-400">Đèn lồng neon bay, hologram áo dài, ruộng bậc thang lơ lửng trên mây</p>
+                </div>
+
+                <!-- Card Tương lai -->
+                <div class="glass p-8 rounded-3xl border border-white/10 text-center card-hover">
+                    <div class="text-6xl mb-6">🚀</div>
+                    <h3 class="text-2xl font-semibold">Tương lai</h3>
+                    <p class="mt-4 text-zinc-400">Bạn là người bảo tồn di sản cho thế hệ mai sau</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="py-24">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="title-font text-6xl text-center neon-glow mb-16">Những trải nghiệm chưa từng có</h2>
+            
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 glass border border-white/10 p-10 rounded-3xl card-hover">
+                    <i class="fa-solid fa-cube text-6xl mb-6 text-[#00f7ff]"></i>
+                    <h3 class="text-3xl font-semibold">Không gian 3D Immersive</h3>
+                    <p class="mt-6 text-zinc-400">Kéo chuột / chạm tay để bay lượn qua Vịnh Hạ Long neon, Hội An cyber, Huế hologram.</p>
+                </div>
+                <div class="lg:col-span-4 glass border border-white/10 p-10 rounded-3xl card-hover">
+                    <i class="fa-solid fa-ghost text-6xl mb-6 text-[#c026d3]"></i>
+                    <h3 class="text-3xl font-semibold">Hologram Dân Tộc</h3>
+                    <p class="mt-6 text-zinc-400">Áo dài, thầy đồ, cô gái Huế hiện dưới dạng hologram 3D kể chuyện tương tác.</p>
+                </div>
+                <div class="lg:col-span-4 glass border border-white/10 p-10 rounded-3xl card-hover">
+                    <i class="fa-solid fa-gamepad text-6xl mb-6 text-[#facc15]"></i>
+                    <h3 class="text-3xl font-semibold">Neon Ritual</h3>
+                    <p class="mt-6 text-zinc-400">Thắp đèn lồng neon • Góp điểm bảo tồn • Chia sẻ lên mạng xã hội thực tế.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERITAGE SPOTS + BAY VÀO 3D (đã kích hoạt 3D experience) -->
+<section id="heritage" class="py-24 bg-zinc-900 relative overflow-hidden">
+    <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
+        <h2 class="title-font text-6xl text-center neon-glow mb-16">Di sản nổi bật trong LUNAR HERITAGE</h2>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+            <!-- Card 1: Hạ Long -->
+            <div class="heritage-card glass p-8 rounded-3xl border border-white/10 text-center group">
+                <div class="text-8xl mb-6 transition-all duration-500 group-hover:scale-125 group-hover:drop-shadow-[0_0_40px_#00f7ff]">🌊</div>
+                <p class="font-semibold text-2xl mb-2">Vịnh Hạ Long Neon</p>
+                <p class="text-sm text-zinc-400">Hàng ngàn đảo đá lơ lửng dưới ánh trăng neon</p>
+                <button onclick="enter3DExperience(1)" 
+                        class="mt-8 px-8 py-3 text-sm font-bold bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black rounded-3xl flex items-center gap-2 mx-auto hover:scale-105 transition-all">
+                    🏮 BAY VÀO 3D
+                </button>
+            </div>
+
+            <!-- Card 2: Huế -->
+            <div class="heritage-card glass p-8 rounded-3xl border border-white/10 text-center group">
+                <div class="text-8xl mb-6 transition-all duration-500 group-hover:scale-125 group-hover:drop-shadow-[0_0_40px_#c026d3]">🏯</div>
+                <p class="font-semibold text-2xl mb-2">Cố đô Huế Cyber</p>
+                <p class="text-sm text-zinc-400">Hologram cung điện thời Nguyễn</p>
+                <button onclick="enter3DExperience(2)" 
+                        class="mt-8 px-8 py-3 text-sm font-bold bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black rounded-3xl flex items-center gap-2 mx-auto hover:scale-105 transition-all">
+                    🏮 BAY VÀO 3D
+                </button>
+            </div>
+
+            <!-- Card 3: Hội An -->
+            <div class="heritage-card glass p-8 rounded-3xl border border-white/10 text-center group">
+                <div class="text-8xl mb-6 transition-all duration-500 group-hover:scale-125 group-hover:drop-shadow-[0_0_40px_#facc15]">🏮</div>
+                <p class="font-semibold text-2xl mb-2">Hội An Đêm Neon</p>
+                <p class="text-sm text-zinc-400">Đèn lồng bay giữa phố cổ tương lai</p>
+                <button onclick="enter3DExperience(3)" 
+                        class="mt-8 px-8 py-3 text-sm font-bold bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black rounded-3xl flex items-center gap-2 mx-auto hover:scale-105 transition-all">
+                    🏮 BAY VÀO 3D
+                </button>
+            </div>
+
+            <!-- Card 4: Ruộng bậc thang -->
+            <div class="heritage-card glass p-8 rounded-3xl border border-white/10 text-center group">
+                <div class="text-8xl mb-6 transition-all duration-500 group-hover:scale-125 group-hover:drop-shadow-[0_0_40px_#00f7ff]">🌾</div>
+                <p class="font-semibold text-2xl mb-2">Ruộng Bậc Thang Bay</p>
+                <p class="text-sm text-zinc-400">Sapa 2050 – Lúa vàng lơ lửng trên mây</p>
+                <button onclick="enter3DExperience(4)" 
+                        class="mt-8 px-8 py-3 text-sm font-bold bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black rounded-3xl flex items-center gap-2 mx-auto hover:scale-105 transition-all">
+                    🏮 BAY VÀO 3D
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ==================== PHẦN MỚI: TRÒ CHƠI DÂN GIAN ==================== -->
+    <section id="folk-games" class="py-24 bg-black">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="px-6 py-2 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl text-sm">CULTURE × NEON</span>
+                <h2 class="title-font text-6xl mt-6 neon-glow">Trò Chơi Dân Gian Neon</h2>
+                <p class="text-zinc-400 mt-4 max-w-md mx-auto">Hồi ức tuổi thơ Việt Nam được tái hiện dưới ánh trăng neon tương lai</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="folk-card glass p-8 rounded-3xl border border-white/10 text-center">
+                    <div class="text-7xl mb-6">📦</div>
+                    <h3 class="text-2xl font-semibold mb-3">Ô Ăn Quan</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Mỗi người lần lượt rải sỏi vào các ô, ăn quan để giành chiến thắng. Trò chơi rèn luyện tính toán và chiến lược.</p>
+                    <button onclick="showGameModal(1)" class="mt-6 text-xs font-bold px-6 py-3 bg-white/10 hover:bg-white/20 border border-[#00f7ff] rounded-3xl">Xem cách chơi →</button>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="folk-card glass p-8 rounded-3xl border border-white/10 text-center">
+                    <div class="text-7xl mb-6">🦶</div>
+                    <h3 class="text-2xl font-semibold mb-3">Nhảy Lò Cò</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Nhảy một chân qua các ô vẽ trên mặt đất, nhặt đá và không được chạm vạch. Rèn luyện sự khéo léo và cân bằng.</p>
+                    <button onclick="showGameModal(2)" class="mt-6 text-xs font-bold px-6 py-3 bg-white/10 hover:bg-white/20 border border-[#c026d3] rounded-3xl">Xem cách chơi →</button>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="folk-card glass p-8 rounded-3xl border border-white/10 text-center">
+                    <div class="text-7xl mb-6">🪨</div>
+                    <h3 class="text-2xl font-semibold mb-3">Đá Chuyền</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Dùng chân đá chuyền (cái túi vải chứa hạt) không để rơi, thực hiện các động tác phức tạp. Rèn luyện sự khéo léo.</p>
+                    <button onclick="showGameModal(3)" class="mt-6 text-xs font-bold px-6 py-3 bg-white/10 hover:bg-white/20 border border-[#facc15] rounded-3xl">Xem cách chơi →</button>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="folk-card glass p-8 rounded-3xl border border-white/10 text-center">
+                    <div class="text-7xl mb-6">🪢</div>
+                    <h3 class="text-2xl font-semibold mb-3">Kéo Co</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Hai đội kéo dây theo chiều ngược nhau. Đội nào kéo được đối phương qua vạch thắng. Rèn luyện tinh thần đồng đội.</p>
+                    <button onclick="showGameModal(4)" class="mt-6 text-xs font-bold px-6 py-3 bg-white/10 hover:bg-white/20 border border-[#00f7ff] rounded-3xl">Xem cách chơi →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<!-- Phần JOIN – ĐÃ CẢI TIẾN (chỉ thay phần này trong file của bạn) -->
+<section id="join" class="py-24 bg-gradient-to-b from-zinc-900 to-black">
+    <div class="max-w-2xl mx-auto px-8 text-center">
+        <h2 class="title-font text-6xl neon-glow">Bạn cũng có thể trở thành người bảo tồn di sản</h2>
+        <p class="mt-6 text-2xl text-zinc-300">Upload ảnh/video di sản thật của bạn → đèn lồng neon sẽ bay trong không gian LUNAR HERITAGE</p>
+        
+        <form id="upload-form" class="glass mt-16 p-10 rounded-3xl" onsubmit="handleSubmit(event)">
+            <input type="text" id="name" placeholder="Họ và tên" 
+                   class="w-full mb-6 px-6 py-5 bg-white/10 border border-white/20 rounded-3xl text-lg outline-none focus:border-[#00f7ff] transition-colors">
+            
+            <textarea id="story" rows="4" placeholder="Kể ngắn gọn câu chuyện di sản của bạn..." 
+                      class="w-full px-6 py-5 bg-white/10 border border-white/20 rounded-3xl text-lg outline-none focus:border-[#00f7ff] transition-colors"></textarea>
+            
+            <button type="submit" 
+                    class="mt-8 w-full py-7 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold text-2xl rounded-3xl flex items-center justify-center gap-x-4 hover:shadow-xl transition-all">
+                🏮 THẮP ĐÈN LỒNG CỦA BẠN
+            </button>
+        </form>
+    </div>
+</section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16">
+        <div class="max-w-screen-2xl mx-auto px-8 text-center">
+            <div class="flex justify-center gap-x-3 mb-8 text-5xl">
+                🌕🏮
+            </div>
+            <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
+            <p class="text-zinc-400 mt-3">Website được thiết kế để giành giải Nhất BWD 2026</p>
+            <p class="text-[10px] text-zinc-500 mt-12">© 2026 VKU • Made with Three.js + Tailwind + ❤️ Di sản Việt Nam • v3.1 NEON HOVER</p>
+        </div>
+    </footer> 
+            <!-- MODAL BAY VÀO 3D – ĐÃ THÊM NÚT "XEM CHI TIẾT" -->
+<div id="3d-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[10000]">
+    <div class="relative w-full max-w-6xl mx-4">
+        <button onclick="close3DModal()" 
+                class="absolute -top-4 -right-4 bg-white text-black w-12 h-12 rounded-2xl flex items-center justify-center text-3xl shadow-2xl z-20 hover:rotate-90 transition-all">
+            ✕
+        </button>
+        
+        <div class="glass rounded-3xl overflow-hidden border border-[#00f7ff]/30">
+            <div class="relative">
+                <img id="heritage-image" src="" alt="Di sản" 
+                     class="w-full max-h-[560px] object-cover">
+                
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80 pointer-events-none"></div>
+                
+                <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white">
+                    <div id="modal-subtitle" class="uppercase tracking-[2px] text-[#00f7ff] text-sm font-bold mb-3"></div>
+                    <h3 id="3d-title" class="title-font text-5xl md:text-6xl neon-glow leading-none mb-6"></h3>
+                    <p id="3d-desc" class="text-zinc-200 text-lg leading-relaxed max-w-3xl"></p>
+                    
+                    <div id="facts-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10"></div>
+
+                    <!-- NÚT XEM CHI TIẾT MỚI -->
+                    <div class="mt-10 flex justify-center">
+                        <button onclick="goToDetailPage()" 
+                                id="detail-button"
+                                class="flex items-center gap-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold text-xl px-10 py-5 rounded-3xl hover:scale-105 transition-all shadow-2xl shadow-[#00f7ff]/50">
+                            🏮 XEM CHI TIẾT
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Modal Trò chơi dân gian -->
+    <div id="gameModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+        <div class="glass max-w-lg w-full mx-4 rounded-3xl p-10 text-center">
+            <h3 id="modalTitle" class="text-3xl font-semibold mb-6 text-[#00f7ff]"></h3>
+            <div id="modalContent" class="text-zinc-300 text-left leading-relaxed"></div>
+            <button onclick="closeModal()" 
+                    class="mt-8 px-10 py-4 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl text-lg">
+                ĐÓNG
+            </button>
+        </div>
+    </div>
+               
+</body>
+</html>
+
+    <script>
+        // Smooth scroll
+        function smoothScrollTo(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
+        }
+
+        // Three.js 3D Scene – V3.0 NEON BOOST (giữ nguyên từ phiên bản trước)
+        let scene, camera, renderer;
+        let moon, moonHalo, lanterns = [];
+        let particles, particlePositions, particleSizes;
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+
+        function initThree() {
+            const canvas = document.getElementById('three-canvas');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x0a0a2a, 20, 220);
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 300);
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                alpha: true,
+                antialias: true 
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsCount = 1500;
+            const posArray = new Float32Array(starsCount * 3);
+            for (let i = 0; i < starsCount * 3; i++) posArray[i] = (Math.random() - 0.5) * 400;
+            starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const starsMaterial = new THREE.PointsMaterial({ 
+                size: 0.9, 
+                color: 0x00f7ff,
+                transparent: true,
+                opacity: 0.95
+            });
+            const stars = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(stars);
+
+            const moonGeometry = new THREE.SphereGeometry(10, 64, 64);
+            const moonMaterial = new THREE.MeshPhongMaterial({
+                color: 0xfacc15,
+                emissive: 0x00f7ff,
+                emissiveIntensity: 0.8,
+                shininess: 40
+            });
+            moon = new THREE.Mesh(moonGeometry, moonMaterial);
+            moon.position.set(22, 18, -55);
+            scene.add(moon);
+
+            const haloGeometry = new THREE.SphereGeometry(13, 32, 32);
+            const haloMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00f7ff,
+                transparent: true,
+                opacity: 0.25,
+                side: THREE.BackSide
+            });
+            moonHalo = new THREE.Mesh(haloGeometry, haloMaterial);
+            moonHalo.position.copy(moon.position);
+            scene.add(moonHalo);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xc026d3, 2.5, 300);
+            pointLight.position.set(-40, 30, 20);
+            scene.add(pointLight);
+
+            const particleCount = 800;
+            const pGeometry = new THREE.BufferGeometry();
+            particlePositions = new Float32Array(particleCount * 3);
+            particleSizes = new Float32Array(particleCount);
+            const colors = new Float32Array(particleCount * 3);
+
+            const particleColors = [0x00f7ff, 0xc026d3, 0xfacc15];
+            for (let i = 0; i < particleCount; i++) {
+                particlePositions[i * 3]     = (Math.random() - 0.5) * 300;
+                particlePositions[i * 3 + 1] = Math.random() * 120 - 30;
+                particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 300;
+                
+                const col = particleColors[Math.floor(Math.random() * 3)];
+                const r = (col >> 16) & 255;
+                const g = (col >> 8) & 255;
+                const b = col & 255;
+                colors[i * 3]     = r / 255;
+                colors[i * 3 + 1] = g / 255;
+                colors[i * 3 + 2] = b / 255;
+                
+                particleSizes[i] = Math.random() * 3 + 1.5;
+            }
+            pGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            pGeometry.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
+            pGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const pMaterial = new THREE.PointsMaterial({
+                size: 2.5,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.85,
+                blending: THREE.AdditiveBlending
+            });
+            particles = new THREE.Points(pGeometry, pMaterial);
+            scene.add(particles);
+
+            const lanternColors = [0x00f7ff, 0xc026d3, 0xfacc15];
+            for (let i = 0; i < 16; i++) {
+                const lanternGroup = new THREE.Group();
+                
+                const bodyGeo = new THREE.CylinderGeometry(1.3, 1.9, 3.2, 8);
+                const bodyMat = new THREE.MeshPhongMaterial({
+                    color: lanternColors[i % 3],
+                    emissive: lanternColors[i % 3],
+                    emissiveIntensity: 1.4,
+                    shininess: 10,
+                    transparent: true,
+                    opacity: 0.95
+                });
+                const body = new THREE.Mesh(bodyGeo, bodyMat);
+                lanternGroup.add(body);
+
+                const glowGeo = new THREE.CylinderGeometry(1.8, 2.4, 3.8, 8);
+                const glowMat = new THREE.MeshBasicMaterial({
+                    color: lanternColors[i % 3],
+                    transparent: true,
+                    opacity: 0.25,
+                    side: THREE.BackSide,
+                    blending: THREE.AdditiveBlending
+                });
+                const glow = new THREE.Mesh(glowGeo, glowMat);
+                lanternGroup.add(glow);
+
+                const roofGeo = new THREE.ConeGeometry(2.4, 1.6, 8);
+                const roofMat = new THREE.MeshPhongMaterial({
+                    color: 0xffaa00,
+                    emissive: 0xff5500,
+                    emissiveIntensity: 0.9
+                });
+                const roof = new THREE.Mesh(roofGeo, roofMat);
+                roof.position.y = 2.7;
+                lanternGroup.add(roof);
+
+                lanternGroup.position.set(
+                    (Math.random() - 0.5) * 140,
+                    Math.random() * 50 - 20,
+                    (Math.random() - 0.5) * 140
+                );
+
+                const lanternLight = new THREE.PointLight(lanternColors[i % 3], 1.8, 60);
+                lanternLight.position.set(0, 0, 0);
+                lanternGroup.add(lanternLight);
+
+                lanternGroup.userData = { 
+                    speed: Math.random() * 0.04 + 0.02,
+                    rotationSpeed: Math.random() * 0.025 + 0.008,
+                    pulse: Math.random() * Math.PI * 2,
+                    light: lanternLight
+                };
+                scene.add(lanternGroup);
+                lanterns.push(lanternGroup);
+            }
+
+            camera.position.set(0, 10, 70);
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = Date.now() * 0.001;
+
+                moon.rotation.y += 0.0012;
+                moonHalo.scale.setScalar(1 + Math.sin(time * 2) * 0.03);
+                moonHalo.material.opacity = 0.22 + Math.sin(time * 3) * 0.08;
+
+                for (let i = 0; i < particlePositions.length; i += 3) {
+                    particlePositions[i + 1] += 0.12 + Math.sin(time + i) * 0.05;
+                    if (particlePositions[i + 1] > 100) particlePositions[i + 1] = -60;
+                    particleSizes[i / 3] = 1.5 + Math.sin(time * 8 + i) * 1.8;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+                particles.geometry.attributes.size.needsUpdate = true;
+
+                lanterns.forEach(l => {
+                    l.position.y += l.userData.speed;
+                    if (l.position.y > 80) l.position.y = -50;
+                    l.rotation.y += l.userData.rotationSpeed;
+                    
+                    l.userData.pulse += 0.08;
+                    const pulseFactor = 1 + Math.sin(l.userData.pulse) * 0.3;
+                    
+                    const body = l.children[0];
+                    if (body && body.material) body.material.emissiveIntensity = 1.4 * pulseFactor;
+                    if (l.userData.light) l.userData.light.intensity = 1.8 * pulseFactor;
+                });
+
+                targetX = mouseX * 18;
+                targetY = mouseY * 12 + 10;
+                camera.position.x += (targetX - camera.position.x) * 0.08;
+                camera.position.y += (targetY - camera.position.y) * 0.08;
+                camera.lookAt(5, 8, 0);
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function launchLantern() {
+            const colors = ['#00f7ff', '#c026d3', '#facc15'];
+            for (let i = 0; i < 120; i++) {
+                const lantern = document.createElement('div');
+                lantern.style.position = 'fixed';
+                lantern.style.zIndex = '99999';
+                lantern.style.left = Math.random() * 100 + 'vw';
+                lantern.style.top = '100vh';
+                lantern.style.fontSize = `${28 + Math.random() * 35}px`;
+                lantern.textContent = '🏮';
+                lantern.style.pointerEvents = 'none';
+                document.body.appendChild(lantern);
+                
+                const duration = 2800 + Math.random() * 3200;
+                setTimeout(() => {
+                    lantern.style.transition = `transform ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1), opacity ${duration}ms`;
+                    lantern.style.transform = `translateY(-${window.innerHeight + 1000}px) rotate(${Math.random()*1440}deg)`;
+                    lantern.style.opacity = '0';
+                }, 10);
+                setTimeout(() => lantern.remove(), duration + 600);
+            }
+            
+            const msg = document.createElement('div');
+            msg.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:linear-gradient(#00f7ff,#c026d3); color:#000; padding:32px 65px; border-radius:9999px; font-weight:700; font-size:29px; z-index:100000; text-align:center; box-shadow:0 0 120px #00f7ff;';
+            msg.innerHTML = `🏮 ĐÈN LỒNG CỦA BẠN ĐÃ BAY VÀO LUNAR HERITAGE!<br><span class="text-xl mt-4 block">Cảm ơn bạn đã góp phần bảo tồn di sản Việt Nam</span>`;
+            document.body.appendChild(msg);
+            
+            setTimeout(() => {
+                msg.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 1, 1)';
+                msg.style.opacity = '0';
+                msg.style.transform = 'translate(-50%,-50%) scale(0.85)';
+                setTimeout(() => msg.remove(), 800);
+            }, 4000);
+        }
+
+        // Function mới – ĐÃ CẢI TIẾN (copy nguyên đoạn này thay vào)
+        function handleSubmit(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value.trim();
+    const story = document.getElementById('story').value.trim();
+
+    if (!name || !story) {
+        alert("🌕 Vui lòng điền đầy đủ Họ và tên + Câu chuyện di sản của bạn nhé!");
+        return;
+    }
+
+    // Lưu tạm dữ liệu vào localStorage (dữ liệu vẫn nằm trong trình duyệt)
+    const lanterns = JSON.parse(localStorage.getItem('lunarLanterns') || '[]');
+    lanterns.push({
+        name: name,
+        story: story.length > 120 ? story.substring(0, 120) + '...' : story,
+        time: new Date().toLocaleTimeString('vi-VN')
+    });
+    localStorage.setItem('lunarLanterns', JSON.stringify(lanterns));
+
+    // Thắp đèn lồng neon + thông báo
+    launchLantern();
+
+    // Reset form
+    document.getElementById('upload-form').reset();
+
+    console.log('%c✅ Đèn lồng mới đã được lưu thành công!', 'color:#00f7ff; font-weight:bold', { name, story });
+}
+// ==================== FUNCTION MỚI CHO MODAL ====================
+        function showGameModal(id) {
+            const modal = document.getElementById('gameModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if (id === 1) {
+                title.textContent = "Ô Ăn Quan";
+                content.innerHTML = `<p class="text-lg"><strong>Cách chơi:</strong><br>
+                • Vẽ 10 ô hình chữ nhật + 2 ô Quan.<br>
+                • Mỗi người có 5 sỏi.<br>
+                • Lần lượt rải sỏi vào các ô, ăn quan và ô có sỏi.<br>
+                • Người ăn được nhiều sỏi nhất thắng.</p>`;
+            } else if (id === 2) {
+                title.textContent = "Nhảy Lò Cò";
+                content.innerHTML = `<p class="text-lg"><strong>Cách chơi:</strong><br>
+                • Vẽ 8–10 ô trên mặt đất.<br>
+                • Nhảy một chân qua các ô, nhặt đá ở ô cuối.<br>
+                • Không được chạm vạch hoặc hai chân chạm đất.</p>`;
+            } else if (id === 3) {
+                title.textContent = "Đá Chuyền";
+                content.innerHTML = `<p class="text-lg"><strong>Cách chơi:</strong><br>
+                • Dùng chân đá cái chuyền (túi vải chứa hạt).<br>
+                • Thực hiện các động tác: đá đơn, đá đôi, đá vòng…<br>
+                • Không để chuyền rơi xuống đất.</p>`;
+            } else if (id === 4) {
+                title.textContent = "Kéo Co";
+                content.innerHTML = `<p class="text-lg"><strong>Cách chơi:</strong><br>
+                • Hai đội đứng hai đầu dây.<br>
+                • Khi có hiệu lệnh, cùng kéo dây.<br>
+                • Đội nào kéo được đối phương qua vạch thắng.</p>`;
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('gameModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+// Tạo đèn lồng bay cho section Di sản
+function createHeritageLanterns() {
+    const container = document.getElementById('heritage-lanterns');
+    if (!container) return;
+
+    for (let i = 0; i < 35; i++) {  // 35 đèn lồng bay
+        const lantern = document.createElement('div');
+        lantern.className = 'lantern';
+        lantern.textContent = '🏮';
+        lantern.style.left = Math.random() * 100 + '%';
+        lantern.style.animationDuration = (Math.random() * 8 + 7) + 's';
+        lantern.style.animationDelay = '-' + Math.random() * 15 + 's';
+        lantern.style.fontSize = (20 + Math.random() * 18) + 'px';
+        container.appendChild(lantern);
+    }
+
+}
+const heritageData = {
+    1: { // Vịnh Hạ Long
+        title: "Vịnh Hạ Long Neon",
+        subtitle: "Di sản UNESCO kỳ vĩ dưới ánh trăng neon",
+        image: "./ha-long.jpg",
+        desc: "Hàng nghìn đảo đá karst nhô lên từ mặt nước xanh ngọc. Trong LUNAR HERITAGE, những đảo đá được bao phủ bởi ánh sáng neon huyền ảo, tạo nên không gian vừa cổ kính vừa tương lai rực rỡ.",
+        facts: ["Di sản UNESCO 1994 & 2000", "1.960 đảo đá lớn nhỏ", "Diện tích ~1.553 km²"],
+        detailUrl: "./vinh-ha-long.html"          // ← link tới trang chi tiết
+    },
+    2: { // Cố đô Huế
+        title: "Cố đô Huế Cyber",
+        subtitle: "Hologram cung điện thời Nguyễn",
+        image: "./hue.jpg",
+        desc: "Kinh thành Huế với hệ thống cung điện, lăng tẩm nguy nga được tái hiện dưới dạng hologram neon rực rỡ.",
+        facts: ["Di sản UNESCO năm 1993", "Thành lập năm 1802", "Trung tâm văn hóa triều Nguyễn"],
+        detailUrl: "./co-do-hue.html"
+    },
+    3: { // Hội An
+        title: "Hội An Đêm Neon",
+        subtitle: "Phố cổ lung linh đèn lồng bay",
+        image: "./hoian.jpg",
+        desc: "Phố cổ Hội An với những ngôi nhà mái ngói cổ kính và hàng ngàn đèn lồng bay lơ lửng giữa không gian neon.",
+        facts: ["Di sản UNESCO năm 1999", "Hơn 800 năm lịch sử", "Nổi tiếng với đèn lồng thủ công"],
+        detailUrl: "./hoi-an.html"
+    },
+    4: { // Ruộng bậc thang
+        title: "Ruộng Bậc Thang Bay",
+        subtitle: "Sapa 2050 – Lúa vàng lơ lửng trên mây",
+        image: "./ruong.jpg",
+        desc: "Những thửa ruộng bậc thang nổi tiếng của Sapa được đưa vào không gian tương lai, lơ lửng giữa mây neon.",
+        facts: ["Biểu tượng văn hóa Tây Bắc", "Hàng trăm năm canh tác", "Cảnh quan thay đổi theo mùa"],
+        detailUrl: "./ruong-bac-thang.html"
+    }
+};
+
+function enter3DExperience(id) {
+    const data = heritageData[id];
+    if (!data) return console.error("Không tìm thấy dữ liệu di sản");
+
+    const modal = document.getElementById('3d-modal');
+    modal.setAttribute('data-current-id', id);
+
+    const imageEl = document.getElementById('heritage-image');
+    const titleEl = document.getElementById('3d-title');
+    const subtitleEl = document.getElementById('modal-subtitle');
+    const descEl = document.getElementById('3d-desc');
+    const factsContainer = document.getElementById('facts-container');
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    imageEl.src = data.image;
+    titleEl.textContent = data.title;
+    subtitleEl.textContent = data.subtitle;
+    descEl.textContent = data.desc;
+
+    // Tạo facts neon
+    factsContainer.innerHTML = data.facts.map(fact => `
+        <div class="glass p-6 rounded-3xl border border-[#00f7ff]/30 text-center hover:border-[#c026d3] transition-all">
+            <div class="text-[#00f7ff] text-3xl mb-3">🏮</div>
+            <p class="font-medium text-white">${fact}</p>
+        </div>
+    `).join('');
+}
+
+function close3DModal() {
+    const modal = document.getElementById('3d-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+function goToDetailPage() {
+    const modal = document.getElementById('3d-modal');
+    const currentId = modal.getAttribute('data-current-id'); // sẽ được set ở enter3DExperience
+    if (!currentId) return;
+    
+    const data = heritageData[currentId];
+    if (data && data.detailUrl) {
+        window.location.href = data.detailUrl;
+    }
+}
+
+        window.onload = () => {
+            initThree();
+            createHeritageLanterns();
+            console.log('%c🚀 LUNAR HERITAGE v3.1 – NEON MODE HOVER ACTIVATED!', 'color:#00f7ff; font-size:24px; font-family:Space Grotesk; letter-spacing:-1px');
+            console.log('%c✅ Di chuột vào card giữa → Badge NEON MODE hiện + glow cực mạnh', 'color:#c026d3; font-size:14px');
+            console.log('%c🚀 LUNAR HERITAGE v3.4 – TRÒ CHƠI DÂN GIAN NEON ADDED!', 'color:#00f7ff; font-size:24px; font-family:Space Grotesk');
+        
+        };
+    </script>
+</body>
+</html>

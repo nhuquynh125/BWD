@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hồ sơ – LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style-zen.css">
+<style>
+.profile-cover { height:200px; background:linear-gradient(135deg,#1a2a4a 0%,#0f1a2e 50%,#1a2a1a 100%); position:relative; border-radius:0 0 var(--radius-lg) var(--radius-lg); overflow:hidden; }
+.cover-pattern { position:absolute;inset:0;opacity:.15;background-image:radial-gradient(circle at 20% 50%, var(--accent) 0%, transparent 50%), radial-gradient(circle at 80% 20%, var(--accent2) 0%, transparent 50%); }
+.profile-info-bar { display:flex; align-items:flex-end; gap:18px; padding:0 28px; margin-top:-50px; margin-bottom:20px; }
+.profile-avatar-wrap { position:relative; }
+.profile-avatar-wrap .avatar { border:4px solid var(--bg); }
+.profile-name { font-family:'Playfair Display',serif; font-size:24px; font-weight:600; }
+.profile-handle { color:var(--text-muted); font-size:14px; }
+.profile-meta { display:flex; gap:20px; margin-top:8px; }
+.meta-stat { display:flex; flex-direction:column; align-items:center; }
+.meta-num  { font-size:16px; font-weight:700; }
+.meta-lbl  { font-size:11px; color:var(--text-muted); }
+.tab-bar   { display:flex; gap:2px; border-bottom:1px solid var(--border); margin-bottom:20px; }
+.tab-btn   { padding:10px 20px; font-size:13px; font-weight:500; border:none; background:none; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; margin-bottom:-1px; }
+.tab-btn:hover  { color:var(--text); }
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+/* Profile skeleton */
+.profile-skel { display:inline-block; border-radius:6px; }
+</style>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+<body>
+
+<div class="grain-overlay" style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;"></div>
+
+
+<nav class="sidenav">
+  <a href="BWD.html" class="nav-icon" title="Về trang chủ chính">
+    <span>🏛️</span><span class="tooltip">Trang chủ chính</span>
+  </a>
+  <a href="dashboard.html" class="nav-icon">
+    <span>🏠</span><span class="tooltip">Bảng tin</span>
+  </a>
+  <a href="explore.html" class="nav-icon">
+    <span>🔍</span><span class="tooltip">Khám phá</span>
+  </a>
+  <a href="passport.html" class="nav-icon">
+    <span>📘</span><span class="tooltip">Hộ chiếu</span>
+  </a>
+  <a href="messages.html" class="nav-icon">
+    <span>💬</span><span class="tooltip">Tin nhắn</span>
+  </a>
+  <a href="ai.html" class="nav-icon">
+    <span>🤖</span><span class="tooltip">AI Thầy Đồ Neon</span>
+  </a>
+  <div class="nav-bottom">
+    <a href="settings.html" class="nav-icon">
+      <span>⚙️</span><span class="tooltip">Cài đặt</span>
+    </a>
+    <div class="user-avatar-nav" id="navAvatar" onclick="goToOwnProfile()">?</div>
+  </div>
+</nav>
+
+<div class="main-content" style="display:block">
+  <!-- Cover -->
+  <div class="profile-cover" id="profileCover" style="position:relative;transition:all .3s">
+    <div class="cover-pattern"></div>
+    <div id="coverOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;cursor:pointer" onclick="toggleMenu('coverMenu', event)">
+      <div style="text-align:center">
+        <div style="font-size:40px;margin-bottom:8px">✨</div>
+        <div style="color:#fff;font-size:14px">Tùy chỉnh ảnh bìa</div>
+      </div>
+    </div>
+    <!-- Cover Menu -->
+    <div id="coverMenu" class="dropdown-menu" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:8px; box-shadow:0 8px 24px rgba(0,0,0,0.5); z-index:10; min-width: 200px;">
+      <button class="menu-item" style="width:100%; text-align:left; padding:10px 15px; border:none; background:transparent; color:var(--text); cursor:pointer; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" onclick="viewImage('cover')">👁️ Xem ảnh</button>
+      <button class="menu-item" style="width:100%; text-align:left; padding:10px 15px; border:none; background:transparent; color:var(--text); cursor:pointer; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" id="updateCoverBtn">🖼️ Cập nhật ảnh mới</button>
+      <button class="menu-item" style="width:100%; text-align:left; padding:10px 15px; border:none; background:transparent; color:#ff4d4d; cursor:pointer; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" onclick="deleteImage('cover')">🗑️ Xóa ảnh</button>
+    </div>
+  </div>
+  <input type="file" id="coverInput" accept="image/*" style="display:none">
+
+  <div style="padding:0 24px 40px;max-width:860px;margin:0 auto">
+
+    <!-- Info bar -->
+    <div class="profile-info-bar">
+      <div class="profile-avatar-wrap" id="avatarWrap" style="position:relative;transition:all .3s">
+        <div class="avatar avatar-xl" id="profileAvatar">?</div>
+        <div id="avatarOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,0);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;cursor:pointer;font-size:24px" onclick="toggleMenu('avatarMenu', event)">📷</div>
+        
+        <!-- Avatar Menu -->
+        <div id="avatarMenu" class="dropdown-menu" style="display:none; position:absolute; top:110%; left:50%; transform:translateX(-50%); background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:8px; box-shadow:0 8px 24px rgba(0,0,0,0.5); z-index:10; min-width: 200px;">
+          <button class="menu-item" style="width:100%; text-align:left; padding:10px 15px; border:none; background:transparent; color:var(--text); cursor:pointer; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" onclick="viewImage('avatar')">👁️ Xem ảnh</button>
+          <button class="menu-item" style="width:100%; text-align:left; padding:10px 15px; border:none; background:transparent; color:var(--text); cursor:pointer; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" id="updateAvatarBtn">🖼️ Cập nhật ảnh mới</button>
+          <button class="menu-item" style="width:100%; text-align:left; padding:10px 15px; border:none; background:transparent; color:#ff4d4d; cursor:pointer; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" onclick="deleteImage('avatar')">🗑️ Xóa ảnh</button>
+        </div>
+      </div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none">
+      <div style="flex:1;padding-bottom:8px">
+        <!-- Skeleton shown while loading; hidden by JS after data arrives -->
+        <div id="profileNameSkel" class="skeleton profile-skel" style="height:28px;width:160px;margin-bottom:6px"></div>
+        <div id="profileHandleSkel" class="skeleton profile-skel" style="height:14px;width:100px;margin-bottom:10px"></div>
+        <h1 class="profile-name" id="profileName" style="display:none"></h1>
+        <div class="profile-handle" id="profileUsername" style="display:none"></div>
+        <div class="profile-meta">
+          <div class="meta-stat">
+            <span class="meta-num" id="postsCount"><span class="skeleton profile-skel" style="display:inline-block;width:24px;height:18px"></span></span>
+            <span class="meta-lbl">Bài viết</span>
+          </div>
+          <div class="meta-stat">
+            <span class="meta-num" id="followersCount"><span class="skeleton profile-skel" style="display:inline-block;width:24px;height:18px"></span></span>
+            <span class="meta-lbl">Người theo dõi</span>
+          </div>
+          <div class="meta-stat">
+            <span class="meta-num" id="followingCount"><span class="skeleton profile-skel" style="display:inline-block;width:24px;height:18px"></span></span>
+            <span class="meta-lbl">Đang theo dõi</span>
+          </div>
+        </div>
+      </div>
+      <!-- Own profile actions -->
+      <div id="ownActions" style="display:none;gap:8px;align-items:center;padding-bottom:8px">
+        <button class="btn btn-primary" id="editProfileBtn">✏️ Chỉnh sửa hồ sơ</button>
+        <a href="settings.html" class="btn btn-secondary" style="text-decoration:none;padding:10px 16px">⚙️ Cài đặt</a>
+      </div>
+      <!-- Other profile actions -->
+      <div id="otherActions" style="display:none;gap:8px;align-items:center;padding-bottom:8px">
+        <button class="btn btn-primary"   id="followBtn">+ Theo dõi</button>
+        <button class="btn btn-secondary" id="msgBtn">💬 Nhắn tin</button>
+      </div>
+    </div>
+
+    <!-- Bio / location / website -->
+    <div class="card" style="margin-bottom:20px;padding:16px 20px">
+      <p id="profileBio" style="font-size:14px;color:var(--text-muted);margin-bottom:8px">--</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <span id="profileLocation" style="font-size:12.5px;color:var(--text-muted)"></span>
+        <a id="profileWebsite" href="#" style="font-size:12.5px;color:var(--accent2)"></a>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('posts',this)">📝 Bài viết</button>
+      <button class="tab-btn" onclick="switchTab('about',this)">ℹ️ Giới thiệu</button>
+    </div>
+
+    <!-- Posts tab -->
+    <div id="tab-posts" class="tab-content">
+      <div id="postsGrid"></div>
+    </div>
+
+    <!-- About tab -->
+    <div id="tab-about" class="tab-content" style="display:none">
+      <div class="card">
+        <p style="color:var(--text-muted);font-size:14px">Thông tin chi tiết sẽ hiển thị ở đây.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Chỉnh sửa hồ sơ</h2>
+      <button class="modal-close" onclick="closeEditModal()">&times;</button>
+    </div>
+    <form id="editProfileForm">
+      <div class="form-group">
+        <label class="form-label">Tên người dùng</label>
+        <input class="form-input" id="editUsername" placeholder="Tên của bạn" maxlength="30">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tiểu sử <span style="color:var(--text-dim);font-size:11px;text-transform:none;letter-spacing:0">(<span id="bioCount">0</span>/160)</span></label>
+        <textarea class="form-input" id="editBio" placeholder="Giới thiệu về bản thân..." rows="3" maxlength="160"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Địa điểm</label>
+        <input class="form-input" id="editLocation" placeholder="Thành phố, quốc gia">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Website</label>
+        <input class="form-input" id="editWebsite" placeholder="https://...">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+        <button type="button" class="btn btn-ghost" onclick="closeEditModal()">Hủy</button>
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Image Viewer Modal -->
+<div class="modal-overlay" id="imageViewerModal" style="z-index: 1000; background: rgba(0,0,0,0.9); display: none;">
+  <span style="position:absolute; top:20px; right:30px; font-size:40px; color:#fff; cursor:pointer;" onclick="this.parentElement.style.display='none'">&times;</span>
+  <img loading="lazy" id="viewerImage" src="" style="max-width:90%; max-height:90%; display:block; margin:auto; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); border-radius:8px; object-fit:contain;">
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="api.js"></script>
+<script src="profile.js"></script>
+<script>
+function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).style.display = 'block';
+    btn.classList.add('active');
+}
+/** Navigate to the logged-in user's own profile (used by sidebar avatar click). */
+function goToOwnProfile() {
+    const u = LunarAPI.currentUser();
+    window.location.href = u ? `profile.html?user=${u.id}` : 'login.html';
+}
+</script>
+</body>
+</html>
+
+

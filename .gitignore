@@ -1,0 +1,70 @@
+# ══════════════════════════════════════════════════════════
+#  LUNAR HERITAGE – .gitignore
+#  CRITICAL: Never commit secrets or large generated files.
+# ══════════════════════════════════════════════════════════
+
+# ── Secrets & Credentials ──────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+
+# Google OAuth client secrets (JSON files downloaded from GCP console)
+client_secret_*.json
+service_account_*.json
+*-credentials.json
+credentials.json
+token.json
+.secrets/
+
+# ── Node.js ────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.pnp.*
+.yarn/
+
+# ── Build Outputs ──────────────────────────────────────────
+dist/
+build/
+.next/
+out/
+
+# ── Runtime / Cache ────────────────────────────────────────
+.cache/
+.parcel-cache/
+
+# ── User Uploads ───────────────────────────────────────────
+# Uploaded files are user data – should not be in source control.
+# Provide an empty uploads/ directory via .gitkeep instead.
+uploads/*
+!uploads/.gitkeep
+
+# ── OS Files ───────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── Editor / IDE ───────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ── Logs ───────────────────────────────────────────────────
+logs/
+*.log

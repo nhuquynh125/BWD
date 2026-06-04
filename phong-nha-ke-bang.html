@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Phong Nha - Kỷ B✨ng ✨ Hệ thống hang đểng kỳ vĩ nhệt thệ giới, Di sản thi✨n nhi✨n UNESCO từi QuĐộng B✨nh.">
+    <title>Phong Nha - Kỷ B✨ng ✨ LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="modern-heritage.css">
+    <link rel="stylesheet" href="BWD_style.css">
+    <style>
+        nav.page-nav { position:fixed; top:0; left:0; right:0; z-index:200; border-bottom:1px solid var(--border-lt); background:rgba(26,23,20,.88); backdrop-filter:blur(20px); }
+        .page-nav-inner { max-width:1400px; margin:0 auto; padding:0 40px; height:64px; display:flex; align-items:center; justify-content:space-between; }
+        .page-logo { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#f0ece4; text-decoration:none; letter-spacing:.06em; }
+        .page-logo em { font-style:normal; color:var(--gold-lt); }
+        .page-nav-links { display:flex; gap:36px; }
+        .page-nav-links a { font-size:13px; color:var(--stone-lt); text-decoration:none; letter-spacing:.03em; transition:color .2s; }
+        .page-nav-links a:hover,.page-nav-links a.active { color:#f0ece4; }
+        .back-link { font-size:12px; padding:8px 20px; border:1px solid var(--border); border-radius:2px; color:var(--gold-lt); text-decoration:none; transition:background .2s; text-transform:uppercase; letter-spacing:.08em; }
+        .back-link:hover { background:rgba(184,146,42,.1); }
+
+        .page-hero { min-height:100vh; position:relative; display:flex; align-items:flex-end; overflow:hidden; }
+        .page-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.5; }
+        .hero-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(26,23,20,.97) 0%,rgba(26,23,20,.5) 40%,rgba(26,23,20,.1) 100%); }
+        .hero-content { position:relative; z-index:2; max-width:1400px; margin:0 auto; padding:0 40px 80px; width:100%; }
+        .eyebrow { display:inline-flex; align-items:center; gap:12px; font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:24px; }
+        .eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--gold); opacity:.7; }
+        .page-h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,7vw,100px); font-weight:300; line-height:.96; color:#f0ece4; margin-bottom:28px; max-width:14ch; }
+        .page-h1 em { font-style:italic; color:var(--gold-lt); }
+        .hero-desc { max-width:460px; font-size:15px; line-height:1.7; color:var(--stone-lt); margin-bottom:40px; }
+        .hero-actions { display:flex; gap:16px; flex-wrap:wrap; }
+
+        .content-section { padding:96px 40px; max-width:1400px; margin:0 auto; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+        .media-frame { border-radius:2px; overflow:hidden; border:1px solid var(--border-lt); }
+        .media-frame video { display:block; width:100%; height:400px; object-fit:cover; }
+        .intro-label { font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:16px; }
+        .intro-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(30px,3.5vw,46px); font-weight:300; line-height:1.1; color:#f0ece4; margin-bottom:20px; }
+        .intro-h2 em { font-style:italic; color:var(--gold-lt); }
+        .intro-p { font-size:14px; color:var(--stone-lt); line-height:1.8; margin-bottom:40px; }
+        .stat-row { display:flex; gap:1px; background:var(--border-lt); border:1px solid var(--border-lt); }
+        .stat-item { flex:1; background:rgba(255,255,255,.025); padding:20px 16px; text-align:center; }
+        .stat-val { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold-lt); display:block; margin-bottom:4px; }
+        .stat-lbl { font-size:11px; color:var(--stone); letter-spacing:.06em; text-transform:uppercase; }
+        .sec-label { font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:12px; }
+        .sec-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,4vw,52px); font-weight:300; color:#f0ece4; margin-bottom:56px; }
+        .sec-h2 em { font-style:italic; color:var(--gold-lt); }
+        .explore-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-lt); border:1px solid var(--border-lt); }
+        .explore-card { background:var(--ink); padding:40px 32px; transition:background .3s; }
+        .explore-card:hover { background:rgba(184,146,42,.04); }
+        .explore-icon { font-size:28px; margin-bottom:20px; display:block; }
+        .explore-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:#f0ece4; margin-bottom:12px; }
+        .explore-p { font-size:13px; color:var(--stone); line-height:1.7; }
+        .history-box { background:rgba(255,255,255,.025); border:1px solid var(--border-lt); padding:64px; }
+        .history-box p { font-size:15px; color:var(--stone-lt); line-height:1.85; max-width:720px; margin:0 auto; }
+        .cta-block { text-align:center; padding:96px 40px; border-top:1px solid var(--border-lt); }
+        .cta-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,5vw,58px); font-weight:300; color:#f0ece4; margin-bottom:16px; line-height:1.1; }
+        .cta-h2 em { font-style:italic; color:var(--gold-lt); }
+        .cta-p { font-size:14px; color:var(--stone); margin-bottom:40px; }
+        footer.page-footer { border-top:1px solid var(--border-lt); padding:48px 40px; }
+        .footer-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+        .footer-brand { font-family:'Cormorant Garamond',serif; font-size:18px; color:#f0ece4; letter-spacing:.06em; }
+        .footer-brand em { font-style:normal; color:var(--gold-lt); }
+        .footer-links { display:flex; gap:28px; }
+        .footer-links a { font-size:12px; color:var(--stone); text-decoration:none; transition:color .2s; }
+        .footer-links a:hover { color:#f0ece4; }
+        .footer-copy { font-size:12px; color:var(--stone); }
+        @keyframes rise { 0%{transform:translateY(0) rotate(-2deg);opacity:.8} 100%{transform:translateY(-110vh) rotate(3deg);opacity:0} }
+        .floating-lantern { position:fixed; pointer-events:none; z-index:9999; animation:rise var(--dur,6s) ease-in forwards; }
+        @media(max-width:1024px){.two-col{grid-template-columns:1fr;}.explore-grid{grid-template-columns:1fr 1fr;}.history-box{padding:40px;}}
+        @media(max-width:640px){.page-nav-inner,.content-section,.hero-content,.cta-block{padding-left:20px;padding-right:20px;}.page-nav-links{display:none;}.explore-grid{grid-template-columns:1fr;}.stat-row{flex-direction:column;}.history-box{padding:28px 20px;}}
+    </style>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+<body>
+<div class="grain-overlay"></div>
+<nav class="page-nav">
+    <div class="page-nav-inner">
+        <a class="page-logo" href="BWD.html">LUNAR <em>HERITAGE</em></a>
+        <div class="page-nav-links">
+            <a href="BWD.html">Trang chủ</a>
+            <a href="di-san.html">Di sản</a>
+            <a href="ai.html">Thầy Đồ AI</a>
+            <a href="dashboard.html">Cộng đồng</a>
+            <a href="phong-nha-ke-bang.html" class="active" style="color:#f0ece4;">Phong Nha</a>
+        </div>
+        <a href="di-san.html" class="back-link">? Bộ suu từp</a>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <img loading="lazy" src="./uploads/ex/phong-nha.jpg" alt="Phong Nha Kỷ B✨ng">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="eyebrow">Thiên nhiên ✨ UNESCO 2003 &amp; 2015</p>
+        <h1 class="page-h1">Phong Nha <em>Kỷ B✨ng</em></h1>
+        <p class="hero-desc">Hệ thống hang đểng kỳ vĩ nhệt thệ giới ✨ noi triệu năm địa chất khệc tộc những kỷ quan ngẩm dưới l✨ng đểt.</p>
+        <div class="hero-actions">
+            <a href="di-san.html" class="btn-primary-hero">? Bộ suu từp</a>
+            <button class="btn-ghost-hero" onclick="launchLantern()">✨ Khám phá hang đểng</button>
+        </div>
+    </div>
+</section>
+
+<hr class="section-rule">
+
+<div class="content-section">
+    <div class="two-col">
+        <div class="media-frame">
+            <iframe width="100%" height="400" src="https://www.youtube.com/embed/yOtqF9DRI-s" title="Phong Nha - Kỷ Bàng" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div>
+            <p class="intro-label">Từng quan</p>
+            <h2 class="intro-h2">M✨ cung ngẩm dưới <em>l✨ng đểt</em></h2>
+            <p class="intro-p">Hệ thống hang đểng Phong Nha - Kỷ B✨ng kảo d✨i hon 104 km dưới l✨ng đểt, trong d✨ c✨ Hang Son ảo✨ng ✨ hang đểng từ nhi✨n lớn nhệt thệ giới được ph✨t hiện nam 2009. Noi d✨y luu gi? lịch sẽ địa chất hon 400 triệu năm.</p>
+            <div class="stat-row">
+                <div class="stat-item"><span class="stat-val">UNESCO</span><span class="stat-lbl">2003 &amp; 2015</span></div>
+                <div class="stat-item"><span class="stat-val">104 km</span><span class="stat-lbl">Hang động</span></div>
+                <div class="stat-item"><span class="stat-val">857 km✨</span><span class="stat-lbl">Diện t✨ch</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="content-section">
+    <p class="sec-label">Trồi nghiẩm</p>
+    <h2 class="sec-h2">Khám phá <em>Phong Nha</em></h2>
+    <div class="explore-grid">
+        <div class="explore-card"><span class="explore-icon">✨</span><h3 class="explore-name">Hang động ng✨n tuổii</h3><p class="explore-p">Hệ thống hang đểng kỷ b✨ tạo th✨nh từ d✨ng nuốc chảy qua d✨ v✨i h✨ng triệu năm, ?n chỉa về đẹp nguy✨n so.</p></div>
+        <div class="explore-card"><span class="explore-icon">✨</span><h3 class="explore-name">Thạch nhũ huyền bí✨</h3><p class="explore-p">Những nhũ đá✨ ng✨n nam tuổii rủ xuống nhu những bậc m✨n d✨ ✨ mới h✨nh th✨ l✨ một c✨u chuyến địa chất ri✨ng.</p></div>
+        <div class="explore-card"><span class="explore-icon">✨</span><h3 class="explore-name">S✨ng ngẩm huyền thoại</h3><p class="explore-p">D✨ng s✨ng Ch✨y ngẩm chỉy xuyên l✨ng n✨i d✨, dua du kh✨ch vảo chiều s✨u của sẽ tinh lớng v✨ huyền bííííí✨.</p></div>
+    </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="content-section">
+    <p class="sec-label" style="text-align:center;margin-bottom:40px;">Lịch sẽ &amp; Di sản</p>
+    <div class="history-box">
+        <p>Vuốn quốc gia Phong Nha - Kỷ B✨ng được UNESCO công nhận Di sản Thiên nhiên Thệ giới lớn đểu nam 2003 v✨ lớn hai nam 2015, ghi nhện gi✨ trả địa chất - đểa mạo v✨ da đểng sinh hệc đểc biệt. ✨ y l✨ một trong những khu vềc c✨ cứu tr✨c karst phong ph✨ v✨ đểc dảo nhệt thệ giới vềi h✨ng tram hang đểng chua được kh✨m ph✨ hệt. LUNAR HERITAGE ghi lại kỷ quan n✨y để bộo từn cho các thệ hệ tương lai.</p>
+    </div>
+</div>
+
+<div class="cta-block">
+    <h2 class="cta-h2">Buốc vảo <em>l✨ng đểt</em></h2>
+    <p class="cta-p">Gửi điều uốc từ s✨u trong hang đểng ng✨n nam qua chiốc d✨n lớng ?o.</p>
+    <button class="btn-primary-hero" onclick="launchLantern()">✨ Thệp d✨n lớng</button>
+</div>
+
+<footer class="page-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">LUNAR <em>HERITAGE</em></div>
+        <div class="footer-links">
+            <a href="BWD.html">Trang chủ</a>
+            <a href="di-san.html">Di sản</a>
+            <a href="ai.html">Thầy Đồ AI</a>
+        </div>
+        <p class="footer-copy">✨ 2026 VKU ✨ Phong Nha - Kỷ B✨ng ✨ QuĐộng B✨nh, Việt Nam</p>
+    </div>
+</footer>
+<script>
+function launchLantern() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'floating-lantern';
+            el.innerHTML = '<span style="filter:drop-shadow(0 0 8px rgba(184,146,42,.7))">🏮</span>';
+            el.style.left = (Math.random() * 100) + 'vw';
+            el.style.bottom = '-50px';
+            el.style.setProperty('--dur', (5 + Math.random() * 5) + 's');
+            el.style.fontSize = (18 + Math.random() * 20) + 'px';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 10500);
+        }, i * 220);
+    }
+}
+</script>
+<script src="back-btn.js"></script>
+</body>
+</html>
+

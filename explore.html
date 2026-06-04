@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Khám phá di sản văn hóa Việt Nam — LUNAR HERITAGE">
+  <title>Khám Phá — LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style-zen.css">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <style>
+    .explore-wrap {
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+    }
+
+    /* Hero */
+    .explore-hero {
+      background: linear-gradient(135deg, #050505 0%, #0a0a14 40%, #070710 100%);
+      padding: 56px 48px 40px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .explore-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 20% 60%, rgba(212, 175, 55, .08) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 25%, rgba(248, 249, 250, .07) 0%, transparent 50%);
+    }
+
+    .hero-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 28px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      max-width: 680px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .4);
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .4), 0 0 0 3px rgba(212, 175, 55, .1);
+    }
+
+    .search-seg {
+      flex: 1;
+      padding: 14px 20px;
+      border-right: 1px solid var(--border);
+    }
+
+    .search-seg label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .search-seg input,
+    .search-seg select {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    .search-seg select option {
+      background: var(--surface2);
+    }
+
+    .search-go {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      padding: 0 28px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .search-go:hover {
+      opacity: .9;
+    }
+
+    .quick-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .qtag {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .qtag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Sections */
+    .section {
+      padding: 32px 48px;
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .sec-head h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 400;
+    }
+
+    .see-all {
+      font-size: 12.5px;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .see-all:hover {
+      text-decoration: underline;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      padding: 0 48px 0;
+      margin-bottom: 0;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .stat-pill strong {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    /* Category strip */
+    .cat-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+
+    .cat-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .cat-chip:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .cat-chip.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Heritage grid */
+    .heritage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .heritage-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: .25s;
+      position: relative;
+    }
+
+    .heritage-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 16px 40px rgba(212, 175, 55, .1);
+    }
+
+    .heritage-card.featured {
+      grid-column: span 2;
+    }
+
+    .hcard-img {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      position: relative;
+    }
+
+    .heritage-card.featured .hcard-img {
+      height: 240px;
+    }
+
+    .g1 {
+      background: linear-gradient(135deg, #0d3a6e, #0a6ebd);
+    }
+
+    .g2 {
+      background: linear-gradient(135deg, #1a3a1a, #2d7a2d);
+    }
+
+    .g3 {
+      background: linear-gradient(135deg, #3d1a0d, #9e3d1e);
+    }
+
+    .g4 {
+      background: linear-gradient(135deg, #2d1a4a, #6b3aed);
+    }
+
+    .g5 {
+      background: linear-gradient(135deg, #0d2a4a, #1a5fbf);
+    }
+
+    .g6 {
+      background: linear-gradient(135deg, #3a2a0d, #8a6a1e);
+    }
+
+    .g7 {
+      background: linear-gradient(135deg, #1a0d3a, #7000ff);
+    }
+
+    .hcard-body {
+      padding: 14px;
+    }
+
+    .hcard-name {
+      font-weight: 600;
+      font-size: 14.5px;
+      margin-bottom: 3px;
+    }
+
+    .hcard-province {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hcard-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hcard-stat {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .hcard-stat span {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hcard-rating {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .trending-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .unesco-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, .6);
+      backdrop-filter: blur(4px);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    /* -- Multi-category badge row inside card image -- */
+    .badges-row {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      white-space: nowrap;
+    }
+
+    .cat-badge.nature {
+      background: rgba(45, 122, 45, .75);
+      color: #7fff7f;
+      border: 1px solid rgba(100, 255, 100, .25);
+    }
+
+    .cat-badge.culture {
+      background: rgba(80, 50, 180, .75);
+      color: #c8b8ff;
+      border: 1px solid rgba(160, 120, 255, .25);
+    }
+
+    .cat-badge.geo {
+      background: rgba(120, 80, 20, .75);
+      color: #ffd080;
+      border: 1px solid rgba(255, 200, 80, .25);
+    }
+
+    .cat-badge.intang {
+      background: rgba(160, 30, 180, .75);
+      color: #f0a0ff;
+      border: 1px solid rgba(220, 80, 255, .25);
+    }
+
+    .cat-badge.mixed {
+      background: rgba(10, 120, 160, .75);
+      color: #80e0ff;
+      border: 1px solid rgba(0, 220, 255, .25);
+    }
+
+    /* -- Friend button on user cards -- */
+    .user-suggest-card .btn-friend {
+      width: 100%;
+      margin-top: 4px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .btn-friend.none {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0a0b10;
+    }
+
+    .btn-friend.none:hover {
+      opacity: .88;
+      transform: scale(1.04);
+    }
+
+    .btn-friend.outgoing {
+      background: var(--surface2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      cursor: default;
+    }
+
+    .btn-friend.incoming {
+      background: rgba(212, 175, 55, .15);
+      color: var(--accent);
+      border: 1px solid rgba(212, 175, 55, .3);
+    }
+
+    .btn-friend.incoming:hover {
+      background: rgba(212, 175, 55, .25);
+    }
+
+    .btn-friend.friends {
+      background: rgba(78, 203, 113, .15);
+      color: #4ecb71;
+      border: 1px solid rgba(78, 203, 113, .3);
+      cursor: default;
+    }
+
+    /* Trending tags */
+    .trending-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .trend-tag {
+      padding: 8px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .trend-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* Users suggestion strip */
+    .users-strip {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .users-strip::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .users-strip::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .user-suggest-card {
+      flex-shrink: 0;
+      width: 140px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 12px;
+      text-align: center;
+      transition: .2s;
+      cursor: pointer;
+    }
+
+    .user-suggest-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .user-suggest-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--bg);
+      margin: 0 auto 10px;
+      overflow: hidden;
+    }
+
+    .user-suggest-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-suggest-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-suggest-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* Community feed */
+    .feed-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 48px;
+      color: var(--text-muted);
+    }
+
+    .no-results .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    @media(max-width:1024px) {
+      .heritage-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .heritage-card.featured {
+        grid-column: span 2;
+      }
+    }
+
+    @media(max-width:640px) {
+      .section {
+        padding: 24px 16px;
+      }
+
+      .explore-hero {
+        padding: 36px 16px 28px;
+      }
+
+      .hero-title {
+        font-size: 28px;
+      }
+
+      .heritage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .heritage-card.featured {
+        grid-column: span 1;
+      }
+
+      .stats-bar {
+        padding: 0 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
+
+    /* MapLibre custom markers */
+    @keyframes markerPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(212,175,55,0.7); }
+      70%  { box-shadow: 0 0 0 10px rgba(212,175,55,0); }
+      100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
+    }
+    .maplibregl-map { background: #0a0b10; }
+    .maplibregl-popup-content {
+      background: #fff !important;
+      border-radius: 10px !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25) !important;
+      padding: 12px !important;
+    }
+    .maplibregl-popup-tip { border-top-color: #fff !important; }
+  </style>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+
+<body>
+
+<div class="grain-overlay" style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;"></div>
+
+
+  <nav class="sidenav">
+    <a href="BWD.html" class="nav-icon" title="Về trang chính">
+      <span>🏛️</span><span class="tooltip">Trang chủ chính</span>
+    </a>
+    <a href="dashboard.html" class="nav-icon"><span>📰</span><span class="tooltip">Bảng tin</span></a>
+    <a href="explore.html" class="nav-icon active"><span>🔭</span><span class="tooltip">Khám phá</span></a>
+    <a href="map.html" class="nav-icon"><span>🗺️</span><span class="tooltip">Bản đồ</span></a>
+    <a href="passport.html" class="nav-icon"><span>🛂</span><span class="tooltip">Hộ chiếu</span></a>
+    <a href="messages.html" class="nav-icon"><span>💬</span><span class="tooltip">Tin nhắn</span></a>
+    <a href="ai.html" class="nav-icon"><span>🤖</span><span class="tooltip">AI Thầy Đồ Neon</span></a>
+    <div class="nav-bottom">
+      <a href="settings.html" class="nav-icon"><span>⚙️</span><span class="tooltip">Cài đặt</span></a>
+      <div class="user-avatar-nav" id="navAvatar" onclick="window.location.href='profile.html'">?</div>
+    </div>
+  </nav>
+
+  <div class="explore-wrap">
+
+    <!-- Hero -->
+    <div class="explore-hero">
+      <div class="hero-label">🌏 Khám phá di sản</div>
+      <h1 class="hero-title">Tìm <em>hành trình</em><br>tiếp theo của bạn</h1>
+      <div class="search-bar">
+        <div class="search-seg">
+          <label>Điểm đến</label>
+          <input type="text" id="searchQuery" placeholder="Hội An, Hạ Long, Huế...">
+        </div>
+        <div class="search-seg" style="flex:0 0 160px">
+          <label>Loại di sản</label>
+          <select id="searchType">
+            <option value="">Tất cả</option>
+            <option value="Thiên nhiên">🌿 Thiên nhiên</option>
+            <option value="Văn hóa">🏛️ Văn hóa</option>
+            <option value="Địa chất">🪨 Địa chất</option>
+            <option value="Phi vật thể">🎭 Phi vật thể</option>
+          </select>
+        </div>
+        <button class="search-go" onclick="doSearch()">🔍 Tìm kiếm</button>
+      </div>
+      <div class="quick-tags">
+        <div class="qtag" onclick="quickSearch('UNESCO')">🏆 UNESCO</div>
+        <div class="qtag" onclick="quickSearch('Biển')">🏝️ Biển đảo</div>
+        <div class="qtag" onclick="quickSearch('Hang động')">🦇 Hang động</div>
+        <div class="qtag" onclick="quickSearch('Phố cổ')">🏮 Phố cổ</div>
+        <div class="qtag" onclick="quickSearch('Sapa')">⛰️ Núi cao</div>
+        <div class="qtag" onclick="quickSearch('Huế')">👑 Kinh thành</div>
+      </div>
+    </div>
+
+    <!-- Live stats bar (real data from /api/stats) -->
+    <div class="stats-bar" id="statsBar"
+      style="padding:18px 48px; border-bottom:1px solid var(--border); background:var(--surface);">
+      <div class="stat-pill"><strong id="st-users">—</strong> thành viên</div>
+      <div class="stat-pill"><strong id="st-posts">—</strong> bài viết</div>
+      <div class="stat-pill"><strong id="st-lanterns">—</strong> đèn lồng</div>
+      <div class="stat-pill"><strong id="st-heritage">—</strong> di sản</div>
+    </div>
+
+    <!-- Heritage Discovery -->
+    <div class="section reveal">
+      <div class="sec-head">
+        <h2>Di sản Việt Nam</h2>
+        <a href="di-san.html" class="see-all">Xem tất cả →</a>
+      </div>
+      <div class="cat-strip" id="catStrip">
+        <div class="cat-chip active" data-type="">🌍 Tất cả</div>
+        <div class="cat-chip" data-type="Thiên nhiên">🌿 Thiên nhiên</div>
+        <div class="cat-chip" data-type="Văn hóa">🏛️ Văn hóa</div>
+        <div class="cat-chip" data-type="Địa chất">🪨 Địa chất</div>
+        <div class="cat-chip" data-type="Phi vật thể">🎭 Phi vật thể</div>
+      </div>
+      <div class="heritage-grid" id="heritageGrid">
+        <div class="skeleton" style="height:320px;border-radius:var(--radius-lg)"></div>
+        <div class="skeleton" style="height:240px;border-radius:var(--radius-lg)"></div>
+        <div class="skeleton" style="height:240px;border-radius:var(--radius-lg)"></div>
+        <div class="skeleton" style="height:240px;border-radius:var(--radius-lg)"></div>
+      </div>
+    </div>
+
+    <!-- Heritage Map -->
+    <div class="section reveal">
+      <div class="sec-head">
+        <h2>Bản đồ Di sản (Tương tác)</h2>
+      </div>
+      <div id="heritageMap" style="height: 500px; width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: 0 16px 40px rgba(0,0,0,0.4); z-index: 1;"></div>
+    </div>
+
+    <!-- People to discover (real users from /api/users/search) -->
+    <div class="section reveal" id="peopleSection" style="display:none">
+      <div class="sec-head">
+        <h2>Khám phá thành viên</h2>
+        <a href="dashboard.html" class="see-all">Xem bảng tin →</a>
+      </div>
+      <div class="users-strip" id="usersStrip"></div>
+    </div>
+
+    <!-- Trending tags (built from real posts) -->
+    <div class="section reveal">
+      <div class="sec-head">
+        <h2>Xu hướng cộng đồng</h2>
+      </div>
+      <div class="trending-grid" id="trendingTags">
+        <div class="skeleton" style="height:36px;width:120px;border-radius:40px"></div>
+        <div class="skeleton" style="height:36px;width:100px;border-radius:40px"></div>
+        <div class="skeleton" style="height:36px;width:140px;border-radius:40px"></div>
+      </div>
+    </div>
+
+    <!-- Recent posts from community (real data from /api/posts) -->
+    <div class="section reveal">
+      <div class="sec-head">
+        <h2>Bài viết mới nhất</h2>
+        <a href="dashboard.html" class="see-all">Xem tất cả →</a>
+      </div>
+      <div class="feed-grid" id="communityFeed">
+        <div class="skeleton" style="height:120px;border-radius:var(--radius-lg)"></div>
+        <div class="skeleton" style="height:120px;border-radius:var(--radius-lg)"></div>
+      </div>
+    </div>
+
+  </div><!-- /explore-wrap -->
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <script src="api.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script>
+    // Icon + CSS-class for each category tag (case-insensitive lookup)
+    const CAT_META = {
+      'thiên nhiên': { icon: '🌿', cls: 'nature' },
+      'văn hóa':    { icon: '🏛️', cls: 'culture' },
+      'địa chất':   { icon: '🪨', cls: 'geo' },
+      'phi vật thể':{ icon: '🎭', cls: 'intang' },
+      'hỗn hợp':    { icon: '🌐', cls: 'mixed' },
+    };
+    function catBadge(cat) {
+      const key = cat.toLowerCase();
+      const m = CAT_META[key] || { icon: '🌐', cls: 'mixed' };
+      return `<span class="cat-badge ${m.cls}">${m.icon} ${cat}</span>`;
+    }
+    const GRADIENTS = ['g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7'];
+
+    // -- Known locations & hashtags for trending (extracted from posts) --
+    const HERITAGE_LOCATIONS = ['Hạ Long', 'Huế', 'Hội An', 'Sapa', 'Đà Nẵng', 'Mỹ Sơn', 'Tràng An', 'Phong Nha', 'Đồng Văn'];
+
+    // -- Image mappings for heritage sites --
+    const HERITAGE_IMAGES = {
+      'Vịnh Hạ Long':           './uploads/ex/vinh-ha-long.jpg',
+      'Cố đô Huế':              './uploads/ex/co-do-hue.jpg',
+      'Phố cổ Hội An':          './uploads/ex/hoi-an.jpg',
+      'Thánh địa Mỹ Sơn':       './uploads/ex/thanh-dia-my-son.jpg',
+      'Phong Nha – Kẻ Bàng':    './uploads/ex/phong-nha.jpg',
+      'Quần thể Tràng An':       './uploads/ex/trang-an.jpg',
+      'Ruộng Bậc Thang':         './uploads/ex/ruong-bac-thang.jpg',
+      'Hoàng thành Thăng Long':  './uploads/ex/thang-long.jpg',
+      'Thành Nhà Hồ':            './uploads/ex/thanh-nha-ho.jpg',
+      'Cao nguyên đá Đồng Văn':  './uploads/ex/cao-nguyen-da-dong-van.jpg'
+    };
+
+    let allHeritage = [];
+    let activeType = '';
+
+    // -- Init ----------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Nav avatar
+      const u = LunarAPI.currentUser();
+      if (u) {
+        const av = document.getElementById('navAvatar');
+        if (av) {
+          if (u.avatar_url) av.innerHTML = `<img loading="lazy" src="${apiImg(u.avatar_url)}" alt="">`;
+          else av.textContent = (u.username || 'U')[0].toUpperCase();
+        }
+      }
+
+      // Category chips
+      document.getElementById('catStrip').addEventListener('click', e => {
+        const chip = e.target.closest('.cat-chip');
+        if (!chip) return;
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeType = chip.dataset.type;
+        renderHeritage();
+      });
+
+      // Run in parallel
+      await Promise.all([
+        loadStats(),
+        loadHeritage(),
+        loadCommunityFeed(),
+        loadSuggestedUsers(),
+      ]);
+
+      if(document.getElementById('heritageMap')) {
+        initMap();
+        if(allHeritage.length > 0) addMapMarkers(allHeritage);
+      }
+
+      // Scroll reveal
+      const ro = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: .08 });
+      document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+    });
+
+    // -- Stats (real numbers from backend) ----------------------------
+    async function loadStats() {
+      try {
+        const d = await LunarAPI.stats();
+        const fmt = n => n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n || 0);
+        document.getElementById('st-users').textContent = fmt(d.users);
+        document.getElementById('st-posts').textContent = fmt(d.posts);
+        document.getElementById('st-lanterns').textContent = fmt(d.lanterns || d.total_lanterns);
+        document.getElementById('st-heritage').textContent = allHeritage.length || '10+';
+      } catch (e) {
+        console.warn('Stats load failed:', e.message);
+      }
+    }
+
+    // -- Heritage (real data from /api/heritage) -----------------------
+    async function loadHeritage() {
+      try {
+        const { data } = await LunarAPI.getHeritage();
+        allHeritage = data;
+        renderHeritage();
+        // update heritage count in stats
+        const el = document.getElementById('st-heritage');
+        if (el) el.textContent = data.length;
+      } catch (e) {
+        showToast('Không thể tải di sản', 'error');
+        document.getElementById('heritageGrid').innerHTML =
+          '<div class="no-results"><div class="icon">🏛️</div><p>Không thể tải dữ liệu</p></div>';
+      }
+    }
+
+    // -- Map Initialization (MapLibre GL JS — Vietnam only) -----------
+    let map;
+    let mapMarkers = [];
+    // Vietnam strict bounds: SW [8.18, 102.14]  NE [23.39, 109.46]
+    const VN_BOUNDS = [[102.14, 8.18], [109.46, 23.39]];
+    const HERITAGE_COORDS = {
+      'Vịnh Hạ Long':          [107.1839, 20.9101],
+      'Cố đô Huế':             [107.5909, 16.4637],
+      'Phố cổ Hội An':         [108.3283, 15.8794],
+      'Thánh địa Mỹ Sơn':      [108.1167, 15.7667],
+      'Phong Nha – Kẻ Bàng':   [106.2833, 17.5333],
+      'Quần thể Tràng An':      [105.9189, 20.2522],
+      'Ruộng Bậc Thang':        [103.8333, 22.3333],
+      'Hoàng thành Thăng Long': [105.8398, 21.0362],
+      'Thành Nhà Hồ':           [105.6033, 20.0767],
+      'Cao nguyên đá Đồng Văn': [105.3622, 23.2758]
+    };
+
+    function initMap() {
+      map = new maplibregl.Map({
+        container: 'heritageMap',
+        style: 'https://tiles.openfreemap.org/styles/liberty',
+        center: [108.2062, 16.0463], // [lng, lat] – central Vietnam
+        zoom: 5.2,
+        minZoom: 4.8,
+        maxZoom: 14,
+        maxBounds: [
+          [100.0, 6.5],  // SW — slightly larger than VN for comfortable panning
+          [112.0, 24.5]  // NE
+        ]
+      });
+
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+      map.addControl(new maplibregl.FullscreenControl(), 'top-right');
+
+      // Once style is loaded, fit to Vietnam
+      map.on('load', () => {
+        map.fitBounds(VN_BOUNDS, { padding: 40, duration: 800 });
+      });
+    }
+
+    function addMapMarkers(data) {
+      if (!map) return;
+      // Remove old markers
+      mapMarkers.forEach(m => m.remove());
+      mapMarkers = [];
+
+      data.forEach(h => {
+        const lngLat = HERITAGE_COORDS[h.name];
+        if (!lngLat) return;
+
+        // Custom pulsing marker element
+        const el = document.createElement('div');
+        el.style.cssText = [
+          'width:16px', 'height:16px', 'border-radius:50%',
+          'background:var(--accent,#d4af37)',
+          'border:3px solid #fff',
+          'box-shadow:0 0 0 0 rgba(212,175,55,0.7)',
+          'animation:markerPulse 2s infinite',
+          'cursor:pointer'
+        ].join(';');
+
+        const imgPath = HERITAGE_IMAGES[h.name];
+        const popup = new maplibregl.Popup({ offset: 14, maxWidth: '240px', className: 'vn-popup' })
+          .setHTML(`
+            <div style="font-family:'Outfit',sans-serif;color:#0a0b10;padding:2px">
+              <h3 style="margin:0 0 4px;font-size:15px;font-weight:700">${esc(h.name)}</h3>
+              <p style="margin:0 0 8px;font-size:11.5px;color:#666">📍 ${esc(h.province||'')}</p>
+              ${imgPath ? `<img src="${imgPath}" style="width:100%;height:90px;object-fit:cover;border-radius:6px;margin-bottom:8px">` : ''}
+              <a href="${h.page||'#'}" style="display:block;padding:6px;background:linear-gradient(135deg,var(--accent,#d4af37),#b8922a);color:#fff;text-align:center;border-radius:4px;font-size:12px;font-weight:700;text-decoration:none">✨ Khám phá ngay</a>
+            </div>`);
+
+        const marker = new maplibregl.Marker({ element: el })
+          .setLngLat(lngLat)
+          .setPopup(popup)
+          .addTo(map);
+
+        el.addEventListener('click', () => {
+          map.flyTo({ center: lngLat, zoom: 10, duration: 1200 });
+        });
+
+        mapMarkers.push(marker);
+      });
+    }
+
+    function renderHeritage() {
+      const grid = document.getElementById('heritageGrid');
+      // Support h.categories (new array) and h.type (legacy string)
+      const list = activeType
+        ? allHeritage.filter(h => {
+          const cats = h.categories || (h.type ? [h.type] : []);
+          return cats.some(c => c.toLowerCase() === activeType.toLowerCase());
+        })
+        : allHeritage;
+      if (!list.length) {
+        grid.innerHTML = '<div class="no-results"><div class="icon">🏛️</div><p>Không tìm thấy di sản</p></div>';
+        return;
+      }
+      grid.innerHTML = list.map((h, i) => {
+        const cats = h.categories || (h.type ? [h.type] : ['Văn hóa']);
+        const badges = cats.map(catBadge).join('');
+        const primary = (CAT_META[cats[0]?.toLowerCase()] || { icon: '🌐' }).icon;
+        const grad = GRADIENTS[i % GRADIENTS.length];
+        const featured = i === 0 ? 'featured' : '';
+        const imgPath = HERITAGE_IMAGES[h.name];
+
+        return `
+    <div class="heritage-card ${featured}" onclick="goHeritage('${h.page || '#'}')">
+      <div class="hcard-img ${imgPath ? '' : grad}" style="position:relative; ${imgPath ? `background: url('${apiImg(imgPath)}') center/cover no-repeat;` : ''}">
+        ${i === 0 ? '<div class="trending-badge">🔥 Nổi bật</div>' : ''}
+        ${h.unesco ? `<div class="unesco-badge">UNESCO ${h.unesco}</div>` : ''}
+        ${imgPath ? '' : `<span style="font-size:${featured ? '60px' : '48px'}">${primary}</span>`}
+        <div class="badges-row">${badges}</div>
+      </div>
+      <div class="hcard-body">
+        <div class="hcard-name">${esc(h.name)}</div>
+        <div class="hcard-province">📍 ${esc(h.province || '')}</div>
+        <div class="hcard-meta">
+          <span class="hcard-stat" style="font-size:10.5px;color:var(--text-dim)">${cats.join(' · ')}</span>
+          ${h.unesco ? `<span class="hcard-rating">? 4.${8 + (i % 2)}</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    function goHeritage(page) {
+      if (page && page !== '#') window.location.href = page;
+    }
+
+    // -- Suggested users (real from /api/users/search) -----------------
+    async function loadSuggestedUsers() {
+      if (!LunarAPI.isLoggedIn()) return;
+      try {
+        const { users } = await LunarAPI.searchUsers('');
+        if (!users || users.length === 0) return;
+
+        const strip = document.getElementById('usersStrip');
+        const section = document.getElementById('peopleSection');
+
+        strip.innerHTML = users.slice(0, 8).map(u => {
+          const status = u.friendship_status || 'none'; // injected by server
+          const friendBtnLabel = {
+            none:     '➕ Kết bạn',
+            outgoing: '⏳ Đã gửi',
+            incoming: '✅ Chấp nhận',
+            friends:  '💚 Bạn bè',
+          }[status] || '➕ Kết bạn';
+          return `
+      <div class="user-suggest-card" onclick="window.location.href='profile.html?user=${u.id}'">
+        <div class="user-suggest-avatar">
+          ${u.avatar_url ? `<img loading="lazy" src="${apiImg(u.avatar_url)}" alt="">` : (u.username || 'U')[0].toUpperCase()}
+        </div>
+        <div class="user-suggest-name">${esc(u.username)}</div>
+        <div class="user-suggest-meta">${esc(u.bio ? u.bio.slice(0, 28) + '…' : 'Thành viên mới')}</div>
+        <button class="btn-friend ${status}" id="fbtn-${u.id}"
+          onclick="event.stopPropagation();handleFriendBtn('${u.id}','${status}')">
+          ${friendBtnLabel}
+        </button>
+      </div>`;
+        }).join('');
+
+        section.style.display = 'block';
+      } catch (e) {
+        console.warn('User suggestions failed:', e.message);
+      }
+    }
+
+    // Handle friend button action
+    async function handleFriendBtn(userId, currentStatus) {
+      if (!LunarAPI.isLoggedIn()) { showToast('Vui lòng đăng nhập', 'error'); return; }
+      const btn = document.getElementById(`fbtn-${userId}`);
+      try {
+        if (currentStatus === 'none') {
+          // Send friend request
+          const r = await LunarAPI.requestFriend(userId);
+          const newStatus = r.status || 'outgoing';
+          if (btn) {
+            btn.className = `btn-friend ${newStatus}`;
+            btn.textContent = newStatus === 'friends' ? '💚 Bạn bè' : '⏳ Đã gửi';
+          }
+          showToast('✅ Đã gửi lời mời kết bạn!');
+        } else if (currentStatus === 'incoming') {
+          // Accept incoming request
+          await LunarAPI.acceptFriend(userId);
+          if (btn) { btn.className = 'btn-friend friends'; btn.textContent = '💚 Bạn bè'; }
+          showToast('Đã chấp nhận lời mời kết bạn ✅');
+        } else if (currentStatus === 'friends') {
+          showToast('Các bạn đã là bạn bè rồi 💚');
+        } else {
+          showToast('Đã gửi lời mời, đang chờ xác nhận ⏳');
+        }
+      } catch (e) {
+        showToast(e.message || 'Lỗi kết bạn', 'error');
+      }
+    }
+
+    // -- Community Feed (real from /api/posts) -------------------------
+    async function loadCommunityFeed() {
+      try {
+        const { posts } = await LunarAPI.getPosts(0, 6);
+        const grid = document.getElementById('communityFeed');
+
+        // Build trending tags from real post content + locations
+        buildTrendingTags(posts);
+
+        if (!posts.length) {
+          grid.innerHTML = '<div class="no-results"><div class="icon">📝</div><p>Chưa có bài viết nào. Hãy là người đầu tiên!</p></div>';
+          return;
+        }
+        grid.innerHTML = posts.map(p => `
+      <article class="post-card reveal" id="post-${p.id}" style="margin-bottom:0">
+        <div class="post-header">
+          <div class="post-avatar avatar avatar-sm">
+            ${p.avatar_url ? `<img loading="lazy" src="${apiImg(p.avatar_url)}" alt="">` : (p.username || 'U')[0].toUpperCase()}
+          </div>
+          <div class="post-author-info" style="flex:1">
+            <div class="post-author-name">${esc(p.username || 'Người dùng')}</div>
+            <div class="post-meta">
+              ${fmtTime(p.created_at)}
+              ${p.location ? ` ✨ <span style="color:var(--accent2)">📍 ${esc(p.location)}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="post-body"><p class="post-text">${esc(p.content)}</p></div>
+        ${p.image_url ? `<img class="post-image" src="${apiImg(p.image_url)}" alt="" loading="lazy">` : ''}
+        <div class="like-count" id="lc-${p.id}">${p.likes_count || 0} lượt thích</div>
+        <div class="post-actions">
+          <button class="action-btn" id="lb-${p.id}" onclick="toggleLike('${p.id}')">❤️ Thích</button>
+          <button class="action-btn" onclick="window.location.href='dashboard.html'">💬 Bình luận</button>
+          <button class="action-btn" onclick="sharePost('${esc(p.content).replace(/'/g, "\\'").slice(0, 80)}')">🔗 Chia sẻ</button>
+        </div>
+      </article>`).join('');
+      } catch (e) {
+        document.getElementById('communityFeed').innerHTML = '';
+        console.warn('Feed load failed:', e.message);
+      }
+    }
+
+    // Build trending tags from real post locations + hashtags
+    function buildTrendingTags(posts) {
+      const counts = {};
+
+      // Count locations from real posts
+      posts.forEach(p => {
+        if (p.location) {
+          const loc = p.location.trim();
+          counts[loc] = (counts[loc] || 0) + 1;
+        }
+        // Extract hashtags from content
+        const tags = (p.content || '').match(/#[\w\u00C0-\u024F\u1E00-\u1EFF]+/g) || [];
+        tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; });
+      });
+
+      // Add known heritage keywords that appear in post content
+      posts.forEach(p => {
+        HERITAGE_LOCATIONS.forEach(loc => {
+          if ((p.content || '').includes(loc) || (p.location || '').includes(loc)) {
+            const key = `#${loc.replace(/\s+/g, '')}`;
+            counts[key] = (counts[key] || 0) + 1;
+          }
+        });
+      });
+
+      // If we have very few real tags, pad with heritage defaults
+      const defaults = [
+        '#DuLịchViệtNam', '#VịnhHạLong', '#PhốCổHộiAn', '#SapaRuộngBậcThang',
+        '#CốĐôHuế', '#DiSảnUNESCO', '#PhongNha', '#HàGiang'
+      ];
+
+      const sorted = Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([tag]) => tag)
+        .slice(0, 6);
+
+      // Fill with defaults if needed
+      defaults.forEach(d => { if (sorted.length < 10 && !sorted.includes(d)) sorted.push(d); });
+
+      const container = document.getElementById('trendingTags');
+      container.innerHTML = sorted.slice(0, 10).map(tag => `
+    <div class="trend-tag" onclick="quickSearch('${tag.replace('#', '')}')">
+      ${tag.startsWith('#') ? tag : '#' + tag}
+    </div>`).join('');
+    }
+
+    // -- Like ----------------------------------------------------------
+    async function toggleLike(id) {
+      if (!LunarAPI.isLoggedIn()) { showToast('Vui lòng đăng nhập', 'error'); return; }
+      try {
+        const r = await LunarAPI.toggleLike(id);
+        const lc = r.likes_count || 0;
+        setEl(`lc-${id}`, lc + ' lượt thích');
+        const btn = document.getElementById(`lb-${id}`);
+        if (btn) {
+          const liked = r.liked || r.action === 'liked';
+          btn.classList.toggle('liked', liked);
+          btn.textContent = liked ? '❤️ Đã thích' : '❤️ Thích';
+        }
+      } catch (e) { showToast(e.message, 'error'); }
+    }
+
+    async function sharePost(text) {
+      if (navigator.share) {
+        navigator.share({ title: 'LUNAR HERITAGE', text, url: location.href });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(location.href);
+        showToast('Đã sao chép liên kết');
+      } else {
+        showToast('Trình duyệt không hỗ trợ chia sẻ', 'error');
+      }
+    }
+
+    // -- Search --------------------------------------------------------
+    function doSearch() {
+      const q = document.getElementById('searchQuery').value.trim().toLowerCase();
+      const t = document.getElementById('searchType').value; // e.g. 'Thiên nhiên'
+      activeType = t;
+      if (!q && !t) { renderHeritage(); return; }
+      const list = allHeritage.filter(h => {
+        const matchQ = !q || h.name.toLowerCase().includes(q) || (h.province || '').toLowerCase().includes(q);
+        // $in equivalent: check if selected category exists in the h.categories array
+        const cats = h.categories || (h.type ? [h.type] : []);
+        const matchT = !t || cats.some(c => c.toLowerCase() === t.toLowerCase());
+        return matchQ && matchT;
+      });
+      const grid = document.getElementById('heritageGrid');
+      if (!list.length) {
+        grid.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>Không tìm thấy kết quả cho "<strong>${esc(q)}</strong>"</p></div>`;
+        return;
+      }
+      const saved = allHeritage;
+      allHeritage = list;
+      renderHeritage();
+      if(map) addMapMarkers(list); // Update map markers on search
+      allHeritage = saved;
+    }
+
+    function quickSearch(q) {
+      document.getElementById('searchQuery').value = q;
+      doSearch();
+    }
+
+    // -- Utilities -----------------------------------------------------
+    function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function setEl(id, v) { const e = document.getElementById(id); if (e) e.textContent = v; }
+    function apiImg(url) { return url?.startsWith('/') ? (LunarAPI.apiBase() || 'http://localhost:8000') + url : url; }
+    function fmtTime(iso) {
+      try {
+        const d = new Date(iso), df = Date.now() - d;
+        if (df < 3600e3) return Math.floor(df / 60e3) + 'ph trước';
+        if (df < 86400e3) return Math.floor(df / 3600e3) + 'g trước';
+        return d.toLocaleDateString('vi-VN');
+      } catch { return ''; }
+    }
+    function showToast(msg, type = 'success') {
+      const box = document.getElementById('toastContainer');
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.textContent = (type === 'success' ? '✅ ' : '⚠️ ') + msg;
+      box.appendChild(t); setTimeout(() => t.remove(), 3500);
+    }
+
+    // -- Search input: also filter users ------------------------------
+    document.getElementById('searchQuery')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') doSearch();
+    });
+  </script>
+</body>
+
+</html>
+

@@ -1,0 +1,1216 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cài đặt – WanderNet</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap">
+  <link rel="stylesheet" href="setting.style.css">
+  <style>
+    .settings-tabs {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      gap: 4px;
+      padding: 12px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .settings-tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .settings-tab:hover {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .settings-tab.active {
+      background: rgba(232, 168, 124, .15);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .settings-main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 48px 100px;
+      max-width: none;
+    }
+
+    .save-bar {
+      position: fixed;
+      bottom: 0;
+      left: 72px;
+      right: 0;
+      z-index: 100;
+      background: rgba(21, 24, 32, .95);
+      border-top: 1px solid var(--border);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+    }
+  </style>
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="LUNAR HERITAGE • Di sản Việt Nam">
+  <meta property="og:description"
+    content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+  <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+  <meta property="og:url" content="https://lunarheritage.com/">
+  <meta property="og:type" content="website">
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LUNAR HERITAGE • Di sản Việt Nam">
+  <meta name="twitter:description"
+    content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+  <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+
+<body>
+
+  <div class="grain-overlay"
+    style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;">
+  </div>
+
+  <nav class="sidenav">
+    <a href="BWD.html" class="nav-icon"><span>🏛️</span><span class="tooltip">Về trang chủ chính</span></a>
+    <a href="dashboard.html" class="nav-icon"><span>🏠</span><span class="tooltip"></span></a>
+    <a href="explore.html" class="nav-icon"><span>🧭</span><span class="tooltip"></span></a>
+    <a href="passport.html" class="nav-icon"><span>🏆</span><span class="tooltip"></span></a>
+    <a href="messages.html" class="nav-icon"><span>💬</span><span class="tooltip"></span></a>
+    <a href="ai.html" class="nav-icon"><span>🤖</span><span class="tooltip"></span></a>
+    <div class="nav-bottom">
+      <a href="settings.html" class="nav-icon active"><span>⚙️</span><span class="tooltip"></span></a>
+      <div class="user-avatar-nav" id="navAvatar" onclick="window.location.href='profile.html'">?</div>
+    </div>
+  </nav>
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+    <div class="settings-tabs" id="settingsTabs">
+      <div class="settings-tab active" data-section="profile" onclick="goSection('profile')">👤 Hồ sơ</div>
+      <div class="settings-tab" data-section="security" onclick="goSection('security')">🔒 Bảo mật</div>
+      <div class="settings-tab" data-section="privacy" onclick="goSection('privacy')">🛡️ Riêng tư</div>
+      <div class="settings-tab" data-section="notifications" onclick="goSection('notifications')">🔔 Thông báo</div>
+      <div class="settings-tab" data-section="language" onclick="goSection('language')">🌐 Ngôn ngữ</div>
+      <div class="settings-tab" data-section="data" onclick="goSection('data')">📦 Dữ liệu</div>
+      <div class="settings-tab" data-section="danger" onclick="goSection('danger')">⚠️ Nguy hiểm</div>
+    </div>
+    <div class="settings-main" id="settingsMain">
+
+      <!-- PROFILE -->
+      <div id="section-profile">
+        <div class="page-header">
+          <h1>Hồ sơ cá nhân</h1>
+          <p>Cập nhật thông tin và ảnh đại diện hiển thị cho cộng đồng</p>
+        </div>
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📝</span>
+            <div>
+              <h3>Thông tin cơ bản</h3>
+              <p>Tên, bio và thông tin công khai</p>
+            </div>
+          </div>
+          <div class="profile-edit">
+            <div class="avatar-edit-area">
+              <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
+              <input type="file" id="coverFileInput" accept="image/*" style="display:none">
+              <div class="big-avatar" id="bigAvatar" onclick="document.getElementById('avatarFileInput').click()">
+                <span>?</span>
+                <div class="avatar-overlay">📷</div>
+              </div>
+              <div class="avatar-hint">Nhấn để<br>thay ảnh</div>
+              <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+                <button class="btn-sm connect" onclick="document.getElementById('avatarFileInput').click()"
+                  style="font-size:11px">📷 Đổi ảnh</button>
+                <button class="btn-sm" onclick="deleteAvatar()"
+                  style="font-size:11px;color:#e05c5c;border-color:#e05c5c;background:transparent">🗑️ Xóa</button>
+              </div>
+            </div>
+            <div class="profile-fields">
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Họ</label><input class="form-input" id="inputLastName"
+                    type="text" placeholder="Họ"></div>
+                <div class="form-group"><label class="form-label">Tên</label><input class="form-input"
+                    id="inputFirstName" type="text" placeholder="Tên"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Tên người dùng</label><input class="form-input"
+                    id="inputUsername" type="text" placeholder="@username"></div>
+                <div class="form-group"><label class="form-label">Tham gia</label><input class="form-input"
+                    id="inputJoinDate" type="text" readonly style="opacity:.6"></div>
+              </div>
+              <div class="form-group full"><label class="form-label">Tiểu sử</label><textarea class="form-input"
+                  id="inputBio" oninput="updateBioCount()"></textarea>
+                <div class="char-count"><span id="bioCount">0</span>/160</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Vị trí</label><input class="form-input"
+                    id="inputLocation" type="text" placeholder="Thành phố, Quốc gia"></div>
+                <div class="form-group"><label class="form-label">Website</label><input class="form-input"
+                    id="inputWebsite" type="url" placeholder="https://..."></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">✈️</span>
+            <div>
+              <h3>Thông tin du lịch</h3>
+              <p>Phong cách và sở thích đi du lịch của bạn</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">✈️</div>
+            <div class="setting-info">
+              <h4>Phong cách du lịch</h4>
+              <p>Chọn những phong cách phù hợp với bạn</p>
+            </div>
+            <div class="setting-control">
+              <div class="radio-group" id="styleGroup">
+                <label class="radio-opt selected"><input type="checkbox" checked>🎒 Bụi</label>
+                <label class="radio-opt selected"><input type="checkbox" checked>📸 Nhiếp ảnh</label>
+                <label class="radio-opt"><input type="checkbox">🍜 Ẩm thực</label>
+                <label class="radio-opt"><input type="checkbox">🏔️ Phiêu lưu</label>
+                <label class="radio-opt"><input type="checkbox">🏖️ Nghỉ dưỡng</label>
+              </div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💰</div>
+            <div class="setting-info">
+              <h4>Ngân sách du lịch</h4>
+              <p>Giúp hệ thống gợi ý phù hợp hơn</p>
+            </div>
+            <div class="setting-control">
+              <div class="radio-group" id="budgetGroup">
+                <label class="radio-opt"><input type="radio" name="budget">💵 Tiết kiệm</label>
+                <label class="radio-opt selected"><input type="radio" name="budget" checked>💵 Vừa phải</label>
+                <label class="radio-opt"><input type="radio" name="budget">💎 Cao cấp</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Account Statistics (real data from MongoDB) -->
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📊</span>
+            <div>
+              <h3>Thống kê tài khoản</h3>
+              <p>Dữ liệu thực từ MongoDB – cập nhật mỗi lần tải trang</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;padding:16px 0">
+            <div
+              style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:var(--accent)" id="statPosts">—</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Bài viết</div>
+            </div>
+            <div
+              style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:var(--accent)" id="statFollowers">—</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Người theo dõi</div>
+            </div>
+            <div
+              style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:var(--accent)" id="statFollowing">—</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Đang theo dõi</div>
+            </div>
+            <div
+              style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:var(--accent2)" id="statLikesReceived">—</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Lượt thích nhận</div>
+            </div>
+            <div
+              style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:var(--accent2)" id="statCommentsReceived">—</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Bình luận nhận</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SECURITY -->
+
+      <div id="section-security" style="display:none;">
+        <div class="page-header">
+          <h1>🔒 Bảo mật &amp; Đăng nhập</h1>
+          <p>Quản lý mật khẩu, xác thực và các phiên đăng nhập của bạn</p>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🔑</span>
+            <div>
+              <h3>Mật khẩu</h3>
+              <p>Cập nhật mật khẩu định kỳ để bảo vệ tài khoản</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔐</div>
+            <div class="setting-info">
+              <h4>Đổi mật khẩu</h4>
+              <p id="accountJoinDate">Lần đổi cuối: chưa có</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect"
+                onclick="var s=document.getElementById('passwordSection');s.style.display=s.style.display==='none'?'':'none'">Đổi
+                mật khẩu</button></div>
+          </div>
+          <div id="passwordSection" style="display:none;padding:16px 22px;border-top:1px solid var(--border)">
+            <form id="passwordForm" style="display:flex;flex-direction:column;gap:10px;max-width:360px">
+              <input class="form-input" id="inputCurrentPassword" type="password" placeholder="Mật khẩu hiện tại"
+                required>
+              <input class="form-input" id="inputNewPassword" type="password"
+                placeholder="Mật khẩu mới (tối thiểu 8 ký tự)" required>
+              <input class="form-input" id="inputConfirmPassword" type="password" placeholder="Nhập lại mật khẩu mới"
+                required>
+              <div style="display:flex;gap:8px">
+                <button type="submit" class="btn-primary" style="padding:8px 20px">Xác nhận đổi</button>
+                <button type="button" class="btn-ghost" style="padding:8px 16px"
+                  onclick="document.getElementById('passwordSection').style.display='none'">Huỷ</button>
+              </div>
+            </form>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🗝️</div>
+            <div class="setting-info">
+              <h4>Mã khôi phục</h4>
+              <p>Dùng khi mất quyền truy cập xác thực 2 bước</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect"
+                onclick="showToast('Đang tạo 8 mã khôi phục...')">Xem mã</button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🛡️</span>
+            <div>
+              <h3>Xác thực 2 bước</h3>
+              <p>Thêm lớp bảo mật cho tài khoản của bạn</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📱</div>
+            <div class="setting-info">
+              <h4>OTP qua SMS / Authenticator</h4>
+              <p>Yêu cầu mã OTP khi đăng nhập từ thiết bị mới</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" id="toggle2FA"
+                onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📧</div>
+            <div class="setting-info">
+              <h4>Xác thực qua Email</h4>
+              <p>Gửi link xác nhận khi phát hiện đăng nhập lạ</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" id="toggleEmailVerify"
+                onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔔</div>
+            <div class="setting-info">
+              <h4>Cảnh báo đăng nhập lạ</h4>
+              <p>Thông báo khi có thiết bị hoặc địa điểm mới đăng nhập</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" id="toggleLoginAlert"
+                onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">💻</span>
+            <div>
+              <h3>Phiên đăng nhập</h3>
+              <p>Quản lý các thiết bị đang đăng nhập tài khoản</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💻</div>
+            <div class="setting-info">
+              <h4>Chrome – Windows 11 <span
+                  style="color:var(--success);font-size:11px;background:rgba(78,203,113,.1);padding:2px 8px;border-radius:20px;margin-left:6px">●
+                  Thiết bị này</span></h4>
+              <p>📍 Đà Nẵng, Việt Nam &nbsp;·&nbsp; 🕐 Vừa xong &nbsp;·&nbsp; IP: 115.78.x.x</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📱</div>
+            <div class="setting-info">
+              <h4>Safari – iPhone 15</h4>
+              <p>📍 Đà Nẵng, Việt Nam &nbsp;·&nbsp; 🕐 2 giờ trước &nbsp;·&nbsp; IP: 115.78.x.x</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm"
+                onclick="this.closest('.setting-row').style.opacity='.4'">Đăng xuất</button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📱</div>
+            <div class="setting-info">
+              <h4>Chrome – Android</h4>
+              <p>📍 Hà Nội, Việt Nam &nbsp;·&nbsp; 🕐 5 ngày trước &nbsp;·&nbsp; IP: 42.112.x.x</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm"
+                onclick="this.closest('.setting-row').style.opacity='.4'">Đăng xuất</button></div>
+          </div>
+          <div style="padding:12px 22px;border-top:1px solid var(--border)">
+            <button class="btn-danger" style="font-size:12px"
+              onclick="if(confirm('Đăng xuất khỏi tất cả thiết bị khác?'))showToast('Đã đăng xuất tất cả')">⚡ Đăng xuất
+              tất
+              cả thiết bị khác</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📜</span>
+            <div>
+              <h3>Lịch sử hoạt động bảo mật</h3>
+              <p>Các sự kiện bảo mật gần đây</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">✅</div>
+            <div class="setting-info">
+              <h4>Đăng nhập thành công</h4>
+              <p>Chrome – Windows 11 &nbsp;·&nbsp; Đà Nẵng &nbsp;·&nbsp; Hôm nay 14:22</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">✅</div>
+            <div class="setting-info">
+              <h4>Đổi mật khẩu</h4>
+              <p>Đã đổi thành công &nbsp;·&nbsp; 3 ngày trước</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">⚠️</div>
+            <div class="setting-info">
+              <h4>Đăng nhập thất bại (3 lần)</h4>
+              <p>IP: 203.x.x.x – Bị khoá 15 phút &nbsp;·&nbsp; 1 tuần trước</p>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🔐</span>
+            <div>
+              <h3>Quyền truy cập đã cấp</h3>
+              <p>Các quyền mà ứng dụng được phép sử dụng</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📍</div>
+            <div class="setting-info">
+              <h4>Vị trí</h4>
+              <p>Facebook, Instagram đang truy cập vị trí</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm" onclick="showToast('Thu hồi quyền vị trí')">Thu
+                hồi</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📷</div>
+            <div class="setting-info">
+              <h4>Camera &amp; Ảnh</h4>
+              <p>Instagram có quyền xem thư viện ảnh</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm" onclick="showToast('Thu hồi quyền ảnh')">Thu
+                hồi</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔔</div>
+            <div class="setting-info">
+              <h4>Thông báo</h4>
+              <p>Tất cả ứng dụng có quyền gửi thông báo</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect">Quản lý</button></div>
+          </div>
+        </div>
+      </div>
+      <!-- PRIVACY -->
+      <div id="section-privacy" style="display:none;">
+        <div class="page-header">
+          <h1>🛡️ Quyền riêng tư</h1>
+          <p>Kiểm soát ai có thể xem thông tin và tương tác với bạn</p>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">👁️</span>
+            <div>
+              <h3>Hiển thị hồ sơ</h3>
+              <p>Ai có thể thấy trang cá nhân của bạn</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">👤</div>
+            <div class="setting-info">
+              <h4>Hiển thị hồ sơ công khai</h4>
+              <p>Kiểm soát khả năng xem trang cá nhân</p>
+            </div>
+            <div class="setting-control">
+              <div class="privacy-options" id="profileVis">
+                <div class="privacy-opt selected" data-val="public">
+                  <div class="p-icon">🌐</div>Công khai
+                </div>
+                <div class="privacy-opt" data-val="friends">
+                  <div class="p-icon">👥</div>Bạn bè
+                </div>
+                <div class="privacy-opt" data-val="private">
+                  <div class="p-icon">🔒</div>Chỉ mình tôi
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📧</div>
+            <div class="setting-info">
+              <h4>Ẩn địa chỉ email</h4>
+              <p>Không hiển thị email trên trang hồ sơ công khai</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📞</div>
+            <div class="setting-info">
+              <h4>Ẩn số điện thoại</h4>
+              <p>Không hiển thị số điện thoại với người khác</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🎂</div>
+            <div class="setting-info">
+              <h4>Ẩn ngày sinh</h4>
+              <p>Không hiển thị ngày sinh trên hồ sơ</p>
+            </div>
+            <div class="setting-control"><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📝</span>
+            <div>
+              <h3>Bài viết &amp; Nội dung</h3>
+              <p>Kiểm soát quyền xem và tương tác với bài đăng</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📄</div>
+            <div class="setting-info">
+              <h4>Bài viết mặc định</h4>
+              <p>Chế độ riêng tư mặc định cho bài đăng mới</p>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option>🌐 Công khai</option>
+                <option>👥 Bạn bè</option>
+                <option>🔒 Chỉ mình tôi</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💬</div>
+            <div class="setting-info">
+              <h4>Ai có thể bình luận?</h4>
+              <p>Giới hạn quyền bình luận trên bài viết của bạn</p>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option>Tất cả mọi người</option>
+                <option>Người theo dõi</option>
+                <option>Chỉ bạn bè</option>
+                <option>Không ai</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🏷️</div>
+            <div class="setting-info">
+              <h4>Ai có thể tag bạn?</h4>
+              <p>Kiểm soát việc bị tag trong bài viết hoặc ảnh</p>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option>Bạn bè</option>
+                <option>Người theo dõi</option>
+                <option>Không ai</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔄</div>
+            <div class="setting-info">
+              <h4>Cho phép chia sẻ bài viết</h4>
+              <p>Người khác có thể chia sẻ lại nội dung của bạn</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📍</span>
+            <div>
+              <h3>Vị trí &amp; Chuyến đi</h3>
+              <p>Quản lý dữ liệu địa lý của bạn</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📍</div>
+            <div class="setting-info">
+              <h4>Chia sẻ vị trí thực tế</h4>
+              <p>Cho phép hiển thị vị trí chính xác trên bản đồ</p>
+            </div>
+            <div class="setting-control"><button class="toggle" id="toggleShareLocation"
+                onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">✈️</div>
+            <div class="setting-info">
+              <h4>Hiển thị lịch sử chuyến đi</h4>
+              <p>Người khác có thể thấy bạn đã đến đâu</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" id="toggleShowTrips"
+                onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🗺️</div>
+            <div class="setting-info">
+              <h4>Bản đồ hành trình công khai</h4>
+              <p>Hiển thị bản đồ các địa điểm đã ghé thăm</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📅</div>
+            <div class="setting-info">
+              <h4>Chia sẻ kế hoạch chuyến đi</h4>
+              <p>Bạn bè có thể thấy lịch trình sắp tới của bạn</p>
+            </div>
+            <div class="setting-control"><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">💬</span>
+            <div>
+              <h3>Nhắn tin &amp; Kết nối</h3>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💬</div>
+            <div class="setting-info">
+              <h4>Ai có thể nhắn tin cho bạn?</h4>
+            </div>
+            <div class="setting-control"><select class="form-select" id="messagePermSelect">
+                <option value="all">Tất cả mọi người</option>
+                <option value="followers">Người theo dõi</option>
+                <option value="friends">Chỉ bạn bè</option>
+                <option value="none">Không ai</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">👥</div>
+            <div class="setting-info">
+              <h4>Gợi ý kết bạn</h4>
+              <p>Hiển thị bạn trong mục "Có thể bạn biết"</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🕐</div>
+            <div class="setting-info">
+              <h4>Hiển thị trạng thái hoạt động</h4>
+              <p>Bạn bè thấy bạn đang online hay không</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🚫</span>
+            <div>
+              <h3>Chặn &amp; Hạn chế</h3>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🚫</div>
+            <div class="setting-info">
+              <h4>Danh sách chặn</h4>
+              <p>0 tài khoản đang bị chặn</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect">Quản lý</button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔇</div>
+            <div class="setting-info">
+              <h4>Danh sách tắt tiếng</h4>
+              <p>2 tài khoản đang bị tắt tiếng</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect">Quản lý</button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">👻</div>
+            <div class="setting-info">
+              <h4>Tắt gợi ý tài khoản</h4>
+              <p>Không xuất hiện trong mục "Gợi ý kết bạn"</p>
+            </div>
+            <div class="setting-control"><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔍</div>
+            <div class="setting-info">
+              <h4>Cho phép tìm kiếm theo email</h4>
+              <p>Người dùng khác có thể tìm thấy bạn qua email</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+      </div>
+      <!-- NOTIFICATIONS -->
+      <div id="section-notifications" style="display:none;">
+        <div class="page-header">
+          <h1>🔔 Thông báo</h1>
+          <p>Tuỳ chỉnh cách và khi nào bạn nhận thông báo</p>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🔔</span>
+            <div>
+              <h3>Tuỳ chỉnh thông báo</h3>
+              <p>Chọn kênh nhận thông báo cho từng loại hoạt động</p>
+            </div>
+          </div>
+          <div class="notif-grid">
+            <div class="notif-header">
+              <div>Loại thông báo</div>
+              <div>Trong app</div>
+              <div>Email</div>
+              <div>Push</div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">❤️ Lượt thích</div>
+                <div class="notif-desc">Khi ai đó thích bài viết của bạn</div>
+              </div>
+              <div><button class="toggle on" id="notifLikeApp" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle" id="notifLikeEmail" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifLikePush" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">💬 Bình luận</div>
+                <div class="notif-desc">Bình luận mới trên bài viết của bạn</div>
+              </div>
+              <div><button class="toggle on" id="notifCommentApp" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifCommentEmail" onclick="this.classList.toggle('on')"></button>
+              </div>
+              <div><button class="toggle on" id="notifCommentPush" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">👤 Theo dõi mới</div>
+                <div class="notif-desc">Khi có người theo dõi bạn</div>
+              </div>
+              <div><button class="toggle on" id="notifFollowApp" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle" id="notifFollowEmail" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifFollowPush" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">✈️ Cập nhật chuyến đi</div>
+                <div class="notif-desc">Nhắc lịch và thay đổi itinerary</div>
+              </div>
+              <div><button class="toggle on" id="notifTripApp" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifTripEmail" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifTripPush" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">💬 Tin nhắn</div>
+                <div class="notif-desc">Tin nhắn mới từ bạn bè</div>
+              </div>
+              <div><button class="toggle on" id="notifMsgApp" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle" id="notifMsgEmail" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifMsgPush" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">🌐 Gợi ý địa điểm</div>
+                <div class="notif-desc">Đề xuất điểm đến dựa trên sở thích</div>
+              </div>
+              <div><button class="toggle on" id="notifSuggestApp" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" id="notifSuggestEmail" onclick="this.classList.toggle('on')"></button>
+              </div>
+              <div><button class="toggle" id="notifSuggestPush" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">🔔 Nhắc nhở sự kiện</div>
+                <div class="notif-desc">Nhắc lịch trình du lịch sắp tới</div>
+              </div>
+              <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+            <div class="notif-row">
+              <div>
+                <div class="notif-name">📢 Thông báo hệ thống</div>
+                <div class="notif-desc">Cập nhật tính năng và bảo trì</div>
+              </div>
+              <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+              <div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🌙</span>
+            <div>
+              <h3>Giờ yên tĩnh</h3>
+              <p>Tắt thông báo trong khoảng thời gian nhất định</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🌙</div>
+            <div class="setting-info">
+              <h4>Bật giờ yên tĩnh</h4>
+              <p>Không nhận Push notification trong giờ này</p>
+            </div>
+            <div class="setting-control"><button class="toggle" id="toggleQuietHours"
+                onclick="this.classList.toggle('on');document.getElementById('quietHoursConfig').style.display=this.classList.contains('on')?'':'none'"></button>
+            </div>
+          </div>
+          <div id="quietHoursConfig" style="display:none;padding:12px 22px 16px;border-top:1px solid var(--border)">
+            <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+              <div class="form-group"><label class="form-label">Từ</label><input class="form-input" type="time"
+                  value="22:00" style="width:130px"></div>
+              <div class="form-group"><label class="form-label">Đến</label><input class="form-input" type="time"
+                  value="07:00" style="width:130px"></div>
+              <div class="form-group"><label class="form-label">Ngày áp dụng</label>
+                <div class="radio-group">
+                  <label class="radio-opt selected"><input type="checkbox" checked>Thứ 2-6</label>
+                  <label class="radio-opt selected"><input type="checkbox" checked>Cuối tuần</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📧</span>
+            <div>
+              <h3>Email tóm tắt</h3>
+              <p>Nhận bản tóm tắt hoạt động qua email</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📅</div>
+            <div class="setting-info">
+              <h4>Tần suất email tóm tắt</h4>
+              <p>Tổng hợp hoạt động – lượt thích, bình luận, theo dõi mới</p>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option>Hàng ngày</option>
+                <option selected>Hàng tuần</option>
+                <option>Hàng tháng</option>
+                <option>Không nhận</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🗺️</div>
+            <div class="setting-info">
+              <h4>Email gợi ý điểm đến</h4>
+              <p>Bản tin du lịch và địa điểm mới khám phá</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💌</div>
+            <div class="setting-info">
+              <h4>Email marketing &amp; khuyến mãi</h4>
+              <p>Ưu đãi đặc biệt từ đối tác du lịch</p>
+            </div>
+            <div class="setting-control"><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+      </div>
+      <!-- APPEARANCE -->
+      <!-- LANGUAGE -->
+      <div id="section-language" style="display:none;">
+        <div class="page-header">
+          <h1>Ngôn ngữ &amp; Khu vực</h1>
+          <p>Định dạng ngày tháng, đơn vị và múi giờ</p>
+        </div>
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">🌐</span>
+            <div>
+              <h3>Ngôn ngữ &amp; Khu vực</h3>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💬</div>
+            <div class="setting-info">
+              <h4>Ngôn ngữ hiển thị</h4>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option selected>🇻🇳 Tiếng Việt</option>
+                <option>🇺🇸 English</option>
+                <option>🇯🇵 日本語</option>
+                <option>🇰🇷 한국어</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🕐</div>
+            <div class="setting-info">
+              <h4>Múi giờ</h4>
+              <p>Ảnh hưởng đến lịch trình và nhắc lịch</p>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option selected>GMT+7 – Hà Nội</option>
+                <option>GMT+9 – Tokyo</option>
+                <option>GMT+0 – London</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📏</div>
+            <div class="setting-info">
+              <h4>Đơn vị khoảng cách</h4>
+            </div>
+            <div class="setting-control">
+              <div class="radio-group"><label class="radio-opt selected"><input type="radio"
+                    name="unit">km</label><label class="radio-opt"><input type="radio" name="unit">miles</label></div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💵</div>
+            <div class="setting-info">
+              <h4>Đơn vị tiền tệ mặc định</h4>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option selected>VND – Việt Nam Đồng</option>
+                <option>USD – Đô la Mỹ</option>
+                <option>JPY – Yên Nhật</option>
+                <option>EUR – Euro</option>
+              </select></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📅</span>
+            <div>
+              <h3>Định dạng ngày &amp; Giờ</h3>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📅</div>
+            <div class="setting-info">
+              <h4>Định dạng ngày tháng</h4>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option selected>DD/MM/YYYY</option>
+                <option>MM/DD/YYYY</option>
+                <option>YYYY-MM-DD</option>
+              </select></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🕐</div>
+            <div class="setting-info">
+              <h4>Định dạng giờ</h4>
+            </div>
+            <div class="setting-control">
+              <div class="radio-group"><label class="radio-opt selected"><input type="radio" name="timefmt"
+                    checked>24h</label><label class="radio-opt"><input type="radio" name="timefmt">12h</label></div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📆</div>
+            <div class="setting-info">
+              <h4>Ngày đầu tuần</h4>
+            </div>
+            <div class="setting-control"><select class="form-select">
+                <option>Chủ nhật</option>
+                <option selected>Thứ Hai</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATA -->
+      <div id="section-data" style="display:none;">
+        <div class="page-header">
+          <h1>Dữ liệu &amp; Xuất</h1>
+          <p>Quản lý và tải xuống dữ liệu của bạn</p>
+        </div>
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📦</span>
+            <div>
+              <h3>Xuất dữ liệu</h3>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📋</div>
+            <div class="setting-info">
+              <h4>Xuất tất cả lịch trình</h4>
+              <p>Định dạng PDF hoặc JSON</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect">Xuất PDF</button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🗺️</div>
+            <div class="setting-info">
+              <h4>Xuất bản đồ địa điểm đã thăm</h4>
+              <p>File KML tương thích Google Maps</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect">Xuất KML</button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💾</div>
+            <div class="setting-info">
+              <h4>Yêu cầu toàn bộ dữ liệu</h4>
+              <p>Bao gồm bài viết, tin nhắn, lịch sử – có trong 48 giờ</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect">Yêu cầu</button></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-title"><span class="sec-icon">📊</span>
+            <div>
+              <h3>Dung lượng sử dụng</h3>
+              <p>Ảnh, bài viết và dữ liệu đã lưu</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🖼️</div>
+            <div class="setting-info">
+              <h4>Ảnh &amp; Video</h4>
+              <div style="margin-top:8px;background:var(--surface2);border-radius:6px;height:8px;overflow:hidden">
+                <div style="background:var(--accent);width:68%;height:100%;border-radius:6px"></div>
+              </div>
+              <p style="margin-top:4px">1.2 GB / 2 GB</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">💬</div>
+            <div class="setting-info">
+              <h4>Tin nhắn &amp; Đính kèm</h4>
+              <div style="margin-top:8px;background:var(--surface2);border-radius:6px;height:8px;overflow:hidden">
+                <div style="background:var(--accent2);width:24%;height:100%;border-radius:6px"></div>
+              </div>
+              <p style="margin-top:4px">245 MB / 2 GB</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🗄️</div>
+            <div class="setting-info">
+              <h4>Xoá cache ứng dụng</h4>
+              <p>Giải phóng 128 MB bộ nhớ tạm</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect" onclick="this.textContent='✓ Đã xoá'">Xoá
+                cache</button></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">🔄</div>
+            <div class="setting-info">
+              <h4>Tự động sao lưu</h4>
+              <p>Sao lưu dữ liệu lên cloud mỗi tuần</p>
+            </div>
+            <div class="setting-control"><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DANGER -->
+      <div id="section-danger" style="display:none;">
+        <div class="page-header">
+          <h1>Vùng nguy hiểm</h1>
+          <p>Các hành động không thể hoàn tác – hãy cân nhắc kỹ</p>
+        </div>
+
+        <div class="settings-section danger-zone">
+          <div class="section-title"><span class="sec-icon">📋</span>
+            <div>
+              <h3>Trước khi xoá tài khoản</h3>
+              <p>Hãy xuất dữ liệu của bạn trước</p>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-icon">📦</div>
+            <div class="setting-info">
+              <h4>Xuất toàn bộ dữ liệu</h4>
+              <p>Tải về bài viết, tin nhắn, đèn lồng và lịch sử từ MongoDB</p>
+            </div>
+            <div class="setting-control"><button class="btn-sm connect" id="exportAllBtn" onclick="exportAllData()">Xuất
+                dữ liệu</button></div>
+          </div>
+        </div>
+        <div class="settings-section danger-zone">
+          <div class="section-title"><span class="sec-icon">⚠️</span>
+            <div>
+              <h3>Vùng nguy hiểm</h3>
+              <p>Không thể hoàn tác</p>
+            </div>
+          </div>
+          <div class="danger-actions">
+            <div class="danger-item">
+              <div class="danger-item-info">
+                <h4>⏸️ Tạm dừng tài khoản</h4>
+                <p>Hồ sơ sẽ bị ẩn tạm thời. Bạn có thể khôi phục bất cứ lúc nào.</p>
+              </div><button class="btn-danger" id="btnDeactivate">Tạm dừng</button>
+            </div>
+            <div class="danger-item">
+              <div class="danger-item-info">
+                <h4>🗑️ Xoá tất cả bài viết</h4>
+                <p>Toàn bộ ảnh và bài viết sẽ bị xoá vĩnh viễn.</p>
+              </div><button class="btn-danger" id="btnDeletePosts">Xoá bài viết</button>
+            </div>
+            <div class="danger-item">
+              <div class="danger-item-info">
+                <h4>💀 Xoá tài khoản vĩnh viễn</h4>
+                <p>Mọi dữ liệu, bài viết, chuyến đi và tin nhắn sẽ bị xoá hoàn toàn. Không thể khôi phục.</p>
+              </div><button class="btn-danger" id="btnDeleteAccount">Xoá tài khoản</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /settings-main -->
+  </div><!-- /settings-layout -->
+
+  <!-- SAVE BAR (fixed footer) -->
+  <div class="save-bar" id="saveBar">
+    <p>💡 Mọi thay đổi sẽ được áp dụng ngay sau khi lưu</p>
+    <div class="save-actions">
+      <button class="btn-ghost" onclick="resetForm()">Huỷ bỏ</button>
+      <button class="btn-primary" id="saveBtn" onclick="saveSettings()">Lưu thay đổi</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">✅ Đã lưu thay đổi thành công!</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <script src="api.js"></script>
+  <script src="settings.js"></script>
+  <script>
+    // ── Self-contained tab navigation (works without settings.js) ──
+    function goSection(sec) {
+      // hide all sections
+      document.querySelectorAll('[id^="section-"]').forEach(s => { s.style.display = 'none'; });
+      // show target
+      let el = document.getElementById('section-' + sec);
+      if (!el) {
+        sec = 'security';
+        el = document.getElementById('section-' + sec);
+      }
+      if (el) el.style.display = 'block';
+      // update tab active state
+      document.querySelectorAll('.settings-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.section === sec);
+      });
+      // scroll content area to top
+      document.querySelector('.settings-main')?.scrollTo({ top: 0, behavior: 'smooth' });
+      // update URL hash
+      history.replaceState(null, '', '#' + sec);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Navigate to hash on load
+      const hash = location.hash.replace('#', '');
+      if (hash) goSection(hash);
+
+      // Block user input for modal close on overlay click
+      document.getElementById('blockedModal')?.addEventListener('click', function (e) {
+        if (e.target === this) closeBlockedModal?.();
+      });
+      document.getElementById('confirmModal')?.addEventListener('click', function (e) {
+        if (e.target === this) closeConfirmModal?.();
+      });
+    });
+  </script>
+  <script src="back-btn.js"></script>
+
+  <style>
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Outfit', system-ui, sans-serif;
+      color: #f0ece4;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      animation: toast-in 0.35s ease;
+      max-width: 380px;
+      border: 1px solid rgba(184, 146, 42, 0.3);
+    }
+
+    .toast.success {
+      background: rgba(26, 23, 20, 0.92);
+      border-left: 4px solid #b8922a;
+    }
+
+    .toast.error {
+      background: rgba(40, 10, 10, 0.92);
+      border-left: 4px solid #ef4444;
+    }
+
+    .toast.info {
+      background: rgba(20, 20, 40, 0.92);
+      border-left: 4px solid #60a5fa;
+    }
+
+    @keyframes toast-in {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes toast-out {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+    }
+  </style>
+  <div class="toast-container" id="toastContainer"></div>
+  <script>
+    function showToast(msg, type = 'success') {
+      let c = document.getElementById('toastContainer');
+      if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
+      const t = document.createElement('div');
+      t.className = 'toast ' + type;
+      t.textContent = msg;
+      c.appendChild(t);
+      setTimeout(() => { t.style.animation = 'toast-out 0.35s ease forwards'; setTimeout(() => t.remove(), 350); }, 3500);
+    }
+  </script>
+</body>
+
+</html>

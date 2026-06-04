@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bản Đồ Di Sản - LUNAR HERITAGE</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <!-- Global design tokens (colours, fonts, transitions) -->
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="map.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <div id="map"></div>
+
+  <!-- Site-nav bar — back-btn.js injects "← Quay về" into .nav-inner -->
+  <nav class="site-nav map-site-nav" id="mainNav" aria-label="Điều hướng trang bản đồ">
+    <div class="nav-inner">
+      <a href="BWD.html" class="map-nav-brand" aria-label="Trang chủ Lunar Heritage">🏛 LUNAR HERITAGE</a>
+      <!-- back-btn.js appends #lunar-back-btn here at runtime -->
+    </div>
+  </nav>
+
+  <div class="map-overlay">
+    <div class="map-header">
+      <h2>Bản Đồ Di Sản</h2>
+      <p>Khám phá các di sản văn hóa và thiên nhiên tuyệt đẹp của Việt Nam.</p>
+    </div>
+    <div class="search-box" style="display: flex; gap: 8px;">
+      <input type="text" id="searchInput" placeholder="Tìm kiếm di sản hoặc địa điểm..." style="flex: 1;">
+      <button onclick="toggleVideoModal()" aria-label="Xem Video Địa Phương" style="background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 0 16px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 1.2rem;">
+        🎞️
+      </button>
+    </div>
+    <div class="heritage-list" id="heritageList">
+      <div style="padding: 20px; text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</div>
+    </div>
+  </div>
+
+  <!-- YouTube Video Modal -->
+  <div id="video-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(10px); padding: 20px; flex-direction: column; align-items: center; overflow-y: auto;">
+    <div style="max-width: 800px; width: 100%; position: relative; padding: 40px 0;">
+      <button onclick="toggleVideoModal()" aria-label="Đóng popup" style="position: absolute; top: 10px; right: 0px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: 0.2s;">✕</button>
+      <h2 style="font-family: 'Lexend Deca', sans-serif; text-align:center; margin-bottom:2rem; color: var(--accent);">Các video du lịch địa phương</h2>
+
+      <!-- Cao Nguyên Đà Đồng Vân -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/RLHTQmHxZgE" loading="lazy" title="Cao Nguyên Đà Đồng Vân" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Hue -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/K1ie-Vgss-Q" loading="lazy" title="Hue" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Tháng Long -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/XSHTpA63y0o" loading="lazy" title="Tháng Long" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Hội An -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/sYmYEu2B-4w" loading="lazy" title="Hội An" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Phong Nha -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/yOtqF9DRI-s" loading="lazy" title="Phong Nha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Tràng An -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/MNLMUV4Welc" loading="lazy" title="Tràng An" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Mù Cang Chải -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/wYVSvkz_mJQ" loading="lazy" title="Mù Cang Chải" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Mỹ Sơn -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/fynM9Biznho" loading="lazy" title="Mỹ Sơn" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Thành Nhà Hồ -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/k1e5BH4Zm6A" loading="lazy" title="Thành Nhà Hồ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Hạ Long -->
+      <div class="video-wrapper">
+        <iframe data-src="https://www.youtube.com/embed/fAS29vl-RPY" loading="lazy" title="Hạ Long" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="api.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="map.js"></script>
+  <!-- back-btn.js: injects "← Quay về" into .site-nav .nav-inner above -->
+  <script src="back-btn.js" defer></script>
+</body>
+
+</html>

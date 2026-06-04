@@ -1,0 +1,100 @@
+const express = require('express');
+const fs = require('fs');
+const { requireAuth, optionalAuth } = require('../auth');
+const { upload, validateImage } = require('../middlewares/upload');
+const { AiChatHistory } = require('../db');
+const { genAI, GEMINI_MODEL, AI_SYS, geminiChat, sendAiError } = require('../utils/aiConfig');
+
+const router = express.Router();
+
+router.post('/chat', optionalAuth, async (req, res) => {
+  try {
+    const reply = await geminiChat(req.body.messages || [], AI_SYS.chat, 800);
+    res.json({ reply, model: GEMINI_MODEL });
+  } catch (e) { sendAiError(res, e); }
+});
+
+router.post('/chat-stream', optionalAuth, async (req, res) => {
+  if (!genAI) return res.status(500).end('Gemini chưa cấu hình');
+  try {
+    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL, systemInstruction: AI_SYS.chat });
+    const messages = req.body.messages || [];
+    const history = messages.slice(0, -1).map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: String(m.content) }],
+    }));
+    const last = messages[messages.length - 1];
+    const chat = model.startChat({ history, generationConfig: { maxOutputTokens: 800 } });
+    
+    const result = await chat.sendMessageStream(String(last.content));
+    
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    
+    for await (const chunk of result.stream) {
+      const text = chunk.text();
+      if (text) {
+        res.write(`data: ${JSON.stringify({ text })}\n\n`);
+      }
+    }
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (e) { 
+    res.write(`data: ${JSON.stringify({ error: e.message })}\n\n`);
+    res.end();
+  }
+});
+
+router.post('/analyze-image', optionalAuth, upload.single('file'), validateImage, async (req, res) => {
+  if (!genAI) return res.status(500).json({ error: 'Gemini chưa cấu hình' });
+  if (!req.file) return res.status(400).json({ error: 'Không có file' });
+  try {
+    const model  = genAI.getGenerativeModel({ model: GEMINI_MODEL, systemInstruction: AI_SYS.image });
+    const b64    = fs.readFileSync(req.file.path).toString('base64');
+    const result = await model.generateContent([{ inlineData: { data: b64, mimeType: req.file.mimetype } }, 'Phân tích ảnh này.']);
+    res.json({ analysis: result.response.text() });
+  } catch (e) { sendAiError(res, e); }
+  finally { fs.unlink(req.file.path, () => {}); }
+});
+
+router.post('/itinerary', optionalAuth, async (req, res) => {
+  const { destination, days = 3, budget = 'trung bình', interests = [], travelers = 'cặp đôi', start_from } = req.body;
+  if (!destination) return res.status(400).json({ error: 'destination bắt buộc' });
+  const prompt = `Điểm đến: ${destination} | Số ngày: ${days} | Ngân sách: ${budget} | Sở thích: ${interests.join(', ')} | Loại khách: ${travelers}${start_from ? ` | Xuất phát: ${start_from}` : ''}`;
+  try {
+    const raw = await geminiChat([{ role: 'user', content: prompt }], AI_SYS.itinerary, 8000, "application/json");
+    try {
+      const json = JSON.parse(raw.trim());
+      res.json({ itinerary: json });
+    } catch (parseError) {
+      console.error("AI_RAW_OUTPUT:", raw);
+      console.error("JSON_PARSE_ERROR:", parseError.message);
+      res.json({ itinerary: { raw: raw } });
+    }
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// AI chat history (per user, per session)
+router.get('/history', requireAuth, async (req, res) => {
+  const session = req.query.session || 'default';
+  const history = await AiChatHistory.find({ user_id: req.user.userId, session_id: session })
+    .sort({ created_at: 1 }).select('role content created_at -_id');
+  res.json({ history });
+});
+
+router.post('/history', requireAuth, async (req, res) => {
+  const { session_id = 'default', role, content } = req.body;
+  if (!role || !content) return res.status(400).json({ error: 'role và content bắt buộc' });
+  await AiChatHistory.create({ user_id: req.user.userId, session_id, role, content });
+  res.json({ ok: true });
+});
+
+router.delete('/history', requireAuth, async (req, res) => {
+  await AiChatHistory.deleteMany({ user_id: req.user.userId, session_id: req.query.session || 'default' });
+  res.json({ ok: true });
+});
+
+module.exports = router;

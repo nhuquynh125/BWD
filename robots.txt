@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin.html
+Disallow: /settings.html
+Disallow: /dashboard.html
+Disallow: /messages.html
+Disallow: /profile.html
+
+Sitemap: https://lunarheritage.com/sitemap.xml

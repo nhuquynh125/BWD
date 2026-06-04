@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LUNAR HERITAGE – Mạng xã hội du lịch di sản Việt Nam">
+<title>LUNAR HERITAGE – Trang chủ</title>
+    <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style-zen.css">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE – Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE – Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+<body>
+
+<div class="grain-overlay" style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;"></div>
+
+<div class="app-shell">
+
+<!-- -- Sidebar Nav -------------------------------------- -->
+<nav class="sidenav">
+  <a href="BWD.html" class="nav-icon" title="Về trang chủ chính">
+    <span>🏛️</span><span class="tooltip">Trang chủ chính</span>
+  </a>
+  <a href="dashboard.html" class="nav-icon active" id="navHome">
+    <span>🏠</span><span class="tooltip">Bảng tin</span>
+  </a>
+  <a href="explore.html" class="nav-icon">
+    <span>🔍</span><span class="tooltip">Khám phá</span>
+  </a>
+  <a href="passport.html" class="nav-icon">
+    <span>📘</span><span class="tooltip">Hộ chiếu</span>
+  </a>
+  <a href="create-post.html" class="nav-icon" id="navCreate">
+    <span>➕</span><span class="tooltip">Tạo bài viết</span>
+  </a>
+  <a href="messages.html" class="nav-icon">
+    <span>💬</span><span class="tooltip">Tin nhắn</span>
+  </a>
+  <a href="ai.html" class="nav-icon">
+    <span>🤖</span><span class="tooltip">AI Thầy Đồ Neon</span>
+  </a>
+  <div class="nav-bottom">
+    <a href="settings.html" class="nav-icon">
+      <span>⚙️</span><span class="tooltip">Cài đặt</span>
+    </a>
+    <div class="user-avatar-nav" id="navAvatar" onclick="goProfile()">?</div>
+  </div>
+</nav>
+
+<!-- -- Main --------------------------------------------- -->
+<div class="main-content">
+
+  <!-- Feed -->
+  <div class="feed-col">
+
+    <!-- Page heading -->
+    <div style="margin-bottom:22px">
+      <h1 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--text)">Bảng tin</h1>
+      <p style="color:var(--text-muted);font-size:13px;margin-top:4px">Những trải nghiệm mới nhất từ cộng đồng</p>
+    </div>
+
+    <!-- Create post shortcut -->
+    <div class="create-post-box" id="createPostBox" style="display:none">
+      <div class="create-post-row">
+        <div class="avatar avatar-md" id="myAvatarInline">?</div>
+        <input class="create-post-input" id="quickPostInput" placeholder="Chia sẻ trải nghiệm du lịch của bạn..." onclick="window.location.href='create-post.html'">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <button class="btn btn-ghost btn-sm" onclick="window.location.href='create-post.html'">📷 Ảnh</button>
+        <button class="btn btn-ghost btn-sm" onclick="window.location.href='create-post.html'">📍 Địa điểm</button>
+        <button class="btn btn-ghost btn-sm" onclick="window.location.href='create-post.html'">😊 Tâm trạng</button>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="window.location.href='create-post.html'">Đăng bài</button>
+      </div>
+    </div>
+
+    <!-- Posts feed -->
+    <div id="feedContainer">
+      <!-- Skeleton placeholders -->
+      <div class="post-card" style="margin-bottom:16px;padding:20px">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+          <div class="skeleton" style="width:42px;height:42px;border-radius:50%"></div>
+          <div style="flex:1"><div class="skeleton" style="height:12px;width:60%;margin-bottom:6px"></div><div class="skeleton" style="height:10px;width:40%"></div></div>
+        </div>
+        <div class="skeleton" style="height:14px;margin-bottom:6px"></div>
+        <div class="skeleton" style="height:14px;width:80%"></div>
+      </div>
+      <div class="post-card" style="margin-bottom:16px;padding:20px">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+          <div class="skeleton" style="width:42px;height:42px;border-radius:50%"></div>
+          <div style="flex:1"><div class="skeleton" style="height:12px;width:50%;margin-bottom:6px"></div><div class="skeleton" style="height:10px;width:35%"></div></div>
+        </div>
+        <div class="skeleton" style="height:180px;border-radius:8px"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-ghost w-full" id="loadMoreBtn" style="margin-top:8px;display:none" onclick="loadMore()">
+      Tải thêm bài viết
+    </button>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-col">
+
+    <!-- User card (shown when logged in) -->
+    <div id="userCard" style="display:none;margin-bottom:24px">
+      <p class="section-label">Hồ sơ của bạn</p>
+      <div class="card" style="text-align:center;padding:22px">
+        <div class="avatar avatar-lg" id="rightAvatar" style="margin:0 auto 12px">?</div>
+        <h3 id="rightName" style="font-size:15px;font-weight:600;margin-bottom:4px">--</h3>
+        <p id="rightBio" style="font-size:12px;color:var(--text-muted)">--</p>
+        <a href="profile.html" class="btn btn-secondary btn-sm" style="margin-top:14px">Xem hồ sơ</a>
+      </div>
+    </div>
+
+    <!-- Login prompt (shown when not logged in) -->
+    <div id="loginPrompt" style="margin-bottom:24px">
+      <div class="card" style="text-align:center;padding:22px">
+        <div style="font-size:36px;margin-bottom:12px">🏛️</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:17px;margin-bottom:8px">LUNAR HERITAGE</h3>
+        <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px">Đăng nhập để chia sẻ trải nghiệm của bạn</p>
+        <a href="login.html" class="btn btn-primary w-full" style="margin-bottom:8px">Đăng nhập</a>
+        <a href="signup.html" class="btn btn-ghost w-full">Tạo tài khoản</a>
+      </div>
+    </div>
+
+    <!-- Heritage highlights -->
+    <p class="section-label">Di sản nổi bật</p>
+    <div id="heritageList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">
+      <!-- loaded by JS -->
+    </div>
+
+    <!-- Trending tags -->
+    <p class="section-label">Xu hướng</p>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <a href="javascript:void(0)" style="padding:9px 12px;border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);transition:background var(--transition)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">#DuLịchViệtNam</a>
+      <a href="javascript:void(0)" style="padding:9px 12px;border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);transition:background var(--transition)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">#VịnhHạLong</a>
+      <a href="javascript:void(0)" style="padding:9px 12px;border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);transition:background var(--transition)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">#PhốCổHộiAn</a>
+      <a href="javascript:void(0)" style="padding:9px 12px;border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);transition:background var(--transition)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">#SapaRuộngBậcThang</a>
+    </div>
+  </div>
+</div>
+
+<!-- -- Create Post Modal ------------------------------- -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h2 class="modal-title">Tạo bài viết</h2>
+      <button class="modal-close" onclick="closeCreatePost()">✕</button>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:16px">
+      <div class="avatar avatar-md" id="createAvatar">?</div>
+      <div>
+        <div id="createName" style="font-weight:600;font-size:14px">--</div>
+        <select id="privacySelect" class="form-input" style="width:auto;padding:4px 10px;font-size:12px;margin-top:4px">
+          <option value="public">🌍 Công khai</option>
+          <option value="friends">👥 Bạn bè</option>
+          <option value="private">🔒 Riêng tư</option>
+        </select>
+      </div>
+    </div>
+    <textarea id="postContent" class="form-input" placeholder="Chia sẻ trải nghiệm du lịch của bạn..." rows="4" style="margin-bottom:12px"></textarea>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="postLocation" class="form-input" placeholder="📍 Địa điểm" style="flex:1">
+      <input id="postMood"     class="form-input" placeholder="😊 Tâm trạng" style="width:130px">
+    </div>
+    <div style="margin-bottom:14px">
+      <input type="file" id="postImageFile" accept="image/*" style="display:none" onchange="previewImage(event)">
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('postImageFile').click()">📷 Thêm ảnh</button>
+      <img loading="lazy" id="imagePreview" src="" alt="" style="display:none;margin-top:8px;border-radius:var(--radius);max-height:180px;width:100%;object-fit:cover">
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeCreatePost()">Hủy</button>
+      <button class="btn btn-primary" id="submitPostBtn" onclick="submitPost()">Đăng bài</button>
+    </div>
+  </div>
+</div>
+
+<!-- -- Toast container --------------------------------- -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="api.js"></script>
+<script>
+// -- State ------------------------------------------------
+let skip = 0;
+const LIMIT = 10;
+let hasMore = true;
+let commentOpenFor = null;
+
+// -- Init -------------------------------------------------
+document.addEventListener('DOMContentLoaded', async () => {
+    const user = LunarAPI.currentUser();
+    if (user) {
+        renderNavUser(user);
+        document.getElementById('createPostBox').style.display = 'block';
+        document.getElementById('loginPrompt').style.display   = 'none';
+        document.getElementById('userCard').style.display      = 'block';
+        renderUserCard(user);
+    }
+    await loadPosts(true);
+    loadHeritage();
+});
+
+function renderNavUser(user) {
+    const el = document.getElementById('navAvatar');
+    if (el) {
+        if (user.avatar_url) { el.innerHTML = `<img loading="lazy" src="${apiImg(user.avatar_url)}" alt="">`; }
+        else el.textContent = (user.username || 'U')[0].toUpperCase();
+    }
+    const inline = document.getElementById('myAvatarInline');
+    if (inline) {
+        if (user.avatar_url) { inline.innerHTML = `<img loading="lazy" src="${apiImg(user.avatar_url)}" alt="">`; }
+        else inline.textContent = (user.username || 'U')[0].toUpperCase();
+    }
+}
+
+function renderUserCard(user) {
+    setEl('rightName', user.username);
+    setEl('rightBio', user.bio || 'Di sản • Hành trình • Ký ức');
+    const a = document.getElementById('rightAvatar');
+    if (a) {
+        if (user.avatar_url) a.innerHTML = `<img loading="lazy" src="${apiImg(user.avatar_url)}" alt="">`;
+        else a.textContent = (user.username||'U')[0].toUpperCase();
+    }
+}
+
+function goProfile() {
+    const u = LunarAPI.currentUser();
+    window.location.href = u ? `profile.html?user=${u.id}` : 'login.html';
+}
+
+// -- Feed -------------------------------------------------
+async function loadPosts(initial = false) {
+    try {
+        const { posts, cached } = await LunarAPI.getPosts(skip, LIMIT);
+        const container = document.getElementById('feedContainer');
+
+        if (initial) container.innerHTML = '';
+
+        if (!posts.length) {
+            if (initial) container.innerHTML = `<div class="empty-state"><div class="icon">🏛️</div><h3>Chưa có bài viết nào</h3><p>Hãy là người đầu tiên chia sẻ chuyến đi!</p></div>`;
+            hasMore = false;
+            document.getElementById('loadMoreBtn').style.display = 'none';
+            return;
+        }
+
+        if (cached) showToast('Hiện thị dữ liệu từ bộ nhớ đệm', 'info');
+
+        posts.forEach(p => container.insertAdjacentHTML('beforeend', renderPostCard(p)));
+        skip += posts.length;
+        hasMore = posts.length === LIMIT;
+        document.getElementById('loadMoreBtn').style.display = hasMore ? 'block' : 'none';
+    } catch (e) {
+        console.error(e);
+        showToast('Không thể tải bài viết', 'error');
+    }
+}
+
+async function loadMore() {
+    if (!hasMore) return;
+    const btn = document.getElementById('loadMoreBtn');
+    btn.textContent = '⏳ Đang tải...';
+    await loadPosts();
+    btn.textContent = 'Tải thêm bài viết';
+}
+
+function renderPostCard(p) {
+    const me = LunarAPI.currentUser();
+    const avatarHtml = p.avatar_url
+        ? `<img loading="lazy" src="${apiImg(p.avatar_url)}" alt="${p.username}">`
+        : (p.username || 'U')[0].toUpperCase();
+
+    return `
+    <article class="post-card" id="post-${p.id}" style="margin-bottom:16px">
+      <div class="post-header">
+        <div class="post-avatar avatar avatar-sm">${avatarHtml}</div>
+        <div class="post-author-info" style="flex:1">
+          <div class="post-author-name">${esc(p.username || 'Người dùng')}</div>
+          <div class="post-meta">${fmtTime(p.created_at)}${p.location ? ` · <span style="color:var(--accent2)">📍 ${esc(p.location)}</span>` : ''}${p.mood ? ` · <span>${esc(p.mood)}</span>` : ''}</div>
+        </div>
+        ${me && me.id === p.user_id ? `<button class="btn-icon" onclick="deletePost('${p.id}')" title="Xóa" style="font-size:13px">🗑️</button>` : ''}
+      </div>
+      <div class="post-body"><p class="post-text">${esc(p.content)}</p></div>
+      ${p.image_url ? `<img class="post-image" src="${apiImg(p.image_url)}" alt="" loading="lazy">` : ''}
+      <div class="like-count" id="likeCount-${p.id}">${p.likes_count} lượt thích</div>
+      <div class="post-actions">
+        <button class="action-btn" id="likeBtn-${p.id}" onclick="toggleLike('${p.id}')">❤️ Thích</button>
+        <button class="action-btn" onclick="toggleComments('${p.id}')">💬 Bình luận</button>
+        <button class="action-btn" onclick="sharePost('${esc(p.content).replace(/'/g, "\\'")}')">🔗 Chia sẻ</button>
+      </div>
+      <div id="comments-${p.id}" style="display:none"></div>
+    </article>`;
+}
+
+// -- Interactions ------------------------------------------
+async function toggleLike(postId) {
+    if (!LunarAPI.isLoggedIn()) { showToast('Vui lòng đăng nhập', 'error'); return; }
+    try {
+        const { likes_count, action } = await LunarAPI.toggleLike(postId);
+        setEl(`likeCount-${postId}`, likes_count + ' lượt thích');
+        const btn = document.getElementById(`likeBtn-${postId}`);
+        if (btn) {
+            btn.classList.toggle('liked', action === 'liked');
+            btn.textContent = action === 'liked' ? '❤️ Đã thích' : '❤️ Thích';
+        }
+    } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function toggleComments(postId) {
+    const box = document.getElementById(`comments-${postId}`);
+    if (!box) return;
+    if (box.style.display !== 'none') { box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    box.innerHTML = '<div class="comments-section"><div class="spinner"></div></div>';
+    try {
+        const { comments } = await LunarAPI.getComments(postId);
+        const me = LunarAPI.currentUser();
+        box.innerHTML = `
+        <div class="comments-section">
+          ${comments.map(c => `
+            <div class="comment-item">
+              <div class="comment-avatar">${(c.username||'U')[0].toUpperCase()}</div>
+              <div class="comment-bubble">
+                <div class="comment-author">${esc(c.username)}</div>
+                <div class="comment-text">${esc(c.content)}</div>
+              </div>
+            </div>`).join('') || '<p style="color:var(--text-muted);font-size:13px;margin-bottom:10px">Chưa có bình luận</p>'}
+          ${me ? `
+          <div class="comment-input-row">
+            <input class="comment-input" id="cInput-${postId}" placeholder="Viết bình luận..." onkeydown="if(event.key==='Enter') addComment('${postId}')">
+            <button class="comment-send" onclick="addComment('${postId}')">➤</button>
+          </div>` : '<p style="font-size:12px;color:var(--text-dim)">Đăng nhập để bình luận</p>'}
+        </div>`;
+    } catch { box.innerHTML = ''; }
+}
+
+async function addComment(postId) {
+    const input = document.getElementById(`cInput-${postId}`);
+    if (!input || !input.value.trim()) return;
+    try {
+        const { comment } = await LunarAPI.addComment(postId, input.value.trim());
+        input.value = '';
+        // Re-render comments
+        toggleComments(postId); setTimeout(() => toggleComments(postId), 100);
+    } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function deletePost(id) {
+    if (!confirm('Xóa bài viết này?')) return;
+    try {
+        await LunarAPI.deletePost(id);
+        document.getElementById(`post-${id}`)?.remove();
+        showToast('Đã xóa bài viết');
+    } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function sharePost(text) {
+    if (navigator.share) {
+        navigator.share({ title: 'LUNAR HERITAGE', text, url: location.href });
+    } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(location.href);
+        showToast('Đã sao chép liên kết');
+    } else {
+        showToast('Trình duyệt không hỗ trợ chia sẻ', 'error');
+    }
+}
+
+// -- Create Post -------------------------------------------
+function openCreatePost() {
+    if (!LunarAPI.isLoggedIn()) { window.location.href = 'login.html'; return; }
+    const user = LunarAPI.currentUser();
+    const a = document.getElementById('createAvatar');
+    if (a) { if (user.avatar_url) a.innerHTML = `<img loading="lazy" src="${apiImg(user.avatar_url)}" alt="">`; else a.textContent = (user.username||'U')[0].toUpperCase(); }
+    setEl('createName', user.username || '');
+    document.getElementById('createModal').classList.add('open');
+    document.getElementById('postContent').focus();
+}
+function closeCreatePost() { document.getElementById('createModal').classList.remove('open'); }
+
+function previewImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const img = document.getElementById('imagePreview');
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+}
+
+async function submitPost() {
+    const content  = document.getElementById('postContent').value.trim();
+    const location = document.getElementById('postLocation').value.trim();
+    const mood     = document.getElementById('postMood').value.trim();
+    const privacy  = document.getElementById('privacySelect').value;
+    const fileInput = document.getElementById('postImageFile');
+
+    if (!content) { showToast('Vui lòng nhập nội dung', 'error'); return; }
+    const btn = document.getElementById('submitPostBtn');
+    btn.disabled = true; btn.textContent = '⏳ Đang đăng...';
+
+    try {
+        const { post } = await LunarAPI.createPost(content, location || null, mood || null, privacy);
+        // Upload image if selected
+        if (fileInput.files[0]) {
+            try { await LunarAPI.uploadPostImage(post.id, fileInput.files[0]); } catch {}
+        }
+        closeCreatePost();
+        document.getElementById('postContent').value = '';
+        document.getElementById('postLocation').value = '';
+        document.getElementById('postMood').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
+        showToast('Bài viết đã được đăng ✓');
+        // Reload feed
+        skip = 0; loadPosts(true);
+    } catch (e) { showToast(e.message, 'error'); }
+    finally { btn.disabled = false; btn.textContent = 'Đăng bài'; }
+}
+
+// -- Heritage sidebar --------------------------------------
+async function loadHeritage() {
+    try {
+        const { data } = await LunarAPI.getHeritage();
+        const container = document.getElementById('heritageList');
+        if (!container) return;
+        container.innerHTML = data.slice(0, 4).map(h => `
+            <a href="${h.page || '#'}" class="card" style="display:flex;align-items:center;gap:10px;padding:10px 14px;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+              <div style="font-size:20px">${h.type === 'thiên nhiên' ? '🌿' : h.type === 'văn hóa' ? '🏛️' : '🏔️'}</div>
+              <div>
+                <div style="font-size:13px;font-weight:500">${h.name}</div>
+                <div style="font-size:11px;color:var(--text-muted)">${h.province}${h.unesco ? ' · UNESCO ' + h.unesco : ''}</div>
+              </div>
+            </a>`).join('');
+    } catch {}
+}
+
+// -- Utilities ---------------------------------------------
+function esc(s)        { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function setEl(id,v)   { const e=document.getElementById(id); if(e) e.textContent=v; }
+/**
+ * apiImg – resolves a relative API path to an absolute URL.
+ * Safe for already-absolute URLs (http/https). Never hardcodes a host.
+ */
+function apiImg(url)   {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return LunarAPI.apiBase() + url;
+}
+function fmtTime(iso)  { try { const d=new Date(iso); const diff=Date.now()-d; if(diff<3600e3) return Math.floor(diff/60e3)+'ph trước'; if(diff<86400e3) return Math.floor(diff/3600e3)+'g trước'; return d.toLocaleDateString('vi-VN'); } catch { return ''; } }
+
+function showToast(msg, type = 'success') {
+    const box = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.textContent = (type === 'success' ? '✅ ' : type === 'error' ? '❌ ' : 'ℹ️ ') + msg;
+    box.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+}
+
+// Close modal on overlay click
+document.getElementById('createModal').addEventListener('click', e => {
+    if (e.target.id === 'createModal') closeCreatePost();
+});
+</script>
+</body>
+</html>

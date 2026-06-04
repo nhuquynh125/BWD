@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thánh địa Mỹ Sơn – LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap&family=Space+Grotesk:wght@500;600&display=swap');
+
+        :root {
+            --neon-cyan: #00f7ff;
+            --neon-purple: #c026d3;
+        }
+
+        body {
+            font-family: 'Outfit', system_ui, sans-serif;
+        }
+
+        .title-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-purple);
+        }
+
+        .hero-bg {
+            background: radial-gradient(circle at 30% 20%, #1a0033 0%, #0a0a2a 50%, #000000 100%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 0 40px #00f7ff;
+            border-color: #00f7ff;
+        }
+    </style>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE – Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE – Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+
+<body class="bg-zinc-950 text-white overflow-x-hidden">
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div
+                    class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
+                    🏯 <span class="absolute -top-1 -right-1 text-xl">✨</span>
+                </div>
+                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
+                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
+                <a href="BWD.html" class="hover:text-[#00f7ff]">Trang chủ</a>
+                <a href="di-san.html" class="hover:text-[#00f7ff]">Di sản</a>
+                <a href="thanh-dia-my-son.html" class="text-[#00f7ff] font-bold">Thánh địa Mỹ Sơn</a>
+            </div>
+
+            <a href="BWD.html"
+                class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold hover:scale-105 transition-transform">
+                <i class="fa-solid fa-arrow-left"></i> QUAY VỀ TRANG CHỦ
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="min-h-screen pt-32 relative flex items-center overflow-hidden bg-black">
+        <img loading="lazy" src="./uploads/ex/thanh-dia-my-son.jpg" alt="Thánh địa Mỹ Sơn"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:0.75;">
+
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" style="z-index:2"></div>
+
+        <div class="max-w-screen-2xl mx-auto px-8 relative" style="z-index:10">
+            <div
+                class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8">
+                🏆 DI SẢN UNESCO – THÁNH ĐỊA MỸ SƠN
+            </div>
+            <h1 class="text-7xl lg:text-8xl title-font leading-none neon-glow tracking-[-4px]">
+                THÁNH ĐỊA MỸ SƠN
+            </h1>
+            <div class="mt-12 flex items-center gap-x-6">
+                <a href="BWD.html"
+                    class="bg-white text-black font-bold px-10 py-6 rounded-3xl text-2xl flex items-center gap-x-4 hover:shadow-2xl transition-all">
+                    <i class="fa-solid fa-home"></i> TRANG CHỦ
+                </a>
+                <button onclick="launchLantern()"
+                    class="border-2 border-[#00f7ff] text-white px-10 py-6 rounded-3xl text-2xl flex items-center gap-x-4 hover:bg-white/10 transition-all">
+                    ✨ THẮP SÁNG ĐỀN THÁP
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHI TIẾT -->
+    <section class="py-24 bg-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div
+                    class="rounded-3xl overflow-hidden border border-[#00f7ff]/30 shadow-[0_0_50px_rgba(212, 175, 55,0.15)]">
+                    <iframe width="100%" height="420" src="https://www.youtube.com/embed/fynM9Biznho" title="Thánh Địa Mỹ Sơn" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 0;"></iframe>
+                </div>
+                <div>
+                    <h2 class="title-font text-5xl neon-glow mb-6 leading-tight">
+                        Thánh địa cổ tích trong kỷ nguyên số
+                    </h2>
+                    <p class="text-zinc-300 text-lg leading-relaxed mb-10">
+                        Quần thể đền tháp Champa cổ kính. Trong LUNAR HERITAGE, kiến trúc gạch nung ngàn năm được tái
+                        hiện dưới ánh sáng neon, mang lại hơi thở thần thoại pha lẫn tương lai, một trải nghiệm xuyên
+                        không gian và thời gian.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4">
+                        <div
+                            class="glass px-6 py-5 rounded-2xl border border-[#00f7ff]/30 text-center flex-1 min-w-[120px]">
+                            <p class="text-[#00f7ff] text-3xl mb-1">🏛️</p>
+                            <p class="font-bold text-sm">UNESCO 1999</p>
+                        </div>
+                        <div
+                            class="glass px-6 py-5 rounded-2xl border border-[#00f7ff]/30 text-center flex-1 min-w-[120px]">
+                            <p class="text-[#00f7ff] text-3xl mb-1">🏰</p>
+                            <p class="font-bold text-sm">71 đền tháp</p>
+                        </div>
+                        <div
+                            class="glass px-6 py-5 rounded-2xl border border-[#00f7ff]/30 text-center flex-1 min-w-[120px]">
+                            <p class="text-[#00f7ff] text-3xl mb-1">⏳</p>
+                            <p class="font-bold text-sm">Thế kỷ 4 - 13</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KHÁM PHÁ -->
+    <section class="py-24">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="title-font text-6xl text-center neon-glow mb-16">Khám phá Mỹ Sơn</h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🏯</div>
+                    <h3 class="text-3xl font-semibold mb-3">Tháp cổ phát sáng</h3>
+                    <p class="text-zinc-400">Kiến trúc gạch nung độc đáo ánh lên sắc neon rực rỡ trong bóng đêm.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🧬</div>
+                    <h3 class="text-3xl font-semibold mb-3">Nghệ thuật cyber</h3>
+                    <p class="text-zinc-400">Hoa văn Champa và các bức phù điêu sống động như được lập trình trên không
+                        gian số.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
+                    <div class="text-6xl mb-6">🌌</div>
+                    <h3 class="text-3xl font-semibold mb-3">Không gian ảo</h3>
+                    <p class="text-zinc-400">Thung lũng linh thiêng được bao phủ bởi bầu trời điện từ và sương mù phát
+                        quang.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 text-center">
+        <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
+        <p class="text-zinc-400 mt-3">Thánh địa Mỹ Sơn – Di sản Việt Nam dưới ánh trăng tương lai</p>
+    </footer>
+    <script>
+        function launchLantern() {
+            showToast('✨ Bạn đã thắp sáng Thánh địa Mỹ Sơn!');
+        }
+    </script>
+<script src="back-btn.js"></script>
+
+<style>
+/* Toast Notifications */
+.toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { pointer-events: auto; padding: 14px 22px; border-radius: 8px; font-size: 14px; font-family: 'Outfit', system-ui, sans-serif; color: #f0ece4; backdrop-filter: blur(16px); box-shadow: 0 8px 32px rgba(0,0,0,0.5); animation: toast-in 0.35s ease; max-width: 380px; border: 1px solid rgba(184, 146, 42, 0.3); }
+.toast.success { background: rgba(26, 23, 20, 0.92); border-left: 4px solid #b8922a; }
+.toast.error { background: rgba(40, 10, 10, 0.92); border-left: 4px solid #ef4444; }
+.toast.info { background: rgba(20, 20, 40, 0.92); border-left: 4px solid #60a5fa; }
+@keyframes toast-in { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes toast-out { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(40px); } }
+</style>
+<div class="toast-container" id="toastContainer"></div>
+<script>
+function showToast(msg, type = 'success') {
+    let c = document.getElementById('toastContainer');
+    if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
+    const t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => { t.style.animation = 'toast-out 0.35s ease forwards'; setTimeout(() => t.remove(), 350); }, 3500);
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LUNAR HERITAGE – Tạo bài viết mới">
+    <title>Tạo bài viết – LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style-zen.css">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE – Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE – Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+<body>
+
+<div class="grain-overlay" style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;"></div>
+
+<div class="app-shell">
+
+  <!-- -- Sidebar Nav -------------------------------------- -->
+  <nav class="sidenav">
+    <a href="BWD.html" class="nav-icon" title="Về trang chủ chính">
+      <span>🏛️</span><span class="tooltip">Trang chủ chính</span>
+    </a>
+    <a href="dashboard.html" class="nav-icon">
+      <span>🏠</span><span class="tooltip">Bảng tin</span>
+    </a>
+    <a href="explore.html" class="nav-icon">
+      <span>🔍</span><span class="tooltip">Khám phá</span>
+    </a>
+    <a href="passport.html" class="nav-icon">
+      <span>📘</span><span class="tooltip">Hộ chiếu</span>
+    </a>
+    <a href="create-post.html" class="nav-icon active" id="navCreate">
+      <span>➕</span><span class="tooltip">Tạo bài viết</span>
+    </a>
+    <a href="messages.html" class="nav-icon">
+      <span>💬</span><span class="tooltip">Tin nhắn</span>
+    </a>
+    <a href="ai.html" class="nav-icon">
+      <span>🤖</span><span class="tooltip">AI Thầy Đồ Neon</span>
+    </a>
+    <div class="nav-bottom">
+      <a href="settings.html" class="nav-icon">
+        <span>⚙️</span><span class="tooltip">Cài đặt</span>
+      </a>
+      <div class="user-avatar-nav" id="navAvatar" onclick="window.location.href='profile.html'">?</div>
+    </div>
+  </nav>
+
+  <!-- -- Main --------------------------------------------- -->
+  <div class="main-content">
+    <div class="feed-col" style="max-width: 600px; margin: 0 auto; width: 100%;">
+      
+      <div style="margin-bottom:22px">
+        <h1 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--text)">Tạo bài viết</h1>
+        <p style="color:var(--text-muted);font-size:13px;margin-top:4px">Chia sẻ trải nghiệm du lịch của bạn</p>
+      </div>
+
+      <div class="card" style="padding: 24px;">
+        <form id="createPostForm" enctype="multipart/form-data">
+          <!-- User Info -->
+          <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;">
+            <div class="avatar avatar-md" id="createAvatar">?</div>
+            <div>
+              <div id="createName" style="font-weight:600;font-size:15px;margin-bottom:4px">--</div>
+              <select id="privacy" name="privacy" class="form-input" style="width:auto;padding:4px 10px;font-size:12px;">
+                <option value="public">🌍 Công khai</option>
+                <option value="friends">👥 Bạn bè</option>
+                <option value="private">🔒 Riêng tư</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Post Content -->
+          <div style="margin-bottom: 16px;">
+            <textarea id="content" name="content" class="form-input" placeholder="Kể về trải nghiệm du lịch của bạn..." rows="5" required minlength="10" maxlength="5000" style="resize:vertical;"></textarea>
+            <div style="display:flex;justify-content:flex-end;font-size:12px;color:var(--text-muted);margin-top:4px;">
+                <span id="charCount">0</span>/5000
+            </div>
+            <span class="error" id="contentError" style="color:#ff6b6b;font-size:12px;display:none;"></span>
+          </div>
+
+          <!-- Location -->
+          <div style="margin-bottom: 16px;">
+            <input type="text" id="location" name="location" class="form-input" placeholder="📍 Địa danh du lịch Việt Nam (VD: Vịnh Hạ Long, Hội An...)" style="width: 100%;">
+            <span class="error" id="locationError" style="color:#ff6b6b;font-size:12px;display:none;"></span>
+          </div>
+
+          <!-- Mood -->
+          <div style="margin-bottom: 16px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;" class="mood-selector">
+              <button type="button" class="btn btn-ghost btn-sm mood-btn" data-mood="Vui vẻ" onclick="selectMood(this)">😊 Vui vẻ</button>
+              <button type="button" class="btn btn-ghost btn-sm mood-btn" data-mood="Phấn khích" onclick="selectMood(this)">🤩 Phấn khích</button>
+              <button type="button" class="btn btn-ghost btn-sm mood-btn" data-mood="Thư giãn" onclick="selectMood(this)">😌 Thư giãn</button>
+              <button type="button" class="btn btn-ghost btn-sm mood-btn" data-mood="Mạo hiểm" onclick="selectMood(this)">🧗 Mạo hiểm</button>
+              <button type="button" class="btn btn-ghost btn-sm mood-btn" data-mood="Biết ơn" onclick="selectMood(this)">🙏 Biết ơn</button>
+            </div>
+            <input type="hidden" id="mood" name="mood">
+          </div>
+
+          <!-- Image Upload -->
+          <div style="margin-bottom: 16px;">
+            <input type="file" id="images" name="images" accept="image/*" onchange="handleImagePreview(event)" style="display: none;">
+            <button type="button" class="btn btn-secondary w-full" onclick="document.getElementById('images').click()" style="padding:20px;border:1px dashed var(--border);background:var(--surface2);">
+               📷 Thêm ảnh (Tối đa 10MB)
+            </button>
+            <div id="imagePreview" style="margin-top:12px;display:none;">
+                <img loading="lazy" id="imgPreviewTag" src="" style="width:100%;max-height:300px;object-fit:cover;border-radius:var(--radius-md);">
+            </div>
+          </div>
+
+          <!-- Hashtags -->
+          <div style="margin-bottom: 16px;">
+            <input type="text" id="hashtags" name="hashtags" class="form-input" placeholder="# Hashtags (phân cách bằng dấu cách. VD: #DuLichVietNam #HaLong)" maxlength="200" style="width: 100%;">
+            <div style="display:flex;justify-content:flex-end;font-size:12px;color:var(--text-muted);margin-top:4px;">
+                <span id="hashtagCount">0</span>/200
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;">
+            <button type="button" class="btn btn-ghost" onclick="window.location.href='dashboard.html'">Hủy</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">📝 Đăng bài</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const user = LunarAPI.currentUser();
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Setup Avatar & Name
+    const navAvatar   = document.getElementById('navAvatar');
+    const createAvatar = document.getElementById('createAvatar');
+    const createName  = document.getElementById('createName');
+    
+    if (navAvatar) {
+        if (user.avatar_url) navAvatar.innerHTML = `<img loading="lazy" src="${apiImg(user.avatar_url)}" alt="">`;
+        else navAvatar.textContent = (user.username || 'U')[0].toUpperCase();
+    }
+    if (createAvatar) {
+        if (user.avatar_url) createAvatar.innerHTML = `<img loading="lazy" src="${apiImg(user.avatar_url)}" alt="">`;
+        else createAvatar.textContent = (user.username || 'U')[0].toUpperCase();
+    }
+    if (createName) createName.textContent = user.username || 'Người dùng';
+});
+
+function selectMood(btn) {
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active', 'btn-primary'));
+    btn.classList.add('active', 'btn-primary');
+    document.getElementById('mood').value = btn.getAttribute('data-mood');
+}
+
+function handleImagePreview(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imgPreviewTag').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+document.getElementById('content').addEventListener('input', function() {
+    document.getElementById('charCount').textContent = this.value.length;
+});
+
+document.getElementById('hashtags').addEventListener('input', function() {
+    document.getElementById('hashtagCount').textContent = this.value.length;
+});
+
+document.getElementById('createPostForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    let content = document.getElementById('content').value.trim();
+    const location = document.getElementById('location').value.trim();
+    const mood     = document.getElementById('mood').value;
+    const privacy  = document.getElementById('privacy').value;
+    const hashtags = document.getElementById('hashtags').value.trim();
+    const fileInput = document.getElementById('images');
+    
+    if (!content) {
+        showToast('Nội dung không được để trống', 'error');
+        return;
+    }
+    
+    // Append hashtags to content
+    if (hashtags) {
+        content += '\n\n' + hashtags;
+    }
+    
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Đang đăng...';
+    
+    try {
+        const { post } = await LunarAPI.createPost(content, location || null, mood || null, privacy);
+        if (fileInput.files[0]) {
+            try { await LunarAPI.uploadPostImage(post.id, fileInput.files[0]); } catch(err) { console.error(err); }
+        }
+        showToast('Đăng bài thành công! ✓');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+    } catch (err) {
+        showToast(err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = '📝 Đăng bài';
+    }
+});
+
+/**
+ * apiImg – resolves a relative API path to an absolute URL.
+ * Safe for already-absolute URLs (http/https). Never hardcodes a host.
+ */
+function apiImg(url) {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return LunarAPI.apiBase() + url;
+}
+
+function showToast(msg, type = 'success') {
+    const box = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.textContent = (type === 'success' ? '✅ ' : type === 'error' ? '❌ ' : 'ℹ️ ') + msg;
+    box.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+}
+</script>
+</body>
+</html>

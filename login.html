@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng nhập LUNAR HERITAGE – Mạng xã hội di sản Việt Nam">
+    <title>Đăng nhập – LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="modern-heritage.css">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE • Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE • Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="auth-container">
+    <div class="auth-logo font-serif">
+        LUNAR <span>HERITAGE</span>
+    </div>
+
+    <div class="glass auth-card">
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Đăng nhập</div>
+            <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Đăng ký</div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="auth-form active" id="formLogin">
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input class="form-input" id="lEmail" type="email" placeholder="email@example.com" required>
+                    <div class="form-error" id="errLEmail"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu</label>
+                    <div class="pwd-wrap">
+                        <input class="form-input" id="lPassword" type="password" placeholder="Nhập mật khẩu" required>
+                        <button type="button" class="eye-btn" onclick="toggleEye('lPassword',this)">👁</button>
+                    </div>
+                    <div class="form-error" id="errLPassword"></div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 14px;">Đăng nhập</button>
+            </form>
+            <div class="auth-switch">
+                Chưa có tài khoản? <a onclick="switchTab('register')">Đăng ký ngay</a>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="auth-form" id="formRegister" style="display: none;">
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Tên người dùng</label>
+                    <input class="form-input" id="rUsername" type="text" placeholder="username" required>
+                    <div class="form-error" id="errRUsername"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input class="form-input" id="rEmail" type="email" placeholder="email@example.com" required>
+                    <div class="form-error" id="errREmail"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu</label>
+                    <div class="pwd-wrap">
+                        <input class="form-input" id="rPassword" type="password" placeholder="Tối thiểu 8 ký tự" required>
+                        <button type="button" class="eye-btn" onclick="toggleEye('rPassword',this)">👁</button>
+                    </div>
+                    <div class="form-error" id="errRPassword"></div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="registerBtn" style="width: 100%; padding: 14px;">Tạo tài khoản</button>
+            </form>
+            <div class="auth-switch">
+                Đã có tài khoản? <a onclick="switchTab('login')">Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer" style="position: fixed; bottom: 24px; right: 24px; z-index: 100;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="auth-bg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="api.js"></script>
+<script>
+// ── Redirect if already logged in ───────────────────────
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const redirectTo = params.get('redirect') || 'BWD.html';
+  // Sanitise: only allow relative paths (no //, http, etc.)
+  const SAFE_REDIRECT = /^[a-zA-Z0-9\-_.~%]+\.html(\?.*)?$/.test(redirectTo)
+    ? redirectTo : 'BWD.html';
+  window._authRedirect = SAFE_REDIRECT;
+
+  if (window.LunarAPI && LunarAPI.isLoggedIn()) {
+    window.location.replace(SAFE_REDIRECT);
+  }
+}());
+
+// ── Tab switching ───────────────────────────────────────
+function switchTab(tab) {
+  const isLogin = tab === 'login';
+  document.getElementById('tabLogin').classList.toggle('active', isLogin);
+  document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+  document.getElementById('formLogin').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('formRegister').style.display = isLogin ? 'none' : 'block';
+}
+
+// ── Auth handlers ───────────────────────────────────────
+async function handleLogin(e) {
+  e.preventDefault();
+  clearErrs();
+  const email = document.getElementById('lEmail').value.trim();
+  const pwd   = document.getElementById('lPassword').value;
+  let ok = true;
+  if (!email.includes('@')) { showErr('errLEmail','Email không hợp lệ'); ok=false; }
+  if (pwd.length < 1)       { showErr('errLPassword','Nhập mật khẩu'); ok=false; }
+  if (!ok) return;
+  const btn = document.getElementById('loginBtn');
+  btn.disabled=true; btn.textContent='⏳ Đang xử lý...';
+  try {
+    const result = await LunarAPI.login(email, pwd);
+    showToast(`✅ Chào mừng trở lại, ${result.user.username}!`, 'success');
+    setTimeout(() => {
+      window.location.href = window._authRedirect || 'BWD.html';
+    }, 1200);
+  } catch(err) {
+    showToast(err.message || 'Lỗi đăng nhập', 'error');
+    btn.disabled=false; btn.textContent='Đăng nhập';
+  }
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  clearErrs();
+  const user = document.getElementById('rUsername').value.trim();
+  const email= document.getElementById('rEmail').value.trim();
+  const pwd  = document.getElementById('rPassword').value;
+  let ok = true;
+  if (user.length < 3)        { showErr('errRUsername','Tên tối thiểu 3 ký tự'); ok=false; }
+  if (!email.includes('@'))   { showErr('errREmail','Email không hợp lệ'); ok=false; }
+  if (pwd.length < 8)         { showErr('errRPassword','Mật khẩu tối thiểu 8 ký tự'); ok=false; }
+  if (!ok) return;
+  const btn = document.getElementById('registerBtn');
+  btn.disabled=true; btn.textContent='⏳ Đang tạo tài khoản...';
+  try {
+    const result = await LunarAPI.signup(user, email, pwd);
+    showToast(`✅ Chào mừng ${result.user.username}! Đang chuyển hướng...`, 'success');
+    setTimeout(() => {
+      window.location.href = window._authRedirect || 'BWD.html';
+    }, 1200);
+  } catch(err) {
+    showToast(err.message || 'Lỗi đăng ký', 'error');
+    btn.disabled=false; btn.textContent='Tạo tài khoản';
+  }
+}
+
+// ── Utilities ───────────────────────────────────────────
+function toggleEye(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+function showErr(id, msg) { const el=document.getElementById(id); if(el){el.textContent=msg;el.style.display='block';} }
+function clearErrs() { document.querySelectorAll('.form-error').forEach(e=>{e.textContent='';e.style.display='none';}); }
+function showToast(msg, type='success') {
+  const box = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.style.cssText = `background: ${type==='success'?'var(--gold-luminous)':'#ff4d4d'}; color: var(--obsidian); padding: 12px 24px; border-radius: var(--radius-sm); margin-bottom: 8px; font-weight: 600; font-size: 0.875rem; box-shadow: var(--shadow-soft); animation: slideIn 0.3s ease forwards;`;
+  t.textContent = msg;
+  box.appendChild(t); setTimeout(()=>t.remove(), 3500);
+}
+
+
+</script>
+<script src="back-btn.js"></script>
+</body>
+</html>

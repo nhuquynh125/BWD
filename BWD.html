@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LUNAR HERITAGE – Di sản văn hóa Việt Nam dưới ánh trăng tương lai.">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE • Di sản Việt Nam">
+    <meta property="og:description"
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/BWD.html">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE • Di sản Việt Nam">
+    <meta name="twitter:description"
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <title>LUNAR HERITAGE • Di sản Việt Nam</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="modern-heritage.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
+    <script src="api.js" defer></script>
+</head>
+
+<body>
+
+    <!-- LOADING SCREEN -->
+    <style>
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+                transform: scale(0.98);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+                filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+            }
+
+            100% {
+                opacity: 0.6;
+                transform: scale(0.98);
+            }
+        }
+    </style>
+    <div id="site-loader"
+        style="position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease;">
+        <div class="loader-logo"
+            style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold-luminous); margin-bottom: 24px; animation: pulse 1.5s infinite;">
+            LUNAR HERITAGE</div>
+        <div
+            style="width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+            <div id="loader-progress"
+                style="width: 0%; height: 100%; background: var(--gold-luminous); transition: width 0.4s ease;"></div>
+        </div>
+    </div>
+
+    <div class="grain-overlay"></div>
+
+    <!-- NAV -->
+    <nav class="site-nav" id="mainNav" aria-label="Main Navigation">
+        <div class="container nav-inner">
+            <a class="nav-logo" href="javascript:void(0)" aria-label="Trang chủ Lunar Heritage">
+                LUNAR <span>HERITAGE</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#heritage">Di sản</a>
+                <a href="#folk-games">Trò chơi</a>
+                <a href="#join">Ước nguyện</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+                <a href="di-san.html">Bộ sưu tập</a>
+            </div>
+
+            <!-- Auth links: mobile-nav.js auto-appends the .hamburger-btn here -->
+            <div id="nav-actions" style="display:flex;align-items:center;gap:12px;">
+                <a href="dashboard.html" class="btn btn-outline"
+                    style="color: #d4af37 !important; border-color: #d4af37 !important; display: inline-flex !important;"
+                    id="navUserLink" aria-label="Chuyển đến bảng tin">BẢNG TIN</a>
+                <a href="login.html" class="btn btn-outline"
+                    style="color: #d4af37 !important; border-color: #d4af37 !important; display: inline-flex !important;"
+                    id="navLoginLink" aria-label="Đăng nhập tài khoản">ĐĂNG NHẬP</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Hamburger menu drawer is injected by mobile-nav.js at runtime -->
+
+    <!-- BACKGROUND CANVAS -->
+    <canvas id="three-canvas"
+        style="position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.8;"></canvas>
+
+    <!-- HERO -->
+    <section class="hero section" id="home"
+        style="min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden;">
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="reveal">
+                <p class="text-upper text-gold"
+                    style="margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <span style="width: 32px; height: 1px; background: var(--gold-luminous);"></span>
+                    Di sản · Hành trình · Ký ức
+                </p>
+
+                <h1 style="font-size: clamp(3.5rem, 8vw, 7rem); line-height: 1; margin-bottom: 32px;">
+                    Việt Nam <br>
+                    <span class="text-italic text-gold">Dưới Ánh Trăng</span>
+                </h1>
+
+                <p style="max-width: 500px; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 40px;">
+                    Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện
+                    ngàn năm được tái sinh trong không gian số.
+                </p>
+
+                <div class="hero-stats reveal" style="display: flex; gap: 40px; margin-bottom: 48px;">
+                    <div>
+                        <div
+                            style="font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--gold-luminous); line-height: 1;">
+                            <span class="counter" data-target="1960">0</span>
+                        </div>
+                        <div
+                            style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-top: 8px;">
+                            Hòn đảo</div>
+                    </div>
+                    <div>
+                        <div
+                            style="font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--gold-luminous); line-height: 1;">
+                            <span class="counter" data-target="35">0</span>+
+                        </div>
+                        <div
+                            style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-top: 8px;">
+                            Di sản UNESCO</div>
+                    </div>
+                    <div>
+                        <div
+                            style="font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--gold-luminous); line-height: 1;">
+                            <span class="counter" data-target="4000">0</span>
+                        </div>
+                        <div
+                            style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-top: 8px;">
+                            Năm lịch sử</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+                    <button class="btn btn-outline" onclick="goExplore()" id="btnExplore" aria-label="Khám phá di sản ngay">Khám phá ngay</button>
+                    <button class="btn btn-outline" onclick="launchLantern()" aria-label="Thắp đèn lồng ước nguyện">🏮
+                        Thắp đèn lồng</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERITAGE -->
+    <section id="heritage" class="section" style="background: rgba(10,10,11,0.55); backdrop-filter: blur(0px);">
+        <div class="container">
+            <div class="section-head"
+                style="margin-bottom: 64px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <p class="text-upper text-gold" style="margin-bottom: 12px;">Khám phá bộ sưu tập</p>
+                    <h2 style="font-size: clamp(2.5rem, 5vw, 4rem);">Di sản <span class="text-italic text-gold">nổi
+                            bật</span></h2>
+                </div>
+                <a href="di-san.html" class="btn btn-outline" style="padding: 8px 20px; font-size: 0.75rem;">Xem tất
+                    cả</a>
+            </div>
+
+            <div class="heritage-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+                <!-- Hạ Long -->
+                <div class="glass glass-hover"
+                    style="border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;"
+                    onclick="openHeritage(0)" role="button" tabindex="0" aria-label="Xem chi tiết Vịnh Hạ Long"
+                    onkeydown="if(event.key==='Enter') openHeritage(0)">
+                    <div style="height: 400px; overflow: hidden; position: relative;">
+                        <img loading="lazy" src="./uploads/ex/vinh-ha-long.jpg" alt="Vịnh Hạ Long"
+                            style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,11,0.9), transparent);">
+                        </div>
+                        <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                            <p class="text-upper text-gold" style="font-size: 0.65rem; margin-bottom: 8px;">Thiên nhiên
+                                · UNESCO</p>
+                            <h3 style="font-size: 1.75rem; margin-bottom: 4px;">Vịnh Hạ Long</h3>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">Quảng Ninh · Việt Nam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Huế -->
+                <div class="glass glass-hover"
+                    style="border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;"
+                    onclick="openHeritage(1)" role="button" tabindex="0" aria-label="Xem chi tiết Cố đô Huế"
+                    onkeydown="if(event.key==='Enter') openHeritage(1)">
+                    <div style="height: 400px; overflow: hidden; position: relative;">
+                        <img loading="lazy" src="./uploads/ex/co-do-hue.jpg" alt="Cố đô Huế"
+                            style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,11,0.9), transparent);">
+                        </div>
+                        <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                            <p class="text-upper text-gold" style="font-size: 0.65rem; margin-bottom: 8px;">Văn hóa ·
+                                UNESCO</p>
+                            <h3 style="font-size: 1.75rem; margin-bottom: 4px;">Cố đô Huế</h3>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">Thừa Thiên Huế · Việt Nam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hội An -->
+                <div class="glass glass-hover"
+                    style="border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;"
+                    onclick="openHeritage(2)" role="button" tabindex="0" aria-label="Xem chi tiết Phố cổ Hội An"
+                    onkeydown="if(event.key==='Enter') openHeritage(2)">
+                    <div style="height: 400px; overflow: hidden; position: relative;">
+                        <img loading="lazy" src="./uploads/ex/hoi-an.jpg" alt="Phố cổ Hội An"
+                            style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,11,0.9), transparent);">
+                        </div>
+                        <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                            <p class="text-upper text-gold" style="font-size: 0.65rem; margin-bottom: 8px;">Văn hóa ·
+                                UNESCO</p>
+                            <h3 style="font-size: 1.75rem; margin-bottom: 4px;">Phố cổ Hội An</h3>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">Quảng Nam · Việt Nam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ruộng bậc thang -->
+                <div class="glass glass-hover"
+                    style="border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;"
+                    onclick="openHeritage(3)" role="button" tabindex="0" aria-label="Xem chi tiết Ruộng Bậc Thang"
+                    onkeydown="if(event.key==='Enter') openHeritage(3)">
+                    <div style="height: 400px; overflow: hidden; position: relative;">
+                        <img loading="lazy" src="./uploads/ex/ruong-bac-thang.jpg" alt="Ruộng Bậc Thang"
+                            style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,11,0.9), transparent);">
+                        </div>
+                        <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                            <p class="text-upper text-gold" style="font-size: 0.65rem; margin-bottom: 8px;">Cảnh quan ·
+                                Quốc gia</p>
+                            <h3 style="font-size: 1.75rem; margin-bottom: 4px;">Ruộng Bậc Thang</h3>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">Tây Bắc · Việt Nam</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOLK GAMES -->
+    <section id="folk-games" class="section">
+        <div class="container">
+            <div class="section-head" style="margin-bottom: 64px; text-align: center;">
+                <p class="text-upper text-gold" style="margin-bottom: 12px;">Trải nghiệm truyền thống</p>
+                <h2 style="font-size: clamp(2.5rem, 5vw, 4rem);">Trò chơi <span class="text-italic text-gold">dân
+                        gian</span></h2>
+            </div>
+
+            <div class="folk-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px;">
+                <div class="glass glass-hover"
+                    style="padding: 40px; text-align: center; border-radius: var(--radius-lg); cursor: pointer;"
+                    onclick="openFolkGame(1)" role="button" tabindex="0" aria-label="Xem cách chơi Ô Ăn Quan"
+                    onkeydown="if(event.key==='Enter') openFolkGame(1)">
+                    <div style="font-size: 3rem; margin-bottom: 24px;">📦</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Ô Ăn Quan</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 24px;">Trò chơi chiến
+                        thuật dùng sỏi và ô, rèn luyện tư duy tính toán qua nhiều thế hệ.</p>
+                    <span class="text-gold text-upper" style="font-size: 0.7rem; font-weight: 600;">Xem cách chơi
+                        →</span>
+                </div>
+                <div class="glass glass-hover"
+                    style="padding: 40px; text-align: center; border-radius: var(--radius-lg); cursor: pointer;"
+                    onclick="openFolkGame(2)" role="button" tabindex="0" aria-label="Xem cách chơi Nhảy Lò Cò"
+                    onkeydown="if(event.key==='Enter') openFolkGame(2)">
+                    <div style="font-size: 3rem; margin-bottom: 24px;">🦶</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Nhảy Lò Cò</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 24px;">Nhảy một chân qua
+                        các ô vẽ trên mặt đất, rèn luyện sự khéo léo và cân bằng.</p>
+                    <span class="text-gold text-upper" style="font-size: 0.7rem; font-weight: 600;">Xem cách chơi
+                        →</span>
+                </div>
+                <div class="glass glass-hover"
+                    style="padding: 40px; text-align: center; border-radius: var(--radius-lg); cursor: pointer;"
+                    onclick="openFolkGame(3)" role="button" tabindex="0" aria-label="Xem cách chơi Đá Chuyền"
+                    onkeydown="if(event.key==='Enter') openFolkGame(3)">
+                    <div style="font-size: 3rem; margin-bottom: 24px;">🪨</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Đá Chuyền</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 24px;">Dùng chân đá
+                        chuyền không để rơi, thực hiện các động tác khéo léo phức tạp.</p>
+                    <span class="text-gold text-upper" style="font-size: 0.7rem; font-weight: 600;">Xem cách chơi
+                        →</span>
+                </div>
+                <div class="glass glass-hover"
+                    style="padding: 40px; text-align: center; border-radius: var(--radius-lg); cursor: pointer;"
+                    onclick="openFolkGame(4)" role="button" tabindex="0" aria-label="Xem cách chơi Kéo Co"
+                    onkeydown="if(event.key==='Enter') openFolkGame(4)">
+                    <div style="font-size: 3rem; margin-bottom: 24px;">🪢</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Kéo Co</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 24px;">Hai đội kéo dây
+                        theo chiều ngược nhau, biểu tượng của tinh thần đoàn kết cộng đồng.</p>
+                    <span class="text-gold text-upper" style="font-size: 0.7rem; font-weight: 600;">Xem cách chơi
+                        →</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOIN / LANTERN -->
+    <section id="join" class="section" style="background: rgba(10,10,11,0.45); position: relative; overflow: hidden;">
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="glass"
+                style="max-width: 800px; margin: 0 auto; padding: 80px 40px; text-align: center; border-radius: var(--radius-lg);">
+                <p class="text-upper text-gold" style="margin-bottom: 16px;">Gửi gắm ước nguyện</p>
+                <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px;">Thắp <span
+                        class="text-italic text-gold">đèn lồng</span> của bạn</h2>
+                <p
+                    style="color: var(--text-secondary); margin-bottom: 48px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    Viết điều ước vào chiếc đèn lồng ảo — chúng tôi sẽ lưu giữ câu chuyện của bạn giữa muôn ngàn tinh
+                    tú.</p>
+
+                <form class="join-form" id="lantern-form" onsubmit="handleSubmit(event)"
+                    style="display: flex; flex-direction: column; gap: 20px; max-width: 480px; margin: 0 auto;">
+                    <input type="text" id="name" aria-label="Họ và tên của bạn" placeholder="Họ và tên của bạn" required
+                        style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; color: #fff; font-family: inherit; outline: none; transition: var(--transition-snappy);">
+                    <textarea id="story" aria-label="Viết điều ước hoặc câu chuyện của bạn"
+                        placeholder="Viết điều ước hoặc câu chuyện của bạn..." required
+                        style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; color: #fff; font-family: inherit; outline: none; transition: var(--transition-snappy); min-height: 120px; resize: vertical;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="padding: 18px;"
+                        aria-label="Xác nhận thắp đèn lồng">Thắp đèn lồng</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="section" style="padding-top: 80px; padding-bottom: 40px; border-top: 1px solid var(--border);">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 48px; margin-bottom: 64px;">
+                <div>
+                    <a class="nav-logo" href="javascript:void(0)" style="display: block; margin-bottom: 24px;">LUNAR
+                        <span>HERITAGE</span></a>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">Di sản văn hóa Việt Nam dưới ánh trăng
+                        tương lai. Lưu giữ và tôn vinh những giá trị vĩnh cửu qua công nghệ.</p>
+                </div>
+                <div>
+                    <h4 class="text-upper" style="margin-bottom: 24px; color: var(--gold-luminous);">Di sản</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="vinh-ha-long.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Vịnh
+                            Hạ Long</a>
+                        <a href="co-do-hue.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Cố
+                            đô Huế</a>
+                        <a href="hoi-an.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Phố
+                            cổ Hội An</a>
+                        <a href="ruong-bac-thang.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Ruộng
+                            Bậc Thang</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-upper" style="margin-bottom: 24px; color: var(--gold-luminous);">Công cụ</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="ai.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Thầy
+                            Đồ AI</a>
+                        <a href="dashboard.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Travel
+                            Feed</a>
+                        <a href="explore.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Khám
+                            phá</a>
+                        <a href="messages.html"
+                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: var(--transition-snappy);">Tin
+                            nhắn</a>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <p style="font-size: 0.75rem; color: var(--text-secondary);">2026-BWD-VKU · LUNAR HERITAGE</p>
+                <div style="display: flex; gap: 24px;">
+                    <a href="javascript:void(0)" onclick="openPrivacyModal()"
+                        style="color: var(--text-secondary); text-decoration: none; font-size: 0.75rem;">Chính
+                        sách bảo mật</a>
+                    <a href="javascript:void(0)" onclick="openTermsModal()"
+                        style="color: var(--text-secondary); text-decoration: none; font-size: 0.75rem;">Điều
+                        khoản sử dụng</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- HERITAGE MODAL -->
+    <div id="heritage-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        style="position: fixed; inset: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(20px); z-index: 2000; display: none; place-items: center; padding: 20px;"
+        onclick="closeHeritage(event)">
+        <div class="glass"
+            style="max-width: 900px; width: 100%; position: relative; border-radius: var(--radius-lg); overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <button onclick="closeHeritageDirect()" aria-label="Đóng popup"
+                style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10;">✕</button>
+            <div style="height: 100%; min-height: 300px;">
+                <img loading="lazy" id="modal-img" src="" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 48px; display: flex; flex-direction: column; justify-content: center;">
+                <p id="modal-tag" class="text-upper text-gold" style="margin-bottom: 12px; font-size: 0.7rem;"></p>
+                <h2 id="modal-title" style="font-size: 2.5rem; margin-bottom: 24px;"></h2>
+                <p id="modal-desc"
+                    style="color: var(--text-secondary); margin-bottom: 32px; line-height: 1.8; font-size: 0.95rem;">
+                </p>
+                <div id="modal-facts" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOLK GAME MODAL -->
+    <div id="folk-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="folk-modal-title"
+        style="position: fixed; inset: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(20px); z-index: 2000; display: none; place-items: center; padding: 20px;"
+        onclick="closeFolk(event)">
+        <div class="glass"
+            style="max-width: 600px; width: 100%; padding: 64px; position: relative; border-radius: var(--radius-lg); text-align: center;">
+            <button onclick="closeFolkDirect()" aria-label="Đóng popup"
+                style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;">✕</button>
+            <h2 id="folk-modal-title" style="font-size: 2.5rem; margin-bottom: 32px;" class="text-gold"></h2>
+            <div id="folk-modal-content"
+                style="color: var(--text-secondary); line-height: 1.8; text-align: left; font-size: 1rem;"></div>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div id="privacy-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title"
+        style="position: fixed; inset: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(20px); z-index: 2000; display: none; place-items: center; padding: 20px; overflow-y: auto;"
+        onclick="closePrivacy(event)">
+        <div class="glass"
+            style="max-width: 800px; width: 100%; padding: 48px; position: relative; border-radius: var(--radius-lg); text-align: left; max-height: 90vh; overflow-y: auto;">
+            <button onclick="closePrivacyDirect()" aria-label="Đóng popup"
+                style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;">✕</button>
+            <h2 id="privacy-modal-title" style="font-size: 2.5rem; margin-bottom: 24px;" class="text-gold">Chính Sách
+                Bảo Mật</h2>
+            <div style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem;">
+                <p style="margin-bottom: 12px;"><strong>1. Thu thập thông tin:</strong> Chúng tôi thu thập thông tin khi
+                    bạn đăng ký tài khoản, tham gia ước nguyện hoặc tương tác với nền tảng. Các thông tin bao gồm tên,
+                    email, và nội dung bạn đăng tải.</p>
+                <p style="margin-bottom: 12px;"><strong>2. Sử dụng thông tin:</strong> Thông tin của bạn được sử dụng để
+                    cá nhân hóa trải nghiệm, cải thiện dịch vụ, và hiển thị trên bảng tin (nếu được phép).</p>
+                <p style="margin-bottom: 12px;"><strong>3. Bảo vệ dữ liệu:</strong> Chúng tôi áp dụng các biện pháp bảo
+                    mật tiêu chuẩn để bảo vệ thông tin cá nhân của bạn khỏi việc truy cập trái phép hoặc đánh cắp dữ
+                    liệu.</p>
+                <p style="margin-bottom: 12px;"><strong>4. Chia sẻ thông tin:</strong> Chúng tôi cam kết không bán, trao
+                    đổi hoặc chuyển giao thông tin cá nhân của bạn cho bên thứ ba ngoại trừ các trường hợp được pháp
+                    luật yêu cầu.</p>
+                <p><strong>5. Quyền lợi người dùng:</strong> Bạn có quyền yêu cầu xem, chỉnh sửa hoặc xóa thông tin cá
+                    nhân của mình bất kỳ lúc nào thông qua phần cài đặt tài khoản.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS OF USE MODAL -->
+    <div id="terms-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title"
+        style="position: fixed; inset: 0; background: rgba(10,10,11,0.95); backdrop-filter: blur(20px); z-index: 2000; display: none; place-items: center; padding: 20px; overflow-y: auto;"
+        onclick="closeTerms(event)">
+        <div class="glass"
+            style="max-width: 800px; width: 100%; padding: 48px; position: relative; border-radius: var(--radius-lg); text-align: left; max-height: 90vh; overflow-y: auto;">
+            <button onclick="closeTermsDirect()" aria-label="Đóng popup"
+                style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;">✕</button>
+            <h2 id="terms-modal-title" style="font-size: 2.5rem; margin-bottom: 24px;" class="text-gold">Điều Khoản Sử
+                Dụng</h2>
+            <div style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem;">
+                <p style="margin-bottom: 12px;"><strong>1. Chấp thuận điều khoản:</strong> Khi truy cập và sử dụng LUNAR
+                    HERITAGE, bạn đồng ý tuân thủ các điều khoản và điều kiện được nêu dưới đây.</p>
+                <p style="margin-bottom: 12px;"><strong>2. Quyền sở hữu trí tuệ:</strong> Tất cả nội dung, hình ảnh, mã
+                    nguồn và thiết kế trên trang web đều thuộc bản quyền của LUNAR HERITAGE. Không được phép sao chép mà
+                    không có sự đồng ý.</p>
+                <p style="margin-bottom: 12px;"><strong>3. Trách nhiệm người dùng:</strong> Bạn cam kết không sử dụng
+                    trang web cho mục đích bất hợp pháp, không đăng tải nội dung phản cảm, vi phạm thuần phong mỹ tục
+                    hoặc xâm phạm quyền của người khác.</p>
+                <p style="margin-bottom: 12px;"><strong>4. Giới hạn trách nhiệm:</strong> Chúng tôi không chịu trách
+                    nhiệm cho bất kỳ thiệt hại trực tiếp hoặc gián tiếp nào phát sinh từ việc sử dụng hoặc không thể sử
+                    dụng dịch vụ của trang web.</p>
+                <p><strong>5. Thay đổi điều khoản:</strong> Chúng tôi có quyền cập nhật và thay đổi các điều khoản này
+                    vào bất kỳ lúc nào. Những thay đổi sẽ có hiệu lực ngay khi được đăng tải.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── Data ──────────────────────────────────────────────────
+        const HERITAGE = [
+            {
+                img: './uploads/ex/vinh-ha-long.jpg',
+                tag: 'Thiên nhiên · UNESCO 1994 & 2000',
+                title: 'Vịnh Hạ Long',
+                desc: 'Kỳ quan thiên nhiên thế giới với hàng nghìn đảo đá karst huyền bíí, được UNESCO công nhận hai lần. Huyền thoại kể rằng những hòn đảo chính là ngọc châu của rồng phun ra để bảo vệ đất nước.',
+                facts: [['1.553 km²', 'Diện tích'], ['1.960', 'Hòn đảo'], ['2× UNESCO', 'Công nhận']]
+            },
+            {
+                img: './uploads/ex/co-do-hue.jpg',
+                tag: 'Văn hóa · UNESCO 1993',
+                title: 'Cố đô Huế',
+                desc: 'Kinh đô cuối cùng của triều Nguyễn với hệ thống cung điện, lăng tẩm và vườn thượng uyển tuyệt đẹp. Hơn 100 công trình kiến trúc trải dài hai bên bờ sông Hương thơ mộng.',
+                facts: [['1802', 'Thành lập'], ['+100', 'Công trình'], ['1993', 'UNESCO']]
+            },
+            {
+                img: './uploads/ex/hoi-an.jpg',
+                tag: 'Văn hóa · UNESCO 1999',
+                title: 'Phố cổ Hội An',
+                desc: 'Thương cảng quốc tế sầm uất nhất Đông Nam Á thế kỷ 16–18. Khu phố cổ vẫn giữ nguyên hơn 1.000 công trình kiến trúc pha trộn Việt – Hoa – Nhật – Pháp độc đáo.',
+                facts: [['800+', 'Năm lịch sử'], ['+1000', 'Công trình'], ['1999', 'UNESCO']]
+            },
+            {
+                img: './uploads/ex/ruong-bac-thang.jpg',
+                tag: 'Cảnh quan · Di sản quốc gia',
+                title: 'Ruộng Bậc Thang',
+                desc: 'Kiệt tác nông nghiệp hàng trăm năm của người H\'Mông, Dao Đỏ trên những sườn núi dốc đứng cao 1.500–1.800m. Được tạp chí Travel + Leisure xếp vào 7 ruộng bậc thang đẹp nhất thế giới.',
+                facts: [['1.800m', 'Độ cao'], ['500+', 'Năm tuổi'], ['T9–T10', 'Đẹp nhất']]
+            }
+        ];
+
+        const FOLK_GAMES = {
+            1: {
+                title: 'Ô Ăn Quan',
+                html: '<p>Trò chơi chiến thuật dùng 10 ô nhỏ và 2 ô Quan. Mỗi người lần lượt rải sỏi vào các ô, ăn quan và ô có sỏi. Người ăn được nhiều sỏi nhất thắng.</p><br><p><strong>Cách chơi:</strong><br>• Vẽ 10 ô hình chữ nhật + 2 ô Quan.<br>• Mỗi người có 5 sỏi.<br>• Lần lượt rải sỏi, ăn quan và ô tiếp theo.<br>• Người ăn được nhiều sỏi nhất thắng.</p>'
+            },
+            2: {
+                title: 'Nhảy Lò Cò',
+                html: '<p>Trò chơi rèn luyện sự khéo léo và cân bằng, phổ biến khắp Việt Nam từ Bắc vào Nam.</p><br><p><strong>Cách chơi:</strong><br>• Vẽ 8–10 ô trên mặt đất.<br>• Nhảy một chân qua các ô, nhặt đá ở ô cuối.<br>• Không được chạm vạch hoặc đặt hai chân xuống đất.<br>• Ai hoàn thành được nhiều lượt nhất thắng.</p>'
+            },
+            3: {
+                title: 'Đá Chuyền',
+                html: '<p>Trò chơi khéo léo dùng chân đá chuyền — túi vải nhỏ chứa hạt — qua các động tác phức tạp mà không để chuyền rơi.</p><br><p><strong>Cách chơi:</strong><br>• Đứng thẳng, dùng mu bàn chân tung chuyền lên.<br>• Thực hiện: đá đơn, đá đôi, đá vòng, đá sau lưng…<br>• Không để chuyền chạm đất.<br>• Ai thực hiện được nhiều kỹ thuật nhất thắng.</p>'
+            },
+            4: {
+                title: 'Kéo Co',
+                html: '<p>Trò chơi đồng đội biểu tượng của tinh thần cộng đồng, xuất hiện trong nhiều lễ hội truyền thống Việt Nam.</p><br><p><strong>Cách chơi:</strong><br>• Chia hai đội bằng nhau, đứng hai đầu sợi dây.<br>• Khi có hiệu lệnh, cùng kéo dây về phía mình.<br>• Đội nào kéo đối phương qua vạch giữa là thắng.<br>• Thường chơi 3 hiệp, đội thắng 2 hiệp thắng cuộc.</p>'
+            }
+        };
+
+        // ── Nav Scroll Effect ───────────────────────────────────────
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // ── Heritage Modal ─────────────────────────────────────────
+        function openHeritage(i) {
+            const d = HERITAGE[i];
+            document.getElementById('modal-img').src = d.img;
+            document.getElementById('modal-tag').textContent = d.tag;
+            document.getElementById('modal-title').textContent = d.title;
+            document.getElementById('modal-desc').textContent = d.desc;
+            document.getElementById('modal-facts').innerHTML = d.facts.map(([v, l]) =>
+                `<div style="text-align: center;"><span style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--gold-luminous);">${v}</span><span style="font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase;">${l}</span></div>`
+            ).join('');
+            document.getElementById('heritage-modal-overlay').style.display = 'grid';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeHeritage(e) {
+            if (e.target === document.getElementById('heritage-modal-overlay')) closeHeritageDirect();
+        }
+        function closeHeritageDirect() {
+            document.getElementById('heritage-modal-overlay').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // ── Folk Game Modal ────────────────────────────────────────
+        function openFolkGame(id) {
+            const d = FOLK_GAMES[id];
+            document.getElementById('folk-modal-title').textContent = d.title;
+            document.getElementById('folk-modal-content').innerHTML = d.html;
+            document.getElementById('folk-modal-overlay').style.display = 'grid';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeFolk(e) {
+            if (e.target === document.getElementById('folk-modal-overlay')) closeFolkDirect();
+        }
+        function closeFolkDirect() {
+            document.getElementById('folk-modal-overlay').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // ── Privacy & Terms Modals ─────────────────────────────────
+        function openPrivacyModal() {
+            document.getElementById('privacy-modal-overlay').style.display = 'grid';
+            document.body.style.overflow = 'hidden';
+        }
+        function closePrivacy(e) {
+            if (e.target === document.getElementById('privacy-modal-overlay')) closePrivacyDirect();
+        }
+        function closePrivacyDirect() {
+            document.getElementById('privacy-modal-overlay').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function openTermsModal() {
+            document.getElementById('terms-modal-overlay').style.display = 'grid';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeTerms(e) {
+            if (e.target === document.getElementById('terms-modal-overlay')) closeTermsDirect();
+        }
+        function closeTermsDirect() {
+            document.getElementById('terms-modal-overlay').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // ── Lantern ────────────────────────────────────────────────
+        function launchLantern() {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'floating-lantern';
+                    el.innerHTML = `<span style="filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));">🏮</span>`;
+                    el.style.left = (Math.random() * 95) + 'vw';
+                    el.style.bottom = '0px';
+                    el.style.setProperty('--dur', (6 + Math.random() * 4) + 's');
+                    el.style.fontSize = (22 + Math.random() * 22) + 'px';
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 11000);
+                }, i * 180);
+            }
+        }
+
+        // ── Auth-aware Explore redirect ────────────────────────────
+        function goExplore() {
+            if (window.LunarAPI && LunarAPI.isLoggedIn()) {
+                window.location.href = 'explore.html';
+            } else {
+                window.location.href = 'login.html?redirect=explore.html';
+            }
+        }
+
+        // ── Lantern form ───────────────────────────────────────────
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const story = document.getElementById('story').value.trim();
+            if (!name || !story) return;
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Đang lưu…';
+
+            try {
+                if (window.LunarAPI) await LunarAPI.createLantern(name, story);
+            } catch (_) { }
+
+            launchLantern();
+            e.target.reset();
+            btn.disabled = false;
+            btn.textContent = originalText;
+
+            const msg = document.createElement('div');
+            msg.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--gold-luminous);color:var(--obsidian);padding:14px 32px;font-size:13px;letter-spacing:0.06em;z-index:9999;font-weight:600;border-radius:40px;box-shadow:var(--glow-gold);';
+            msg.textContent = `Đèn lồng của ${name} đã được thắp sáng ✦`;
+            document.body.appendChild(msg);
+            setTimeout(() => { msg.style.opacity = '0'; msg.style.transition = 'opacity 0.5s'; setTimeout(() => msg.remove(), 500); }, 3500);
+        }
+
+        // ── Three.js: Luminous Starfield ──────────────────────────
+        window.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.getElementById('three-canvas');
+            if (!canvas) return;
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 100;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const particles = new THREE.BufferGeometry();
+            const isMobile = window.innerWidth < 768;
+            const count = isMobile ? 500 : 2500;
+            const posArr = new Float32Array(count * 3);
+            const colArr = new Float32Array(count * 3);
+
+            const gold = new THREE.Color(0xd4af37);
+            const white = new THREE.Color(0xffffff);
+
+            for (let i = 0; i < count * 3; i += 3) {
+                posArr[i] = (Math.random() - 0.5) * 400;
+                posArr[i + 1] = (Math.random() - 0.5) * 400;
+                posArr[i + 2] = (Math.random() - 0.5) * 400;
+
+                const mix = Math.random();
+                const color = gold.clone().lerp(white, mix);
+                colArr[i] = color.r;
+                colArr[i + 1] = color.g;
+                colArr[i + 2] = color.b;
+            }
+
+            particles.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colArr, 3));
+
+            const mat = new THREE.PointsMaterial({
+                size: 0.8,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+
+            const starField = new THREE.Points(particles, mat);
+            scene.add(starField);
+
+            // ── Glowing Moon ───────────────────────────────────────
+            const moonGroup = new THREE.Group();
+
+            // Moon core
+            const moonGeo = new THREE.SphereGeometry(12, 64, 64);
+            const moonMat = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+            });
+            const moon = new THREE.Mesh(moonGeo, moonMat);
+            moonGroup.add(moon);
+
+            // Moon glow layers
+            for (let i = 1; i <= 4; i++) {
+                const glowGeo = new THREE.SphereGeometry(12 + i * 8, 64, 64);
+                const glowMat = new THREE.MeshBasicMaterial({
+                    color: 0xd4af37,
+                    transparent: true,
+                    opacity: 0.2 / i,
+                    blending: THREE.AdditiveBlending,
+                    side: THREE.BackSide
+                });
+                const glow = new THREE.Mesh(glowGeo, glowMat);
+                moonGroup.add(glow);
+            }
+
+            moonGroup.position.set(80, 50, -150);
+            scene.add(moonGroup);
+
+            let mx = 0, my = 0;
+            document.addEventListener('mousemove', e => {
+                mx = (e.clientX / window.innerWidth - 0.5);
+                my = (e.clientY / window.innerHeight - 0.5);
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = Date.now() * 0.001;
+
+                starField.rotation.y += 0.0005;
+                starField.rotation.x += 0.0002;
+
+                starField.position.x += (mx * 10 - starField.position.x) * 0.05;
+                starField.position.y += (-my * 10 - starField.position.y) * 0.05;
+
+                // Subtle moon movement
+                moonGroup.position.x += (mx * 5 + 80 - moonGroup.position.x) * 0.02;
+                moonGroup.position.y += (-my * 5 + 50 - moonGroup.position.y) * 0.02;
+
+                // Pulse glow
+                moonGroup.children.forEach((child, i) => {
+                    if (i > 0) { // skip core
+                        child.scale.setScalar(1 + Math.sin(time + i) * 0.05);
+                    }
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        });
+
+        // ── Scroll Reveal & Counters ──────────────────────────────
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(c => {
+                        const target = +c.getAttribute('data-target');
+                        const duration = 2000;
+                        let start = null;
+                        const updateCounter = (time) => {
+                            if (!start) start = time;
+                            const elapsed = time - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const ease = 1 - Math.pow(1 - progress, 4);
+                            c.textContent = Math.floor(ease * target).toLocaleString('vi-VN');
+                            if (progress < 1) requestAnimationFrame(updateCounter);
+                            else c.textContent = target.toLocaleString('vi-VN');
+                        };
+                        requestAnimationFrame(updateCounter);
+                        c.classList.remove('counter');
+                    });
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .glass').forEach(el => {
+            el.classList.add('reveal');
+            observer.observe(el);
+        });
+
+        // ── Loader ───────────────────────────────────────────────
+        function hideLoader() {
+            const loader = document.getElementById('site-loader');
+            const bar = document.getElementById('loader-progress');
+            if (bar) bar.style.width = '100%';
+            setTimeout(() => {
+                if (loader && loader.style.visibility !== 'hidden') {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                    setTimeout(() => loader.remove(), 600);
+                }
+            }, 500);
+        }
+        window.addEventListener('load', hideLoader);
+        setTimeout(hideLoader, 3000); // Fallback to avoid infinite loading
+        let loadProg = 0;
+        const loaderInt = setInterval(() => {
+            const bar = document.getElementById('loader-progress');
+            if (!bar) { clearInterval(loaderInt); return; }
+            loadProg += Math.random() * 15;
+            if (loadProg > 90) loadProg = 90;
+            bar.style.width = loadProg + '%';
+        }, 100);
+    </script>
+    <!-- back-btn.js: skipped on homepage by design (page === 'bwd.html') -->
+    <script src="back-btn.js" defer></script>
+</body>
+
+</html>

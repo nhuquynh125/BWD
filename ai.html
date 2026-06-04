@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thầy Đồ Neon AI - LUNAR HERITAGE</title>
+    <link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<link rel="stylesheet" href="ai.css">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="LUNAR HERITAGE - Di sản Việt Nam">
+    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+    <meta property="og:url" content="https://lunarheritage.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LUNAR HERITAGE - Di sản Việt Nam">
+    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
+</head>
+<body>
+
+<div class="grain-overlay" style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;"></div>
+
+<!-- CURSOR -->
+<div id="cr"></div><div id="cd"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="BWD.html">
+      <div class="nav-logo-icon">🏮</div>
+      <span class="logo-text">LUNAR HERITAGE</span>
+    </a>
+    <div class="nav-links" style="display:flex;gap:24px">
+      <a href="BWD.html">🏠 Trang chủ</a>
+      <a href="BWD.html#heritage">Di sản</a>
+      <a href="map.html">Bản đồ</a>
+    </div>
+    <div id="server-status" class="status-offline">
+      <span class="status-dot" style="background:#ef4444"></span> Đang kết nối...
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div style="max-width:1280px;margin:0 auto;padding:0 28px;width:100%">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#facc15,#f59e0b);
+        display:flex;align-items:center;justify-content:center;font-size:2rem;
+        box-shadow:0 0 30px rgba(250,204,21,.5)">🧙‍♂️</div>
+      <div>
+        <h1 class="tf ng" style="font-size:clamp(1.8rem,4vw,3rem);font-weight:900">Thầy Đồ Neon AI</h1>
+        <p style="color:rgba(255,255,255,.5);font-size:.88rem;margin-top:4px">Trí tuệ nhân tạo chuyên về di sản văn hóa Việt Nam</p>
+      </div>
+    </div>
+    <p style="color:rgba(255,255,255,.45);font-size:.85rem;max-width:560px;line-height:1.7">
+      Hệ thống AI riêng của LUNAR HERITAGE. Hỏi đáp di sản - Nhận diện ảnh - Lập lịch trình du lịch cá nhân hóa.
+    </p>
+  </div>
+</section>
+
+<!-- MAIN -->
+<div style="max-width:1000px;margin:0 auto;padding:40px 28px">
+  <div style="display:flex;flex-direction:column;gap:28px;align-items:stretch">
+
+    <!-- LEFT: TAB PANEL -->
+    <div class="glass" style="border-radius:22px;overflow:hidden">
+      <div class="tab-row">
+        <button class="tab-btn on" onclick="switchTab('chat',this)">
+          <i class="fa-solid fa-comment-dots"></i> Hỏi đáp di sản
+        </button>
+        <button class="tab-btn" onclick="switchTab('image',this)">
+          <i class="fa-solid fa-image"></i> Nhận diện ảnh
+        </button>
+        <button class="tab-btn" onclick="switchTab('itinerary',this)">
+          <i class="fa-solid fa-map-location-dot"></i> Lịch trình du lịch
+        </button>
+      </div>
+
+      <!-- -- TAB 1: CHAT -- -->
+      <div class="tab-panel on" id="tab-chat">
+        <div id="chat-msgs">
+          <div class="msg bot">
+            👋 Xin chào! Ta là <strong>Thầy Đồ Neon</strong> - AI chuyên về di sản văn hóa Việt Nam.<br><br>
+            Bạn có thể hỏi ta về: lịch sử, địa danh, ẩm thực, phong tục, hoặc xin lời khuyên du lịch nhé! 🏮
+          </div>
+        </div>
+        <div class="quick-row">
+          <button class="qb" onclick="sq('Vịnh Hạ Long có bao nhiêu đảo và được UNESCO công nhận năm nào?')">🛶 Vịnh Hạ Long</button>
+          <button class="qb" onclick="sq('Cố đô Huế có những di tích nào nổi tiếng nhất?')">🏯 Cố đô Huế</button>
+          <button class="qb" onclick="sq('Phố cổ Hội An nổi tiếng về điều gì?')">🏮 Hội An</button>
+          <button class="qb" onclick="sq('Hang Sơn Đoòng lớn như thế nào?')">⛰️ Sơn Đoòng</button>
+          <button class="qb" onclick="sq('Những món ẩm thực đặc trưng nổi tiếng nhất Việt Nam?')">🍜 Ẩm thực</button>
+          <button class="qb" onclick="sq('Gợi ý cho tôi 5 địa điểm du lịch di sản Việt Nam nhất định phải đến')">🌟 Top 5 điểm đến</button>
+          <button class="qb" onclick="sq('Hãy đố tôi một câu trắc nghiệm về di sản Việt Nam (A, B, C). Nếu tôi trả lời đúng, hãy cho tôi điểm Hộ chiếu.')" style="border-color: #00ff88; color: #00ff88;">🎁 Đố vui nhận điểm</button>
+        </div>
+        <div class="chat-in-row">
+          <input class="chat-in" id="chat-input" placeholder="Hỏi Thầy Đồ về di sản Việt Nam..." onkeydown="if(event.key==='Enter')sendChat()">
+          <button class="send-btn" onclick="sendChat()">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- -- TAB 2: IMAGE -- -->
+      <div class="tab-panel" id="tab-image" style="padding:24px">
+        <div style="margin-bottom:16px">
+          <h3 class="tf" style="font-size:1.05rem;font-weight:700;margin-bottom:6px">📸 Nhận diện di sản từ ảnh</h3>
+          <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6">Upload ảnh chụp địa danh Việt Nam 🚀 AI sẽ nhận diện và kể câu chuyện đằng sau bức ảnh đó</p>
+        </div>
+        <div class="drop-zone" id="drop-zone"
+          ondragover="event.preventDefault();this.classList.add('drag')"
+          ondragleave="this.classList.remove('drag')"
+          ondrop="handleDrop(event)">
+          <input type="file" id="img-file" accept="image/*" onchange="handleFile(this.files[0])">
+          <div id="drop-placeholder">
+            <div style="font-size:3rem;margin-bottom:12px">🖼️</div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:6px">Kéo thả ảnh vào đây</div>
+            <div style="font-size:.78rem;color:rgba(255,255,255,.38)">hoặc click để chọn - JPG, PNG, WebP - Tối đa 5MB</div>
+          </div>
+        </div>
+        <img loading="lazy" id="img-preview">
+        <button class="analyze-btn" id="analyze-btn" onclick="analyzeImage()">
+          <i class="fa-solid fa-magnifying-glass-chart"></i> Phân tích ảnh bằng AI
+        </button>
+        <div id="img-result"></div>
+      </div>
+
+      <!-- -- TAB 3: ITINERARY -- -->
+      <div class="tab-panel" id="tab-itinerary" style="padding:24px">
+        <div style="margin-bottom:18px">
+          <h3 class="tf" style="font-size:1.05rem;font-weight:700;margin-bottom:6px">🗺️ Tạo lịch trình du lịch di sản</h3>
+          <p style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6">AI sẽ lên kế hoạch chi tiết theo sở thích và ngân sách của bạn</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Điểm đến chính *</label>
+            <input class="form-input" id="f-dest" placeholder="VD: Hội An, Huế, Hà Nội...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Số ngày</label>
+            <select class="form-select" id="f-days">
+              <option value="2">2 ngày</option>
+              <option value="3" selected>3 ngày</option>
+              <option value="4">4 ngày</option>
+              <option value="5">5 ngày</option>
+              <option value="7">7 ngày</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ngân sách</label>
+            <select class="form-select" id="f-budget">
+              <option value="tiết kiệm">Tiết kiệm</option>
+              <option value="trung bình" selected>Trung bình</option>
+              <option value="cao cấp">Cao cấp</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Loại du khách</label>
+            <select class="form-select" id="f-traveler">
+              <option value="solo">Một mình (Solo)</option>
+              <option value="cặp đôi" selected>Cặp đôi</option>
+              <option value="gia đình">Gia đình</option>
+              <option value="nhóm bạn">Nhóm bạn</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Xuất phát từ</label>
+            <input class="form-input" id="f-from" placeholder="VD: TP. Hồ Chí Minh (tùy chọn)">
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Sở thích (chọn nhiều)</label>
+            <div class="interest-grid">
+              <button class="interest-chip on" data-v="lịch sử & di sản" onclick="toggleChip(this)">🏛️ Lịch sử & Di sản</button>
+              <button class="interest-chip" data-v="ẩm thực địa phương" onclick="toggleChip(this)">🍜 Ẩm thực</button>
+              <button class="interest-chip" data-v="thiên nhiên & trekking" onclick="toggleChip(this)">🌿 Thiên nhiên</button>
+              <button class="interest-chip" data-v="nghệ thuật & làng nghề" onclick="toggleChip(this)">🏺 Làng nghề</button>
+              <button class="interest-chip" data-v="lễ hội & văn hóa" onclick="toggleChip(this)">🏮 Lễ hội</button>
+              <button class="interest-chip" data-v="chụp ảnh & check-in" onclick="toggleChip(this)">📸 Chụp ảnh</button>
+            </div>
+          </div>
+        </div>
+        <button class="gen-btn" id="gen-btn" onclick="generateItinerary()">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> TẠO LỊCH TRÌNH NGAY
+        </button>
+        <div class="it-result" id="it-result"></div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="api.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="ai.js"></script>
+<script src="back-btn.js"></script>
+</body>
+</html>

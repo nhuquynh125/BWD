@@ -12,6 +12,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="di-san-style.css">
+  <script src="i18n.js" defer></script>
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
   <meta property="og:description"
@@ -48,15 +49,16 @@
         <a href="dashboard.html">Cộng đồng</a>
       </div>
       <a href="BWD.html" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i> Quay về
+        <i class="fa-solid fa-arrow-left"></i> <span data-i18n="common:back">Quay về</span>
       </a>
+      <button id="langToggle" class="back-btn" style="margin-left:8px;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;color:inherit;font-size:.8rem;" aria-label="Switch language">EN</button>
     </div>
   </nav>
 
   <!-- -- HERO -- -->
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-tag">Bộ sưu tập di sản</div>
+      <div class="hero-tag" data-i18n="heritage:collection_tag">Bộ sưu tập di sản</div>
       <h1 class="hero-title">
         <span>Di sản Việt Nam</span>
         <span style="font-size:55%;opacity:.6">dưới ánh trăng</span>
@@ -88,10 +90,10 @@
 
   <!-- -- FILTERS -- -->
   <div class="filter-bar">
-    <button class="filter-btn on" data-f="all">Tất cả</button>
-    <button class="filter-btn" data-f="nature">🌿 Thiên nhiên</button>
-    <button class="filter-btn" data-f="culture">🏛️ Văn hóa</button>
-    <button class="filter-btn" data-f="mixed">✨ Hỗn hợp</button>
+    <button class="filter-btn on" data-f="all" data-i18n="common:filter_all">Tất cả</button>
+    <button class="filter-btn" data-f="nature" data-i18n="heritage:heritage_type_nature">🌿 Thiên nhiên</button>
+    <button class="filter-btn" data-f="culture" data-i18n="heritage:heritage_type_culture">🏛️ Văn hóa</button>
+    <button class="filter-btn" data-f="mixed" data-i18n="heritage:heritage_type_mixed">✨ Hỗn hợp</button>
     <button class="filter-btn" data-f="intang">🎭 Phi vật thể</button>
     <button class="filter-btn" data-f="geo">⛰️ Địa chất</button>
   </div>
@@ -291,7 +293,7 @@
     <!-- === DI SẢN PHI VẬT THỂ === -->
     <div class="sec-head reveal">
       <div>
-        <div class="sec-title">Di sản phi vật thể</div>
+        <div class="sec-title" data-i18n="common:intangible_title">Di sản phi vật thể</div>
         <div class="sec-sub">Âm nhạc - Lễ hội - Nghệ thuật - Phong tục</div>
       </div>
       <span class="sec-count">14 di sản UNESCO</span>
@@ -391,6 +393,7 @@
     </div>
   </footer>
 
+  <script src="i18n.js"></script>
   <script>
     /* Cursor */
     const cur = document.getElementById('cur');
@@ -401,6 +404,21 @@
       el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
     });
+
+    /* Lang toggle */
+    const langToggleBtn = document.getElementById('langToggle');
+    if (langToggleBtn) {
+      langToggleBtn.addEventListener('click', () => {
+        const current = window.LunarI18n?.getLang() || 'vi';
+        const next = current === 'vi' ? 'en' : 'vi';
+        langToggleBtn.textContent = next === 'vi' ? 'EN' : 'VI';
+        window.LunarI18n?.switchLang(next);
+      });
+      // Sync button text on lang change
+      window.addEventListener('langchange', e => {
+        langToggleBtn.textContent = e.detail.lang === 'vi' ? 'EN' : 'VI';
+      });
+    }
 
     /* Scroll reveal */
     const ro = new IntersectionObserver(entries => {

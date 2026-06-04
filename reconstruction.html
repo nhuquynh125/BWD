@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Phục Dựng Di Sản — LUNAR HERITAGE</title>
+  <meta name="description" content="Dùng AI Gemini để phân tích và phục dựng hình ảnh di sản Việt Nam bị hư hại. Công nghệ thị giác máy tính tiên tiến.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="reconstruction.css">
+</head>
+<body>
+
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+  <div id="cur" aria-hidden="true"></div>
+
+  <!-- ── NAV ── -->
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="BWD.html" aria-label="LUNAR HERITAGE">
+        <div class="nav-logo__icon" aria-hidden="true">🌕</div>
+        <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
+      </a>
+      <div class="nav-links">
+        <a href="di-san.html">Di sản</a>
+        <a href="ai.html">AI Thầy Đồ</a>
+        <a href="leaderboard.html">Xếp hạng</a>
+        <a href="reconstruction.html" class="active" aria-current="page">AI Phục dựng</a>
+      </div>
+      <a href="BWD.html" class="nav-cta">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Quay về
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="rc-hero" role="banner">
+    <div class="rc-hero__bg" aria-hidden="true">
+      <div class="rc-glow rc-glow--1"></div>
+      <div class="rc-glow rc-glow--2"></div>
+      <div class="rc-glow rc-glow--3"></div>
+    </div>
+    <div class="rc-hero__content">
+      <div class="rc-hero__badge">
+        <span class="ai-dot" aria-hidden="true"></span>
+        <span>GEMINI AI · VISION · RECONSTRUCTION</span>
+      </div>
+      <h1 class="rc-hero__title">
+        AI <span class="gradient-ai">Phục Dựng</span><br>Di Sản Lịch Sử
+      </h1>
+      <p class="rc-hero__desc">
+        Tải lên hình ảnh di sản bị hư hại hoặc tàn tích — AI Gemini Vision sẽ phân tích 
+        kiến trúc, phong cách lịch sử và mô tả chi tiết phương án phục dựng.
+      </p>
+      <div class="rc-hero__tech-chips" aria-label="Công nghệ sử dụng">
+        <span class="tech-chip"><i class="fa-solid fa-brain" aria-hidden="true"></i> Gemini Vision</span>
+        <span class="tech-chip"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Phân tích kiến trúc</span>
+        <span class="tech-chip"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Mô tả phục dựng</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <main class="rc-main">
+    <div class="rc-container">
+
+      <!-- ── UPLOAD + RESULT LAYOUT ── -->
+      <div class="rc-layout">
+
+        <!-- Upload Panel -->
+        <section class="rc-upload-panel" aria-labelledby="upload-heading">
+          <h2 class="panel-title" id="upload-heading">
+            <i class="fa-solid fa-upload" aria-hidden="true"></i>
+            Tải lên hình ảnh di sản
+          </h2>
+
+          <!-- Drop zone -->
+          <div class="drop-zone" id="drop-zone" role="button" tabindex="0"
+               aria-label="Kéo thả hoặc nhấp để chọn hình ảnh di sản"
+               aria-describedby="drop-zone-desc">
+            <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp"
+                   aria-label="Chọn hình ảnh" hidden>
+            <div class="drop-zone__content" id="drop-zone-content">
+              <div class="drop-zone__icon" aria-hidden="true">
+                <i class="fa-solid fa-image"></i>
+              </div>
+              <div class="drop-zone__title">Kéo thả hoặc nhấp để chọn ảnh</div>
+              <div class="drop-zone__sub" id="drop-zone-desc">JPEG, PNG, WebP · Tối đa 10MB</div>
+              <div class="drop-zone__examples" aria-label="Ví dụ">
+                <span>Ví dụ:</span>
+                <button class="example-btn" data-example="ruins" type="button">Tàn tích đền tháp</button>
+                <button class="example-btn" data-example="damage" type="button">Công trình bị hư hại</button>
+                <button class="example-btn" data-example="ancient" type="button">Ảnh cổ đen trắng</button>
+              </div>
+            </div>
+            <div class="drop-zone__preview" id="drop-zone-preview" hidden>
+              <img id="preview-img" src="" alt="Hình ảnh đã chọn" width="100%">
+              <button class="remove-btn" id="remove-img-btn" aria-label="Xóa hình ảnh">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Options -->
+          <div class="rc-options" role="group" aria-label="Tùy chọn phân tích">
+            <div class="rc-option-group">
+              <label class="rc-option-label" for="analysis-lang">Ngôn ngữ phân tích</label>
+              <select id="analysis-lang" aria-label="Chọn ngôn ngữ phân tích">
+                <option value="vi">🇻🇳 Tiếng Việt</option>
+                <option value="en">🇬🇧 English</option>
+              </select>
+            </div>
+            <div class="rc-option-group">
+              <label class="rc-option-label" for="analysis-depth">Độ chi tiết</label>
+              <select id="analysis-depth" aria-label="Chọn độ chi tiết phân tích">
+                <option value="standard">Tiêu chuẩn (~30 giây)</option>
+                <option value="detailed">Chi tiết (~60 giây)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn-analyze" id="analyze-btn" disabled aria-disabled="true" aria-busy="false">
+            <div class="btn-analyze__bg" aria-hidden="true"></div>
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            <span id="analyze-label">Phân tích & Phục dựng AI</span>
+            <span id="analyze-loader" hidden aria-hidden="true">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </span>
+          </button>
+
+          <!-- Guidelines -->
+          <div class="rc-guidelines" role="note" aria-label="Hướng dẫn">
+            <div class="guideline-item">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              Ảnh di sản lịch sử, công trình cổ, tàn tích
+            </div>
+            <div class="guideline-item">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              Độ phân giải tối thiểu 512×512px
+            </div>
+            <div class="guideline-item">
+              <i class="fa-solid fa-circle-xmark guideline--no" aria-hidden="true"></i>
+              Không nhận ảnh người, hình nhạy cảm
+            </div>
+          </div>
+        </section>
+
+        <!-- Result Panel -->
+        <section class="rc-result-panel" id="rc-result-panel" aria-labelledby="result-heading">
+          <!-- Empty state -->
+          <div class="result-empty" id="result-empty" role="status">
+            <div class="result-empty__icon" aria-hidden="true">🏛️</div>
+            <h3 id="result-heading">Kết quả phân tích AI</h3>
+            <p>Tải lên hình ảnh và nhấn "Phân tích" để xem phân tích kiến trúc và đề xuất phục dựng từ AI.</p>
+            <div class="result-empty__features" role="list" aria-label="Tính năng AI">
+              <div role="listitem">
+                <i class="fa-solid fa-landmark" aria-hidden="true"></i>
+                <span>Nhận diện phong cách kiến trúc Việt Nam</span>
+              </div>
+              <div role="listitem">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <span>Xác định các yếu tố bị hư hại/thiếu hụt</span>
+              </div>
+              <div role="listitem">
+                <i class="fa-solid fa-pen-fancy" aria-hidden="true"></i>
+                <span>Mô tả chi tiết phương án phục dựng</span>
+              </div>
+              <div role="listitem">
+                <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+                <span>Đánh giá niên đại và giai đoạn lịch sử</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading state -->
+          <div class="result-loading" id="result-loading" hidden role="status" aria-live="polite">
+            <div class="ai-thinking-animation" aria-hidden="true">
+              <div class="thinking-orb"></div>
+              <div class="thinking-rings">
+                <div class="thinking-ring thinking-ring--1"></div>
+                <div class="thinking-ring thinking-ring--2"></div>
+                <div class="thinking-ring thinking-ring--3"></div>
+              </div>
+            </div>
+            <div class="loading-title">AI đang phân tích hình ảnh...</div>
+            <div class="loading-steps" id="loading-steps" aria-live="polite">
+              <div class="loading-step active" id="step-1">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                Đang nhận diện hình ảnh...
+              </div>
+              <div class="loading-step" id="step-2">
+                <i class="fa-solid fa-landmark" aria-hidden="true"></i>
+                Phân tích kiến trúc...
+              </div>
+              <div class="loading-step" id="step-3">
+                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+                Tạo đề xuất phục dựng...
+              </div>
+            </div>
+          </div>
+
+          <!-- Result content -->
+          <div class="result-content" id="result-content" hidden>
+            <!-- Image comparison -->
+            <div class="image-compare" id="image-compare" aria-label="So sánh hình ảnh gốc">
+              <div class="image-compare__label" aria-hidden="true">Hình ảnh gốc</div>
+              <img class="result-img" id="result-orig-img" src="" alt="Hình ảnh di sản gốc" width="100%">
+            </div>
+
+            <!-- Analysis cards -->
+            <div class="analysis-section" id="analysis-section">
+              <!-- Style card -->
+              <div class="analysis-card" id="card-style">
+                <div class="analysis-card__header">
+                  <div class="analysis-card__icon" aria-hidden="true">🏛️</div>
+                  <h3 class="analysis-card__title">Phong cách kiến trúc</h3>
+                </div>
+                <div class="analysis-card__content" id="style-content">—</div>
+              </div>
+              <!-- Damage card -->
+              <div class="analysis-card" id="card-damage">
+                <div class="analysis-card__header">
+                  <div class="analysis-card__icon" aria-hidden="true">🔍</div>
+                  <h3 class="analysis-card__title">Yếu tố hư hại</h3>
+                </div>
+                <div class="analysis-card__content" id="damage-content">—</div>
+              </div>
+              <!-- Full analysis -->
+              <div class="analysis-card analysis-card--full" id="card-full">
+                <div class="analysis-card__header">
+                  <div class="analysis-card__icon" aria-hidden="true">✨</div>
+                  <h3 class="analysis-card__title">Phân tích & Đề xuất phục dựng</h3>
+                  <button class="copy-btn" id="copy-analysis-btn" aria-label="Sao chép phân tích">
+                    <i class="fa-solid fa-copy" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="analysis-card__content analysis-card__content--full" id="full-analysis" role="article" aria-label="Kết quả phân tích AI">
+                  —
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="result-actions">
+              <button class="btn-action btn-action--primary" id="btn-analyze-again">
+                <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                Phân tích lại
+              </button>
+              <button class="btn-action" id="btn-share-result">
+                <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+                Chia sẻ kết quả
+              </button>
+              <button class="btn-action" id="btn-new-upload">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                Ảnh mới
+              </button>
+            </div>
+          </div>
+
+          <!-- Error state -->
+          <div class="result-error" id="result-error" hidden role="alert" aria-live="assertive">
+            <div class="result-error__icon" aria-hidden="true">⚠️</div>
+            <h3>Phân tích thất bại</h3>
+            <p id="error-message">Đã xảy ra lỗi. Vui lòng thử lại.</p>
+            <button class="btn-retry" id="retry-btn">
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+              Thử lại
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- ── HISTORY ── -->
+      <section class="rc-history-section" id="rc-history-section" aria-labelledby="history-heading">
+        <h2 class="lb-section-title" id="history-heading">
+          <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+          Lịch sử phân tích
+        </h2>
+        <div class="history-grid" id="history-grid" role="list" aria-live="polite">
+          <p class="history-empty" role="status">Chưa có phân tích nào. Tải lên hình ảnh đầu tiên!</p>
+        </div>
+      </section>
+
+      <!-- ── HOW IT WORKS ── -->
+      <section class="how-it-works" aria-labelledby="how-heading">
+        <h2 class="lb-section-title" id="how-heading">
+          <i class="fa-solid fa-gears" aria-hidden="true"></i>
+          AI hoạt động như thế nào?
+        </h2>
+        <div class="how-steps" role="list">
+          <div class="how-step" role="listitem">
+            <div class="how-step__num" aria-hidden="true">01</div>
+            <div class="how-step__icon" aria-hidden="true">📷</div>
+            <h3 class="how-step__title">Tải ảnh lên</h3>
+            <p class="how-step__desc">Ảnh di sản, tàn tích hoặc công trình cổ bị hư hại được tải lên an toàn.</p>
+          </div>
+          <div class="how-step-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></div>
+          <div class="how-step" role="listitem">
+            <div class="how-step__num" aria-hidden="true">02</div>
+            <div class="how-step__icon" aria-hidden="true">🤖</div>
+            <h3 class="how-step__title">Gemini Vision phân tích</h3>
+            <p class="how-step__desc">AI Gemini 2.0 Flash nhận diện kiến trúc, phong cách và các yếu tố lịch sử.</p>
+          </div>
+          <div class="how-step-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></div>
+          <div class="how-step" role="listitem">
+            <div class="how-step__num" aria-hidden="true">03</div>
+            <div class="how-step__icon" aria-hidden="true">✨</div>
+            <h3 class="how-step__title">Đề xuất phục dựng</h3>
+            <p class="how-step__desc">AI tạo ra mô tả chi tiết về cách phục hồi, vật liệu và phong cách kiến trúc cần thiết.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ── TOAST ── -->
+  <div class="rc-toast" id="rc-toast" role="alert" aria-live="assertive" hidden>
+    <i id="rc-toast-icon" class="fa-solid fa-circle-check" aria-hidden="true"></i>
+    <span id="rc-toast-msg">Thông báo</span>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">LUNAR HERITAGE · AI</div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="di-san.html">Di sản</a>
+        <a href="ai.html">AI Thầy Đồ</a>
+        <a href="ar-view.html">AR View</a>
+        <a href="leaderboard.html">Xếp hạng</a>
+      </nav>
+      <p class="footer-copy">✨ 2026 VKU · Powered by Gemini AI</p>
+    </div>
+  </footer>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    const API = '';
+    let currentFile  = null;
+    let currentJobId = null;
+    let analysisHistory = JSON.parse(localStorage.getItem('rc_history') || '[]');
+
+    /* ── DOM ── */
+    const dropZone       = document.getElementById('drop-zone');
+    const imageInput     = document.getElementById('image-input');
+    const previewEl      = document.getElementById('drop-zone-preview');
+    const contentEl      = document.getElementById('drop-zone-content');
+    const previewImg     = document.getElementById('preview-img');
+    const analyzeBtn     = document.getElementById('analyze-btn');
+    const analyzeLabel   = document.getElementById('analyze-label');
+    const analyzeLoader  = document.getElementById('analyze-loader');
+    const removeBtn      = document.getElementById('remove-img-btn');
+    const resultEmpty    = document.getElementById('result-empty');
+    const resultLoading  = document.getElementById('result-loading');
+    const resultContent  = document.getElementById('result-content');
+    const resultError    = document.getElementById('result-error');
+    const fullAnalysis   = document.getElementById('full-analysis');
+    const styleContent   = document.getElementById('style-content');
+    const damageContent  = document.getElementById('damage-content');
+    const historyGrid    = document.getElementById('history-grid');
+    const copyBtn        = document.getElementById('copy-analysis-btn');
+    const rcToast        = document.getElementById('rc-toast');
+    const rcToastMsg     = document.getElementById('rc-toast-msg');
+    const rcToastIcon    = document.getElementById('rc-toast-icon');
+
+    /* ── Cursor ── */
+    const cur = document.getElementById('cur');
+    if (cur) {
+      let tx=0,ty=0,cx=0,cy=0;
+      document.addEventListener('mousemove', e => { tx=e.clientX; ty=e.clientY; });
+      (function tick(){ cx+=(tx-cx)*.16; cy+=(ty-cy)*.16; cur.style.left=cx+'px'; cur.style.top=cy+'px'; requestAnimationFrame(tick); })();
+    }
+
+    /* ── Particles ── */
+    (function(){
+      const canvas = document.getElementById('particles-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H, pts = [];
+      function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      for(let i=0;i<50;i++) pts.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, r:Math.random()*1.2+.3, a:Math.random()*Math.PI*2 });
+      (function draw(){ ctx.clearRect(0,0,W,H); pts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.a+=.008; if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`rgba(192,96,224,${.1+.12*Math.sin(p.a)})`; ctx.fill(); }); requestAnimationFrame(draw); })();
+    })();
+
+    /* ── Nav ── */
+    window.addEventListener('scroll',()=>{ document.getElementById('site-nav').classList.toggle('scrolled',window.scrollY>60); },{passive:true});
+
+    /* ── Drop zone ── */
+    dropZone.addEventListener('click', (e) => {
+      if (!e.target.closest('.example-btn') && !e.target.closest('#remove-img-btn')) imageInput.click();
+    });
+    dropZone.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); imageInput.click(); } });
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); const f=e.dataTransfer.files[0]; if(f) handleFile(f); });
+    imageInput.addEventListener('change', () => { if(imageInput.files[0]) handleFile(imageInput.files[0]); });
+    removeBtn.addEventListener('click', (e) => { e.stopPropagation(); clearFile(); });
+
+    /* ── Example buttons ── */
+    document.querySelectorAll('.example-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showToast(`Ví dụ "${btn.textContent}" — Hãy tải lên ảnh thật của bạn!`, 'info');
+      });
+    });
+
+    function handleFile(file) {
+      if (file.size > 10 * 1024 * 1024) { showToast('Ảnh quá lớn! Tối đa 10MB.', 'error'); return; }
+      if (!['image/jpeg','image/png','image/webp'].includes(file.type)) { showToast('Định dạng không hỗ trợ. Vui lòng dùng JPEG, PNG hoặc WebP.', 'error'); return; }
+      currentFile = file;
+      const url = URL.createObjectURL(file);
+      previewImg.src = url;
+      previewImg.alt = `Hình ảnh di sản: ${file.name}`;
+      previewEl.hidden = false;
+      contentEl.hidden = true;
+      analyzeBtn.disabled = false;
+      analyzeBtn.removeAttribute('aria-disabled');
+      dropZone.classList.add('has-file');
+    }
+
+    function clearFile() {
+      currentFile = null;
+      previewImg.src = '';
+      previewEl.hidden = true;
+      contentEl.hidden = false;
+      analyzeBtn.disabled = true;
+      analyzeBtn.setAttribute('aria-disabled','true');
+      imageInput.value = '';
+      dropZone.classList.remove('has-file','drag-over');
+    }
+
+    /* ── Analyze ── */
+    analyzeBtn.addEventListener('click', runAnalysis);
+    document.getElementById('btn-analyze-again').addEventListener('click', runAnalysis);
+    document.getElementById('btn-new-upload').addEventListener('click', () => { clearFile(); showState('empty'); });
+    document.getElementById('retry-btn').addEventListener('click', runAnalysis);
+
+    async function runAnalysis() {
+      if (!currentFile) { showToast('Vui lòng chọn hình ảnh trước.', 'error'); return; }
+
+      showState('loading');
+      animateLoadingSteps();
+
+      analyzeBtn.disabled = true;
+      analyzeBtn.setAttribute('aria-busy','true');
+      analyzeLabel.hidden = true;
+      analyzeLoader.hidden = false;
+
+      const formData = new FormData();
+      formData.append('file', currentFile);
+
+      const lang  = document.getElementById('analysis-lang').value;
+      const depth = document.getElementById('analysis-depth').value;
+
+      try {
+        /* Try /reconstruct endpoint first, fallback to /analyze-image */
+        let endpoint = `${API}/api/ai/reconstruct`;
+        let res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')||''}` },
+          body: formData
+        });
+
+        /* Fallback to analyze-image if reconstruct not available */
+        if (res.status === 404) {
+          endpoint = `${API}/api/ai/analyze-image`;
+          const formData2 = new FormData();
+          formData2.append('file', currentFile);
+          res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')||''}` },
+            body: formData2
+          });
+        }
+
+        if (!res.ok) {
+          const err = await res.json().catch(()=>({}));
+          throw new Error(err.error || 'Phân tích thất bại');
+        }
+
+        const data = await res.json();
+        const analysisText = data.analysis || data.result || data.description || 'AI đã phân tích xong.';
+
+        showResults(analysisText);
+        saveToHistory(currentFile, analysisText);
+
+      } catch(err) {
+        showState('error');
+        document.getElementById('error-message').textContent = err.message || 'Đã xảy ra lỗi không xác định.';
+      } finally {
+        analyzeBtn.disabled = false;
+        analyzeBtn.setAttribute('aria-busy','false');
+        analyzeLabel.hidden = false;
+        analyzeLoader.hidden = true;
+      }
+    }
+
+    /* ── Loading steps animation ── */
+    let stepTimer = null;
+    function animateLoadingSteps() {
+      const steps = ['step-1','step-2','step-3'];
+      let idx = 0;
+      clearInterval(stepTimer);
+      steps.forEach(s => document.getElementById(s)?.classList.remove('active','done'));
+      document.getElementById(steps[0])?.classList.add('active');
+      stepTimer = setInterval(() => {
+        document.getElementById(steps[idx])?.classList.remove('active');
+        document.getElementById(steps[idx])?.classList.add('done');
+        idx++;
+        if (idx < steps.length) document.getElementById(steps[idx])?.classList.add('active');
+        else clearInterval(stepTimer);
+      }, 3500);
+    }
+
+    /* ── Show results ── */
+    function showResults(text) {
+      clearInterval(stepTimer);
+
+      /* Parse sections from AI text */
+      const lines = text.split('\n').filter(l => l.trim());
+      let styleText   = '';
+      let damageText  = '';
+      let fullText    = text;
+
+      /* Try to extract structured sections */
+      const styleMatch = text.match(/(?:phong cách|kiến trúc|architectural style)[^\n]*\n([^#\n]+)/i);
+      if (styleMatch) styleText = styleMatch[1].trim();
+
+      const damageMatch = text.match(/(?:hư hại|tổn thất|damage|missing)[^\n]*\n([^#\n]+)/i);
+      if (damageMatch) damageText = damageMatch[1].trim();
+
+      styleContent.textContent  = styleText || lines[0] || '—';
+      damageContent.textContent = damageText || lines[1] || '—';
+
+      /* Render full analysis with markdown-like formatting */
+      fullAnalysis.innerHTML = formatAnalysis(fullText);
+
+      /* Show original image */
+      const origImg = document.getElementById('result-orig-img');
+      origImg.src = previewImg.src;
+      origImg.alt = previewImg.alt;
+
+      showState('result');
+    }
+
+    function formatAnalysis(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^#{1,3}\s(.+)$/gm, '<h4 class="analysis-heading">$1</h4>')
+        .replace(/^[\-\*]\s(.+)$/gm, '<li>$1</li>')
+        .replace(/(<li>[\s\S]+?<\/li>)/g, '<ul>$1</ul>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^(?!<)(.+)$/gm, '<p>$1</p>')
+        .replace(/<p><\/p>/g, '')
+        .replace(/<p>(<h4|<ul)/g, '$1')
+        .replace(/<\/ul><\/p>/g, '</ul>');
+    }
+
+    /* ── State management ── */
+    function showState(state) {
+      resultEmpty.hidden   = state !== 'empty';
+      resultLoading.hidden = state !== 'loading';
+      resultContent.hidden = state !== 'result';
+      resultError.hidden   = state !== 'error';
+    }
+
+    /* ── History ── */
+    function saveToHistory(file, analysis) {
+      const entry = { id: Date.now(), filename: file.name, analysis, timestamp: new Date().toISOString() };
+      analysisHistory.unshift(entry);
+      if (analysisHistory.length > 10) analysisHistory = analysisHistory.slice(0,10);
+      localStorage.setItem('rc_history', JSON.stringify(analysisHistory));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      if (!analysisHistory.length) {
+        historyGrid.innerHTML = '<p class="history-empty" role="status">Chưa có phân tích nào. Tải lên hình ảnh đầu tiên!</p>';
+        return;
+      }
+      historyGrid.innerHTML = analysisHistory.map(entry => {
+        const d = new Date(entry.timestamp);
+        const preview = entry.analysis.slice(0,120) + (entry.analysis.length>120?'...':'');
+        return `
+        <div class="history-card" role="listitem" tabindex="0" data-id="${entry.id}">
+          <div class="history-card__icon" aria-hidden="true">🏛️</div>
+          <div class="history-card__info">
+            <div class="history-card__name">${entry.filename}</div>
+            <div class="history-card__preview">${preview}</div>
+            <div class="history-card__time">${d.toLocaleString('vi-VN')}</div>
+          </div>
+          <button class="history-card__delete" aria-label="Xóa" data-id="${entry.id}">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i>
+          </button>
+        </div>`;
+      }).join('');
+
+      document.querySelectorAll('.history-card__delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          analysisHistory = analysisHistory.filter(h => h.id.toString() !== btn.dataset.id);
+          localStorage.setItem('rc_history', JSON.stringify(analysisHistory));
+          renderHistory();
+        });
+      });
+    }
+
+    /* ── Copy ── */
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(fullAnalysis.textContent);
+        showToast('Đã sao chép phân tích!', 'success');
+      } catch { showToast('Không thể sao chép.', 'error'); }
+    });
+
+    /* ── Share ── */
+    document.getElementById('btn-share-result').addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title:'AI Phục dựng Di sản - LUNAR HERITAGE', text: fullAnalysis.textContent.slice(0,200)+'...', url: window.location.href });
+        } catch {}
+      } else {
+        await navigator.clipboard.writeText(window.location.href).catch(()=>{});
+        showToast('Đã sao chép link trang!', 'success');
+      }
+    });
+
+    /* ── Toast ── */
+    let toastTimer;
+    function showToast(msg, type='success') {
+      rcToastMsg.textContent = msg;
+      rcToastIcon.className = type==='error' ? 'fa-solid fa-circle-xmark' : type==='info' ? 'fa-solid fa-circle-info' : 'fa-solid fa-circle-check';
+      rcToast.hidden = false;
+      rcToast.className = `rc-toast rc-toast--${type} show`;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { rcToast.classList.remove('show'); setTimeout(()=>{rcToast.hidden=true;},400); }, 4000);
+    }
+
+    /* ── Init ── */
+    showState('empty');
+    renderHistory();
+
+    document.querySelectorAll('a,button,.example-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    });
+
+  })();
+  </script>
+  <script src="back-btn.js"></script>
+</body>
+</html>

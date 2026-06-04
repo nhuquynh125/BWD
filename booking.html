@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt Tour Di Sản — LUNAR HERITAGE</title>
+  <meta name="description" content="Đặt tour tham quan di sản Việt Nam. Khám phá Vịnh Hạ Long, Hội An, Cố đô Huế và nhiều hơn nữa cùng hướng dẫn viên chuyên nghiệp.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="booking.css">
+</head>
+<body>
+
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div id="cur" aria-hidden="true"></div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="BWD.html" aria-label="LUNAR HERITAGE - Trang chủ">
+        <div class="nav-logo__icon" aria-hidden="true">🌕</div>
+        <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
+      </a>
+      <div class="nav-links" role="list">
+        <a href="BWD.html" role="listitem">Trang chủ</a>
+        <a href="di-san.html" role="listitem">Di sản</a>
+        <a href="explore.html" role="listitem">Khám phá</a>
+        <a href="leaderboard.html" role="listitem">Xếp hạng</a>
+        <a href="booking.html" class="active" aria-current="page" role="listitem">Đặt tour</a>
+      </div>
+      <a href="login.html" class="nav-cta" id="nav-login-btn">
+        <i class="fa-solid fa-user" aria-hidden="true"></i>
+        <span>Đăng nhập</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="bk-hero" role="banner">
+    <div class="bk-hero__bg" aria-hidden="true">
+      <div class="bk-hero__glow bk-hero__glow--1"></div>
+      <div class="bk-hero__glow bk-hero__glow--2"></div>
+    </div>
+    <div class="bk-hero__content">
+      <div class="bk-hero__eyebrow">
+        <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+        <span>ĐĂNG KÝ TOUR TRỰC TIẾP</span>
+      </div>
+      <h1 class="bk-hero__title">
+        Đặt Tour <span class="gradient-text">Di Sản</span>
+      </h1>
+      <p class="bk-hero__desc">
+        Trải nghiệm những di sản kỳ vĩ của Việt Nam cùng hướng dẫn viên bản địa. 
+        Đặt tour ngay và nhận <strong>200 điểm</strong> khám phá!
+      </p>
+      <div class="bk-hero__perks" aria-label="Ưu đãi khi đặt tour">
+        <div class="perk"><i class="fa-solid fa-star" aria-hidden="true"></i><span>+200 điểm khám phá</span></div>
+        <div class="perk"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Hoàn tiền 100% nếu hủy trước 24h</span></div>
+        <div class="perk"><i class="fa-solid fa-headset" aria-hidden="true"></i><span>Hỗ trợ 24/7</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <main class="bk-main">
+    <div class="bk-container">
+
+      <!-- ── BOOKING FORM ── -->
+      <section class="booking-section" aria-labelledby="booking-form-heading">
+        <div class="booking-layout">
+
+          <!-- Form Panel -->
+          <div class="booking-form-panel">
+            <h2 class="panel-title" id="booking-form-heading">
+              <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+              Thông tin đặt tour
+            </h2>
+
+            <form id="booking-form" novalidate aria-label="Form đặt tour">
+              <!-- Site Selection -->
+              <div class="form-group">
+                <label class="form-label" for="site-select">
+                  Chọn di sản <span class="required" aria-hidden="true">*</span>
+                </label>
+                <div class="form-select-wrap">
+                  <select id="site-select" name="siteSlug" required aria-required="true" aria-describedby="site-error">
+                    <option value="">— Chọn di sản —</option>
+                    <option value="vinh-ha-long">🌊 Vịnh Hạ Long</option>
+                    <option value="co-do-hue">🏯 Cố đô Huế</option>
+                    <option value="hoi-an">🏮 Phố cổ Hội An</option>
+                    <option value="phong-nha-ke-bang">🦇 Phong Nha – Kẻ Bàng</option>
+                    <option value="thanh-dia-my-son">🗿 Thánh địa Mỹ Sơn</option>
+                    <option value="hoang-thanh-thang-long">🏰 Hoàng thành Thăng Long</option>
+                    <option value="quan-the-trang-an">⛵ Quần thể Tràng An</option>
+                    <option value="thanh-nha-ho">🧱 Thành nhà Hồ</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+                <span class="form-error" id="site-error" role="alert" aria-live="polite"></span>
+              </div>
+
+              <!-- Tour Type -->
+              <fieldset class="form-group">
+                <legend class="form-label">Loại tour <span class="required" aria-hidden="true">*</span></legend>
+                <div class="tour-type-grid" role="radiogroup" aria-required="true">
+                  <label class="tour-type-card" id="type-standard-label">
+                    <input type="radio" name="tourType" value="standard" checked
+                           aria-labelledby="type-standard-label" required>
+                    <div class="tour-type-card__body">
+                      <div class="tour-type-card__icon" aria-hidden="true">🎒</div>
+                      <div class="tour-type-card__name">Tiêu chuẩn</div>
+                      <div class="tour-type-card__price">350.000 VND<span>/người</span></div>
+                      <ul class="tour-type-card__features" aria-label="Tính năng">
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> HDV bản địa</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Ăn trưa truyền thống</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Bảo hiểm cơ bản</li>
+                      </ul>
+                    </div>
+                  </label>
+                  <label class="tour-type-card" id="type-premium-label">
+                    <input type="radio" name="tourType" value="premium"
+                           aria-labelledby="type-premium-label">
+                    <div class="tour-type-card__body">
+                      <div class="tour-type-card__badge">Phổ biến</div>
+                      <div class="tour-type-card__icon" aria-hidden="true">⭐</div>
+                      <div class="tour-type-card__name">Cao cấp</div>
+                      <div class="tour-type-card__price">750.000 VND<span>/người</span></div>
+                      <ul class="tour-type-card__features" aria-label="Tính năng">
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Xe riêng</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Nhà hàng 4 sao</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Toàn bộ vé vào cổng</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Bảo hiểm toàn diện</li>
+                      </ul>
+                    </div>
+                  </label>
+                  <label class="tour-type-card" id="type-private-label">
+                    <input type="radio" name="tourType" value="private"
+                           aria-labelledby="type-private-label">
+                    <div class="tour-type-card__body">
+                      <div class="tour-type-card__icon" aria-hidden="true">👑</div>
+                      <div class="tour-type-card__name">Riêng tư</div>
+                      <div class="tour-type-card__price">1.500.000 VND<span>/người</span></div>
+                      <ul class="tour-type-card__features" aria-label="Tính năng">
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Nhóm riêng tư</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Linh hoạt lịch trình</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Trợ lý cá nhân</li>
+                        <li><i class="fa-solid fa-check" aria-hidden="true"></i> Dịch vụ đón đưa sân bay</li>
+                      </ul>
+                    </div>
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Date & Participants -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="tour-date">
+                    Ngày tham quan <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <div class="input-wrap">
+                    <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+                    <input type="date" id="tour-date" name="tourDate" required
+                           aria-required="true" aria-describedby="date-error"
+                           min="" placeholder="dd/mm/yyyy">
+                  </div>
+                  <span class="form-error" id="date-error" role="alert" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="participants">
+                    Số người <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <div class="input-wrap input-wrap--counter">
+                    <button type="button" class="counter-btn" id="dec-btn" aria-label="Giảm số người" disabled>
+                      <i class="fa-solid fa-minus" aria-hidden="true"></i>
+                    </button>
+                    <input type="number" id="participants" name="participants" value="2"
+                           min="1" max="20" required aria-required="true"
+                           aria-label="Số người tham gia" aria-describedby="participants-error">
+                    <button type="button" class="counter-btn" id="inc-btn" aria-label="Tăng số người">
+                      <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <span class="form-error" id="participants-error" role="alert" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <!-- Check availability -->
+              <button type="button" id="check-availability-btn" class="btn-check-avail" aria-live="polite">
+                <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                Kiểm tra lịch trống
+              </button>
+              <div class="availability-result" id="availability-result" aria-live="polite" hidden></div>
+
+              <!-- Payment Method -->
+              <div class="form-group">
+                <label class="form-label">Phương thức thanh toán</label>
+                <div class="payment-methods" role="radiogroup" aria-label="Chọn phương thức thanh toán">
+                  <label class="payment-option" id="pay-cash-label">
+                    <input type="radio" name="paymentProvider" value="cash" checked aria-labelledby="pay-cash-label">
+                    <span class="payment-option__icon" aria-hidden="true">💵</span>
+                    <span>Tiền mặt tại điểm</span>
+                  </label>
+                  <label class="payment-option" id="pay-momo-label">
+                    <input type="radio" name="paymentProvider" value="momo" aria-labelledby="pay-momo-label">
+                    <span class="payment-option__icon" aria-hidden="true">📱</span>
+                    <span>MoMo</span>
+                  </label>
+                  <label class="payment-option" id="pay-vnpay-label">
+                    <input type="radio" name="paymentProvider" value="vnpay" aria-labelledby="pay-vnpay-label">
+                    <span class="payment-option__icon" aria-hidden="true">🏦</span>
+                    <span>VNPay</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Notes -->
+              <div class="form-group">
+                <label class="form-label" for="notes">Ghi chú thêm</label>
+                <textarea id="notes" name="notes" rows="3"
+                          placeholder="Yêu cầu đặc biệt, dị ứng thực phẩm, hỗ trợ tiếp cận..."
+                          aria-label="Ghi chú thêm"></textarea>
+              </div>
+
+              <button type="submit" class="btn-book" id="submit-btn" aria-busy="false">
+                <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+                <span class="btn-book__label">Đặt tour ngay</span>
+                <span class="btn-book__loader" hidden aria-hidden="true">
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+                </span>
+              </button>
+              <p class="form-disclaimer">
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                Thông tin được bảo mật. Chúng tôi không chia sẻ dữ liệu cá nhân.
+              </p>
+            </form>
+          </div>
+
+          <!-- Summary Panel -->
+          <aside class="booking-summary-panel" aria-label="Tóm tắt đặt tour" aria-live="polite">
+            <div class="summary-sticky">
+              <h3 class="summary-title">
+                <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+                Tóm tắt đặt tour
+              </h3>
+
+              <div class="summary-site" id="summary-site">
+                <div class="summary-site__placeholder" aria-label="Chọn di sản để xem tóm tắt">
+                  <i class="fa-solid fa-map-pin" aria-hidden="true"></i>
+                  <span>Chọn di sản để xem chi tiết</span>
+                </div>
+              </div>
+
+              <div class="summary-details" id="summary-details">
+                <div class="summary-row">
+                  <span>Di sản:</span>
+                  <strong id="sum-site">—</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Loại tour:</span>
+                  <strong id="sum-type">Tiêu chuẩn</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Ngày:</span>
+                  <strong id="sum-date">—</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Số người:</span>
+                  <strong id="sum-participants">2</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Đơn giá:</span>
+                  <strong id="sum-unit">350.000 VND</strong>
+                </div>
+              </div>
+
+              <div class="summary-total">
+                <span>Tổng cộng</span>
+                <div class="summary-total__amount" id="sum-total" aria-live="polite">700.000 VND</div>
+              </div>
+
+              <div class="summary-bonus" aria-label="Phần thưởng điểm">
+                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                <span>+200 điểm khám phá sau khi đặt</span>
+              </div>
+
+              <div class="summary-policy">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                <span>Hoàn tiền 100% nếu hủy trước 24 giờ. Hủy sau 24h không được hoàn tiền.</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ── MY BOOKINGS ── -->
+      <section class="my-bookings-section" id="my-bookings-section" hidden aria-labelledby="my-bookings-heading">
+        <div class="section-header">
+          <h2 class="lb-section-title" id="my-bookings-heading">
+            <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+            Lịch sử đặt tour
+          </h2>
+          <button class="btn-outline-sm" id="refresh-bookings" aria-label="Làm mới danh sách">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i> Làm mới
+          </button>
+        </div>
+        <div id="bookings-list" role="list" aria-label="Danh sách booking" aria-live="polite">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ── SUCCESS MODAL ── -->
+  <div class="modal-overlay" id="success-modal" role="dialog" aria-modal="true"
+       aria-labelledby="success-modal-title" hidden>
+    <div class="modal">
+      <div class="modal__icon success-icon" aria-hidden="true">🎉</div>
+      <h2 class="modal__title" id="success-modal-title">Đặt tour thành công!</h2>
+      <p class="modal__text">
+        Mã xác nhận của bạn: <strong class="confirm-code" id="confirm-code-display">—</strong>
+      </p>
+      <p class="modal__sub">
+        Bạn sẽ nhận được xác nhận qua email. Hãy lưu mã xác nhận này lại!
+      </p>
+      <div class="modal__bonus" aria-label="Phần thưởng điểm">
+        <i class="fa-solid fa-star" aria-hidden="true"></i>
+        <span>Bạn vừa nhận được <strong>+200 điểm</strong> khám phá!</span>
+      </div>
+      <div class="modal__actions">
+        <a href="leaderboard.html" class="btn-primary-modal">
+          <i class="fa-solid fa-trophy" aria-hidden="true"></i>
+          Xem xếp hạng
+        </a>
+        <button class="btn-secondary-modal" id="close-success-modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST ── -->
+  <div class="booking-toast" id="booking-toast" role="alert" aria-live="assertive" hidden>
+    <i class="fa-solid fa-circle-check" id="toast-icon" aria-hidden="true"></i>
+    <span id="toast-msg">Thông báo</span>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">LUNAR HERITAGE</div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="BWD.html">Trang chủ</a>
+        <a href="di-san.html">Di sản</a>
+        <a href="leaderboard.html">Xếp hạng</a>
+        <a href="dashboard.html">Cộng đồng</a>
+      </nav>
+      <p class="footer-copy">✨ 2026 VKU · LUNAR HERITAGE PROJECT</p>
+    </div>
+  </footer>
+
+  <script>
+  (() => {
+    'use strict';
+
+    /* ── Config ── */
+    const API = '';
+    const PRICE_MAP = { standard: 350000, premium: 750000, private: 1500000 };
+    const SITE_LABELS = {
+      'vinh-ha-long':'Vịnh Hạ Long', 'co-do-hue':'Cố đô Huế',
+      'hoi-an':'Phố cổ Hội An', 'phong-nha-ke-bang':'Phong Nha – Kẻ Bàng',
+      'thanh-dia-my-son':'Thánh địa Mỹ Sơn', 'hoang-thanh-thang-long':'Hoàng thành Thăng Long',
+      'quan-the-trang-an':'Quần thể Tràng An', 'thanh-nha-ho':'Thành nhà Hồ'
+    };
+
+    /* ── DOM ── */
+    const form        = document.getElementById('booking-form');
+    const siteSelect  = document.getElementById('site-select');
+    const tourDateEl  = document.getElementById('tour-date');
+    const participants= document.getElementById('participants');
+    const decBtn      = document.getElementById('dec-btn');
+    const incBtn      = document.getElementById('inc-btn');
+    const sumSite     = document.getElementById('sum-site');
+    const sumType     = document.getElementById('sum-type');
+    const sumDate     = document.getElementById('sum-date');
+    const sumPart     = document.getElementById('sum-participants');
+    const sumUnit     = document.getElementById('sum-unit');
+    const sumTotal    = document.getElementById('sum-total');
+    const submitBtn   = document.getElementById('submit-btn');
+    const successModal= document.getElementById('success-modal');
+    const closeModal  = document.getElementById('close-success-modal');
+    const confirmCode = document.getElementById('confirm-code-display');
+    const availBtn    = document.getElementById('check-availability-btn');
+    const availResult = document.getElementById('availability-result');
+    const toast       = document.getElementById('booking-toast');
+    const toastMsg    = document.getElementById('toast-msg');
+    const toastIcon   = document.getElementById('toast-icon');
+    const myBookingsSec = document.getElementById('my-bookings-section');
+    const bookingsList= document.getElementById('bookings-list');
+
+    /* ── Cursor ── */
+    const cur = document.getElementById('cur');
+    if (cur) {
+      let tx=0,ty=0,cx=0,cy=0;
+      document.addEventListener('mousemove', e => { tx=e.clientX; ty=e.clientY; });
+      (function tick(){ cx+=(tx-cx)*.16; cy+=(ty-cy)*.16; cur.style.left=cx+'px'; cur.style.top=cy+'px'; requestAnimationFrame(tick); })();
+    }
+
+    /* ── Nav scroll ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY>60);
+    }, { passive:true });
+
+    /* ── Set min date = today ── */
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm   = String(today.getMonth()+1).padStart(2,'0');
+    const dd   = String(today.getDate()).padStart(2,'0');
+    tourDateEl.min = `${yyyy}-${mm}-${dd}`;
+
+    /* ── Counter buttons ── */
+    decBtn.addEventListener('click', () => {
+      const v = parseInt(participants.value)||1;
+      if (v > 1) { participants.value = v-1; updateSummary(); }
+      decBtn.disabled = parseInt(participants.value) <= 1;
+    });
+    incBtn.addEventListener('click', () => {
+      const v = parseInt(participants.value)||1;
+      if (v < 20) { participants.value = v+1; updateSummary(); }
+      decBtn.disabled = false;
+    });
+    participants.addEventListener('input', () => {
+      decBtn.disabled = parseInt(participants.value) <= 1;
+      updateSummary();
+    });
+
+    /* ── Update summary ── */
+    function updateSummary(){
+      const site   = siteSelect.value;
+      const type   = document.querySelector('[name="tourType"]:checked')?.value || 'standard';
+      const date   = tourDateEl.value;
+      const num    = parseInt(participants.value)||1;
+      const price  = PRICE_MAP[type] || 350000;
+      const total  = price * num;
+
+      sumSite.textContent = site ? (SITE_LABELS[site]||site) : '—';
+      sumType.textContent = { standard:'Tiêu chuẩn', premium:'Cao cấp', private:'Riêng tư' }[type];
+      sumDate.textContent = date ? formatDate(date) : '—';
+      sumPart.textContent = num;
+      sumUnit.textContent = price.toLocaleString('vi-VN') + ' VND';
+      sumTotal.textContent = total.toLocaleString('vi-VN') + ' VND';
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr+'T00:00:00');
+      return d.toLocaleDateString('vi-VN', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
+    }
+
+    /* ── Listen for changes ── */
+    siteSelect.addEventListener('change', updateSummary);
+    tourDateEl.addEventListener('change', updateSummary);
+    document.querySelectorAll('[name="tourType"]').forEach(r => r.addEventListener('change', () => {
+      document.querySelectorAll('.tour-type-card').forEach(c => c.classList.remove('selected'));
+      r.closest('.tour-type-card').classList.add('selected');
+      updateSummary();
+    }));
+    /* Mark default selected */
+    document.querySelector('[name="tourType"][value="standard"]')?.closest('.tour-type-card')?.classList.add('selected');
+    updateSummary();
+
+    /* ── Check availability ── */
+    availBtn.addEventListener('click', async () => {
+      const site = siteSelect.value;
+      const date = tourDateEl.value;
+      if (!site || !date) {
+        showToast('Vui lòng chọn di sản và ngày tham quan.', 'error');
+        return;
+      }
+      availBtn.disabled = true;
+      availBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang kiểm tra...';
+      try {
+        const res = await fetch(`${API}/api/booking/availability/${site}?date=${date}`);
+        if (!res.ok) throw new Error();
+        const { available, booked, prices } = await res.json();
+        availResult.hidden = false;
+        availResult.innerHTML = available > 0
+          ? `<div class="avail-ok"><i class="fa-solid fa-circle-check"></i> Còn <strong>${available}</strong> chỗ trống ngày ${formatDate(date)}</div>`
+          : `<div class="avail-full"><i class="fa-solid fa-circle-xmark"></i> Hết chỗ ngày này. Vui lòng chọn ngày khác.</div>`;
+      } catch {
+        availResult.hidden = false;
+        availResult.innerHTML = `<div class="avail-err"><i class="fa-solid fa-triangle-exclamation"></i> Không thể kiểm tra. Thử lại sau.</div>`;
+      } finally {
+        availBtn.disabled = false;
+        availBtn.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Kiểm tra lịch trống';
+      }
+    });
+
+    /* ── Form submit ── */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateForm()) return;
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        showToast('Vui lòng đăng nhập để đặt tour.', 'error');
+        setTimeout(() => { window.location.href = 'login.html'; }, 1800);
+        return;
+      }
+
+      const label       = submitBtn.querySelector('.btn-book__label');
+      const loader      = submitBtn.querySelector('.btn-book__loader');
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
+      label.hidden      = true;
+      loader.hidden     = false;
+
+      try {
+        const csrfRes = await fetch(`${API}/api/csrf-token`, { credentials:'include' });
+        const { csrfToken } = await csrfRes.json();
+        const body = {
+          siteSlug:        siteSelect.value,
+          tourType:        document.querySelector('[name="tourType"]:checked')?.value || 'standard',
+          tourDate:        tourDateEl.value,
+          participants:    parseInt(participants.value),
+          paymentProvider: document.querySelector('[name="paymentProvider"]:checked')?.value || 'cash',
+          notes:           document.getElementById('notes').value,
+        };
+        const res = await fetch(`${API}/api/booking`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'X-CSRF-Token': csrfToken,
+          },
+          credentials: 'include',
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'Đặt tour thất bại');
+        }
+        const { confirmCode: code } = await res.json();
+        confirmCode.textContent = code;
+        successModal.hidden = false;
+        document.body.classList.add('modal-open');
+        form.reset();
+        updateSummary();
+        loadMyBookings();
+      } catch (err) {
+        showToast(err.message || 'Đặt tour thất bại. Thử lại sau.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-busy', 'false');
+        label.hidden = false;
+        loader.hidden = true;
+      }
+    });
+
+    /* ── Validation ── */
+    function validateForm(){
+      let ok = true;
+      clearErrors();
+      if (!siteSelect.value) { showError('site-error', 'Vui lòng chọn di sản.'); ok=false; }
+      if (!tourDateEl.value) { showError('date-error', 'Vui lòng chọn ngày.'); ok=false; }
+      const pv = parseInt(participants.value);
+      if (!pv || pv<1 || pv>20) { showError('participants-error', 'Số người phải từ 1–20.'); ok=false; }
+      return ok;
+    }
+    function showError(id, msg){ const el=document.getElementById(id); if(el){ el.textContent=msg; el.closest('.form-group')?.classList.add('has-error'); } }
+    function clearErrors(){ document.querySelectorAll('.form-error').forEach(e=>e.textContent=''); document.querySelectorAll('.has-error').forEach(e=>e.classList.remove('has-error')); }
+
+    /* ── Toast ── */
+    let toastTimer;
+    function showToast(msg, type='success'){
+      toastMsg.textContent = msg;
+      toastIcon.className  = type==='error' ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-circle-check';
+      toast.hidden = false;
+      toast.className = `booking-toast booking-toast--${type} show`;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.classList.remove('show'); setTimeout(()=>{ toast.hidden=true; },400); }, 4000);
+    }
+
+    /* ── Close modal ── */
+    closeModal.addEventListener('click', () => { successModal.hidden=true; document.body.classList.remove('modal-open'); });
+    successModal.addEventListener('click', (e) => { if(e.target===successModal){ successModal.hidden=true; document.body.classList.remove('modal-open'); } });
+
+    /* ── Load my bookings ── */
+    async function loadMyBookings(){
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      myBookingsSec.hidden = false;
+      bookingsList.innerHTML = '<div class="bookings-loading" role="status"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải...</div>';
+      try {
+        const res = await fetch(`${API}/api/booking?limit=5`, { headers:{ Authorization:`Bearer ${token}` } });
+        if (!res.ok) throw new Error();
+        const { data } = await res.json();
+        if (!data || !data.length) {
+          bookingsList.innerHTML = '<p class="bookings-empty">Chưa có lịch đặt tour nào.</p>';
+          return;
+        }
+        bookingsList.innerHTML = data.map(b => {
+          const statusLabels = { confirmed:'✅ Xác nhận', pending:'⏳ Đang chờ', cancelled:'❌ Đã hủy', refunded:'💰 Hoàn tiền' };
+          const d = new Date(b.tourDate);
+          return `
+          <div class="booking-item" role="listitem" tabindex="0">
+            <div class="booking-item__left">
+              <div class="booking-item__site">${SITE_LABELS[b.siteSlug]||b.siteSlug}</div>
+              <div class="booking-item__meta">
+                ${d.toLocaleDateString('vi-VN')} · ${b.participants} người · 
+                ${{ standard:'Tiêu chuẩn', premium:'Cao cấp', private:'Riêng tư' }[b.tourType]||b.tourType}
+              </div>
+              <div class="booking-item__code">Mã: <strong>${b.confirmCode||'—'}</strong></div>
+            </div>
+            <div class="booking-item__right">
+              <div class="booking-item__total">${(b.totalAmount||0).toLocaleString('vi-VN')} VND</div>
+              <div class="booking-item__status booking-item__status--${b.status}">${statusLabels[b.status]||b.status}</div>
+              ${b.status==='confirmed' ? `<button class="btn-cancel" data-id="${b._id}" aria-label="Hủy tour">Hủy</button>` : ''}
+            </div>
+          </div>`;
+        }).join('');
+
+        /* Attach cancel handlers */
+        document.querySelectorAll('.btn-cancel').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            if (!confirm('Bạn chắc chắn muốn hủy tour này?')) return;
+            btn.disabled = true;
+            try {
+              const csrfRes = await fetch(`${API}/api/csrf-token`, { credentials:'include' });
+              const { csrfToken } = await csrfRes.json();
+              const res = await fetch(`${API}/api/booking/${btn.dataset.id}/cancel`, {
+                method:'PATCH',
+                headers:{ 'Authorization':`Bearer ${token}`, 'X-CSRF-Token':csrfToken, 'Content-Type':'application/json' },
+                credentials:'include',
+                body: JSON.stringify({ reason:'Người dùng hủy từ trang booking' })
+              });
+              if (!res.ok) throw new Error((await res.json()).error);
+              showToast('Tour đã được hủy thành công.', 'success');
+              loadMyBookings();
+            } catch(err) {
+              showToast(err.message||'Hủy tour thất bại.', 'error');
+              btn.disabled = false;
+            }
+          });
+        });
+      } catch {
+        bookingsList.innerHTML = '<p class="bookings-empty">Không thể tải lịch sử đặt tour.</p>';
+      }
+    }
+
+    document.getElementById('refresh-bookings')?.addEventListener('click', loadMyBookings);
+
+    /* ── Auth check ── */
+    (function initAuth(){
+      const token = localStorage.getItem('token');
+      if (token) {
+        document.getElementById('nav-login-btn').innerHTML = '<i class="fa-solid fa-user"></i><span>Tài khoản</span>';
+        document.getElementById('nav-login-btn').href = 'dashboard.html';
+        loadMyBookings();
+      }
+    })();
+
+    /* ── Init cursor hover ── */
+    document.querySelectorAll('a,button,.tour-type-card,.payment-option').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    });
+
+  })();
+  </script>
+  <script src="back-btn.js"></script>
+</body>
+</html>

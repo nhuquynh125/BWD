@@ -31,8 +31,12 @@ const settingsRoutes = require('./routes/settingsRoutes');
 const heritageRoutes = require('./routes/heritageRoutes');
 const passportRoutes = require('./routes/passportRoutes');
 const aiRoutes = require('./routes/aiRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const statsRoutes = require('./routes/statsRoutes');
+const adminRoutes        = require('./routes/adminRoutes');
+const statsRoutes        = require('./routes/statsRoutes');
+const gamificationRoutes = require('./routes/gamificationRoutes');
+const bookingRoutes      = require('./routes/bookingRoutes');
+const cron               = require('node-cron');
+const { UserGamification } = require('./db');
 
 const app = express();
 const server = http.createServer(app);
@@ -106,6 +110,8 @@ app.use('/api/passport', passportRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/gamification', gamificationRoutes);
+app.use('/api/booking', bookingRoutes);
 
 // Health check
 app.get('/api/health', (_, res) =>
@@ -113,6 +119,23 @@ app.get('/api/health', (_, res) =>
 
 // Init Socket
 initSocket(io);
+
+// ── Cron Jobs ─────────────────────────────────────────────────────────────
+// Reset weekly points every Monday at 00:00
+cron.schedule('0 0 * * 1', async () => {
+  try {
+    await UserGamification.updateMany({}, { $set: { weeklyPoints: 0 } });
+    logger.info('[CRON] Weekly leaderboard reset done');
+  } catch (e) { logger.error('[CRON] Weekly reset failed:', e.message); }
+});
+
+// Reset monthly points on the 1st of each month at 00:00
+cron.schedule('0 0 1 * *', async () => {
+  try {
+    await UserGamification.updateMany({}, { $set: { monthlyPoints: 0 } });
+    logger.info('[CRON] Monthly leaderboard reset done');
+  } catch (e) { logger.error('[CRON] Monthly reset failed:', e.message); }
+});
 
 // Boot
 const PORT = process.env.PORT || 3000;

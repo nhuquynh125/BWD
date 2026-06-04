@@ -1,0 +1,21 @@
+{
+  "site_intro": "Chào mừng đến với {{siteName}}",
+  "founded_year": "Được xây dựng năm {{year}}",
+  "description": "{{description}}",
+  "explore_3d": "Khám phá mô hình 3D",
+  "book_tour": "Đặt tour tham quan",
+  "heritage_type_nature": "Thiên nhiên",
+  "heritage_type_culture": "Văn hóa",
+  "heritage_type_mixed": "Hỗn hợp",
+  "unesco_world_heritage": "Di sản Thế giới UNESCO {{year}}",
+  "explore_map": "Xem trên bản đồ",
+  "nearby_sites": "Di sản lân cận",
+  "visit_history": "Lịch sử tham quan",
+  "first_visit": "Lần đầu khám phá",
+  "reviews": "{{count}} đánh giá",
+  "visitors": "{{count}} lượt tham quan",
+  "location": "Vị trí: {{province}}",
+  "facts_title": "Điểm thú vị",
+  "gallery_title": "Thư viện ảnh",
+  "related_title": "Di sản liên quan"
+}

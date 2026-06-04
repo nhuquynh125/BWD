@@ -7,12 +7,76 @@ const { genAI, GEMINI_MODEL, AI_SYS, geminiChat, sendAiError } = require('../uti
 
 const router = express.Router();
 
+/* ─── POST /api/ai/reconstruct ─────────────────────────────────────────────
+   Heritage image analysis + reconstruction plan via Gemini Vision.
+   Accepts: multipart/form-data with field 'file' (JPEG/PNG/WebP, max 10MB)
+   Returns: { analysis, raw, architectural_style, condition, reconstruction_plan, ... }
+─────────────────────────────────────────────────────────────────────────── */
+router.post('/reconstruct', optionalAuth, upload.single('file'), validateImage, async (req, res) => {
+  if (!genAI) return res.status(503).json({ error: 'Gemini AI chưa được cấu hình (thiếu GEMINI_API_KEY)' });
+  if (!req.file) return res.status(400).json({ error: 'Không có file ảnh' });
+
+  const lang  = req.query.lang || req.body.lang || 'vi';  // 'vi' | 'en'
+  const depth = req.body.depth || 'standard';             // 'standard' | 'detailed'
+
+  try {
+    const b64      = fs.readFileSync(req.file.path).toString('base64');
+    const mimeType = req.file.mimetype;
+
+    const model = genAI.getGenerativeModel({
+      model: GEMINI_MODEL,
+      systemInstruction: AI_SYS.reconstruct,
+      generationConfig: {
+        maxOutputTokens: depth === 'detailed' ? 2000 : 1000,
+        responseMimeType: 'application/json',
+      }
+    });
+
+    const userPrompt = lang === 'en'
+      ? 'Analyze this heritage site image. Provide detailed architectural analysis and reconstruction recommendations in English. Return valid JSON only.'
+      : 'Phân tích hình ảnh di sản này. Đưa ra phân tích kiến trúc chi tiết và đề xuất phục dựng bằng tiếng Việt. Chỉ trả về JSON hợp lệ.';
+
+    const result = await model.generateContent([
+      { inlineData: { data: b64, mimeType } },
+      userPrompt
+    ]);
+
+    const rawText = result.response.text();
+
+    // Parse JSON — gracefully handle if model wraps in markdown
+    let parsed = null;
+    try {
+      const cleaned = rawText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+      parsed = JSON.parse(cleaned);
+    } catch {
+      // If JSON parsing fails, return raw text under analysis key
+      parsed = null;
+    }
+
+    res.json({
+      ok:    true,
+      analysis: parsed
+        ? (parsed.reconstruction_plan || parsed.historical_significance || rawText)
+        : rawText,
+      raw:   rawText,
+      ...(parsed || {}),
+    });
+  } catch (e) {
+    sendAiError(res, e);
+  } finally {
+    if (req.file?.path) fs.unlink(req.file.path, () => {});
+  }
+});
+
+
+
 router.post('/chat', optionalAuth, async (req, res) => {
   try {
     const reply = await geminiChat(req.body.messages || [], AI_SYS.chat, 800);
     res.json({ reply, model: GEMINI_MODEL });
   } catch (e) { sendAiError(res, e); }
 });
+
 
 router.post('/chat-stream', optionalAuth, async (req, res) => {
   if (!genAI) return res.status(500).end('Gemini chưa cấu hình');

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>AR Di Sản — LUNAR HERITAGE</title>
+  <meta name="description" content="Trải nghiệm thực tế tăng cường AR: Xem mô hình 3D di sản Việt Nam qua camera điện thoại của bạn.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="ar-view.css">
+</head>
+<body>
+
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="BWD.html" aria-label="LUNAR HERITAGE">
+        <div class="nav-logo__icon" aria-hidden="true">🌕</div>
+        <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
+      </a>
+      <div class="nav-links">
+        <a href="di-san.html">Di sản</a>
+        <a href="explore.html">Khám phá</a>
+        <a href="leaderboard.html">Xếp hạng</a>
+        <a href="ar-view.html" class="active" aria-current="page">AR View</a>
+      </div>
+      <a href="BWD.html" class="nav-cta">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        <span>Quay về</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── INTRO SECTION (pre-AR) ── -->
+  <section class="ar-intro" id="ar-intro" aria-labelledby="ar-intro-heading">
+    <div class="ar-intro__bg" aria-hidden="true">
+      <div class="ar-glow ar-glow--1"></div>
+      <div class="ar-glow ar-glow--2"></div>
+    </div>
+    <div class="ar-intro__content">
+      <div class="ar-intro__badge">
+        <i class="fa-solid fa-cube" aria-hidden="true"></i>
+        <span>THỰC TẾ TĂNG CƯỜNG · AR</span>
+      </div>
+      <h1 class="ar-intro__title">
+        Di Sản Việt Nam<br>
+        <span class="ar-title-gradient">Trong Tầm Tay</span>
+      </h1>
+      <p class="ar-intro__desc">
+        Hướng camera về phía một bề mặt phẳng và xem các mô hình 3D di sản Việt Nam hiện ra trước mắt bạn. 
+        Không cần kính AR — chỉ cần điện thoại!
+      </p>
+
+      <!-- Site selector -->
+      <div class="ar-site-grid" id="ar-site-grid" role="list" aria-label="Chọn di sản để xem AR">
+        <div class="ar-site-card active" data-site="hoi-an" role="listitem" tabindex="0"
+             aria-label="Hội An - Chọn để xem AR">
+          <div class="ar-site-card__icon" aria-hidden="true">🏮</div>
+          <div class="ar-site-card__name">Phố cổ Hội An</div>
+        </div>
+        <div class="ar-site-card" data-site="hue" role="listitem" tabindex="0"
+             aria-label="Cố đô Huế - Chọn để xem AR">
+          <div class="ar-site-card__icon" aria-hidden="true">🏯</div>
+          <div class="ar-site-card__name">Cố đô Huế</div>
+        </div>
+        <div class="ar-site-card" data-site="ha-long" role="listitem" tabindex="0"
+             aria-label="Vịnh Hạ Long - Chọn để xem AR">
+          <div class="ar-site-card__icon" aria-hidden="true">🌊</div>
+          <div class="ar-site-card__name">Vịnh Hạ Long</div>
+        </div>
+        <div class="ar-site-card" data-site="my-son" role="listitem" tabindex="0"
+             aria-label="Mỹ Sơn - Chọn để xem AR">
+          <div class="ar-site-card__icon" aria-hidden="true">🗿</div>
+          <div class="ar-site-card__name">Thánh địa Mỹ Sơn</div>
+        </div>
+      </div>
+
+      <!-- AR Method tabs -->
+      <div class="ar-method-tabs" role="tablist" aria-label="Phương thức AR">
+        <button class="ar-method-tab active" data-method="webxr" role="tab" aria-selected="true" id="tab-webxr">
+          <i class="fa-solid fa-mobile-screen" aria-hidden="true"></i>
+          WebXR (iOS/Android)
+        </button>
+        <button class="ar-method-tab" data-method="mindar" role="tab" aria-selected="false" id="tab-mindar">
+          <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+          Quét QR Marker
+        </button>
+      </div>
+
+      <!-- Launch buttons -->
+      <div class="ar-launch-btns">
+        <button class="btn-launch-ar" id="launch-ar-btn"
+                aria-label="Khởi động AR qua trình duyệt">
+          <div class="btn-launch-ar__bg" aria-hidden="true"></div>
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          <span>Khởi động AR</span>
+          <div class="btn-launch-ar__pulse" aria-hidden="true"></div>
+        </button>
+        <button class="btn-show-qr" id="show-qr-btn" aria-label="Xem mã QR marker">
+          <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+          Xem QR Marker
+        </button>
+      </div>
+
+      <!-- Requirements -->
+      <div class="ar-requirements" role="note" aria-label="Yêu cầu thiết bị">
+        <div class="ar-req__item ar-req__item--ok">
+          <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+          iOS 13+ / Android 8+ với trình duyệt Chrome/Safari
+        </div>
+        <div class="ar-req__item">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          Cần cấp quyền truy cập camera
+        </div>
+        <div class="ar-req__item">
+          <i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
+          Hoạt động tốt nhất trong điều kiện ánh sáng tốt
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── AR VIEWPORT (WebXR mode) ── -->
+  <section class="ar-viewport" id="ar-viewport" hidden aria-label="Khung nhìn AR">
+    <!-- AR.js / WebXR container -->
+    <div id="ar-scene-container" aria-hidden="true"></div>
+
+    <!-- Overlay UI -->
+    <div class="ar-hud" aria-label="AR controls" role="toolbar">
+      <!-- Top bar -->
+      <div class="ar-hud__top">
+        <button class="ar-hud__btn" id="close-ar-btn" aria-label="Đóng AR">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <div class="ar-hud__site-name" id="ar-site-name" aria-live="polite">Phố cổ Hội An</div>
+        <button class="ar-hud__btn" id="ar-info-btn" aria-label="Thông tin di sản">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Center reticle / instruction -->
+      <div class="ar-reticle-wrap" aria-hidden="true">
+        <div class="ar-reticle" id="ar-reticle"></div>
+        <p class="ar-instruction" id="ar-instruction">Di chuyển camera để tìm bề mặt phẳng...</p>
+      </div>
+
+      <!-- Bottom controls -->
+      <div class="ar-hud__bottom">
+        <button class="ar-ctrl-btn" id="ar-scale-down" aria-label="Thu nhỏ mô hình">
+          <i class="fa-solid fa-minus" aria-hidden="true"></i>
+        </button>
+        <button class="ar-ctrl-btn ar-ctrl-btn--main" id="ar-place-btn" aria-label="Đặt mô hình tại vị trí này" disabled>
+          <i class="fa-solid fa-hand-pointer" aria-hidden="true"></i>
+          <span>Đặt mô hình</span>
+        </button>
+        <button class="ar-ctrl-btn" id="ar-scale-up" aria-label="Phóng to mô hình">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screenshot flash -->
+    <div class="ar-flash" id="ar-flash" aria-hidden="true"></div>
+  </section>
+
+  <!-- ── QR MARKER PANEL ── -->
+  <div class="qr-panel" id="qr-panel" hidden role="dialog" aria-modal="true" aria-labelledby="qr-panel-title">
+    <div class="qr-panel__content">
+      <button class="qr-panel__close" id="close-qr-btn" aria-label="Đóng">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <h2 class="qr-panel__title" id="qr-panel-title">QR Marker AR</h2>
+      <p class="qr-panel__desc">In hoặc hiển thị marker dưới đây, sau đó quét bằng camera để xem mô hình 3D nổi lên.</p>
+      <div class="qr-marker-display" id="qr-marker-display" aria-label="QR Marker">
+        <!-- Marker pattern SVG -->
+        <svg viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hiro AR marker pattern">
+          <rect width="200" height="200" fill="white"/>
+          <rect x="20" y="20" width="160" height="160" fill="black"/>
+          <rect x="30" y="30" width="140" height="140" fill="white"/>
+          <!-- Hiro-like inner pattern -->
+          <rect x="50" y="50" width="20" height="20" fill="black"/>
+          <rect x="80" y="50" width="20" height="20" fill="black"/>
+          <rect x="50" y="80" width="20" height="20" fill="black"/>
+          <rect x="110" y="50" width="40" height="20" fill="black"/>
+          <rect x="80" y="80" width="20" height="40" fill="black"/>
+          <rect x="50" y="110" width="100" height="20" fill="black"/>
+          <rect x="110" y="80" width="40" height="20" fill="black"/>
+          <!-- Border markers -->
+          <rect x="30" y="30" width="40" height="40" fill="black"/>
+          <rect x="35" y="35" width="30" height="30" fill="white"/>
+          <rect x="40" y="40" width="20" height="20" fill="black"/>
+          <rect x="130" y="30" width="40" height="40" fill="black"/>
+          <rect x="135" y="35" width="30" height="30" fill="white"/>
+          <rect x="140" y="40" width="20" height="20" fill="black"/>
+          <rect x="30" y="130" width="40" height="40" fill="black"/>
+          <rect x="35" y="135" width="30" height="30" fill="white"/>
+          <rect x="40" y="140" width="20" height="20" fill="black"/>
+        </svg>
+      </div>
+      <div class="qr-panel__site-label" id="qr-site-label" aria-label="Di sản hiện tại">🏮 Phố cổ Hội An</div>
+      <div class="qr-panel__steps">
+        <div class="qr-step">
+          <div class="qr-step__num" aria-hidden="true">1</div>
+          <div class="qr-step__text">In marker hoặc hiển thị trên màn hình khác</div>
+        </div>
+        <div class="qr-step">
+          <div class="qr-step__num" aria-hidden="true">2</div>
+          <div class="qr-step__text">Nhấn "Khởi động AR" và cho phép truy cập camera</div>
+        </div>
+        <div class="qr-step">
+          <div class="qr-step__num" aria-hidden="true">3</div>
+          <div class="qr-step__text">Hướng camera vào marker và chờ mô hình 3D xuất hiện</div>
+        </div>
+      </div>
+      <button class="btn-start-marker-ar" id="start-marker-ar" aria-label="Bắt đầu AR với marker">
+        <i class="fa-solid fa-camera" aria-hidden="true"></i>
+        Bắt đầu quét marker
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay backdrop -->
+  <div class="qr-backdrop" id="qr-backdrop" hidden aria-hidden="true"></div>
+
+  <!-- ── INFO PANEL (shown in AR) ── -->
+  <div class="ar-info-panel" id="ar-info-panel" hidden role="complementary" aria-label="Thông tin di sản">
+    <button class="ar-info-panel__close" id="close-info-panel" aria-label="Đóng thông tin">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <div class="ar-info-panel__site-icon" id="info-icon" aria-hidden="true">🏮</div>
+    <h3 class="ar-info-panel__title" id="info-title">Phố cổ Hội An</h3>
+    <p class="ar-info-panel__text" id="info-text">
+      Phố cổ Hội An là một ví dụ nổi bật của thương cảng châu Á truyền thống phát triển nhất ở cuối thế kỷ 16 và 17.
+    </p>
+    <a class="ar-info-panel__link" id="info-link" href="hoi-an.html">
+      <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      Xem trang chi tiết
+    </a>
+  </div>
+
+  <!-- ── BROWSER FALLBACK ── -->
+  <section class="ar-fallback" id="ar-fallback" hidden aria-labelledby="fallback-heading">
+    <div class="ar-fallback__icon" aria-hidden="true">📱</div>
+    <h2 id="fallback-heading">Trình duyệt không hỗ trợ WebXR</h2>
+    <p>Vui lòng thử trên <strong>Chrome 85+</strong> hoặc <strong>Safari 14+</strong> trên thiết bị di động.</p>
+    <a href="explore.html" class="btn-fallback">
+      <i class="fa-solid fa-compass" aria-hidden="true"></i>
+      Khám phá 3D thay thế
+    </a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">LUNAR HERITAGE · AR</div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="di-san.html">Di sản</a>
+        <a href="explore.html">Khám phá 3D</a>
+        <a href="booking.html">Đặt tour</a>
+      </nav>
+      <p class="footer-copy">✨ 2026 VKU · LUNAR HERITAGE</p>
+    </div>
+  </footer>
+
+  <script>
+  (() => {
+    'use strict';
+
+    /* ── Site data ── */
+    const SITES = {
+      'hoi-an': {
+        name: 'Phố cổ Hội An', icon: '🏮',
+        desc: 'Thương cảng châu Á truyền thống phát triển nhất cuối thế kỷ 16-17. Di sản UNESCO 1999.',
+        link: 'hoi-an.html', model: '/models/hoi-an_lod1.glb'
+      },
+      'hue': {
+        name: 'Cố đô Huế', icon: '🏯',
+        desc: 'Kinh thành triều Nguyễn — quần thể cung điện, lăng tẩm ngàn năm. Di sản UNESCO 1993.',
+        link: 'co-do-hue.html', model: '/models/hue_lod1.glb'
+      },
+      'ha-long': {
+        name: 'Vịnh Hạ Long', icon: '🌊',
+        desc: 'Kỳ quan thiên nhiên thế giới với hàng nghìn đảo đá karst huyền bí. UNESCO 1994 & 2000.',
+        link: 'vinh-ha-long.html', model: '/models/ha-long_lod1.glb'
+      },
+      'my-son': {
+        name: 'Thánh địa Mỹ Sơn', icon: '🗿',
+        desc: 'Quần thể đền tháp Chăm Pa huyền bí, gạch đá ngàn năm. Di sản UNESCO 1999.',
+        link: 'thanh-dia-my-son.html', model: '/models/my-son_lod1.glb'
+      }
+    };
+
+    let currentSite = 'hoi-an';
+    let arActive    = false;
+    let xrSession   = null;
+    let hitTestSource = null;
+    let reticleVisible = false;
+
+    /* ── DOM ── */
+    const intro        = document.getElementById('ar-intro');
+    const viewport     = document.getElementById('ar-viewport');
+    const qrPanel      = document.getElementById('qr-panel');
+    const qrBackdrop   = document.getElementById('qr-backdrop');
+    const infoPanel    = document.getElementById('ar-info-panel');
+    const fallback     = document.getElementById('ar-fallback');
+    const launchBtn    = document.getElementById('launch-ar-btn');
+    const showQrBtn    = document.getElementById('show-qr-btn');
+    const closeArBtn   = document.getElementById('close-ar-btn');
+    const closeQrBtn   = document.getElementById('close-qr-btn');
+    const closeInfoBtn = document.getElementById('close-info-panel');
+    const arInfoBtn    = document.getElementById('ar-info-btn');
+    const placeBtnEl   = document.getElementById('ar-place-btn');
+    const arInstruction= document.getElementById('ar-instruction');
+    const arSiteName   = document.getElementById('ar-site-name');
+    const infoTitle    = document.getElementById('info-title');
+    const infoText     = document.getElementById('info-text');
+    const infoIcon     = document.getElementById('info-icon');
+    const infoLink     = document.getElementById('info-link');
+    const qrSiteLabel  = document.getElementById('qr-site-label');
+    const startMarkerAR= document.getElementById('start-marker-ar');
+
+    /* ── Nav scroll ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY>60);
+    }, { passive:true });
+
+    /* ── Site card selection ── */
+    document.querySelectorAll('.ar-site-card').forEach(card => {
+      card.addEventListener('click', () => selectSite(card.dataset.site));
+      card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') selectSite(card.dataset.site); });
+    });
+
+    function selectSite(site) {
+      if (!SITES[site]) return;
+      currentSite = site;
+      document.querySelectorAll('.ar-site-card').forEach(c => {
+        c.classList.toggle('active', c.dataset.site === site);
+        c.setAttribute('aria-pressed', c.dataset.site === site ? 'true' : 'false');
+      });
+      updateInfo();
+    }
+
+    function updateInfo() {
+      const s = SITES[currentSite];
+      arSiteName.textContent  = s.name;
+      infoTitle.textContent   = s.name;
+      infoText.textContent    = s.desc;
+      infoIcon.textContent    = s.icon;
+      infoLink.href           = s.link;
+      qrSiteLabel.textContent = s.icon + ' ' + s.name;
+    }
+
+    /* ── Method tabs ── */
+    document.querySelectorAll('.ar-method-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.ar-method-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected','true');
+      });
+    });
+
+    /* ── Launch AR ── */
+    launchBtn.addEventListener('click', launchAR);
+    startMarkerAR.addEventListener('click', () => { closeQRPanel(); launchAR(); });
+
+    async function launchAR() {
+      const activeTab = document.querySelector('.ar-method-tab.active');
+      const method    = activeTab?.dataset.method || 'webxr';
+
+      if (method === 'webxr') {
+        await launchWebXR();
+      } else {
+        launchMarkerAR();
+      }
+    }
+
+    /* ── WebXR AR ── */
+    async function launchWebXR() {
+      if (!('xr' in navigator)) {
+        showFallback();
+        return;
+      }
+      const supported = await navigator.xr.isSessionSupported('immersive-ar').catch(() => false);
+      if (!supported) {
+        showFallback();
+        return;
+      }
+      try {
+        xrSession = await navigator.xr.requestSession('immersive-ar', {
+          requiredFeatures: ['hit-test'],
+          optionalFeatures: ['dom-overlay', 'local-floor'],
+          domOverlay: { root: document.getElementById('ar-hud') }
+        });
+        showARViewport();
+        arInstruction.textContent = 'Chậm chậm di chuyển camera để nhận diện bề mặt...';
+        placeBtnEl.disabled = true;
+
+        /* Hit test source */
+        const viewerSpace = await xrSession.requestReferenceSpace('viewer');
+        hitTestSource     = await xrSession.requestHitTestSource({ space: viewerSpace });
+
+        xrSession.addEventListener('end', onARSessionEnd);
+        arActive = true;
+
+        /* Simulate finding surface after 2s for demo */
+        setTimeout(() => {
+          if (arActive) {
+            document.getElementById('ar-reticle').classList.add('visible');
+            arInstruction.textContent = 'Tìm thấy bề mặt! Nhấn "Đặt mô hình" để hiển thị di sản.';
+            placeBtnEl.disabled = false;
+            reticleVisible = true;
+          }
+        }, 2000);
+
+      } catch(err) {
+        console.error('[AR]', err);
+        showFallback();
+      }
+    }
+
+    /* ── Marker-based AR (AR.js) — demo/iframe approach ── */
+    function launchMarkerAR() {
+      showARViewport();
+      /* Demo: show instructions since AR.js requires separate A-Frame page */
+      arInstruction.textContent = 'Hướng camera vào marker QR để xem mô hình 3D xuất hiện.';
+      document.getElementById('ar-reticle').classList.add('visible', 'marker-mode');
+      placeBtnEl.disabled = false;
+      placeBtnEl.innerHTML = '<i class="fa-solid fa-eye"></i><span>Đang theo dõi...</span>';
+    }
+
+    /* ── Place model ── */
+    placeBtnEl.addEventListener('click', () => {
+      if (!reticleVisible) return;
+      arInstruction.textContent = '✅ Mô hình đã được đặt! Xoay thiết bị để xem từ các góc khác nhau.';
+      placeBtnEl.innerHTML = '<i class="fa-solid fa-check"></i><span>Đã đặt!</span>';
+      placeBtnEl.style.background = 'rgba(78,203,113,.2)';
+
+      /* Simulate AR point award */
+      const token = localStorage.getItem('token');
+      if (token) {
+        fetch('/api/gamification/award', {
+          method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
+          body: JSON.stringify({ userId:'me', action:'site_visit', metadata:{ siteSlug: currentSite } })
+        }).catch(()=>{});
+      }
+    });
+
+    /* ── Show/hide ── */
+    function showARViewport() {
+      intro.hidden    = true;
+      viewport.hidden = false;
+      document.body.classList.add('ar-active');
+      updateInfo();
+    }
+
+    function closeAR() {
+      intro.hidden    = false;
+      viewport.hidden = true;
+      infoPanel.hidden= true;
+      document.body.classList.remove('ar-active');
+      arActive = false;
+      reticleVisible = false;
+      placeBtnEl.disabled = true;
+      placeBtnEl.innerHTML = '<i class="fa-solid fa-hand-pointer"></i><span>Đặt mô hình</span>';
+      placeBtnEl.style.background = '';
+      document.getElementById('ar-reticle').classList.remove('visible','marker-mode');
+      if (xrSession) { xrSession.end().catch(()=>{}); xrSession = null; }
+    }
+
+    function onARSessionEnd() {
+      closeAR();
+    }
+
+    function showFallback() {
+      intro.hidden    = true;
+      fallback.hidden = false;
+    }
+
+    closeArBtn.addEventListener('click', closeAR);
+
+    /* ── QR Panel ── */
+    showQrBtn.addEventListener('click', openQRPanel);
+    closeQrBtn.addEventListener('click', closeQRPanel);
+    qrBackdrop.addEventListener('click', closeQRPanel);
+
+    function openQRPanel() {
+      qrPanel.hidden   = false;
+      qrBackdrop.hidden= false;
+      document.body.classList.add('panel-open');
+      qrPanel.focus?.();
+    }
+    function closeQRPanel() {
+      qrPanel.hidden   = true;
+      qrBackdrop.hidden= true;
+      document.body.classList.remove('panel-open');
+    }
+
+    /* ── Info Panel ── */
+    arInfoBtn.addEventListener('click', () => {
+      infoPanel.hidden = !infoPanel.hidden;
+      arInfoBtn.setAttribute('aria-expanded', String(!infoPanel.hidden));
+    });
+    closeInfoBtn.addEventListener('click', () => { infoPanel.hidden = true; arInfoBtn.setAttribute('aria-expanded','false'); });
+
+    /* ── Scale controls ── */
+    let scale = 1;
+    document.getElementById('ar-scale-down').addEventListener('click', () => {
+      scale = Math.max(0.3, scale - 0.1);
+      arInstruction.textContent = `Kích thước: ${Math.round(scale*100)}%`;
+    });
+    document.getElementById('ar-scale-up').addEventListener('click', () => {
+      scale = Math.min(3, scale + 0.1);
+      arInstruction.textContent = `Kích thước: ${Math.round(scale*100)}%`;
+    });
+
+    /* ── Init ── */
+    updateInfo();
+
+    /* Feature detection */
+    if (!('xr' in navigator)) {
+      launchBtn.title = 'WebXR không được hỗ trợ trên trình duyệt này';
+    }
+
+    /* Cursor hover on interactive elements */
+    document.querySelectorAll('a,button,.ar-site-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    });
+
+  })();
+  </script>
+  <script src="back-btn.js"></script>
+</body>
+</html>

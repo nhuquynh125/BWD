@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Xếp Hạng — LUNAR HERITAGE</title>
+  <meta name="description" content="Bảng xếp hạng khám phá di sản Việt Nam. Tích lũy điểm, nhận huy hiệu và cạnh tranh cùng cộng đồng.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="leaderboard.css">
+</head>
+<body>
+
+  <!-- Noise overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Animated particles -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Custom cursor -->
+  <div id="cur" aria-hidden="true"></div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="BWD.html" aria-label="LUNAR HERITAGE - Trang chủ">
+        <div class="nav-logo__icon" aria-hidden="true">🌕</div>
+        <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
+      </a>
+      <div class="nav-links" role="list">
+        <a href="BWD.html" role="listitem">Trang chủ</a>
+        <a href="di-san.html" role="listitem">Di sản</a>
+        <a href="explore.html" role="listitem">Khám phá</a>
+        <a href="leaderboard.html" class="active" aria-current="page" role="listitem">Bảng xếp hạng</a>
+        <a href="dashboard.html" role="listitem">Cộng đồng</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-lang-btn" id="lang-toggle" aria-label="Chuyển ngôn ngữ" title="Switch Language">
+          <i class="fa-solid fa-language" aria-hidden="true"></i>
+          <span id="lang-label">VI</span>
+        </button>
+        <a href="dashboard.html" class="nav-cta">
+          <i class="fa-solid fa-user" aria-hidden="true"></i>
+          <span>Hồ sơ</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO SECTION ── -->
+  <header class="lb-hero" role="banner">
+    <div class="lb-hero__bg" aria-hidden="true">
+      <div class="lb-hero__glow lb-hero__glow--1"></div>
+      <div class="lb-hero__glow lb-hero__glow--2"></div>
+      <div class="lb-hero__glow lb-hero__glow--3"></div>
+    </div>
+    <div class="lb-hero__content">
+      <div class="lb-hero__badge" aria-label="Cập nhật trực tiếp">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>LIVE UPDATE</span>
+      </div>
+      <h1 class="lb-hero__title">
+        Bảng Xếp Hạng
+        <span class="lb-hero__title-sub">Khám Phá Di Sản</span>
+      </h1>
+      <p class="lb-hero__desc">
+        Cạnh tranh cùng hàng nghìn người khám phá. Thăm di sản, tích điểm, nhận huy hiệu và leo hạng mỗi ngày.
+      </p>
+
+      <!-- Period tabs -->
+      <div class="period-tabs" role="tablist" aria-label="Chu kỳ xếp hạng">
+        <button class="period-tab active" id="tab-alltime" data-period="alltime"
+                role="tab" aria-selected="true" aria-controls="leaderboard-panel">
+          <i class="fa-solid fa-infinity" aria-hidden="true"></i> Tổng
+        </button>
+        <button class="period-tab" id="tab-weekly" data-period="weekly"
+                role="tab" aria-selected="false" aria-controls="leaderboard-panel">
+          <i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Tuần này
+        </button>
+        <button class="period-tab" id="tab-monthly" data-period="monthly"
+                role="tab" aria-selected="false" aria-controls="leaderboard-panel">
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i> Tháng này
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="lb-main" id="main-content">
+    <div class="lb-container">
+
+      <!-- ── MY RANK BANNER (shown if logged in) ── -->
+      <div class="my-rank-banner" id="my-rank-banner" hidden aria-live="polite">
+        <div class="my-rank-banner__avatar">
+          <img src="" alt="Avatar của bạn" id="my-avatar" width="48" height="48">
+          <span class="my-rank-banner__crown" id="my-crown" aria-hidden="true"></span>
+        </div>
+        <div class="my-rank-banner__info">
+          <div class="my-rank-banner__name" id="my-display-name">Bạn</div>
+          <div class="my-rank-banner__stats">
+            <span class="stat-chip">
+              <i class="fa-solid fa-trophy" aria-hidden="true"></i>
+              Hạng <strong id="my-rank-num">—</strong>
+            </span>
+            <span class="stat-chip stat-chip--gold">
+              <i class="fa-solid fa-star" aria-hidden="true"></i>
+              <strong id="my-points">0</strong> điểm
+            </span>
+            <span class="stat-chip">
+              <i class="fa-solid fa-fire" aria-hidden="true"></i>
+              <strong id="my-streak">0</strong> ngày liên tiếp
+            </span>
+          </div>
+        </div>
+        <div class="my-rank-banner__badges" id="my-badges" aria-label="Huy hiệu của bạn"></div>
+      </div>
+
+      <!-- ── PODIUM (top 3) ── -->
+      <section class="podium-section" aria-label="Top 3 người dẫn đầu">
+        <div class="podium" id="podium" role="list" aria-live="polite">
+          <!-- Injected by JS -->
+          <div class="podium__loading" aria-label="Đang tải...">
+            <div class="spinner-ring" aria-hidden="true"></div>
+            <span>Đang tải bảng xếp hạng...</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── LEADERBOARD TABLE ── -->
+      <section class="lb-table-section" id="leaderboard-panel" role="tabpanel" aria-labelledby="tab-alltime">
+        <div class="lb-table-header">
+          <h2 class="lb-table-title">
+            <i class="fa-solid fa-list-ol" aria-hidden="true"></i>
+            Xếp hạng đầy đủ
+          </h2>
+          <div class="lb-table-meta">
+            <span class="update-time" id="update-time" aria-live="polite">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              Cập nhật lúc <time id="last-update">--:--</time>
+            </span>
+            <button class="btn-refresh" id="refresh-btn" aria-label="Làm mới bảng xếp hạng">
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="lb-table-wrap" role="table" aria-label="Bảng xếp hạng" aria-rowcount="-1">
+          <div class="lb-table-head" role="row">
+            <div role="columnheader" class="col-rank">Hạng</div>
+            <div role="columnheader" class="col-user">Người khám phá</div>
+            <div role="columnheader" class="col-badges">Huy hiệu</div>
+            <div role="columnheader" class="col-sites">Di sản</div>
+            <div role="columnheader" class="col-streak">Streak</div>
+            <div role="columnheader" class="col-points">Điểm</div>
+          </div>
+          <div class="lb-table-body" id="leaderboard-body" role="rowgroup" aria-live="polite">
+            <!-- Rows injected by JS -->
+            <div class="lb-skeleton" aria-hidden="true">
+              <div class="lb-skeleton__row" style="--d:0s"></div>
+              <div class="lb-skeleton__row" style="--d:.06s"></div>
+              <div class="lb-skeleton__row" style="--d:.12s"></div>
+              <div class="lb-skeleton__row" style="--d:.18s"></div>
+              <div class="lb-skeleton__row" style="--d:.24s"></div>
+              <div class="lb-skeleton__row" style="--d:.30s"></div>
+              <div class="lb-skeleton__row" style="--d:.36s"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="lb-pagination" id="lb-pagination" aria-label="Phân trang">
+          <button class="pagination-btn" id="prev-page" aria-label="Trang trước" disabled>
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <span class="pagination-info" id="page-info" aria-live="polite">Trang 1</span>
+          <button class="pagination-btn" id="next-page" aria-label="Trang tiếp theo">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ── BADGES SHOWCASE ── -->
+      <section class="badges-section" aria-labelledby="badges-heading">
+        <div class="badges-section__header">
+          <h2 class="lb-section-title" id="badges-heading">
+            <i class="fa-solid fa-award" aria-hidden="true"></i>
+            Bộ sưu tập huy hiệu
+          </h2>
+          <p class="lb-section-sub">Thu thập huy hiệu bằng cách khám phá di sản và hoàn thành thử thách</p>
+        </div>
+        <div class="badges-grid" id="badges-grid" role="list" aria-live="polite">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ── HOW TO EARN POINTS ── -->
+      <section class="earn-section" aria-labelledby="earn-heading">
+        <div class="earn-section__header">
+          <h2 class="lb-section-title" id="earn-heading">
+            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+            Cách kiếm điểm
+          </h2>
+        </div>
+        <div class="earn-grid" role="list">
+          <div class="earn-card" role="listitem">
+            <div class="earn-card__icon earn-card__icon--site" aria-hidden="true">🏛️</div>
+            <div class="earn-card__info">
+              <div class="earn-card__action">Thăm di sản</div>
+              <div class="earn-card__desc">Khám phá trang chi tiết của một di sản</div>
+            </div>
+            <div class="earn-card__pts" aria-label="50 điểm">+50</div>
+          </div>
+          <div class="earn-card" role="listitem">
+            <div class="earn-card__icon earn-card__icon--first" aria-hidden="true">⭐</div>
+            <div class="earn-card__info">
+              <div class="earn-card__action">Lần đầu thăm</div>
+              <div class="earn-card__desc">Bonus điểm lần đầu khám phá một di sản</div>
+            </div>
+            <div class="earn-card__pts earn-card__pts--big" aria-label="150 điểm">+150</div>
+          </div>
+          <div class="earn-card" role="listitem">
+            <div class="earn-card__icon earn-card__icon--comment" aria-hidden="true">💬</div>
+            <div class="earn-card__info">
+              <div class="earn-card__action">Bình luận</div>
+              <div class="earn-card__desc">Chia sẻ cảm nhận về di sản</div>
+            </div>
+            <div class="earn-card__pts" aria-label="10 điểm">+10</div>
+          </div>
+          <div class="earn-card" role="listitem">
+            <div class="earn-card__icon earn-card__icon--booking" aria-hidden="true">🎫</div>
+            <div class="earn-card__info">
+              <div class="earn-card__action">Đặt tour</div>
+              <div class="earn-card__desc">Đặt tour thực tế tham quan di sản</div>
+            </div>
+            <div class="earn-card__pts earn-card__pts--epic" aria-label="200 điểm">+200</div>
+          </div>
+          <div class="earn-card" role="listitem">
+            <div class="earn-card__icon earn-card__icon--login" aria-hidden="true">🔥</div>
+            <div class="earn-card__info">
+              <div class="earn-card__action">Đăng nhập hàng ngày</div>
+              <div class="earn-card__desc">Duy trì streak đăng nhập liên tiếp</div>
+            </div>
+            <div class="earn-card__pts" aria-label="5 điểm">+5</div>
+          </div>
+          <div class="earn-card" role="listitem">
+            <div class="earn-card__icon earn-card__icon--share" aria-hidden="true">📣</div>
+            <div class="earn-card__info">
+              <div class="earn-card__action">Chia sẻ</div>
+              <div class="earn-card__desc">Chia sẻ di sản lên mạng xã hội</div>
+            </div>
+            <div class="earn-card__pts" aria-label="20 điểm">+20</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ── POINTS TOAST (realtime) ── -->
+  <div class="points-toast" id="points-toast" role="alert" aria-live="assertive" aria-atomic="true" hidden>
+    <div class="points-toast__icon" aria-hidden="true">⭐</div>
+    <div class="points-toast__text">
+      <div class="points-toast__title" id="toast-title">Điểm mới!</div>
+      <div class="points-toast__sub" id="toast-sub">+50 điểm</div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">LUNAR HERITAGE</div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="BWD.html">Trang chủ</a>
+        <a href="di-san.html">Di sản</a>
+        <a href="booking.html">Đặt tour</a>
+        <a href="dashboard.html">Cộng đồng</a>
+      </nav>
+      <p class="footer-copy">✨ 2026 VKU · LUNAR HERITAGE PROJECT</p>
+    </div>
+  </footer>
+
+  <!-- Socket.io + App Script -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    /* ── Config ── */
+    const API = '';
+    const PAGE_LIMIT = 20;
+    let currentPage = 1;
+    let currentPeriod = 'alltime';
+    let currentUser = null;
+    let socket = null;
+
+    /* ── DOM refs ── */
+    const leaderboardBody = document.getElementById('leaderboard-body');
+    const podiumEl        = document.getElementById('podium');
+    const badgesGrid      = document.getElementById('badges-grid');
+    const myBanner        = document.getElementById('my-rank-banner');
+    const prevBtn         = document.getElementById('prev-page');
+    const nextBtn         = document.getElementById('next-page');
+    const pageInfo        = document.getElementById('page-info');
+    const refreshBtn      = document.getElementById('refresh-btn');
+    const lastUpdate      = document.getElementById('last-update');
+    const langToggle      = document.getElementById('lang-toggle');
+    const langLabel       = document.getElementById('lang-label');
+    const pointsToast     = document.getElementById('points-toast');
+    const toastTitle      = document.getElementById('toast-title');
+    const toastSub        = document.getElementById('toast-sub');
+
+    /* ── Locale (simple inline) ── */
+    let lang = localStorage.getItem('lang') || 'vi';
+    const T = {
+      vi: {
+        rank:'Hạng', pts:'điểm', you:'Bạn', loading:'Đang tải...',
+        noBadges:'Chưa có huy hiệu nào', streak:'ngày', sites:'di sản',
+        rarity:{ common:'Phổ biến', rare:'Hiếm', epic:'Sử thi', legendary:'Huyền thoại' }
+      },
+      en: {
+        rank:'Rank', pts:'pts', you:'You', loading:'Loading...',
+        noBadges:'No badges yet', streak:'days', sites:'sites',
+        rarity:{ common:'Common', rare:'Rare', epic:'Epic', legendary:'Legendary' }
+      }
+    };
+    const t = () => T[lang] || T.vi;
+
+    /* ── Custom cursor ── */
+    const cur = document.getElementById('cur');
+    if (cur) {
+      let tx=0,ty=0,cx=0,cy=0;
+      document.addEventListener('mousemove', e => { tx=e.clientX; ty=e.clientY; });
+      (function tick(){ cx+=(tx-cx)*.16; cy+=(ty-cy)*.16; cur.style.left=cx+'px'; cur.style.top=cy+'px'; requestAnimationFrame(tick); })();
+    }
+
+    /* ── Particle canvas ── */
+    (function initParticles(){
+      const canvas = document.getElementById('particles-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+      function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      for(let i=0;i<60;i++) particles.push({
+        x:Math.random()*W, y:Math.random()*H,
+        vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
+        r:Math.random()*1.5+.5, a:Math.random()
+      });
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        particles.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy; p.a+=.005;
+          if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+          if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+          ctx.beginPath();
+          ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle=`rgba(212,175,55,${.15+.15*Math.sin(p.a)})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ── Scrolled nav ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive:true });
+
+    /* ── Auth check ── */
+    async function checkAuth(){
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        const res = await fetch(`${API}/api/users/me`, { headers:{ Authorization:`Bearer ${token}` } });
+        if (!res.ok) return;
+        currentUser = await res.json();
+        loadMyRank();
+      } catch {}
+    }
+
+    /* ── Load my rank ── */
+    async function loadMyRank(){
+      if (!currentUser) return;
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API}/api/gamification/profile`, { headers:{ Authorization:`Bearer ${token}` } });
+        if (!res.ok) return;
+        const data = await res.json();
+        const banner = myBanner;
+
+        const avatar = document.getElementById('my-avatar');
+        avatar.src = currentUser.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName||'U')}&background=d4af37&color=0a0a0b`;
+        avatar.alt = `Avatar của ${currentUser.displayName}`;
+
+        document.getElementById('my-display-name').textContent = currentUser.displayName || t().you;
+        document.getElementById('my-rank-num').textContent = data.rank ?? '—';
+        document.getElementById('my-points').textContent = (data.totalPoints||0).toLocaleString('vi-VN');
+        document.getElementById('my-streak').textContent = data.streakDays || 0;
+
+        /* Crown for top 3 */
+        const crown = document.getElementById('my-crown');
+        if (data.rank === 1) { crown.textContent='👑'; crown.hidden=false; }
+        else if (data.rank === 2) { crown.textContent='🥈'; crown.hidden=false; }
+        else if (data.rank === 3) { crown.textContent='🥉'; crown.hidden=false; }
+
+        /* Badges strip */
+        const badgesEl = document.getElementById('my-badges');
+        if (data.badges && data.badges.length) {
+          badgesEl.innerHTML = data.badges.slice(0,5).map(b =>
+            `<span class="mini-badge" title="${b.badgeId?.name?.vi||''}">${b.badgeId?.iconUrl||'🏅'}</span>`
+          ).join('');
+        }
+
+        banner.hidden = false;
+        banner.classList.add('visible');
+
+        /* WebSocket — join personal room */
+        if (socket && currentUser._id) {
+          socket.emit('join', `user:${currentUser._id}`);
+        }
+      } catch {}
+    }
+
+    /* ── Load leaderboard ── */
+    async function loadLeaderboard(page = 1){
+      currentPage = page;
+      try {
+        const skip = (page-1)*PAGE_LIMIT;
+        const res  = await fetch(`${API}/api/gamification/leaderboard?limit=${PAGE_LIMIT}&page=${page}`);
+        if (!res.ok) throw new Error('API error');
+        const { data, total } = await res.json();
+
+        renderPodium(data.slice(0,3));
+        renderRows(data, skip);
+        renderPagination(total, page);
+
+        const now = new Date();
+        lastUpdate.textContent = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        lastUpdate.dateTime = now.toISOString();
+      } catch(err) {
+        leaderboardBody.innerHTML = `<div class="lb-error" role="alert">
+          <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+          Không thể tải bảng xếp hạng. <button class="btn-retry" onclick="loadLeaderboard()">Thử lại</button>
+        </div>`;
+      }
+    }
+
+    /* ── Render podium (top 3) ── */
+    function renderPodium(top3){
+      if (!top3 || !top3.length) {
+        podiumEl.innerHTML = '<p class="lb-empty">Chưa có dữ liệu</p>';
+        return;
+      }
+      // Re-order: 2nd, 1st, 3rd for visual podium effect
+      const order = [top3[1], top3[0], top3[2]].filter(Boolean);
+      const heights = ['70%','100%','55%'];
+      const medals = ['🥈','👑','🥉'];
+      const classes = ['podium__place--2nd','podium__place--1st','podium__place--3rd'];
+
+      podiumEl.innerHTML = order.map((u,i) => {
+        if (!u) return '';
+        const isFirst = (i===1);
+        return `
+        <div class="podium__place ${classes[i]}" role="listitem" aria-label="Hạng ${u.rank}: ${u.displayName||'Ẩn danh'}">
+          <div class="podium__medal" aria-hidden="true">${medals[i]}</div>
+          <div class="podium__avatar-wrap">
+            <img class="podium__avatar" 
+                 src="${u.avatar||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=d4af37&color=0a0a0b&size=80`}"
+                 alt="Avatar của ${u.displayName||'Ẩn danh'}"
+                 width="${isFirst?80:64}" height="${isFirst?80:64}">
+            ${isFirst ? '<div class="podium__crown-ring" aria-hidden="true"></div>' : ''}
+          </div>
+          <div class="podium__name">${u.displayName || 'Ẩn danh'}</div>
+          <div class="podium__score" aria-label="${(u.totalPoints||0).toLocaleString('vi-VN')} điểm">
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            ${(u.totalPoints||0).toLocaleString('vi-VN')}
+          </div>
+          <div class="podium__bar" style="--bar-height:${heights[i]}" aria-hidden="true">
+            <span class="podium__rank">#${u.rank}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    /* ── Render table rows ── */
+    function renderRows(entries, offset){
+      if (!entries || !entries.length) {
+        leaderboardBody.innerHTML = '<div class="lb-empty" role="status">Chưa có dữ liệu xếp hạng.</div>';
+        return;
+      }
+      leaderboardBody.innerHTML = entries.map((u, i) => {
+        const isMe = currentUser && (u.userId === currentUser._id || u._id === currentUser._id);
+        const rank = (offset + i + 1);
+        const rankDisplay = rank <= 3
+          ? ['🥇','🥈','🥉'][rank-1]
+          : `#${rank}`;
+
+        const badgeHtml = (u.badges||[]).slice(0,3).map(b =>
+          `<span class="row-badge" title="${b.badgeId?.name?.vi||b.slug||'Huy hiệu'}" aria-label="${b.badgeId?.name?.vi||'Huy hiệu'}">${b.badgeId?.iconUrl||'🏅'}</span>`
+        ).join('');
+
+        return `
+        <div class="lb-row ${isMe?'lb-row--me':''} ${rank<=3?'lb-row--top':''}"
+             role="row" tabindex="0"
+             aria-label="Hạng ${rank}: ${u.displayName||'Ẩn danh'}, ${(u.totalPoints||0).toLocaleString('vi-VN')} điểm"
+             style="--row-delay:${i*0.04}s">
+          <div class="col-rank" role="cell">
+            <span class="rank-badge rank-badge--${rank<=3?'top':'normal'}" aria-hidden="true">${rankDisplay}</span>
+          </div>
+          <div class="col-user" role="cell">
+            <img class="row-avatar" 
+                 src="${u.avatar||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=1c2233&color=d4af37&size=40`}"
+                 alt="" aria-hidden="true"
+                 width="40" height="40" loading="lazy">
+            <div class="row-user-info">
+              <span class="row-name">${u.displayName||'Ẩn danh'}${isMe?' <span class="you-tag">(Bạn)</span>':''}</span>
+              ${u.visitedSites?.length ? `<span class="row-sub">${u.visitedSites.length} ${t().sites} đã thăm</span>` : ''}
+            </div>
+          </div>
+          <div class="col-badges" role="cell">${badgeHtml || '<span class="text-muted-xs">—</span>'}</div>
+          <div class="col-sites" role="cell">
+            <span class="sites-count">${u.visitedSites?.length||0}</span>
+          </div>
+          <div class="col-streak" role="cell">
+            ${u.streakDays>0 ? `<span class="streak-chip" aria-label="${u.streakDays} ngày"><i class="fa-solid fa-fire" aria-hidden="true"></i> ${u.streakDays}</span>` : '<span class="text-muted-xs">—</span>'}
+          </div>
+          <div class="col-points" role="cell">
+            <span class="points-value" aria-label="${(u.totalPoints||0).toLocaleString('vi-VN')} điểm">
+              ${(u.totalPoints||0).toLocaleString('vi-VN')}
+            </span>
+          </div>
+        </div>`;
+      }).join('');
+
+      /* Animate rows in */
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.lb-row').forEach((row,i) => {
+          setTimeout(() => row.classList.add('visible'), i*40);
+        });
+      });
+    }
+
+    /* ── Render pagination ── */
+    function renderPagination(total, page){
+      const totalPages = Math.ceil(total / PAGE_LIMIT);
+      pageInfo.textContent = `Trang ${page} / ${totalPages}`;
+      pageInfo.setAttribute('aria-label', `Trang ${page} trên ${totalPages}`);
+      prevBtn.disabled = page <= 1;
+      nextBtn.disabled = page >= totalPages;
+    }
+
+    /* ── Load badges ── */
+    async function loadBadges(){
+      try {
+        const res = await fetch(`${API}/api/gamification/badges`);
+        if (!res.ok) return;
+        const { data } = await res.json();
+        if (!data || !data.length) {
+          badgesGrid.innerHTML = `<p class="lb-empty" role="status">${t().noBadges}</p>`;
+          return;
+        }
+        const rarityOrder = { legendary:0, epic:1, rare:2, common:3 };
+        const sorted = [...data].sort((a,b) => (rarityOrder[a.rarity]||3) - (rarityOrder[b.rarity]||3));
+        badgesGrid.innerHTML = sorted.map(badge => {
+          const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || badge.slug;
+          const desc = (typeof badge.description === 'object' ? badge.description[lang] : badge.description) || '';
+          return `
+          <div class="badge-card badge-card--${badge.rarity||'common'}" role="listitem" tabindex="0"
+               aria-label="${name}: ${desc}">
+            <div class="badge-card__icon" aria-hidden="true">${badge.iconUrl||'🏅'}</div>
+            <div class="badge-card__rarity badge-card__rarity--${badge.rarity||'common'}" aria-label="Độ hiếm: ${t().rarity[badge.rarity||'common']}">
+              ${t().rarity[badge.rarity||'common']||''}
+            </div>
+            <div class="badge-card__name">${name}</div>
+            <div class="badge-card__desc">${desc}</div>
+          </div>`;
+        }).join('');
+      } catch {}
+    }
+
+    /* ── Socket.io real-time ── */
+    function initSocket(){
+      try {
+        socket = io({ transports:['websocket','polling'] });
+        socket.on('connect', () => {
+          if (currentUser?._id) socket.emit('join', `user:${currentUser._id}`);
+        });
+        socket.on('points_update', ({ totalPoints, pointsGained, action }) => {
+          showPointsToast(pointsGained, action);
+          /* Refresh leaderboard after short delay */
+          setTimeout(() => loadLeaderboard(currentPage), 2000);
+        });
+        socket.on('badge_earned', ({ badge }) => {
+          const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || 'Huy hiệu';
+          showPointsToast(null, null, `🏅 Huy hiệu mới: ${name}`);
+        });
+      } catch {}
+    }
+
+    /* ── Points toast ── */
+    let toastTimer = null;
+    function showPointsToast(pts, action, customMsg){
+      const actionLabels = {
+        site_visit:'Thăm di sản', comment:'Bình luận', booking:'Đặt tour',
+        daily_login:'Đăng nhập', share:'Chia sẻ', first_visit:'Lần đầu thăm'
+      };
+      toastTitle.textContent = customMsg || (action ? actionLabels[action]||'Điểm mới' : 'Điểm mới');
+      toastSub.textContent   = pts !== null ? `+${pts} điểm` : '';
+      pointsToast.hidden = false;
+      pointsToast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        pointsToast.classList.remove('show');
+        setTimeout(() => { pointsToast.hidden = true; }, 400);
+      }, 3500);
+    }
+
+    /* ── Period tabs ── */
+    document.querySelectorAll('.period-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.period-tab').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected','false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected','true');
+        currentPeriod = btn.dataset.period;
+        currentPage = 1;
+        loadLeaderboard(1);
+      });
+    });
+
+    /* ── Pagination ── */
+    prevBtn.addEventListener('click', () => { if(currentPage>1) loadLeaderboard(currentPage-1); });
+    nextBtn.addEventListener('click', () => loadLeaderboard(currentPage+1));
+
+    /* ── Refresh ── */
+    refreshBtn.addEventListener('click', () => {
+      refreshBtn.classList.add('spinning');
+      loadLeaderboard(currentPage).finally(() => {
+        setTimeout(() => refreshBtn.classList.remove('spinning'), 600);
+      });
+    });
+
+    /* ── Language toggle ── */
+    langToggle.addEventListener('click', () => {
+      lang = lang === 'vi' ? 'en' : 'vi';
+      localStorage.setItem('lang', lang);
+      langLabel.textContent = lang.toUpperCase();
+      loadLeaderboard(currentPage);
+      loadBadges();
+    });
+
+    /* ── Init ── */
+    async function init(){
+      await checkAuth();
+      initSocket();
+      await loadLeaderboard(1);
+      await loadBadges();
+    }
+    init();
+
+  })();
+  </script>
+  <script src="back-btn.js"></script>
+</body>
+</html>

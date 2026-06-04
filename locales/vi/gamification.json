@@ -1,0 +1,22 @@
+{
+  "points_label": "Điểm khám phá",
+  "badges_title": "Huy hiệu",
+  "badges_subtitle": "Khám phá các di sản để thu thập huy hiệu",
+  "leaderboard_title": "Bảng xếp hạng",
+  "rank": "Hạng {{rank}}",
+  "points_earned": "+{{points}} điểm",
+  "badge_earned": "Bạn vừa đạt huy hiệu mới!",
+  "streak_days": "{{days}} ngày liên tiếp",
+  "level_explorer": "Nhà khám phá",
+  "level_traveler": "Lữ hành gia",
+  "level_master": "Bậc thầy di sản",
+  "level_legend": "Huyền thoại",
+  "action_site_visit": "Thăm di sản",
+  "action_comment": "Bình luận",
+  "action_share": "Chia sẻ",
+  "action_quiz": "Hoàn thành câu đố",
+  "action_booking": "Đặt tour",
+  "action_daily_login": "Đăng nhập hàng ngày",
+  "no_badges_yet": "Chưa có huy hiệu. Hãy bắt đầu khám phá!",
+  "total_explored": "Đã khám phá {{count}}/{{total}} di sản"
+}

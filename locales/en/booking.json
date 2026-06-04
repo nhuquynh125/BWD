@@ -1,0 +1,23 @@
+{
+  "booking_title": "Book a Heritage Tour",
+  "select_date": "Select Tour Date",
+  "participants": "Number of Participants",
+  "tour_type": "Tour Type",
+  "tour_standard": "Standard Tour",
+  "tour_premium": "Premium Tour",
+  "tour_private": "Private Tour",
+  "total_price": "Total",
+  "price_per_person": "{{price}}/person",
+  "btn_book": "Book Now",
+  "btn_check_availability": "Check Availability",
+  "booking_confirmed": "Booking confirmed! Reference: {{code}}",
+  "booking_cancelled": "Tour cancelled",
+  "booking_pending": "Awaiting confirmation",
+  "payment_vnpay": "VNPay",
+  "payment_momo": "MoMo",
+  "payment_cash": "Cash on arrival",
+  "my_bookings": "My Bookings",
+  "no_bookings": "No bookings yet",
+  "cancel_booking": "Cancel Booking",
+  "booking_terms": "Cancellation policy: Full refund if cancelled 24+ hours before tour"
+}

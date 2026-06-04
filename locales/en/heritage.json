@@ -1,0 +1,22 @@
+{
+  "site_intro": "Welcome to {{siteName}}",
+  "founded_year": "Built in {{year}}",
+  "description": "{{description}}",
+  "explore_3d": "Explore 3D Model",
+  "book_tour": "Book a Tour",
+  "heritage_type_nature": "Natural",
+  "heritage_type_culture": "Cultural",
+  "heritage_type_mixed": "Mixed",
+  "unesco_world_heritage": "UNESCO World Heritage Site {{year}}",
+  "explore_map": "View on Map",
+  "nearby_sites": "Nearby Sites",
+  "visit_history": "Visit History",
+  "first_visit": "First Explored",
+  "reviews": "{{count}} reviews",
+  "visitors": "{{count}} visitors",
+  "location": "Location: {{province}}",
+  "facts_title": "Interesting Facts",
+  "gallery_title": "Photo Gallery",
+  "related_title": "Related Sites",
+  "collection_tag": "Heritage Collection"
+}

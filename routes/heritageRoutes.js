@@ -1,5 +1,7 @@
 const express = require('express');
 const { HeritageSite } = require('../db');
+const { optionalAuth, requireAuth } = require('../auth');
+const { awardPoints } = require('../services/GamificationService');
 
 const router = express.Router();
 
@@ -43,6 +45,61 @@ router.get('/', async (req, res) => {
       sites = await HeritageSite.find(filter).lean();
     }
     res.json({ data: sites.map(s => ({ ...s, id: s._id?.toString() })) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ─── GET /api/heritage/sites/:slug — language-aware single site ──────────
+   ?lang=en  returns English content (name_en, description_en if stored)
+   Falls back to Vietnamese if translation not available.
+─────────────────────────────────────────────────────────────────────────── */
+router.get('/sites/:slug', optionalAuth, async (req, res) => {
+  try {
+    const supported = ['vi', 'en'];
+    const lang = supported.includes(req.query.lang) ? req.query.lang
+      : req.headers['accept-language']?.slice(0, 2).toLowerCase() === 'en' ? 'en' : 'vi';
+
+    // Match by page slug (e.g. 'hoi-an' → 'hoi-an.html') or by name
+    const slug = req.params.slug;
+    const site = await HeritageSite.findOne({
+      $or: [
+        { page: slug + '.html' },
+        { page: slug },
+        { name: slug }
+      ]
+    }).lean();
+
+    if (!site) return res.status(404).json({ error: 'Không tìm thấy di sản' });
+
+    // Build localised content — fall back to Vietnamese fields if EN not stored
+    const localised = {
+      name:        lang === 'en' ? (site.name_en || site.name) : site.name,
+      description: lang === 'en' ? (site.description_en || site.description) : site.description,
+      province:    site.province,
+      type:        site.type,
+      categories:  site.categories,
+      unesco:      site.unesco,
+      lat:         site.lat,
+      lng:         site.lng,
+      image_url:   site.image_url,
+      page:        site.page,
+    };
+
+    // Award gamification points for authenticated site visits (fire-and-forget)
+    if (req.user?.userId) {
+      awardPoints(req.user.userId, 'site_visit', { siteSlug: slug }).catch(() => {});
+    }
+
+    res.json({ ...localised, id: site._id?.toString(), lang });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ─── POST /api/heritage/visit/:slug — explicit visit trigger ─────────────
+   Clients that don't use /sites/:slug can call this to register a visit.
+─────────────────────────────────────────────────────────────────────────── */
+router.post('/visit/:slug', requireAuth, async (req, res) => {
+  try {
+    const result = await awardPoints(req.user.userId, 'site_visit', { siteSlug: req.params.slug });
+    res.json({ ok: true, ...result });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

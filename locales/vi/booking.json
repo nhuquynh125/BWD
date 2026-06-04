@@ -1,0 +1,23 @@
+{
+  "booking_title": "Đặt tour tham quan",
+  "select_date": "Chọn ngày tham quan",
+  "participants": "Số lượng người",
+  "tour_type": "Loại tour",
+  "tour_standard": "Tour tiêu chuẩn",
+  "tour_premium": "Tour cao cấp",
+  "tour_private": "Tour riêng tư",
+  "total_price": "Tổng cộng",
+  "price_per_person": "{{price}}/người",
+  "btn_book": "Đặt ngay",
+  "btn_check_availability": "Kiểm tra lịch trống",
+  "booking_confirmed": "Đặt tour thành công! Mã xác nhận: {{code}}",
+  "booking_cancelled": "Tour đã được hủy",
+  "booking_pending": "Đang chờ xác nhận",
+  "payment_vnpay": "VNPay",
+  "payment_momo": "MoMo",
+  "payment_cash": "Tiền mặt tại điểm",
+  "my_bookings": "Lịch sử đặt tour",
+  "no_bookings": "Chưa có lịch đặt tour nào",
+  "cancel_booking": "Hủy đặt tour",
+  "booking_terms": "Chính sách hủy: Hoàn tiền 100% nếu hủy trước 24 giờ"
+}

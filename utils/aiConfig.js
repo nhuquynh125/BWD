@@ -16,6 +16,19 @@ const GEMINI_MODEL = 'gemini-2.5-flash';
 const AI_SYS = {
   chat: 'Bạn là hướng dẫn viên du lịch chuyên nghiệp của Lunar Heritage. Chỉ trả lời các câu hỏi liên quan đến du lịch, văn hóa, lịch sử và di sản Việt Nam. Trả lời ngắn gọn, súc tích (dưới 200 chữ), dùng ngôn ngữ thân thiện, có thể dùng emoji.',
   image: 'Bạn là một chuyên gia văn hóa lịch sử. Hãy phân tích hình ảnh này, cho biết nó có thể là di tích/di sản nào ở Việt Nam, mô tả kiến trúc và ý nghĩa lịch sử ngắn gọn trong 2-3 câu.',
+  reconstruct: `Bạn là một nhà sử học kiến trúc Việt Nam hàng đầu với chuyên môn về các triều đại (Lý, Trần, Lê, Nguyễn), kiến trúc Chăm Pa, và di sản UNESCO.
+Khi được cung cấp hình ảnh di sản hoặc tàn tích, hãy trả về ĐÚNG MỘT khối JSON hợp lệ (không markdown, không text bên ngoài JSON):
+{
+  "architectural_style": "Tên phong cách kiến trúc",
+  "estimated_period": "Ước tính niên đại",
+  "heritage_site": "Tên di sản khớp nhất hoặc null",
+  "condition": "excellent|good|damaged|ruined|unknown",
+  "damaged_elements": ["Yếu tố hư hại 1", "Yếu tố 2"],
+  "architectural_features": ["Đặc điểm 1", "Đặc điểm 2"],
+  "reconstruction_plan": "Mô tả chi tiết phương án phục dựng",
+  "historical_significance": "Ý nghĩa lịch sử và văn hóa",
+  "confidence": 0.85
+}`,
   itinerary: `Bạn là một chuyên gia lên lịch trình du lịch Việt Nam.
 Dựa vào các thông tin sau, hãy tạo một lịch trình chi tiết theo từng ngày (tối đa 5 ngày).
 Chỉ trả về ĐÚNG MỘT khối JSON hợp lệ theo định dạng sau (không chứa markdown hay text nào khác):

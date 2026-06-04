@@ -1,6 +1,7 @@
 /**
  * db.js – LUNAR HERITAGE v5 – MongoDB / Mongoose Layer
  * All schemas consolidated here for clarity.
+ * Phase 2 additions: Badge, PointEvent, UserGamification, Booking, Reconstruction
  */
 
 const mongoose = require('mongoose');
@@ -223,6 +224,117 @@ const aiChatHistorySchema = new mongoose.Schema(
 aiChatHistorySchema.index({ user_id: 1, session_id: 1, created_at: 1 });
 
 /* ══════════════════════════════════════════════════════════
+   BADGE  (gamification badge definitions)
+══════════════════════════════════════════════════════════ */
+const badgeSchema = new mongoose.Schema(
+  {
+    slug:        { type: String, unique: true, required: true },
+    name:        { type: Map, of: String, default: {} },
+    description: { type: Map, of: String, default: {} },
+    iconUrl:     { type: String, default: null },
+    rarity:      { type: String, enum: ['common', 'rare', 'epic', 'legendary'], default: 'common' },
+    criteria: {
+      type:      { type: String, enum: ['visit_count', 'site_specific', 'streak', 'points_threshold'], default: 'visit_count' },
+      threshold: { type: Number, default: 1 },
+      siteSlug:  { type: String, default: null }
+    }
+  },
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }, ...VIRTUAL_ID }
+);
+
+/* ══════════════════════════════════════════════════════════
+   POINT EVENT  (immutable gamification audit log)
+══════════════════════════════════════════════════════════ */
+const pointEventSchema = new mongoose.Schema(
+  {
+    userId:   { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    points:   { type: Number, required: true },
+    action:   { type: String, enum: ['site_visit', 'comment', 'share', 'quiz_complete', 'booking', 'daily_login', 'first_visit'], required: true },
+    metadata: { type: mongoose.Schema.Types.Mixed, default: {} },
+  },
+  { timestamps: { createdAt: 'created_at', updatedAt: false } }
+);
+pointEventSchema.index({ userId: 1, created_at: -1 });
+pointEventSchema.index({ created_at: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 90 }); // TTL 90 days
+
+/* ══════════════════════════════════════════════════════════
+   USER GAMIFICATION  (per-user aggregate state)
+══════════════════════════════════════════════════════════ */
+const earnedBadgeSchema = new mongoose.Schema({
+  badgeId:   { type: mongoose.Schema.Types.ObjectId, ref: 'Badge', required: true },
+  earnedAt:  { type: Date, default: Date.now },
+  siteSlug:  { type: String, default: null }
+}, { _id: false });
+
+const userGamificationSchema = new mongoose.Schema(
+  {
+    userId:        { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true, required: true },
+    totalPoints:   { type: Number, default: 0, index: true },
+    weeklyPoints:  { type: Number, default: 0 },
+    monthlyPoints: { type: Number, default: 0 },
+    badges:        { type: [earnedBadgeSchema], default: [] },
+    streakDays:    { type: Number, default: 0 },
+    lastActiveDate:{ type: Date, default: null }
+  },
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }, ...VIRTUAL_ID }
+);
+
+/* ══════════════════════════════════════════════════════════
+   BOOKING
+══════════════════════════════════════════════════════════ */
+const bookingSchema = new mongoose.Schema(
+  {
+    userId:       { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    siteSlug:     { type: String, required: true, index: true },
+    siteName:     { type: String, default: '' },
+    tourType:     { type: String, enum: ['standard', 'premium', 'private'], default: 'standard' },
+    tourDate:     { type: Date, required: true },
+    participants: { type: Number, required: true, min: 1, max: 50 },
+    totalAmount:  { type: Number, required: true },
+    currency:     { type: String, default: 'VND' },
+    confirmCode:  { type: String, default: null },
+    status: {
+      type:    String,
+      enum:    ['pending', 'confirmed', 'cancelled', 'refunded'],
+      default: 'pending',
+      index:   true
+    },
+    payment: {
+      provider:     { type: String, enum: ['vnpay', 'momo', 'cash', null], default: null },
+      transactionId:{ type: String, default: null },
+      paidAt:       { type: Date, default: null },
+      status:       { type: String, default: null }
+    },
+    statusHistory: [{
+      status:    String,
+      changedAt: { type: Date, default: Date.now },
+      reason:    String
+    }],
+    notes: { type: String, default: '' }
+  },
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }, ...VIRTUAL_ID }
+);
+bookingSchema.index({ userId: 1, status: 1, created_at: -1 });
+
+/* ══════════════════════════════════════════════════════════
+   AI RECONSTRUCTION
+══════════════════════════════════════════════════════════ */
+const reconstructionSchema = new mongoose.Schema(
+  {
+    userId:      { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    jobId:       { type: String, required: true, unique: true },
+    originalUrl: { type: String, default: null },
+    resultUrl:   { type: String, default: null },
+    prompt:      { type: String, default: '' },
+    mode:        { type: String, enum: ['sketch', 'colorize', 'full'], default: 'full' },
+    status:      { type: String, enum: ['processing', 'completed', 'failed'], default: 'processing' },
+    errorMsg:    { type: String, default: null }
+  },
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }, ...VIRTUAL_ID }
+);
+reconstructionSchema.index({ userId: 1, created_at: -1 });
+
+/* ══════════════════════════════════════════════════════════
    FRIENDSHIP  (accepted connections)
 ══════════════════════════════════════════════════════════ */
 const friendshipSchema = new mongoose.Schema(
@@ -247,16 +359,24 @@ friendRequestSchema.index({ sender_id: 1, receiver_id: 1 }, { unique: true });
 /* ── Export all models ──────────────────────────────────── */
 module.exports = {
   initDb,
-  User:           mongoose.model('User',           userSchema),
-  Post:           mongoose.model('Post',           postSchema),
-  PostLike:       mongoose.model('PostLike',       postLikeSchema),
-  Comment:        mongoose.model('Comment',        commentSchema),
-  Follow:         mongoose.model('Follow',         followSchema),
-  Message:        mongoose.model('Message',        messageSchema),
-  Lantern:        mongoose.model('Lantern',        lanternSchema),
-  HeritageSite:   mongoose.model('HeritageSite',   heritageSiteSchema),
-  UserSettings:   mongoose.model('UserSettings',   userSettingsSchema),
-  AiChatHistory:  mongoose.model('AiChatHistory',  aiChatHistorySchema),
-  Friendship:     mongoose.model('Friendship',     friendshipSchema),
-  FriendRequest:  mongoose.model('FriendRequest',  friendRequestSchema),
+  User:              mongoose.model('User',              userSchema),
+  Post:              mongoose.model('Post',              postSchema),
+  PostLike:          mongoose.model('PostLike',          postLikeSchema),
+  Comment:           mongoose.model('Comment',           commentSchema),
+  Follow:            mongoose.model('Follow',            followSchema),
+  Message:           mongoose.model('Message',           messageSchema),
+  Lantern:           mongoose.model('Lantern',           lanternSchema),
+  HeritageSite:      mongoose.model('HeritageSite',      heritageSiteSchema),
+  UserSettings:      mongoose.model('UserSettings',      userSettingsSchema),
+  AiChatHistory:     mongoose.model('AiChatHistory',     aiChatHistorySchema),
+  Friendship:        mongoose.model('Friendship',        friendshipSchema),
+  FriendRequest:     mongoose.model('FriendRequest',     friendRequestSchema),
+  // Phase 2 — Gamification
+  Badge:             mongoose.model('Badge',             badgeSchema),
+  PointEvent:        mongoose.model('PointEvent',        pointEventSchema),
+  UserGamification:  mongoose.model('UserGamification',  userGamificationSchema),
+  // Phase 2 — Booking
+  Booking:           mongoose.model('Booking',           bookingSchema),
+  // Phase 3 — AI Reconstruction
+  Reconstruction:    mongoose.model('Reconstruction',    reconstructionSchema),
 };

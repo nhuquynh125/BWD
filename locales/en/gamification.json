@@ -1,0 +1,22 @@
+{
+  "points_label": "Exploration Points",
+  "badges_title": "Badges",
+  "badges_subtitle": "Explore heritage sites to collect badges",
+  "leaderboard_title": "Leaderboard",
+  "rank": "Rank #{{rank}}",
+  "points_earned": "+{{points}} points",
+  "badge_earned": "You've earned a new badge!",
+  "streak_days": "{{days}} day streak",
+  "level_explorer": "Explorer",
+  "level_traveler": "Traveler",
+  "level_master": "Heritage Master",
+  "level_legend": "Legend",
+  "action_site_visit": "Heritage Visit",
+  "action_comment": "Comment",
+  "action_share": "Share",
+  "action_quiz": "Quiz Completed",
+  "action_booking": "Tour Booked",
+  "action_daily_login": "Daily Login",
+  "no_badges_yet": "No badges yet. Start exploring!",
+  "total_explored": "Explored {{count}}/{{total}} sites"
+}

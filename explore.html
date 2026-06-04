@@ -662,16 +662,16 @@
 
   <nav class="sidenav">
     <a href="BWD.html" class="nav-icon" title="Về trang chính">
-      <span>🏛️</span><span class="tooltip">Trang chủ chính</span>
+      <span>🏛️</span><span class="tooltip" data-i18n="common:nav_home">Trang chủ chính</span>
     </a>
-    <a href="dashboard.html" class="nav-icon"><span>📰</span><span class="tooltip">Bảng tin</span></a>
-    <a href="explore.html" class="nav-icon active"><span>🔭</span><span class="tooltip">Khám phá</span></a>
-    <a href="map.html" class="nav-icon"><span>🗺️</span><span class="tooltip">Bản đồ</span></a>
-    <a href="passport.html" class="nav-icon"><span>🛂</span><span class="tooltip">Hộ chiếu</span></a>
-    <a href="messages.html" class="nav-icon"><span>💬</span><span class="tooltip">Tin nhắn</span></a>
-    <a href="ai.html" class="nav-icon"><span>🤖</span><span class="tooltip">AI Thầy Đồ Neon</span></a>
+    <a href="dashboard.html" class="nav-icon"><span>📰</span><span class="tooltip" data-i18n="common:nav_feed">Bảng tin</span></a>
+    <a href="explore.html" class="nav-icon active"><span>🔭</span><span class="tooltip" data-i18n="common:nav_explore">Khám phá</span></a>
+    <a href="map.html" class="nav-icon"><span>🗺️</span><span class="tooltip" data-i18n="common:nav_map">Bản đồ</span></a>
+    <a href="passport.html" class="nav-icon"><span>🛂</span><span class="tooltip" data-i18n="common:nav_passport">Hộ chiếu</span></a>
+    <a href="messages.html" class="nav-icon"><span>💬</span><span class="tooltip" data-i18n="common:nav_messages">Tin nhắn</span></a>
+    <a href="ai.html" class="nav-icon"><span>🤖</span><span class="tooltip" data-i18n="common:nav_ai">AI Thầy Đồ Neon</span></a>
     <div class="nav-bottom">
-      <a href="settings.html" class="nav-icon"><span>⚙️</span><span class="tooltip">Cài đặt</span></a>
+      <a href="settings.html" class="nav-icon"><span>⚙️</span><span class="tooltip" data-i18n="common:nav_settings">Cài đặt</span></a>
       <div class="user-avatar-nav" id="navAvatar" onclick="window.location.href='profile.html'">?</div>
     </div>
   </nav>
@@ -680,56 +680,56 @@
 
     <!-- Hero -->
     <div class="explore-hero">
-      <div class="hero-label">🌏 Khám phá di sản</div>
-      <h1 class="hero-title">Tìm <em>hành trình</em><br>tiếp theo của bạn</h1>
+      <div class="hero-label" data-i18n="common:explore_hero_label">🌏 Khám phá di sản</div>
+      <h1 class="hero-title"><span data-i18n="common:explore_hero_title_1">Tìm</span> <em data-i18n="common:explore_hero_title_em">hành trình</em><br><span data-i18n="common:explore_hero_title_2">tiếp theo của bạn</span></h1>
       <div class="search-bar">
         <div class="search-seg">
-          <label>Điểm đến</label>
-          <input type="text" id="searchQuery" placeholder="Hội An, Hạ Long, Huế...">
+          <label data-i18n="common:explore_search_dest_label">Điểm đến</label>
+          <input type="text" id="searchQuery" placeholder="Hội An, Hạ Long, Huế..." data-i18n="common:explore_search_dest_placeholder" data-i18n-attr="placeholder">
         </div>
         <div class="search-seg" style="flex:0 0 160px">
-          <label>Loại di sản</label>
+          <label data-i18n="common:explore_search_type_label">Loại di sản</label>
           <select id="searchType">
-            <option value="">Tất cả</option>
-            <option value="Thiên nhiên">🌿 Thiên nhiên</option>
-            <option value="Văn hóa">🏛️ Văn hóa</option>
-            <option value="Địa chất">🪨 Địa chất</option>
-            <option value="Phi vật thể">🎭 Phi vật thể</option>
+            <option value="" data-i18n="common:explore_search_type_all">Tất cả</option>
+            <option value="Thiên nhiên" data-i18n="common:explore_search_type_nature">🌿 Thiên nhiên</option>
+            <option value="Văn hóa" data-i18n="common:explore_search_type_culture">🏛️ Văn hóa</option>
+            <option value="Địa chất" data-i18n="common:explore_search_type_geo">🪨 Địa chất</option>
+            <option value="Phi vật thể" data-i18n="common:explore_search_type_intang">🎭 Phi vật thể</option>
           </select>
         </div>
-        <button class="search-go" onclick="doSearch()">🔍 Tìm kiếm</button>
+        <button class="search-go" onclick="doSearch()" data-i18n="common:explore_search_btn">🔍 Tìm kiếm</button>
       </div>
       <div class="quick-tags">
-        <div class="qtag" onclick="quickSearch('UNESCO')">🏆 UNESCO</div>
-        <div class="qtag" onclick="quickSearch('Biển')">🏝️ Biển đảo</div>
-        <div class="qtag" onclick="quickSearch('Hang động')">🦇 Hang động</div>
-        <div class="qtag" onclick="quickSearch('Phố cổ')">🏮 Phố cổ</div>
-        <div class="qtag" onclick="quickSearch('Sapa')">⛰️ Núi cao</div>
-        <div class="qtag" onclick="quickSearch('Huế')">👑 Kinh thành</div>
+        <div class="qtag" onclick="quickSearch('UNESCO')" data-i18n="common:explore_qtag_unesco">🏆 UNESCO</div>
+        <div class="qtag" onclick="quickSearch('Biển')" data-i18n="common:explore_qtag_sea">🏝️ Biển đảo</div>
+        <div class="qtag" onclick="quickSearch('Hang động')" data-i18n="common:explore_qtag_cave">🦇 Hang động</div>
+        <div class="qtag" onclick="quickSearch('Phố cổ')" data-i18n="common:explore_qtag_old_town">🏮 Phố cổ</div>
+        <div class="qtag" onclick="quickSearch('Sapa')" data-i18n="common:explore_qtag_mountain">⛰️ Núi cao</div>
+        <div class="qtag" onclick="quickSearch('Huế')" data-i18n="common:explore_qtag_citadel">👑 Kinh thành</div>
       </div>
     </div>
 
     <!-- Live stats bar (real data from /api/stats) -->
     <div class="stats-bar" id="statsBar"
       style="padding:18px 48px; border-bottom:1px solid var(--border); background:var(--surface);">
-      <div class="stat-pill"><strong id="st-users">—</strong> thành viên</div>
-      <div class="stat-pill"><strong id="st-posts">—</strong> bài viết</div>
-      <div class="stat-pill"><strong id="st-lanterns">—</strong> đèn lồng</div>
-      <div class="stat-pill"><strong id="st-heritage">—</strong> di sản</div>
+      <div class="stat-pill"><strong id="st-users">—</strong> <span data-i18n="common:explore_stat_members">thành viên</span></div>
+      <div class="stat-pill"><strong id="st-posts">—</strong> <span data-i18n="common:explore_stat_posts">bài viết</span></div>
+      <div class="stat-pill"><strong id="st-lanterns">—</strong> <span data-i18n="common:explore_stat_lanterns">đèn lồng</span></div>
+      <div class="stat-pill"><strong id="st-heritage">—</strong> <span data-i18n="common:explore_stat_heritage">di sản</span></div>
     </div>
 
     <!-- Heritage Discovery -->
     <div class="section reveal">
       <div class="sec-head">
-        <h2>Di sản Việt Nam</h2>
-        <a href="di-san.html" class="see-all">Xem tất cả →</a>
+        <h2 data-i18n="common:explore_section_heritage">Di sản Việt Nam</h2>
+        <a href="di-san.html" class="see-all" data-i18n="common:explore_see_all">Xem tất cả →</a>
       </div>
       <div class="cat-strip" id="catStrip">
-        <div class="cat-chip active" data-type="">🌍 Tất cả</div>
-        <div class="cat-chip" data-type="Thiên nhiên">🌿 Thiên nhiên</div>
-        <div class="cat-chip" data-type="Văn hóa">🏛️ Văn hóa</div>
-        <div class="cat-chip" data-type="Địa chất">🪨 Địa chất</div>
-        <div class="cat-chip" data-type="Phi vật thể">🎭 Phi vật thể</div>
+        <div class="cat-chip active" data-type="" data-i18n="common:explore_cat_all">🌍 Tất cả</div>
+        <div class="cat-chip" data-type="Thiên nhiên" data-i18n="common:explore_cat_nature">🌿 Thiên nhiên</div>
+        <div class="cat-chip" data-type="Văn hóa" data-i18n="common:explore_cat_culture">🏛️ Văn hóa</div>
+        <div class="cat-chip" data-type="Địa chất" data-i18n="common:explore_cat_geo">🪨 Địa chất</div>
+        <div class="cat-chip" data-type="Phi vật thể" data-i18n="common:explore_cat_intang">🎭 Phi vật thể</div>
       </div>
       <div class="heritage-grid" id="heritageGrid">
         <div class="skeleton" style="height:320px;border-radius:var(--radius-lg)"></div>
@@ -742,7 +742,7 @@
     <!-- Heritage Map -->
     <div class="section reveal">
       <div class="sec-head">
-        <h2>Bản đồ Di sản (Tương tác)</h2>
+        <h2 data-i18n="common:explore_section_map">Bản đồ Di sản (Tương tác)</h2>
       </div>
       <div id="heritageMap" style="height: 500px; width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: 0 16px 40px rgba(0,0,0,0.4); z-index: 1;"></div>
     </div>
@@ -750,8 +750,8 @@
     <!-- People to discover (real users from /api/users/search) -->
     <div class="section reveal" id="peopleSection" style="display:none">
       <div class="sec-head">
-        <h2>Khám phá thành viên</h2>
-        <a href="dashboard.html" class="see-all">Xem bảng tin →</a>
+        <h2 data-i18n="common:explore_section_people">Khám phá thành viên</h2>
+        <a href="dashboard.html" class="see-all" data-i18n="common:explore_see_feed">Xem bảng tin →</a>
       </div>
       <div class="users-strip" id="usersStrip"></div>
     </div>
@@ -759,7 +759,7 @@
     <!-- Trending tags (built from real posts) -->
     <div class="section reveal">
       <div class="sec-head">
-        <h2>Xu hướng cộng đồng</h2>
+        <h2 data-i18n="common:explore_section_trending">Xu hướng cộng đồng</h2>
       </div>
       <div class="trending-grid" id="trendingTags">
         <div class="skeleton" style="height:36px;width:120px;border-radius:40px"></div>
@@ -771,8 +771,8 @@
     <!-- Recent posts from community (real data from /api/posts) -->
     <div class="section reveal">
       <div class="sec-head">
-        <h2>Bài viết mới nhất</h2>
-        <a href="dashboard.html" class="see-all">Xem tất cả →</a>
+        <h2 data-i18n="common:explore_section_posts">Bài viết mới nhất</h2>
+        <a href="dashboard.html" class="see-all" data-i18n="common:explore_see_all">Xem tất cả →</a>
       </div>
       <div class="feed-grid" id="communityFeed">
         <div class="skeleton" style="height:120px;border-radius:var(--radius-lg)"></div>
@@ -786,6 +786,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
   <script src="api.js"></script>
+  <script src="i18n.js"></script>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script>
     // Icon + CSS-class for each category tag (case-insensitive lookup)

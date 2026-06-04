@@ -4,6 +4,7 @@ const { upload, validateImage } = require('../middlewares/upload');
 const { requireAuth, optionalAuth, requireAdmin } = require('../auth');
 const { Post, PostLike, Comment } = require('../db');
 const { validateRequest, postCreateSchema, postLikeSchema, commentCreateSchema } = require('../schemas');
+const { awardPoints } = require('../services/GamificationService');
 
 const router = express.Router();
 
@@ -56,6 +57,8 @@ router.post('/', requireAuth, validateRequest(postCreateSchema), async (req, res
     post.user_id    = post.user_id._id?.toString();
     
     logger.info({ event: 'POST_CREATED', postId: post.id, userId: req.user.userId });
+    // Award gamification points (fire-and-forget)
+    awardPoints(req.user.userId, 'comment', { postId: post.id }).catch(() => {});
     res.json({ ok: true, post });
   } catch (e) { 
     logger.error({ event: 'POST_CREATE_ERROR', error: e.message });
@@ -145,6 +148,8 @@ router.post('/:id/comments', requireAuth, validateRequest(commentCreateSchema), 
     c.user_id = c.user_id._id?.toString();
     
     logger.info({ event: 'COMMENT_CREATED', commentId: c.id, userId: req.user.userId });
+    // Award gamification points for commenting (fire-and-forget)
+    awardPoints(req.user.userId, 'comment', { postId: req.params.id, commentId: c.id }).catch(() => {});
     res.json({ ok: true, comment: c });
   } catch (e) {
     logger.error({ event: 'COMMENT_CREATE_ERROR', error: e.message });

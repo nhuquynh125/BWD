@@ -1,44 +1,51 @@
-# 🏛️ Phase 2 & 3 Implementation Tasks
+You are an expert Node.js and Express developer. Your task is to implement a Booking API AdapterFactory architecture based on the provided plan.
 
-## Module 1 — Three.js Performance (LOD + Draco)
-- [x] Enhance `ModelLoader.js` with KTX2 texture support + InstancedMesh helpers
-- [x] Create `src/3d/SceneOptimizer.js` — frustum culling, smart render loop, LOD runtime switching
+<objective>
+Build a Factory/Adapter Pattern architecture to flexibly handle multiple payment methods and tour booking services (VNPay, MoMo, Klook, Direct) without bloating the main Booking route.
+</objective>
 
-## Module 2 — i18n
-- [x] Expand locale JSON files with missing gamification/booking/AR keys
-- [x] Add language-aware API endpoint to `heritageRoutes.js` (multilingual content)
-- [x] Wire `data-i18n` attributes into `di-san.html`
-- [x] Wire `data-i18n` attributes into `explore.html`
+<context>
+- The adapters will require mock environment variables for the Secret Keys of VNPay and MoMo. You should simulate the payment URL generation logic and signature encryption (HMAC SHA512 for VNPay and SHA256 for MoMo).
+- The current focus is on VNPay and MoMo instead of Ticketbox, as these providers are more popular in Vietnam and their payment logic is well-suited for a direct tour booking system.
+</context>
 
-## Module 3 — Gamification
-- [x] Create `routes/gamificationRoutes.js` — REST endpoints for leaderboard, profile, events
-- [x] Register gamification routes in `server.js`
-- [x] Create `leaderboard.html` — premium real-time leaderboard UI with Socket.io
-- [x] Create `leaderboard.css` — styling for leaderboard page
-- [x] Wire points events into postRoutes/heritageRoutes (site_visit, comment, daily_login)
+<instructions>
+Please implement the following files exactly as described:
 
-## Module 4 — Booking
-- [x] Create `routes/bookingRoutes.js` — CRUD booking endpoints + webhook handler
-- [x] Register booking routes in `server.js`
-- [x] Create `booking.html` — tour booking UI page
-- [x] Create `booking.css` — booking page styling
-- [x] Add booking gamification hook (award 200pts on confirmed booking)
+1. `services/booking/adapters/BaseAdapter.js` [NEW]
+Create an abstract base class to ensure all adapters (VNPay, MoMo, etc.) follow the same interface standard, including:
+- `createPaymentUrl(bookingData)`: Generates a URL to redirect the user to the payment page.
+- `verifyWebhook(payload, signature)`: Returns true/false to ensure the webhook's security.
+- `processPaymentReturn(query)`: Handles the logic when a user is redirected back to the website from the payment gateway.
 
-## Module 5 — WebXR (AR/VR)
-- [x] Enhance `src/3d/ModelLoader.js` with WebXR VR/AR helper functions
-- [x] Create `src/3d/WebXRManager.js` — VR button, controller setup, teleportation
-- [x] Create `ar-view.html` — marker-based AR viewer page using MindAR/AR.js
-- [x] Create `ar-view.css` — AR page styling
+2. `services/booking/adapters/VNPayAdapter.js` [NEW]
+Inherits from `BaseAdapter`, specifically handling the VNPay gateway:
+- Build the `vnp_Params` object and create a secure signature using the HMAC SHA512 algorithm.
+- Check if `vnp_ResponseCode === '00'` on the return URL.
 
-## Module 6 — AI Heritage Reconstruction
-- [x] Enhance `routes/aiRoutes.js` with `/reconstruct` endpoint (Gemini Vision + generation)
-- [x] Create `reconstruction.html` — AI reconstruction upload + result UI
-- [x] Create `reconstruction.css` — AI page styling
+3. `services/booking/adapters/MoMoAdapter.js` [NEW]
+Inherits from `BaseAdapter`, specifically handling the MoMo e-wallet:
+- Create a request signature using HMAC SHA256 with keys: `accessKey`, `secretKey`, `partnerCode`.
+- Communicate with the MoMo gateway to get the `payUrl`.
 
-## Infrastructure / Wiring
-- [x] Add node-cron weekly/monthly leaderboard reset to `server.js`
-- [x] Seed default badges into MongoDB via `seed-badges.js`
-- [x] Register all new routes in `server.js`
+4. `services/booking/adapters/DirectAdapter.js` [NEW]
+- Handles cash payment bookings.
+- Automatically returns a "pending" status and does not need to create a payment URL (returns directly to the success page).
 
----
-✅ **All Phase 2 & 3 tasks complete.**
+5. `services/booking/AdapterFactory.js` [NEW]
+A factory to distribute Adapters:
+- `getAdapter(providerName)`: Initializes and returns the corresponding payment provider instance based on `providerName` ('vnpay', 'momo', 'cash').
+
+6. `routes/bookingRoutes.js` [MODIFY]
+Change the logic to integrate the Factory:
+- Remove hardcoded direct payment logic.
+- `POST /`: Use `AdapterFactory.getAdapter(paymentProvider)` to call `createPaymentUrl`. Return the payment URL to the Frontend instead of automatically reporting "confirmed".
+- `GET /payment/return/:provider`: Route to catch the return URL from the payment gateway. Call the `processPaymentReturn` logic of the corresponding Adapter to update the status in MongoDB (success / failed).
+- `POST /webhook/:provider`: Update the webhook to verify secure signatures (`verifyWebhook`) and update the database.
+</instructions>
+
+<requirements>
+- Provide the full, complete code for each new file.
+- For `routes/bookingRoutes.js`, please provide the complete updated file or clear diffs showing exactly what needs to be changed.
+- Ensure the code uses modern JavaScript (ES6+), handles errors gracefully, and follows best practices for Express applications.
+</requirements>

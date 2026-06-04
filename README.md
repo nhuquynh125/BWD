@@ -1,67 +1,115 @@
 # 🌕 LUNAR HERITAGE – Mạng Xã Hội Du Lịch Di Sản Việt Nam
 
-![Version](https://img.shields.io/badge/Version-5.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-6.0-blue.svg)
 ![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen.svg)
+![Express](https://img.shields.io/badge/Express-v5-black.svg)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.x-white.svg)
 ![Three.js](https://img.shields.io/badge/3D-Three.js-black.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-**Lunar Heritage** là mạng xã hội đột phá kết hợp giữa nền tảng kết nối du lịch và công nghệ tương tác 3D WebGL, dành riêng cho việc quảng bá và bảo tồn Di sản văn hóa Việt Nam. Hệ thống tích hợp AI thông minh (Google Gemini), tính năng trò chuyện thời gian thực, bản đồ số và trải nghiệm không gian 3D sống động.
+**Lunar Heritage** là mạng xã hội đột phá kết hợp giữa nền tảng kết nối du lịch và công nghệ tương tác 3D WebGL, dành riêng cho việc quảng bá và bảo tồn Di sản văn hóa Việt Nam. Hệ thống tích hợp AI thông minh (Google Gemini), tính năng trò chuyện thời gian thực, bản đồ số, hệ thống gamification, đặt tour trực tuyến, trải nghiệm AR/VR và tái dựng di tích bằng AI.
 
 ---
 
 ## ✨ Tính Năng Nổi Bật
 
 ### 🌐 Mạng Xã Hội Đa Dạng
-- **Đăng ký / Đăng nhập an toàn:** Hệ thống xác thực bằng JWT, mã hóa mật khẩu với bcrypt. Hỗ trợ đăng nhập nhanh bằng tài khoản Google.
-- **Tương tác bài viết:** Khám phá feed bài viết, chia sẻ cảm nghĩ, tải ảnh lên, thả tim (like) và bình luận. Tất cả dữ liệu được lưu trữ trên MongoDB.
+- **Đăng ký / Đăng nhập an toàn:** Xác thực bằng JWT, mã hóa mật khẩu với bcrypt. Hỗ trợ đăng nhập nhanh bằng tài khoản Google.
+- **Tương tác bài viết:** Khám phá feed bài viết, chia sẻ cảm nghĩ, tải ảnh lên, thả tim (like) và bình luận. Dữ liệu lưu trữ MongoDB.
 - **Kết nối người dùng:** Tìm kiếm, xem hồ sơ, theo dõi (Follow/Unfollow) bạn bè. Quản lý hồ sơ cá nhân.
-- **Real-time Chat:** Nhắn tin trực tiếp thời gian thực, lưu trữ và gửi ảnh thông qua công nghệ Socket.io.
-- **Thắp đèn lồng:** Tính năng "Thắp đèn lồng" cầu bình an ảo và chia sẻ câu chuyện tại các khu di tích lịch sử.
+- **Real-time Chat:** Nhắn tin trực tiếp thời gian thực, lưu trữ và gửi ảnh qua Socket.io.
+- **Thắp đèn lồng:** Tính năng cầu bình an ảo và chia sẻ câu chuyện tại các khu di tích lịch sử.
 
-### 🗺️ Khám Phá Bản Đồ & Quản Trị
-- **Bản Đồ Tương Tác (Interactive Map):** Khám phá trực quan các địa điểm di sản trên bản đồ Việt Nam sử dụng Leaflet.js.
-- **Admin Dashboard:** Trang quản trị dành riêng cho admin để kiểm duyệt người dùng, quản lý bài viết và theo dõi hoạt động toàn hệ thống.
+### 🗺️ Khám Phá & Quản Trị
+- **Bản Đồ Tương Tác:** Khám phá trực quan các địa điểm di sản trên bản đồ Việt Nam sử dụng Leaflet.js.
+- **Admin Dashboard:** Trang quản trị kiểm duyệt người dùng, quản lý bài viết và theo dõi hoạt động toàn hệ thống.
 
 ### 🏛️ Trải Nghiệm 3D Di Sản (WebGL)
-Khám phá các di sản Việt Nam qua không gian 3D tương tác sống động được xây dựng bằng Three.js:
-- Vịnh Hạ Long, Cố đô Huế, Phố cổ Hội An, Ruộng bậc thang,...
+Khám phá các di sản Việt Nam qua không gian 3D tương tác sống động xây dựng bằng Three.js:
+- Vịnh Hạ Long, Cố đô Huế, Phố cổ Hội An, Ruộng bậc thang, Cao nguyên đá Đồng Văn, Hoàng thành Thăng Long, Phong Nha–Kẻ Bàng, Thánh địa Mỹ Sơn, Quần thể Tràng An, Thành Nhà Hồ.
+
+### 📱 Hộ Chiếu Di Sản (Heritage Passport)
+- Hệ thống hộ chiếu cá nhân ghi lại hành trình tham quan các di sản đã khám phá.
+- Nhận tem (stamp) điện tử khi check-in tại mỗi địa điểm.
+
+### 🎮 Gamification & Bảng Xếp Hạng
+- **Điểm thưởng (XP):** Tích lũy kinh nghiệm qua mỗi hoạt động (đăng bài, like, bình luận, check-in di sản).
+- **Huy hiệu (Badges):** Hệ thống thành tựu đa dạng được mở khóa tự động qua `GamificationService`.
+- **Bảng xếp hạng (Leaderboard):** Xem thứ hạng trong cộng đồng theo điểm XP tích lũy.
+
+### 🎟️ Đặt Tour & Vé Tham Quan (Booking)
+- Tra cứu và đặt vé tham quan, tour du lịch trực tuyến tại các di sản.
+- Quản lý lịch sử đặt tour cá nhân.
+
+### 🥽 Trải Nghiệm AR/VR
+- **AR View:** Xem di sản qua góc nhìn thực tế tăng cường (Augmented Reality) ngay trên trình duyệt.
+- Hỗ trợ giao diện chuyên biệt cho thiết bị di động.
 
 ### 🤖 Tích Hợp AI (Google Gemini)
-- **Thầy Đồ Neon:** Chatbot AI am hiểu văn hóa, lịch sử Việt Nam, sẵn sàng đồng hành và giải đáp thắc mắc của bạn.
-- **Nhận diện ảnh AI:** Phân tích hình ảnh chụp di sản do người dùng tải lên để cung cấp thông tin lịch sử chi tiết.
+- **Thầy Đồ Neon:** Chatbot AI am hiểu văn hóa, lịch sử Việt Nam.
+- **Nhận diện ảnh AI:** Phân tích hình ảnh di sản tải lên để cung cấp thông tin lịch sử chi tiết.
 - **Lên lịch trình AI:** Tự động tạo kế hoạch du lịch cá nhân hóa.
+- **AI Phục Dựng (Reconstruction):** Phân tích ảnh di tích và dùng AI phác họa lại kiến trúc nguyên thủy.
+- **Fine-tuning AI:** Dataset di sản (`heritage_dataset.jsonl`) và Modelfile để tinh chỉnh mô hình AI chuyên biệt về văn hóa Việt Nam.
+
+### 🌍 Đa Ngôn Ngữ (i18n)
+- Hỗ trợ **Tiếng Việt** và **Tiếng Anh** (`locales/vi`, `locales/en`).
+- Tự động phát hiện ngôn ngữ người dùng và cho phép chuyển đổi dễ dàng qua `i18n.js`.
+
+### 🔒 Bảo Mật & Hiệu Năng
+- **Helmet.js:** Bảo vệ HTTP headers tự động.
+- **CSRF Protection:** Chống tấn công Cross-Site Request Forgery bằng `csurf`.
+- **Rate Limiting:** Giới hạn tần suất request chống DDoS với `express-rate-limit`.
+- **XSS Protection:** Lọc nội dung độc hại bằng `xss`.
+- **Validation:** Kiểm tra dữ liệu đầu vào với `zod`.
+- **Compression:** Nén response tự động với `compression`.
+- **Logging:** Ghi log hệ thống chuyên nghiệp với `winston`.
+- **Cron Jobs:** Tự động hóa tác vụ định kỳ với `node-cron`.
+- **Image Processing:** Tối ưu hình ảnh upload bằng `sharp`.
 
 ---
 
 ## 🛠️ Công Nghệ & Kiến Trúc
 
-- **Frontend:** HTML5, CSS3, Tailwind CSS (CDN), JavaScript Vanilla.
-- **Map & 3D Engine:** Leaflet.js, Three.js.
-- **Backend:** Node.js, Express.js (v5).
-- **Database:** MongoDB (Sử dụng `mongoose`).
-- **Authentication:** JWT (JSON Web Tokens), `google-auth-library`.
-- **Real-time:** Socket.io.
-- **AI Integration:** Google Gemini 2.0 Flash API.
+| Layer | Công nghệ |
+|---|---|
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
+| **Map & 3D** | Leaflet.js, Three.js |
+| **Backend** | Node.js, Express.js v5 |
+| **Database** | MongoDB + Mongoose |
+| **Authentication** | JWT, bcryptjs, google-auth-library |
+| **Real-time** | Socket.io v4 |
+| **AI** | Google Gemini 2.0 Flash (`@google/generative-ai`) |
+| **Security** | Helmet, csurf, express-rate-limit, xss, zod |
+| **File Upload** | Multer, Sharp (image optimization) |
+| **Logging** | Winston |
+| **Scheduler** | node-cron |
 
 ---
 
 ## 🚀 Hướng Dẫn Cài Đặt & Khởi Động
 
 ### Yêu Cầu Hệ Thống
-- Đã cài đặt **Node.js** (Phiên bản 18 trở lên).
-- Đã cài đặt **MongoDB** (chạy local) hoặc sử dụng **MongoDB Atlas**.
+- **Node.js** phiên bản 18 trở lên
+- **MongoDB** chạy local hoặc **MongoDB Atlas**
 
 ### Các Bước Thực Hiện
 
-**1. Cài đặt thư viện**
-Mở terminal và di chuyển vào thư mục dự án `web`, sau đó chạy lệnh:
+**1. Clone dự án & cài đặt thư viện**
 ```bash
+git clone <repository-url>
+cd web
 npm install
 ```
 
 **2. Cấu hình biến môi trường**
-Tạo file `.env` ở thư mục gốc với nội dung tham khảo sau:
+Sao chép file mẫu và điền thông tin:
+```bash
+cp .env.example .env
+```
 
+Nội dung file `.env`:
 ```env
 # Port mặc định
 PORT=8000
@@ -80,63 +128,133 @@ GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
 **3. Khởi tạo Dữ liệu mẫu (Tùy chọn)**
-Để nạp dữ liệu di sản cơ bản vào MongoDB, bạn có thể chạy:
 ```bash
+# Nạp dữ liệu di sản
 node seed-heritage.js
+
+# Nạp dữ liệu huy hiệu gamification
+node seed-badges.js
+
+# Khởi tạo cấu trúc MongoDB
+node init-mongodb.js
 ```
 
 **4. Khởi động Máy chủ**
 ```bash
+# Production
 npm start
-# Hoặc chạy ở chế độ dev: npm run dev
+
+# Development (auto-reload với nodemon)
+npm run dev
 ```
 
 **5. Trải Nghiệm Ứng Dụng**
-Mở trình duyệt web và truy cập vào địa chỉ: **[http://localhost:8000](http://localhost:8000)**
+Mở trình duyệt và truy cập: **[http://localhost:8000](http://localhost:8000)**
 
 ---
 
-## 📂 Cấu Trúc Thư Mục Chính
+## 📂 Cấu Trúc Thư Mục
 
 ```text
 /
- ├── server.js            # Khởi tạo Express server, chứa API Endpoints và Socket.io
- ├── db.js                # Xử lý kết nối MongoDB với Mongoose
- ├── auth.js              # Middleware xử lý xác thực người dùng (JWT)
- ├── seed-heritage.js     # Script khởi tạo dữ liệu mẫu cho Database
- ├── uploads/             # Thư mục lưu trữ hình ảnh người dùng tải lên
- ├── *.html               # Các file giao diện như index, explore, profile, admin, các trang di sản 3D...
- ├── *.js & *.css         # Các script logic phía client và file stylesheet
- └── .env                 # File cấu hình môi trường hệ thống
+├── server.js                  # Điểm khởi đầu Express, Socket.io, cấu hình middleware
+├── db.js                      # Kết nối MongoDB với Mongoose
+├── schemas.js                 # Mongoose schemas cho toàn bộ dữ liệu
+├── auth.js                    # Middleware xác thực JWT
+│
+├── routes/                    # API Routes (MVC)
+│   ├── authRoutes.js          #   Đăng ký, đăng nhập, Google OAuth
+│   ├── userRoutes.js          #   Hồ sơ, follow/unfollow, tìm kiếm
+│   ├── postRoutes.js          #   Bài viết, like, bình luận
+│   ├── heritageRoutes.js      #   Di sản, check-in, thông tin địa điểm
+│   ├── bookingRoutes.js       #   Đặt tour, vé tham quan
+│   ├── gamificationRoutes.js  #   XP, huy hiệu, bảng xếp hạng
+│   ├── aiRoutes.js            #   Chatbot AI, nhận diện ảnh, lịch trình
+│   ├── messageRoutes.js       #   Tin nhắn real-time
+│   ├── lanternRoutes.js       #   Thắp đèn lồng
+│   ├── passportRoutes.js      #   Hộ chiếu di sản
+│   ├── adminRoutes.js         #   Quản trị hệ thống
+│   ├── accountRoutes.js       #   Quản lý tài khoản
+│   ├── settingsRoutes.js      #   Cài đặt người dùng
+│   ├── friendRoutes.js        #   Kết bạn, gợi ý bạn bè
+│   └── statsRoutes.js         #   Thống kê hệ thống
+│
+├── services/
+│   ├── GamificationService.js # Logic điểm XP và huy hiệu
+│   └── booking/               # Logic xử lý đặt tour
+│
+├── middlewares/               # Middleware bảo mật & xử lý
+├── utils/                     # Tiện ích dùng chung
+│
+├── locales/                   # Đa ngôn ngữ
+│   ├── vi/                    #   Tiếng Việt
+│   └── en/                    #   Tiếng Anh
+│
+├── uploads/                   # Hình ảnh người dùng tải lên
+│
+├── *.html                     # Giao diện: index, explore, profile, di-san, booking,
+│                              #   leaderboard, passport, ar-view, reconstruction, admin...
+├── global.css                 # CSS toàn cục & design system
+├── i18n.js                    # Module đa ngôn ngữ client-side
+├── mobile-nav.js              # Navigation responsive
+│
+├── seed-heritage.js           # Script nạp dữ liệu di sản mẫu
+├── seed-badges.js             # Script nạp dữ liệu huy hiệu
+├── init-mongodb.js            # Script khởi tạo cấu trúc Database
+├── heritage_dataset.jsonl     # Dataset fine-tuning AI di sản
+├── Modelfile                  # Cấu hình Ollama model tùy chỉnh
+│
+├── manifest.json              # PWA Manifest
+├── sw.js                      # Service Worker (offline support)
+├── sitemap.xml                # SEO Sitemap
+├── robots.txt                 # SEO Robots
+└── .env                       # File cấu hình môi trường (không commit)
 ```
 
 ---
 
-## 💡 Xử Lý Sự Cố Thường Gặp (Troubleshooting)
+## 💡 Xử Lý Sự Cố Thường Gặp
 
-- **Lỗi không kết nối được Database:** Đảm bảo MongoDB đang chạy và `MONGODB_URI` trong `.env` là chính xác.
-- **Lỗi Port 8000 đã được sử dụng:** Đổi giá trị `PORT` trong file `.env`.
-- **Chức năng AI báo lỗi:** Đảm bảo bạn đã điền chính xác `GEMINI_API_KEY`.
-- **Lỗi tải ảnh:** Kiểm tra xem thư mục `uploads/` có quyền đọc/ghi.
+| Lỗi | Nguyên nhân & Cách sửa |
+|---|---|
+| Không kết nối được Database | Đảm bảo MongoDB đang chạy và `MONGODB_URI` trong `.env` chính xác |
+| Port 8000 đã được sử dụng | Đổi giá trị `PORT` trong `.env` |
+| Chức năng AI báo lỗi | Kiểm tra `GEMINI_API_KEY` đã được điền chính xác |
+| Lỗi tải ảnh | Kiểm tra thư mục `uploads/` có quyền đọc/ghi |
+| Google OAuth lỗi | Kiểm tra `GOOGLE_CLIENT_ID` và cấu hình OAuth Consent Screen trên Google Cloud |
+| CSRF Token mismatch | Xóa cache trình duyệt và đăng nhập lại |
 
 ---
 
-## 🎯 Định Hướng Phát Triển Tính Năng (Roadmap)
+## 🎯 Roadmap
 
 ### ✅ Đã Hoàn Thành
-- [x] Chuyển đổi dữ liệu cứng sang dữ liệu động từ Database MongoDB.
-- [x] Xây dựng trang Quản trị (Admin Dashboard) để kiểm duyệt và quản lý người dùng.
-- [x] Bản đồ tương tác (Interactive Map) tích hợp Leaflet.js.
-- [x] Tích hợp Push Notifications và Real-time Chat qua Socket.io.
+- [x] Hệ thống xác thực JWT & Google OAuth
+- [x] Mạng xã hội: đăng bài, like, bình luận, follow
+- [x] Real-time Chat với Socket.io
+- [x] Admin Dashboard quản trị hệ thống
+- [x] Bản đồ tương tác Leaflet.js
+- [x] Trải nghiệm 3D di sản với Three.js (10 địa điểm)
+- [x] Chatbot AI "Thầy Đồ Neon" (Google Gemini)
+- [x] Nhận diện ảnh AI & Lập lịch trình AI
+- [x] **Gamification:** Điểm XP, huy hiệu, bảng xếp hạng
+- [x] **Booking:** Đặt vé tham quan và tour du lịch
+- [x] **Hộ chiếu di sản (Passport):** Tem check-in điện tử
+- [x] **AR View:** Trải nghiệm thực tế tăng cường
+- [x] **AI Phục dựng (Reconstruction):** Tái dựng kiến trúc di tích
+- [x] **Đa ngôn ngữ (i18n):** Tiếng Việt & Tiếng Anh
+- [x] PWA: Service Worker, offline support, installable
+- [x] Bảo mật nâng cao: Helmet, CSRF, Rate Limiting, XSS, Zod
+- [x] Logging chuyên nghiệp với Winston
+- [x] Fine-tuning AI chuyên biệt về di sản Việt Nam
 
-### 🚀 Giai đoạn Tiếp Theo (Giai đoạn 2 & 3)
-- [ ] **Tối ưu hóa:** Cải thiện hiệu năng render Three.js trên các thiết bị di động cũ.
-- [ ] **Đa ngôn ngữ (i18n):** Hỗ trợ thêm tiếng Anh để quảng bá di sản Việt Nam với bạn bè quốc tế.
-- [ ] **Hệ thống Gamification:** Thêm điểm thưởng, huy hiệu (badges) và bảng xếp hạng (leaderboard).
-- [ ] **Tích hợp Booking:** Liên kết API cho phép đặt vé tham quan di tích, tour du lịch.
-- [ ] **Công nghệ AR/VR:** Hỗ trợ WebXR cho trải nghiệm kính thực tế ảo và AR nhận diện di tích.
-- [ ] **AI Phục dựng:** Phân tích ảnh di tích bị tàn phá và dùng AI phác họa kiến trúc nguyên thủy.
+### 🚀 Giai Đoạn Tiếp Theo
+- [ ] **WebXR:** Hỗ trợ kính VR thực thụ (Meta Quest, etc.)
+- [ ] **Tối ưu Mobile 3D:** Cải thiện hiệu năng Three.js trên thiết bị cũ
+- [ ] **Payment Gateway:** Tích hợp thanh toán trực tuyến cho booking
+- [ ] **Push Notifications:** Thông báo đẩy mobile qua PWA
+- [ ] **AI nâng cao:** Tích hợp mô hình fine-tuned vào chatbot
 
 ---
 
-*© 2026 LUNAR HERITAGE - Cùng chung tay lan tỏa vẻ đẹp Di sản văn hóa Việt Nam*
+*© 2026 LUNAR HERITAGE – Cùng chung tay lan tỏa vẻ đẹp Di sản văn hóa Việt Nam* 🇻🇳

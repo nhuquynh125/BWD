@@ -97,7 +97,7 @@
 <script src="api.js"></script>
 <script>
 // ── Redirect if logged in ───────────────────────────────
-if (window.LunarAPI && LunarAPI.isLoggedIn()) window.location.href = 'BWD.html';
+if (window.LunarAPI && LunarAPI.isLoggedIn()) window.location.href = 'index.html';
 
 // ── Tab switching ───────────────────────────────────────
 function switchTab(tab) {
@@ -124,7 +124,7 @@ async function handleLogin(e) {
     const result = await LunarAPI.login(email, pwd);
     showToast(`✅ Chào mừng trở lại, ${result.user.username}!`, 'success');
     setTimeout(() => {
-      window.location.href = 'BWD.html';
+      window.location.href = 'index.html';
     }, 1200);
   } catch(err) {
     showToast(err.message || 'Lỗi đăng nhập', 'error');
@@ -149,7 +149,7 @@ async function handleRegister(e) {
     const result = await LunarAPI.signup(user, email, pwd);
     showToast(`✅ Chào mừng ${result.user.username}! Đang chuyển hướng...`, 'success');
     setTimeout(() => {
-      window.location.href = 'BWD.html';
+      window.location.href = 'index.html';
     }, 1200);
   } catch(err) {
     showToast(err.message || 'Lỗi đăng ký', 'error');

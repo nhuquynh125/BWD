@@ -284,7 +284,7 @@
   }
 
   /* ── 9. Highlight the active link based on the current page ─────────── */
-  const currentFile = window.location.pathname.split('/').pop().toLowerCase() || 'bwd.html';
+  const currentFile = window.location.pathname.split('/').pop().toLowerCase() || 'index.html';
   drawer.querySelectorAll('.mnav-links a').forEach(link => {
     const href = (link.getAttribute('href') || '').toLowerCase();
     if (href && !href.startsWith('#') && href.includes(currentFile)) {

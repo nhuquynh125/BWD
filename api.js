@@ -415,10 +415,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let touchStartX = 0;
     let touchEndX = 0;
     
-    const pages = ['BWD.html', 'dashboard.html', 'explore.html', 'passport.html', 'ai.html'];
-    const currentPath = window.location.pathname.split('/').pop() || 'BWD.html';
+    const pages = ['index.html', 'dashboard.html', 'explore.html', 'passport.html', 'ai.html'];
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     let currentIndex = pages.indexOf(currentPath);
-    // If not found (e.g. root '/'), default to BWD.html
+    // If not found (e.g. root '/'), default to index.html
     if (currentIndex === -1 && currentPath === '') currentIndex = 0;
     
     if (currentIndex === -1) return;

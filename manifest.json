@@ -2,7 +2,7 @@
   "name": "Lunar Heritage",
   "short_name": "Heritage",
   "description": "Nền tảng mạng xã hội và khám phá di sản Việt Nam với công nghệ AI và 3D.",
-  "start_url": "/BWD.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#1a1714",
   "theme_color": "#b8922a",

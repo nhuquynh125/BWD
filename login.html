@@ -99,10 +99,10 @@
 // ── Redirect if already logged in ───────────────────────
 (function () {
   const params = new URLSearchParams(window.location.search);
-  const redirectTo = params.get('redirect') || 'BWD.html';
+  const redirectTo = params.get('redirect') || 'index.html';
   // Sanitise: only allow relative paths (no //, http, etc.)
   const SAFE_REDIRECT = /^[a-zA-Z0-9\-_.~%]+\.html(\?.*)?$/.test(redirectTo)
-    ? redirectTo : 'BWD.html';
+    ? redirectTo : 'index.html';
   window._authRedirect = SAFE_REDIRECT;
 
   if (window.LunarAPI && LunarAPI.isLoggedIn()) {
@@ -135,7 +135,7 @@ async function handleLogin(e) {
     const result = await LunarAPI.login(email, pwd);
     showToast(`✅ Chào mừng trở lại, ${result.user.username}!`, 'success');
     setTimeout(() => {
-      window.location.href = window._authRedirect || 'BWD.html';
+      window.location.href = window._authRedirect || 'index.html';
     }, 1200);
   } catch(err) {
     showToast(err.message || 'Lỗi đăng nhập', 'error');
@@ -160,7 +160,7 @@ async function handleRegister(e) {
     const result = await LunarAPI.signup(user, email, pwd);
     showToast(`✅ Chào mừng ${result.user.username}! Đang chuyển hướng...`, 'success');
     setTimeout(() => {
-      window.location.href = window._authRedirect || 'BWD.html';
+      window.location.href = window._authRedirect || 'index.html';
     }, 1200);
   } catch(err) {
     showToast(err.message || 'Lỗi đăng ký', 'error');

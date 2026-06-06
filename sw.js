@@ -1,7 +1,7 @@
 const CACHE_NAME = 'lunar-heritage-v1';
 const urlsToCache = [
   '/',
-  '/BWD.html',
+  '/index.html',
   '/modern-heritage.css',
   '/style.css',
   '/api.js',

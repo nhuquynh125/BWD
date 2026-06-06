@@ -20,7 +20,7 @@
  *  • Arrow icon wrapped in aria-hidden="true".
  *
  * SKIP CONDITIONS (early-exit)
- *  1. Current page IS the homepage (BWD.html / index.html / root "/")
+ *  1. Current page IS the homepage (index.html / index.html / root "/")
  *  2. Page loads style-zen.css → social section (uses sidenav instead)
  *  3. Page is login.html or signup.html (they manage their own back link)
  */
@@ -32,7 +32,7 @@
 
   /* ── 2. Skip conditions ─────────────────────────────────────────────── */
   // 2a. Homepage
-  if (page === 'bwd.html' || page === '' || page === 'index.html') return;
+  if (page === 'index.html' || page === '' || page === 'index.html') return;
 
   // 2b. Auth pages (they have their own back controls)
   if (page === 'login.html' || page === 'signup.html') return;
@@ -149,7 +149,7 @@
   /* ── 6. Create the button element ───────────────────────────────────── */
   const btn = document.createElement('a');
   btn.id    = 'lunar-back-btn';
-  btn.href  = 'BWD.html';
+  btn.href  = 'index.html';
   btn.setAttribute('aria-label', 'Quay về trang chủ Lunar Heritage');
   btn.title = 'Quay về trang chủ';
   btn.innerHTML =

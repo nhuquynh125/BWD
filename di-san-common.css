@@ -15,8 +15,52 @@
 body {
     font-family: 'DM Sans', 'Outfit', system-ui, sans-serif;
     font-weight: 300;
-    background: var(--ink);
+    background-color: var(--ink);
     color: #f0ece4;
+    background-image: 
+        /* Layer 1 - Slow */
+        radial-gradient(circle at 40px 60px, rgba(212, 170, 82, 0.5) 1px, transparent 2px),
+        radial-gradient(circle at 120px 180px, rgba(255, 255, 255, 0.4) 1px, transparent 2px),
+        radial-gradient(circle at 250px 90px, rgba(184, 146, 42, 0.6) 1px, transparent 2px),
+        radial-gradient(circle at 340px 220px, rgba(255, 255, 255, 0.3) 1px, transparent 2px),
+        radial-gradient(circle at 80px 310px, rgba(212, 170, 82, 0.5) 1px, transparent 2px),
+        radial-gradient(circle at 280px 360px, rgba(255, 255, 255, 0.4) 1px, transparent 2px),
+        /* Layer 2 - Medium */
+        radial-gradient(circle at 50px 150px, rgba(212, 170, 82, 0.8) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 180px 80px, rgba(255, 255, 255, 0.6) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 320px 250px, rgba(184, 146, 42, 0.7) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 450px 120px, rgba(255, 255, 255, 0.5) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 120px 420px, rgba(212, 170, 82, 0.8) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 380px 510px, rgba(255, 255, 255, 0.6) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 540px 360px, rgba(184, 146, 42, 0.7) 1.5px, transparent 2.5px),
+        /* Layer 3 - Fast */
+        radial-gradient(circle at 90px 210px, rgba(212, 170, 82, 1) 2px, transparent 3px),
+        radial-gradient(circle at 270px 130px, rgba(255, 255, 255, 0.9) 2px, transparent 3px),
+        radial-gradient(circle at 480px 340px, rgba(184, 146, 42, 1) 2px, transparent 3px),
+        radial-gradient(circle at 650px 150px, rgba(255, 255, 255, 0.8) 2px, transparent 3px),
+        radial-gradient(circle at 180px 620px, rgba(212, 170, 82, 1) 2px, transparent 3px),
+        radial-gradient(circle at 550px 710px, rgba(255, 255, 255, 0.9) 2px, transparent 3px),
+        radial-gradient(circle at 740px 480px, rgba(184, 146, 42, 1) 2px, transparent 3px);
+    background-size: 
+        400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px,
+        600px 600px, 600px 600px, 600px 600px, 600px 600px, 600px 600px, 600px 600px, 600px 600px,
+        800px 800px, 800px 800px, 800px 800px, 800px 800px, 800px 800px, 800px 800px, 800px 800px;
+    animation: starDrift 150s linear infinite;
+}
+
+@keyframes starDrift {
+    0% { 
+        background-position: 
+            0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 
+            0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 
+            0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; 
+    }
+    100% { 
+        background-position: 
+            -400px -400px, -400px -400px, -400px -400px, -400px -400px, -400px -400px, -400px -400px, 
+            -600px -600px, -600px -600px, -600px -600px, -600px -600px, -600px -600px, -600px -600px, -600px -600px, 
+            -800px -800px, -800px -800px, -800px -800px, -800px -800px, -800px -800px, -800px -800px, -800px -800px; 
+    }
 }
 
 /* -- NAV -- */
@@ -85,6 +129,7 @@ nav.page-nav {
     display: flex;
     align-items: flex-end;
     overflow: hidden;
+    background-color: var(--ink);
 }
 .page-hero img {
     position: absolute;

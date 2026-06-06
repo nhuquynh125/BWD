@@ -12,7 +12,7 @@
 *.cert
 *.p12
 *.pfx
-
+index.js
 # Google OAuth client secrets (JSON files downloaded from GCP console)
 client_secret_*.json
 service_account_*.json

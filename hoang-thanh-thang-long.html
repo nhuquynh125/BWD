@@ -1,194 +1,162 @@
 ﻿<!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hoàng thành Thang Long ✨ Di sản văn hóa UNESCO, trung t✨m quyếun lễc ch✨nh trả suốt 13 thệ kỷ của đểt nuốc Việt Nam.">
+    <meta name="description"
+        content="Hoàng thành Thang Long ✨ Di sản văn hóa UNESCO, trung t✨m quyếun lễc ch✨nh trả suốt 13 thệ kỷ của đểt nuốc Việt Nam.">
     <title>Hoàng thành Thang Long ✨ LUNAR HERITAGE</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="modern-heritage.css">
-    <link rel="stylesheet" href="BWD_style.css">
-    <style>
-        nav.page-nav { position:fixed; top:0; left:0; right:0; z-index:200; border-bottom:1px solid var(--border-lt); background:rgba(26,23,20,.88); backdrop-filter:blur(20px); }
-        .page-nav-inner { max-width:1400px; margin:0 auto; padding:0 40px; height:64px; display:flex; align-items:center; justify-content:space-between; }
-        .page-logo { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#f0ece4; text-decoration:none; letter-spacing:.06em; }
-        .page-logo em { font-style:normal; color:var(--gold-lt); }
-        .page-nav-links { display:flex; gap:36px; }
-        .page-nav-links a { font-size:13px; color:var(--stone-lt); text-decoration:none; letter-spacing:.03em; transition:color .2s; }
-        .page-nav-links a:hover,.page-nav-links a.active { color:#f0ece4; }
-        .back-link { font-size:12px; padding:8px 20px; border:1px solid var(--border); border-radius:2px; color:var(--gold-lt); text-decoration:none; transition:background .2s; text-transform:uppercase; letter-spacing:.08em; }
-        .back-link:hover { background:rgba(184,146,42,.1); }
+    <link rel="stylesheet" href="di-san-common.css">
 
-        .page-hero { min-height:100vh; position:relative; display:flex; align-items:flex-end; overflow:hidden; }
-        .page-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.5; }
-        .hero-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(26,23,20,.97) 0%,rgba(26,23,20,.5) 40%,rgba(26,23,20,.1) 100%); }
-        .hero-content { position:relative; z-index:2; max-width:1400px; margin:0 auto; padding:0 40px 80px; width:100%; }
-        .eyebrow { display:inline-flex; align-items:center; gap:12px; font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:24px; }
-        .eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--gold); opacity:.7; }
-        .page-h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(44px,6.5vw,96px); font-weight:300; line-height:.96; color:#f0ece4; margin-bottom:28px; max-width:14ch; }
-        .page-h1 em { font-style:italic; color:var(--gold-lt); }
-        .hero-desc { max-width:460px; font-size:15px; line-height:1.7; color:var(--stone-lt); margin-bottom:40px; }
-        .hero-actions { display:flex; gap:16px; flex-wrap:wrap; }
-
-        .content-section { padding:96px 40px; max-width:1400px; margin:0 auto; }
-        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-        .media-frame { border-radius:2px; overflow:hidden; border:1px solid var(--border-lt); }
-        .media-frame video { display:block; width:100%; height:400px; object-fit:cover; }
-        .intro-label { font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:16px; }
-        .intro-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(30px,3.5vw,46px); font-weight:300; line-height:1.1; color:#f0ece4; margin-bottom:20px; }
-        .intro-h2 em { font-style:italic; color:var(--gold-lt); }
-        .intro-p { font-size:14px; color:var(--stone-lt); line-height:1.8; margin-bottom:40px; }
-        .stat-row { display:flex; gap:1px; background:var(--border-lt); border:1px solid var(--border-lt); }
-        .stat-item { flex:1; background:rgba(255,255,255,.025); padding:20px 16px; text-align:center; }
-        .stat-val { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold-lt); display:block; margin-bottom:4px; }
-        .stat-lbl { font-size:11px; color:var(--stone); letter-spacing:.06em; text-transform:uppercase; }
-        .sec-label { font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:12px; }
-        .sec-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,4vw,52px); font-weight:300; color:#f0ece4; margin-bottom:56px; }
-        .sec-h2 em { font-style:italic; color:var(--gold-lt); }
-        .explore-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-lt); border:1px solid var(--border-lt); }
-        .explore-card { background:var(--ink); padding:40px 32px; transition:background .3s; }
-        .explore-card:hover { background:rgba(184,146,42,.04); }
-        .explore-icon { font-size:28px; margin-bottom:20px; display:block; }
-        .explore-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:#f0ece4; margin-bottom:12px; }
-        .explore-p { font-size:13px; color:var(--stone); line-height:1.7; }
-        .history-box { background:rgba(255,255,255,.025); border:1px solid var(--border-lt); padding:64px; }
-        .history-box p { font-size:15px; color:var(--stone-lt); line-height:1.85; max-width:720px; margin:0 auto; }
-        .cta-block { text-align:center; padding:96px 40px; border-top:1px solid var(--border-lt); }
-        .cta-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,5vw,58px); font-weight:300; color:#f0ece4; margin-bottom:16px; line-height:1.1; }
-        .cta-h2 em { font-style:italic; color:var(--gold-lt); }
-        .cta-p { font-size:14px; color:var(--stone); margin-bottom:40px; }
-        footer.page-footer { border-top:1px solid var(--border-lt); padding:48px 40px; }
-        .footer-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-        .footer-brand { font-family:'Cormorant Garamond',serif; font-size:18px; color:#f0ece4; letter-spacing:.06em; }
-        .footer-brand em { font-style:normal; color:var(--gold-lt); }
-        .footer-links { display:flex; gap:28px; }
-        .footer-links a { font-size:12px; color:var(--stone); text-decoration:none; transition:color .2s; }
-        .footer-links a:hover { color:#f0ece4; }
-        .footer-copy { font-size:12px; color:var(--stone); }
-        @keyframes rise { 0%{transform:translateY(0) rotate(-2deg);opacity:.8} 100%{transform:translateY(-110vh) rotate(3deg);opacity:0} }
-        .floating-lantern { position:fixed; pointer-events:none; z-index:9999; animation:rise var(--dur,6s) ease-in forwards; }
-        @media(max-width:1024px){.two-col{grid-template-columns:1fr;}.explore-grid{grid-template-columns:1fr 1fr;}.history-box{padding:40px;}}
-        @media(max-width:640px){.page-nav-inner,.content-section,.hero-content,.cta-block{padding-left:20px;padding-right:20px;}.page-nav-links{display:none;}.explore-grid{grid-template-columns:1fr;}.stat-row{flex-direction:column;}.history-box{padding:28px 20px;}}
-    </style>
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
-    <meta property="og:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta property="og:description"
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
     <meta property="og:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
     <meta property="og:url" content="https://lunarheritage.com/">
     <meta property="og:type" content="website">
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
-    <meta name="twitter:description" content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+    <meta name="twitter:description"
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
     <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/hoi-an.jpg">
 </head>
+
 <body>
-<div class="grain-overlay"></div>
-<nav class="page-nav">
-    <div class="page-nav-inner">
-        <a class="page-logo" href="index.html">LUNAR <em>HERITAGE</em></a>
-        <div class="page-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="di-san.html">Di sản</a>
-            <a href="ai.html">Thầy Đồ AI</a>
-            <a href="dashboard.html">Cộng đồng</a>
-            <a href="hoang-thanh-thang-long.html" class="active" style="color:#f0ece4;">Hoàng thành</a>
+    <div class="grain-overlay"></div>
+    <nav class="page-nav">
+        <div class="page-nav-inner">
+            <a class="page-logo" href="index.html">LUNAR <em>HERITAGE</em></a>
+            <div class="page-nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+                <a href="dashboard.html">Cộng đồng</a>
+                <a href="hoang-thanh-thang-long.html" class="active" style="color:#f0ece4;">Hoàng thành</a>
+            </div>
+            <a href="di-san.html" class="back-link">? Bộ suu từp</a>
         </div>
-        <a href="di-san.html" class="back-link">? Bộ suu từp</a>
-    </div>
-</nav>
+    </nav>
 
-<section class="page-hero">
-    <img loading="lazy" src="./uploads/ex/thang-long.jpg" alt="Hoàng thành Thang Long">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <p class="eyebrow">Van h✨a ✨ UNESCO 2010</p>
-        <h1 class="page-h1">Hoàng thành <em>Thang Long</em></h1>
-        <p class="hero-desc">Trung t✨m quyếun lễc ch✨nh trả suốt 13 thệ kỷ ✨ đểu ?n ng✨n nam van hiện của đểt kinh kỷ Thang Long - H✨ Nội.</p>
-        <div class="hero-actions">
-            <a href="di-san.html" class="btn-primary-hero">? Bộ suu từp</a>
-            <button class="btn-ghost-hero" onclick="launchLantern()">⏳ Vượt thời gian</button>
+    <section class="page-hero">
+        <img loading="lazy" src="./uploads/ex/thang-long.jpg" alt="Hoàng thành Thang Long">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="eyebrow">Van h✨a ✨ UNESCO 2010</p>
+            <h1 class="page-h1">Hoàng thành <em>Thang Long</em></h1>
+            <p class="hero-desc">Trung t✨m quyếun lễc ch✨nh trả suốt 13 thệ kỷ ✨ đểu ?n ng✨n nam van hiện của đểt kinh
+                kỷ Thang Long - H✨ Nội.</p>
+            <div class="hero-actions">
+                <a href="di-san.html" class="btn-primary-hero">? Bộ suu từp</a>
+                <button class="btn-ghost-hero" onclick="launchLantern()">⏳ Vượt thời gian</button>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<hr class="section-rule">
+    <hr class="section-rule">
 
-<div class="content-section">
-    <div class="two-col">
-        <div class="media-frame">
-            <iframe width="100%" height="400" src="https://www.youtube.com/embed/XSHTpA63y0o" title="Hoàng Thành Thang Long" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div>
-            <p class="intro-label">Từng quan</p>
-            <h2 class="intro-h2">Đểu ?n <em>ng✨n nam</em> van hiện</h2>
-            <p class="intro-p">Hoàng thành Thang Long l✨ trung t✨m quyếun lễc ch✨nh trả li✨n tộc của Việt Nam suốt hon 13 thệ kỷ, từ thội L✨ đển thội Nguyễn. Khu di t✨ch khệo cổ hệc noi d✨y tiết lễ nhiều từng văn hóa chỉng chỉt, minh chỉng cho sẽ ph✨t triện li✨n tộc của một nền van minh.</p>
-            <div class="stat-row">
-                <div class="stat-item"><span class="stat-val">UNESCO 2010</span><span class="stat-lbl">C✨ng nhện</span></div>
-                <div class="stat-item"><span class="stat-val">13 thệ kỷ</span><span class="stat-lbl">Lịch sẽ</span></div>
-                <div class="stat-item"><span class="stat-val">18.000 m✨</span><span class="stat-lbl">Diện t✨ch</span></div>
+    <div class="content-section">
+        <div class="two-col">
+            <div class="media-frame">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/XSHTpA63y0o"
+                    title="Hoàng Thành Thang Long" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <div>
+                <p class="intro-label">Từng quan</p>
+                <h2 class="intro-h2">Đểu ?n <em>ng✨n nam</em> van hiện</h2>
+                <p class="intro-p">Hoàng thành Thang Long l✨ trung t✨m quyếun lễc ch✨nh trả li✨n tộc của Việt Nam suốt
+                    hon 13 thệ kỷ, từ thội L✨ đển thội Nguyễn. Khu di t✨ch khệo cổ hệc noi d✨y tiết lễ nhiều từng văn
+                    hóa chỉng chỉt, minh chỉng cho sẽ ph✨t triện li✨n tộc của một nền van minh.</p>
+                <div class="stat-row">
+                    <div class="stat-item"><span class="stat-val">UNESCO 2010</span><span class="stat-lbl">C✨ng
+                            nhện</span></div>
+                    <div class="stat-item"><span class="stat-val">13 thệ kỷ</span><span class="stat-lbl">Lịch sẽ</span>
+                    </div>
+                    <div class="stat-item"><span class="stat-val">18.000 m✨</span><span class="stat-lbl">Diện
+                            t✨ch</span></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<hr class="section-rule">
+    <hr class="section-rule">
 
-<div class="content-section">
-    <p class="sec-label">Trồi nghiẩm</p>
-    <h2 class="sec-h2">Khám phá <em>Hoàng thành</em></h2>
-    <div class="explore-grid">
-        <div class="explore-card"><span class="explore-icon">✨</span><h3 class="explore-name">Cống ảoan M✨n</h3><p class="explore-p">Cống ch✨nh đển vảo khu nội cung ✨ biểu tượng thiêng li✨ng của quyếun lễc ho✨ng gia trải qua nhiều triều đại.</p></div>
-        <div class="explore-card"><span class="explore-icon">✨</span><h3 class="explore-name">✨iện K✨nh Thi✨n</h3><p class="explore-p">Tr✨i tim của Ho✨ng cung ✨ noi đại triều, noi thi✨n từ tiếp sẽ gi? v✨ ban h✨nh những sẽc lảnh quan trảng nhệt.</p></div>
-        <div class="explore-card"><span class="explore-icon">✨</span><h3 class="explore-name">Cố vềt ng✨n nam</h3><p class="explore-p">H✨ng ngh✨n hiện vềt khệo cổ ✨ gốch hoa van, để gẩm, dễ dàng ✨ minh chỉng cho kỷ thuật thệ c✨ng tinh xảo của cha ✨ng.</p></div>
-    </div>
-</div>
-
-<hr class="section-rule">
-
-<div class="content-section">
-    <p class="sec-label" style="text-align:center;margin-bottom:40px;">Lịch sẽ &amp; Di sản</p>
-    <div class="history-box">
-        <p>Hoàng thành Thang Long được UNESCO công nhận Di sản🏛️ Văn hóa Thệ giới nam 2010 nhệ những gi✨ trả lịch sẽ - văn hóa đểc biệt xuất sẽc. Noi d✨y d✨ từng l✨ trung t✨m quyếun lễc ch✨nh trả của Việt Nam li✨n tộc trong hon 13 thệ kỷ, từ thệ kỷ VII đển XIX. C✨c cuốc khai quảt khệo cổ d✨ ph✨t lễ nhiều từng văn hóa chỉng chỉt, cho thệy sẽ ph✨t triện kh✨ng ngững của một nền van minh ✨?i Việt rực rỡ. LUNAR HERITAGE bộo từn di sản n✨y trong không gian số cho mu✨n đại.</p>
-    </div>
-</div>
-
-<div class="cta-block">
-    <h2 class="cta-h2">Tr? về <em>kinh kỷ</em></h2>
-    <p class="cta-p">Gửi điều uốc từ đểt Thang Long ng✨n nam van hiện qua chiốc d✨n lớng ?o.</p>
-    <button class="btn-primary-hero" onclick="launchLantern()">✨ Thệp d✨n lớng</button>
-</div>
-
-<footer class="page-footer">
-    <div class="footer-inner">
-        <div class="footer-brand">LUNAR <em>HERITAGE</em></div>
-        <div class="footer-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="di-san.html">Di sản</a>
-            <a href="ai.html">Thầy Đồ AI</a>
+    <div class="content-section">
+        <p class="sec-label">Trồi nghiẩm</p>
+        <h2 class="sec-h2">Khám phá <em>Hoàng thành</em></h2>
+        <div class="explore-grid">
+            <div class="explore-card"><span class="explore-icon">✨</span>
+                <h3 class="explore-name">Cống ảoan M✨n</h3>
+                <p class="explore-p">Cống ch✨nh đển vảo khu nội cung ✨ biểu tượng thiêng li✨ng của quyếun lễc ho✨ng gia
+                    trải qua nhiều triều đại.</p>
+            </div>
+            <div class="explore-card"><span class="explore-icon">✨</span>
+                <h3 class="explore-name">✨iện K✨nh Thi✨n</h3>
+                <p class="explore-p">Tr✨i tim của Ho✨ng cung ✨ noi đại triều, noi thi✨n từ tiếp sẽ gi? v✨ ban h✨nh những
+                    sẽc lảnh quan trảng nhệt.</p>
+            </div>
+            <div class="explore-card"><span class="explore-icon">✨</span>
+                <h3 class="explore-name">Cố vềt ng✨n nam</h3>
+                <p class="explore-p">H✨ng ngh✨n hiện vềt khệo cổ ✨ gốch hoa van, để gẩm, dễ dàng ✨ minh chỉng cho kỷ
+                    thuật thệ c✨ng tinh xảo của cha ✨ng.</p>
+            </div>
         </div>
-        <p class="footer-copy">✨ 2026 VKU ✨ Hoàng thành Thang Long ✨ H✨ Nội, Việt Nam</p>
     </div>
-</footer>
-<script>
-function launchLantern() {
-    for (let i = 0; i < 20; i++) {
-        setTimeout(() => {
-            const el = document.createElement('div');
-            el.className = 'floating-lantern';
-            el.innerHTML = '<span style="filter:drop-shadow(0 0 8px rgba(184,146,42,.7))">🏮</span>';
-            el.style.left = (Math.random() * 100) + 'vw';
-            el.style.bottom = '-50px';
-            el.style.setProperty('--dur', (5 + Math.random() * 5) + 's');
-            el.style.fontSize = (18 + Math.random() * 20) + 'px';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 10500);
-        }, i * 220);
-    }
-}
-</script>
-<script src="back-btn.js"></script>
-  <script src="cursor.js"></script>
-</body>
-</html>
 
+    <hr class="section-rule">
+
+    <div class="content-section">
+        <p class="sec-label" style="text-align:center;margin-bottom:40px;">Lịch sẽ &amp; Di sản</p>
+        <div class="history-box">
+            <p>Hoàng thành Thang Long được UNESCO công nhận Di sản🏛️ Văn hóa Thệ giới nam 2010 nhệ những gi✨ trả lịch
+                sẽ - văn hóa đểc biệt xuất sẽc. Noi d✨y d✨ từng l✨ trung t✨m quyếun lễc ch✨nh trả của Việt Nam li✨n tộc
+                trong hon 13 thệ kỷ, từ thệ kỷ VII đển XIX. C✨c cuốc khai quảt khệo cổ d✨ ph✨t lễ nhiều từng văn hóa
+                chỉng chỉt, cho thệy sẽ ph✨t triện kh✨ng ngững của một nền van minh ✨?i Việt rực rỡ. LUNAR HERITAGE bộo
+                từn di sản n✨y trong không gian số cho mu✨n đại.</p>
+        </div>
+    </div>
+
+    <div class="cta-block">
+        <h2 class="cta-h2">Tr? về <em>kinh kỷ</em></h2>
+        <p class="cta-p">Gửi điều uốc từ đểt Thang Long ng✨n nam van hiện qua chiốc d✨n lớng ?o.</p>
+        <button class="btn-primary-hero" onclick="launchLantern()">✨ Thệp d✨n lớng</button>
+    </div>
+
+    <footer class="page-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">LUNAR <em>HERITAGE</em></div>
+            <div class="footer-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+            </div>
+            <p class="footer-copy">✨ 2026 VKU ✨ Hoàng thành Thang Long ✨ H✨ Nội, Việt Nam</p>
+        </div>
+    </footer>
+    <script>
+        function launchLantern() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'floating-lantern';
+                    el.innerHTML = '<span style="filter:drop-shadow(0 0 8px rgba(184,146,42,.7))">🏮</span>';
+                    el.style.left = (Math.random() * 100) + 'vw';
+                    el.style.bottom = '-50px';
+                    el.style.setProperty('--dur', (5 + Math.random() * 5) + 's');
+                    el.style.fontSize = (18 + Math.random() * 20) + 'px';
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 10500);
+                }, i * 220);
+            }
+        }
+    </script>
+    <script src="back-btn.js"></script>
+    <script src="cursor.js"></script>
+</body>
+
+</html>

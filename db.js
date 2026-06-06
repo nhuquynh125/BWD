@@ -36,7 +36,7 @@ const VIRTUAL_ID = {
 ══════════════════════════════════════════════════════════ */
 const userSchema = new mongoose.Schema(
   {
-    username:      { type: String, required: true, unique: true, trim: true },
+    username:      { type: String, required: true, trim: true },
     email:         { type: String, required: true, unique: true, lowercase: true, trim: true },
     phone:         { type: String, default: null },
     bio:           { type: String, default: null },
@@ -45,7 +45,6 @@ const userSchema = new mongoose.Schema(
     avatar_url:    { type: String, default: null },
     cover_url:     { type: String, default: null },
     password_hash: { type: String, default: '' },
-    google_id:     { type: String, default: null, sparse: true },
     is_active:     { type: Boolean, default: true },
     passport:      [{
       artifactId: { type: String, required: true },

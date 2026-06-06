@@ -88,13 +88,14 @@
   </div>
 
   <nav class="sidenav">
-    <a href="BWD.html" class="nav-icon"><span>🏛️</span><span class="tooltip">Về trang chủ chính</span></a>
+    <a href="BWD.html" class="nav-icon"><span>🏛️</span><span class="tooltip"></span></a>
     <a href="dashboard.html" class="nav-icon"><span>🏠</span><span class="tooltip"></span></a>
     <a href="explore.html" class="nav-icon"><span>🧭</span><span class="tooltip"></span></a>
     <a href="passport.html" class="nav-icon"><span>🏆</span><span class="tooltip"></span></a>
     <a href="messages.html" class="nav-icon"><span>💬</span><span class="tooltip"></span></a>
     <a href="ai.html" class="nav-icon"><span>🤖</span><span class="tooltip"></span></a>
     <div class="nav-bottom">
+      <a href="#" onclick="LunarAPI.logout()" class="nav-icon" title="Đăng xuất"><span>🚪</span><span class="tooltip">Đăng xuất</span></a>
       <a href="settings.html" class="nav-icon active"><span>⚙️</span><span class="tooltip"></span></a>
       <div class="user-avatar-nav" id="navAvatar" onclick="window.location.href='profile.html'">?</div>
     </div>
@@ -1211,6 +1212,7 @@
       setTimeout(() => { t.style.animation = 'toast-out 0.35s ease forwards'; setTimeout(() => t.remove(), 350); }, 3500);
     }
   </script>
+  <script src="cursor.js"></script>
 </body>
 
 </html>

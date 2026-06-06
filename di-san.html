@@ -33,7 +33,7 @@
     style="position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.03%22/%3E%3C/svg%3E'); opacity: 0.6;">
   </div>
 
-  <div id="cur"></div>
+  
 
   <!-- -- NAV -- -->
   <nav>
@@ -49,9 +49,8 @@
         <a href="dashboard.html">Cộng đồng</a>
       </div>
       <a href="BWD.html" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i> <span data-i18n="common:back">Quay về</span>
+        <i class="fa-solid fa-arrow-left"></i> <span>Quay về</span>
       </a>
-      <button id="langToggle" class="back-btn" style="margin-left:8px;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;color:inherit;font-size:.8rem;" aria-label="Switch language">EN</button>
     </div>
   </nav>
 
@@ -90,10 +89,10 @@
 
   <!-- -- FILTERS -- -->
   <div class="filter-bar">
-    <button class="filter-btn on" data-f="all" data-i18n="common:filter_all">Tất cả</button>
-    <button class="filter-btn" data-f="nature" data-i18n="heritage:heritage_type_nature">🌿 Thiên nhiên</button>
-    <button class="filter-btn" data-f="culture" data-i18n="heritage:heritage_type_culture">🏛️ Văn hóa</button>
-    <button class="filter-btn" data-f="mixed" data-i18n="heritage:heritage_type_mixed">✨ Hỗn hợp</button>
+    <button class="filter-btn on" data-f="all">Tất cả</button>
+    <button class="filter-btn" data-f="nature">🌿 Thiên nhiên</button>
+    <button class="filter-btn" data-f="culture">🏛️ Văn hóa</button>
+    <button class="filter-btn" data-f="mixed">✨ Hỗn hợp</button>
     <button class="filter-btn" data-f="intang">🎭 Phi vật thể</button>
     <button class="filter-btn" data-f="geo">⛰️ Địa chất</button>
   </div>
@@ -395,15 +394,12 @@
 
   <script src="i18n.js"></script>
   <script>
-    /* Cursor */
-    const cur = document.getElementById('cur');
-    let tx = 0, ty = 0, cx = 0, cy = 0;
-    document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY });
-    (function tick() { cx += (tx - cx) * .16; cy += (ty - cy) * .16; cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; requestAnimationFrame(tick) })();
-    document.querySelectorAll('a,button,.card-featured,.card-reg,.intang-card').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
-    });
+    
+    
+    
+    
+    
+    
 
     /* Lang toggle */
     const langToggleBtn = document.getElementById('langToggle');
@@ -443,7 +439,7 @@
 
     function goTo(url) { if (url && url !== '#') window.location.href = url }
   </script>
-  <script src="back-btn.js"></script>
+  <script src="cursor.js"></script>
 </body>
 
 </html>

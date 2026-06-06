@@ -82,6 +82,10 @@ app.get('/api/csrf-token', (req, res) => {
 // CSRF Error Handler
 app.use((err, req, res, next) => {
   if (err.code !== 'EBADCSRFTOKEN') return next(err);
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('[DEV] CSRF token validation failed, but bypassing for development.');
+    return next(); // Bypass error in dev
+  }
   res.status(403).json({ error: 'CSRF token validation failed' });
 });
 

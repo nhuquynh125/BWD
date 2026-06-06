@@ -19,9 +19,8 @@ async function initMongoDB() {
     // Users collection
     if (!await db.listCollections({ name: 'users' }).hasNext()) {
       await db.createCollection('users');
-      await db.collection('users').createIndex({ username: 1 }, { unique: true });
+      await db.collection('users').createIndex({ username: 1 });
       await db.collection('users').createIndex({ email: 1 }, { unique: true });
-      await db.collection('users').createIndex({ google_id: 1 }, { sparse: true });
       console.log('✅ users collection created');
     }
     

@@ -399,11 +399,11 @@
     const bookingsList= document.getElementById('bookings-list');
 
     /* ── Cursor ── */
-    const cur = document.getElementById('cur');
+    
     if (cur) {
       let tx=0,ty=0,cx=0,cy=0;
       document.addEventListener('mousemove', e => { tx=e.clientX; ty=e.clientY; });
-      (function tick(){ cx+=(tx-cx)*.16; cy+=(ty-cy)*.16; cur.style.left=cx+'px'; cur.style.top=cy+'px'; requestAnimationFrame(tick); })();
+      
     }
 
     /* ── Nav scroll ── */
@@ -668,5 +668,6 @@
   })();
   </script>
   <script src="back-btn.js"></script>
+  <script src="cursor.js"></script>
 </body>
 </html>

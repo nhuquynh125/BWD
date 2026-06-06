@@ -98,6 +98,7 @@ body { overflow: hidden; }
   <a href="messages.html"  class="nav-icon active"><span>💬</span><span class="tooltip">Tin nhắn</span></a>
   <a href="ai.html"        class="nav-icon"><span>🤖</span><span class="tooltip">AI</span></a>
   <div class="nav-bottom">
+      <a href="#" onclick="LunarAPI.logout()" class="nav-icon" title="Đăng xuất"><span>🚪</span><span class="tooltip">Đăng xuất</span></a>
     <a href="settings.html" class="nav-icon"><span>⚙️</span><span class="tooltip">Cài đặt</span></a>
     <div class="user-avatar-nav" id="navAvatar" onclick="window.location.href='profile.html'">?</div>
   </div>
@@ -489,6 +490,7 @@ function showToast(msg, type='success') {
     box.appendChild(t); setTimeout(()=>t.remove(), 3000);
 }
 </script>
+  <script src="cursor.js"></script>
 </body>
 </html>
 

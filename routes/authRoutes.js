@@ -19,8 +19,8 @@ router.post('/signup', authLimiter, validateRequest(authSignupSchema), async (re
   try {
     const { username, email, password } = req.validatedBody;
     
-    if (await User.findOne({ $or: [{ username }, { email: email.toLowerCase() }] }))
-      return res.status(409).json({ error: 'Username hoặc email đã tồn tại' });
+    if (await User.findOne({ email: email.toLowerCase() }))
+      return res.status(409).json({ error: 'Email đã tồn tại' });
 
     const hash = await bcrypt.hash(password, 12);
     const user = await User.create({ 

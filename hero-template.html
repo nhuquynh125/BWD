@@ -381,11 +381,11 @@
 }());
 </script>
 
-<!-- Custom cursor (skips touch devices) -->
+
 <script>
 (function () {
     'use strict';
-    const cur = document.getElementById('cur');
+    
     if (!cur || window.matchMedia('(pointer: coarse)').matches) {
         if (cur) cur.remove();
         return;
@@ -474,6 +474,7 @@ window.showToast = function (msg, type = 'success', duration = 3500) {
 
 <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
+  <script src="cursor.js"></script>
 </body>
 </html>
 

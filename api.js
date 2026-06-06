@@ -3,10 +3,10 @@
  * Includes: REST API, IndexedDB cache (LunarDB), WebSocket manager (LunarWS)
  */
 
-// Auto-detect API base URL
 const API_BASE = (() => {
     const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h === '') return 'http://localhost:8000';
+    if (h === 'localhost' || h === '127.0.0.1') return `http://${h}:8000`;
+    if (h === '') return 'http://localhost:8000';
     return window.location.origin;
 })();
 
@@ -74,7 +74,7 @@ let csrfToken = null;
 async function fetchCsrfToken() {
     if (csrfToken) return;
     try {
-        const res = await fetch(`${API_BASE}/api/csrf-token`, { credentials: 'omit' });
+        const res = await fetch(`${API_BASE}/api/csrf-token`, { credentials: 'include' });
         const data = await res.json();
         csrfToken = data.csrfToken;
     } catch (e) {

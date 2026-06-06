@@ -70,27 +70,29 @@
             </a>
 
             <div class="nav-links">
-                <a href="#heritage" data-i18n="common:nav_explore">Di sản</a>
+                <a href="#heritage">Di sản</a>
                 <a href="#folk-games">Trò chơi</a>
                 <a href="#join">Ước nguyện</a>
-                <a href="ai.html" data-i18n="common:nav_ai">Thầy Đồ AI</a>
-                <a href="di-san.html" data-i18n="common:collection_tag">Bộ sưu tập</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+                <a href="di-san.html">Bộ sưu tập</a>
             </div>
 
             <!-- Auth links: mobile-nav.js auto-appends the .hamburger-btn here -->
             <div id="nav-actions" style="display:flex;align-items:center;gap:12px;">
-                <button id="langToggleBtn" class="btn btn-outline"
-                    style="color: #d4af37 !important; border-color: #d4af37 !important; display: inline-flex !important; align-items: center; justify-content: center; width: 80px; padding: 8px 0; cursor: pointer; font-family: inherit; font-size: 14px;"
-                    aria-label="Chuyển ngôn ngữ"
-                    onclick="toggleLanguage()">
-                    VI 🇻🇳
-                </button>
+                <div id="google_translate_element" style="margin-right: 10px;"></div>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                    }
+                </script>
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                
                 <a href="dashboard.html" class="btn btn-outline"
                     style="color: #d4af37 !important; border-color: #d4af37 !important; display: inline-flex !important;"
-                    id="navUserLink" aria-label="Chuyển đến bảng tin" data-i18n="common:nav_feed">BẢNG TIN</a>
+                    id="navUserLink" aria-label="Chuyển đến bảng tin">BẢNG TIN</a>
                 <a href="login.html" class="btn btn-outline"
                     style="color: #d4af37 !important; border-color: #d4af37 !important; display: inline-flex !important;"
-                    id="navLoginLink" aria-label="Đăng nhập tài khoản" data-i18n="common:btn_login">ĐĂNG NHẬP</a>
+                    id="navLoginLink" aria-label="Đăng nhập tài khoản">ĐĂNG NHẬP</a>
             </div>
         </div>
     </nav>
@@ -650,31 +652,6 @@
                 window.location.href = 'login.html?redirect=explore.html';
             }
         }
-
-        // ── Language Toggle ─────────────────────────────────────────
-        function toggleLanguage() {
-            if (window.LunarI18n) {
-                const current = LunarI18n.getLang();
-                const nextLang = current === 'vi' ? 'en' : 'vi';
-                LunarI18n.switchLang(nextLang);
-                updateLangButton(nextLang);
-            }
-        }
-        
-        function updateLangButton(lang) {
-            const btn = document.getElementById('langToggleBtn');
-            if (btn) {
-                btn.innerHTML = lang === 'en' ? 'EN 🇬🇧' : 'VI 🇻🇳';
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            if (window.LunarI18n) {
-                window.LunarI18n.init().then(lang => {
-                    updateLangButton(lang);
-                });
-            }
-        });
 
         // ── Lantern form ───────────────────────────────────────────
         async function handleSubmit(e) {

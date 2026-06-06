@@ -37,9 +37,13 @@
         <a href="dashboard.html" role="listitem">Cộng đồng</a>
       </div>
       <div class="nav-actions">
-        <button class="nav-lang-btn" id="lang-toggle" aria-label="Chuyển ngôn ngữ" title="Switch Language" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; min-width:70px;">
-          <span id="lang-label">VI 🇻🇳</span>
-        </button>
+        <div id="google_translate_element" style="margin-right: 10px;"></div>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <a href="dashboard.html" class="nav-cta">
           <i class="fa-solid fa-user" aria-hidden="true"></i>
           <span>Hồ sơ</span>
@@ -839,15 +843,6 @@
       loadLeaderboard(currentPage).finally(() => {
         setTimeout(() => refreshBtn.classList.remove('spinning'), 600);
       });
-    });
-
-    /* ── Language toggle ── */
-    langToggle.addEventListener('click', () => {
-      lang = lang === 'vi' ? 'en' : 'vi';
-      localStorage.setItem('lang', lang);
-      langLabel.textContent = lang === 'en' ? 'EN 🇬🇧' : 'VI 🇻🇳';
-      loadLeaderboard(currentPage);
-      loadBadges();
     });
 
     /* ── Init ── */

@@ -1,275 +1,172 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruộng Bậc Thang ✨ LUNAR HERITAGE</title>
+    <meta name="description"
+        content="Ruộng bậc thang Mù Cang Chải – Tuyệt tác cảnh quan kỳ vĩ do con người kiến tạo. Di sản quốc gia đặc biệt của Việt Nam.">
+    <title>Ruộng bậc thang – LUNAR HERITAGE</title>
     <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="di-san-common.css" />
+    <link rel="stylesheet" href="modern-heritage.css">
+    <link rel="stylesheet" href="di-san-common.css">
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta property="og:title" content="LUNAR HERITAGE – Di sản Việt Nam">
     <meta property="og:description"
-        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
     <meta property="og:image"
         content="https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/654943425_1420466086545390_8388932195770794243_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VJ_XQ9kM9vcQ7kNvwHDR2WA&_nc_oc=Adqa6N4VgCqZzQw7cZYzmdfmAAKRDAEMrc-BJgaOka2L26jGBWbH_B48k4-Vc-0oSFD39rvdjnGDW8lHLSDsckry&_nc_zt=23&_nc_ht=scontent.fdad2-1.fna&_nc_gid=6H_wud4zvp4CMZoHecLbkA&_nc_ss=7b2a8&oh=00_Af-gOF0SPLSUkrp_TMJBMO7phBUYlLIPNAeTRKnevXKowg&oe=6A2C4A8F">
     <meta property="og:url" content="https://lunarheritage.com/">
     <meta property="og:type" content="website">
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta name="twitter:title" content="LUNAR HERITAGE – Di sản Việt Nam">
     <meta name="twitter:description"
-        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
     <meta name="twitter:image"
         content="https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/654943425_1420466086545390_8388932195770794243_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VJ_XQ9kM9vcQ7kNvwHDR2WA&_nc_oc=Adqa6N4VgCqZzQw7cZYzmdfmAAKRDAEMrc-BJgaOka2L26jGBWbH_B48k4-Vc-0oSFD39rvdjnGDW8lHLSDsckry&_nc_zt=23&_nc_ht=scontent.fdad2-1.fna&_nc_gid=6H_wud4zvp4CMZoHecLbkA&_nc_ss=7b2a8&oh=00_Af-gOF0SPLSUkrp_TMJBMO7phBUYlLIPNAeTRKnevXKowg&oe=6A2C4A8F">
 </head>
 
-<body class="bg-zinc-950 text-white overflow-x-hidden">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
-        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div
-                    class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
-                    ✨ <span class="absolute -top-1 -right-1 text-xl">✨</span>
-                </div>
-                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
-                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+    <div class="grain-overlay"></div>
+
+    <!-- NAV -->
+    <nav class="page-nav">
+        <div class="page-nav-inner">
+            <a class="page-logo" href="index.html">LUNAR <em>HERITAGE</em></a>
+            <div class="page-nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+                <a href="dashboard.html">Cộng đồng</a>
+                <a href="ruong-bac-thang.html" class="active" style="color:#f0ece4;">Ruộng bậc thang</a>
             </div>
-            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
-                <a href="index.html" class="hover:text-[#00f7ff]">Trang chủ</a>
-                <a href="di-san.html" class="hover:text-[#00f7ff]">Di sản</a>
-                <a href="ruong-bac-thang.html" class="text-[#00f7ff] font-bold">Ruộng Bậc Thang</a>
-            </div>
-            <a href="index.html"
-                class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold hover:scale-105 transition-transform">
-                <i class="fa-solid fa-arrow-left"></i> QUAY Về TRANG CHạ
-            </a>
+            <a href="di-san.html" class="back-link">← Bộ sưu tập</a>
         </div>
     </nav>
 
     <!-- HERO -->
-    <section class="hero-bg min-h-screen pt-32 relative flex items-center overflow-hidden">
+    <section class="page-hero">
         <img loading="lazy"
             src="https://images.unsplash.com/photo-1758002514616-7688e17ab6c7?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMxfHx8ZW58MHx8fHx8"
-            style="object-fit: cover; width: 100%; height: 100%;" alt="Ruộng Bậc Thang" class="media-placeholder">
-
-        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" style="z-index:2"></div>
-        <div class="max-w-screen-2xl mx-auto px-8 relative" style="z-index:10">
-            <div
-                class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8">
-                ✨ DI SẽN RUỘNG BộC THANG ✨ M✨ CANG CHạI
-            </div>
-            <h1 class="text-7xl lg:text-8xl title-font leading-none neon-glow tracking-[-4px]">
-                RUỘNG BộC THANG
-            </h1>
-            <p class="mt-6 text-3xl text-white font-light max-w-lg">
-                Những thệa ruĐộng bậc thang h✨ng vi lung linh dưới ✨nh trang neon tương lai
-            </p>
-
+            style="object-fit: cover; width: 100%; height: 100%;" alt="Ruộng bậc thang">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <p class="eyebrow">Di sản Quốc gia – Mù Cang Chải</p>
+            <h1>Ruộng <em>bậc thang</em></h1>
+            <p class="page-hero-desc">Những thửa ruộng bậc thang hùng vĩ lung linh dưới ánh trăng tương lai.</p>
         </div>
     </section>
 
-    <!-- NỘI DUNG CHI TIẾT -->
-    <section class="py-24 bg-zinc-900">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="grid lg:grid-cols-12 gap-16 items-center">
-                <div class="lg:col-span-7">
-                    <iframe width="100%" height="420" src="https://www.youtube.com/embed/wYVSvkz_mJQ"
-                        title="M\u00f9 Cang Ch\u1ea3i - Ru\u1ed9ng B\u1ead c Thang" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen class="w-full rounded-3xl shadow-2xl shadow-[#00f7ff]/40"></iframe>
-                </div>
-                <div class="lg:col-span-5">
-                    <h2 class="title-font text-5xl neon-glow mb-6">Kỷ quan ruĐộng bậc thang</h2>
-                    <p class="text-zinc-300 text-xl leading-relaxed">
-                        Ruộng bậc thang Mù Cang Chải vềi những thệa ruĐộng v✨ng rốc trải d✨i theo suốn n✨i.
-                        Trong LUNAR HERITAGE, những thệa ruĐộng được bao phệ bội ánh sáng neon huyền ?o,
-                        tạo n✨n không gian vềa kỳ vĩ vềa tương lai rực rỡ.
-                    </p>
-                    <div class="mt-10 flex items-center gap-4">
-                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
-                            <p class="text-[#00f7ff] text-4xl">🏛️</p>
-                            <p class="font-bold mt-2">Di sản Quốc gia</p>
-                        </div>
-                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
-                            <p class="text-[#00f7ff] text-4xl">⏳</p>
-                            <p class="font-bold mt-2">500+ thệa ruĐộng</p>
-                        </div>
-                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
-                            <p class="text-[#00f7ff] text-4xl">⏳</p>
-                            <p class="font-bold mt-2">Mù Cang Chải</p>
-                        </div>
+    <hr class="section-rule">
+
+    <!-- INTRO + VIDEO -->
+    <div class="content-section">
+        <div class="two-col">
+            <div class="media-frame">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/wYVSvkz_mJQ" title="Ruộng bậc thang"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <div>
+                <p class="intro-label">Tổng quan</p>
+                <h2 class="intro-title">Kỳ quan ruộng <em>bậc thang</em></h2>
+                <p class="intro-desc">Ruộng bậc thang Mù Cang Chải với những thửa ruộng vàng rực trải dài theo sườn núi. Trong LUNAR HERITAGE, những thửa ruộng được bao phủ bởi ánh sáng huyền ảo, tạo nên không gian vừa kỳ vĩ vừa tương lai rực rỡ.</p>
+                <div class="stat-row">
+                    <div class="stat-item">
+                        <span class="stat-val">500+</span>
+                        <span class="stat-lbl">Thửa ruộng</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">Mù Cang Chải</span>
+                        <span class="stat-lbl">Địa danh</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">Di sản</span>
+                        <span class="stat-lbl">Quốc gia</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- KH✨M PH✨ -->
-    <section class="py-24">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <h2 class="title-font text-6xl text-center neon-glow mb-16">Khám phá Ruộng Bậc Thang</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">✨</div>
-                    <h3 class="text-3xl font-semibold mb-3">Thệa ruĐộng lo lớng</h3>
-                    <p class="text-zinc-400">H✨ng tram thệa ruĐộng bậc thang được bao quanh bội ánh sáng neon xanh l✨ ✨
-                        xanh cyan ✨ v✨ng, tạo hiệu Động hologram 3D sảng đểng.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">✨</div>
-                    <h3 class="text-3xl font-semibold mb-3">Nuốc phện chiều neon</h3>
-                    <p class="text-zinc-400">Một nuốc trên ruĐộng phện chiều ✨nh neon lung linh, tạo n✨n cảnh quan huyền
-                        ?o nhu trong giốc mo tương lai.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">✨</div>
-                    <h3 class="text-3xl font-semibold mb-3">✨ n lớng bay cyber</h3>
-                    <p class="text-zinc-400">H✨ng tram d✨n lớng neon bay khệp bộu trải, thệp s✨ng những thệa ruĐộng bậc
-                        thang bạng ánh sáng 3D chua từng c✨.</p>
-                </div>
+    <hr class="section-rule">
+
+    <!-- EXPLORE GRID -->
+    <div class="content-section">
+        <p class="section-label">Trải nghiệm</p>
+        <h2 class="section-title">Khám phá <em>Ruộng bậc thang</em></h2>
+        <div class="explore-grid">
+            <div class="explore-card">
+                <span class="explore-icon">✨</span>
+                <h3 class="explore-name">Thửa ruộng lơ lửng</h3>
+                <p class="explore-desc">Hàng trăm thửa ruộng bậc thang được bao quanh bởi ánh sáng lung linh, tạo hiệu ứng 3D sống động.</p>
+            </div>
+            <div class="explore-card">
+                <span class="explore-icon">🌊</span>
+                <h3 class="explore-name">Nước phản chiếu</h3>
+                <p class="explore-desc">Mặt nước trên ruộng phản chiếu ánh sáng tuyệt đẹp, tạo nên cảnh quan huyền ảo như trong giấc mơ.</p>
+            </div>
+            <div class="explore-card">
+                <span class="explore-icon">🏮</span>
+                <h3 class="explore-name">Đèn lồng bay</h3>
+                <p class="explore-desc">Hàng trăm đèn lồng bay ngập bầu trời, thắp sáng những thửa ruộng bậc thang bằng ánh sáng kỳ diệu.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- LễCH Sẽ & DI SẽN -->
-    <section class="py-24 bg-zinc-900">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="text-center mb-16">
-                <span
-                    class="px-6 py-2 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl">LễCH
-                    Sẽ & DI SẽN</span>
-            </div>
-            <div class="max-w-3xl mx-auto text-zinc-300 text-lg leading-relaxed">
-                Ruộng bậc thang Mù Cang Chải l✨ di sản văn hóa cảnh quan quốc gia đểc biệt, được công nhận nam 2007.
-                Những thệa ruĐộng do người H'Mông tạo ra qua nhiều thệ hệ, trải d✨i theo suốn n✨i vềi để cao trên
-                1.000m.
-                Trong LUNAR HERITAGE, ch✨ng t✨i t✨i tạo lại to✨n bộ kỷ quan n✨y dưới ánh sáng neon tương lai,
-                kết hợp truyếun thệng dân tộc vềi công nghệ 3D để bạn c✨ thệ bay luận v✨ kh✨m ph✨ từng thệa ruĐộng một
-                cách sảng đểng.
-            </div>
+    <hr class="section-rule">
+
+    <!-- HISTORY -->
+    <div class="content-section">
+        <p class="section-label" style="text-align:center; margin-bottom: 40px;">Lịch sử &amp; Di sản</p>
+        <div class="history-block">
+            <p>Ruộng bậc thang Mù Cang Chải là di sản văn hóa cảnh quan quốc gia đặc biệt, được công nhận năm 2007. Những thửa ruộng do người H'Mông tạo ra qua nhiều thế hệ, trải dài theo sườn núi với độ cao trên 1.000m. Trong LUNAR HERITAGE, chúng tôi tái tạo lại toàn bộ kỳ quan này dưới ánh sáng tương lai, kết hợp truyền thống dân tộc với công nghệ 3D để bạn có thể bay lượn và khám phá.</p>
         </div>
-    </section>
+    </div>
 
-    <!-- CALL TO ACTION -->
-    <section class="py-24 bg-gradient-to-b from-zinc-900 to-black text-center">
-        <h2 class="title-font text-5xl neon-glow mb-8">Bạn sản s✨ng bay vảo Ruộng Bậc Thangữ</h2>
-        <button onclick="launchLantern()"
-            class="inline-flex items-center gap-x-4 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold text-2xl px-14 py-7 rounded-3xl hover:scale-110 transition-all">
-            ✨ THạP ✨ N LễNG & BAY NGAY
-        </button>
-    </section>
+    <!-- CTA -->
+    <div class="cta-block">
+        <h2>Bạn sẵn sàng <em>khám phá</em>?</h2>
+        <p>Gửi điều ước bình an giữa mùa vàng rực rỡ qua chiếc đèn lồng ảo.</p>
+        <button class="btn-primary-page" onclick="launchLantern()">🏮 Thắp đèn lồng</button>
+    </div>
 
     <!-- FOOTER -->
-    <footer class="bg-black py-16 text-center">
-        <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
-        <p class="text-zinc-400 mt-3">Ruộng Bậc Thang ✨ Di sản Việt Nam dưới ✨nh trang tương lai</p>
-        <p class="text-xs text-zinc-500 mt-12">✨ 2026 VKU ✨ BWD 2026</p>
+    <footer class="page-footer">
+        <div class="page-footer-inner">
+            <div class="page-footer-brand">LUNAR <em>HERITAGE</em></div>
+            <div class="page-footer-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+            </div>
+            <p class="page-footer-copy">© 2026 VKU – Ruộng bậc thang – Yên Bái, Việt Nam</p>
+        </div>
     </footer>
 
     <script>
-        function handleRbtMedia(e) {
-            const file = e.target.files[0]; if (!file) return;
-            const url = URL.createObjectURL(file);
-            const ph = document.getElementById('rbtPlaceholder');
-            if (file.type.startsWith('video/')) {
-                const v = document.createElement('video');
-                v.src = url; v.autoplay = true; v.muted = true; v.loop = true; v.playsinline = true;
-                v.className = 'media-placeholder'; ph.replaceWith(v);
-            } else {
-                const img = document.createElement('img');
-                img.src = url; img.alt = 'Ruộng Bậc Thang'; img.className = 'media-placeholder';
-                ph.replaceWith(img);
+        function launchLantern() {
+            const count = 20;
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'floating-lantern';
+                    el.innerHTML = `<span style="filter: drop-shadow(0 0 8px rgba(184,146,42,0.7));">🏮</span>`;
+                    el.style.left = (Math.random() * 100) + 'vw';
+                    el.style.bottom = '-50px';
+                    el.style.setProperty('--dur', (5 + Math.random() * 5) + 's');
+                    el.style.fontSize = (18 + Math.random() * 20) + 'px';
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 10500);
+                }, i * 220);
             }
         }
-        function launchLantern() { showToast('✨ ✨ n lớng neon d✨ bay khệp Ruộng Bậc Thang!'); }
-        window.onload = () => { console.log('✨ Ruộng Bậc Thang ✨ sản s✨ng ch✨n ảnh/video!'); };
     </script>
 
     <script src="back-btn.js"></script>
-
-    <style>
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
-        }
-
-        .toast {
-            pointer-events: auto;
-            padding: 14px 22px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Outfit', system-ui, sans-serif;
-            color: #f0ece4;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            animation: toast-in 0.35s ease;
-            max-width: 380px;
-            border: 1px solid rgba(184, 146, 42, 0.3);
-        }
-
-        .toast.success {
-            background: rgba(26, 23, 20, 0.92);
-            border-left: 4px solid #b8922a;
-        }
-
-        .toast.error {
-            background: rgba(40, 10, 10, 0.92);
-            border-left: 4px solid #ef4444;
-        }
-
-        .toast.info {
-            background: rgba(20, 20, 40, 0.92);
-            border-left: 4px solid #60a5fa;
-        }
-
-        @keyframes toast-in {
-            from {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes toast-out {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-        }
-    </style>
-    <div class="toast-container" id="toastContainer"></div>
-    <script>
-        function showToast(msg, type = 'success') {
-            let c = document.getElementById('toastContainer');
-            if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
-            const t = document.createElement('div');
-            t.className = 'toast ' + type;
-            t.textContent = msg;
-            c.appendChild(t);
-            setTimeout(() => { t.style.animation = 'toast-out 0.35s ease forwards'; setTimeout(() => t.remove(), 350); }, 3500);
-        }
-    </script>
     <script src="cursor.js"></script>
 </body>
 

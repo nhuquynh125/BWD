@@ -1,13 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Thành nhà Hồ – Tòa thành đá độc nhất vô nhị, Di sản văn hóa UNESCO tại Thanh Hóa. Khám phá kiến trúc xây dựng vượt thời đại.">
     <title>Thành nhà Hồ – LUNAR HERITAGE</title>
     <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="modern-heritage.css">
     <link rel="stylesheet" href="di-san-common.css">
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="LUNAR HERITAGE – Di sản Việt Nam">
@@ -26,214 +27,146 @@
         content="https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/654943425_1420466086545390_8388932195770794243_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VJ_XQ9kM9vcQ7kNvwHDR2WA&_nc_oc=Adqa6N4VgCqZzQw7cZYzmdfmAAKRDAEMrc-BJgaOka2L26jGBWbH_B48k4-Vc-0oSFD39rvdjnGDW8lHLSDsckry&_nc_zt=23&_nc_ht=scontent.fdad2-1.fna&_nc_gid=6H_wud4zvp4CMZoHecLbkA&_nc_ss=7b2a8&oh=00_Af-gOF0SPLSUkrp_TMJBMO7phBUYlLIPNAeTRKnevXKowg&oe=6A2C4A8F">
 </head>
 
-<body class="bg-zinc-950 text-white overflow-x-hidden">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
-        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div
-                    class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
-                    🏯 <span class="absolute -top-1 -right-1 text-xl">✨</span>
-                </div>
-                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
-                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+    <div class="grain-overlay"></div>
+
+    <!-- NAV -->
+    <nav class="page-nav">
+        <div class="page-nav-inner">
+            <a class="page-logo" href="index.html">LUNAR <em>HERITAGE</em></a>
+            <div class="page-nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+                <a href="dashboard.html">Cộng đồng</a>
+                <a href="thanh-nha-ho.html" class="active" style="color:#f0ece4;">Thành nhà Hồ</a>
             </div>
-
-            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
-                <a href="index.html" class="hover:text-[#00f7ff]">Trang chủ</a>
-                <a href="di-san.html" class="hover:text-[#00f7ff]">Di sản</a>
-                <a href="thanh-nha-ho.html" class="text-[#00f7ff] font-bold">Thành nhà Hồ</a>
-            </div>
-
-            <a href="index.html"
-                class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold hover:scale-105 transition-transform">
-                <i class="fa-solid fa-arrow-left"></i> QUAY VỀ TRANG CHỦ
-            </a>
+            <a href="di-san.html" class="back-link">← Bộ sưu tập</a>
         </div>
     </nav>
 
     <!-- HERO -->
-    <section class="min-h-screen pt-32 relative flex items-center overflow-hidden bg-black">
+    <section class="page-hero">
         <img loading="lazy"
             src="https://vstatic.vietnam.vn/vietnam/resource/IMAGE/2026/02/04/1770188747313_261d3134447t1993l1-anh-chup-man-hi4.webp"
-            style="object-fit: cover; width: 100%; height: 100%;" alt="Thành nhà Hồ"
-            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:0.75;">
-
-        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" style="z-index:2"></div>
-
-        <div class="max-w-screen-2xl mx-auto px-8 relative" style="z-index:10">
-            <div
-                class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8">
-                🏆 DI SẢN UNESCO – THÀNH NHÀ HỒ
-            </div>
-            <h1 class="text-7xl lg:text-8xl title-font leading-none neon-glow tracking-[-4px]">
-                THÀNH NHÀ HỒ
-            </h1>
-
+            style="object-fit: cover; width: 100%; height: 100%;" alt="Thành nhà Hồ">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <p class="eyebrow">Văn hóa – UNESCO 2011</p>
+            <h1>Thành nhà <em>Hồ</em></h1>
+            <p class="page-hero-desc">Tòa thành đá độc nhất vô nhị, sừng sững uy nghi trước thử thách của thời gian.</p>
         </div>
     </section>
 
-    <!-- CHI TIẾT -->
-    <section class="py-24 bg-zinc-950">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div
-                    class="rounded-3xl overflow-hidden border border-[#00f7ff]/30 shadow-[0_0_50px_rgba(212, 175, 55,0.15)]">
-                    <iframe width="100%" height="420" src="https://www.youtube.com/embed/k1e5BH4Zm6A"
-                        title="Thành Nhà Hồ" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen style="border-radius: 0;"></iframe>
-                </div>
-                <div>
-                    <h2 class="title-font text-5xl neon-glow mb-6 leading-tight">
-                        Tòa thành đá độc nhất vô nhị
-                    </h2>
-                    <p class="text-zinc-300 text-lg leading-relaxed mb-10">
-                        Trong LUNAR HERITAGE, những khối đá khổng lồ được bao bọc bởi ánh sáng neon, tôn lên sức mạnh
-                        vượt thời gian của một công trình kỳ vĩ, kết hợp hài hòa với nghệ thuật sci-fi ấn tượng.
-                    </p>
+    <hr class="section-rule">
 
-                    <div class="flex flex-wrap gap-4">
-                        <div
-                            class="glass px-6 py-5 rounded-2xl border border-[#00f7ff]/30 text-center flex-1 min-w-[120px]">
-                            <p class="text-[#00f7ff] text-3xl mb-1">🏛️</p>
-                            <p class="font-bold text-sm">UNESCO 2011</p>
-                        </div>
-                        <div
-                            class="glass px-6 py-5 rounded-2xl border border-[#00f7ff]/30 text-center flex-1 min-w-[120px]">
-                            <p class="text-[#00f7ff] text-3xl mb-1">⏳</p>
-                            <p class="font-bold text-sm">Thế kỷ 15</p>
-                        </div>
-                        <div
-                            class="glass px-6 py-5 rounded-2xl border border-[#00f7ff]/30 text-center flex-1 min-w-[120px]">
-                            <p class="text-[#00f7ff] text-3xl mb-1">🪨</p>
-                            <p class="font-bold text-sm">Khối đá 10-26 tấn</p>
-                        </div>
+    <!-- INTRO + VIDEO -->
+    <div class="content-section">
+        <div class="two-col">
+            <div class="media-frame">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/k1e5BH4Zm6A" title="Thành nhà Hồ"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <div>
+                <p class="intro-label">Tổng quan</p>
+                <h2 class="intro-title">Tòa thành đá <em>độc nhất vô nhị</em></h2>
+                <p class="intro-desc">Trong LUNAR HERITAGE, những khối đá khổng lồ được bao bọc bởi ánh sáng, tôn lên sức mạnh vượt thời gian của một công trình kỳ vĩ, kết hợp hài hòa với nghệ thuật ấn tượng.</p>
+                <div class="stat-row">
+                    <div class="stat-item">
+                        <span class="stat-val">10-26 tấn</span>
+                        <span class="stat-lbl">Khối đá</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">Thế kỷ 15</span>
+                        <span class="stat-lbl">Kỷ nguyên</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">UNESCO 2011</span>
+                        <span class="stat-lbl">Công nhận</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- KHÁM PHÁ -->
-    <section class="py-24">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <h2 class="title-font text-6xl text-center neon-glow mb-16">Khám phá Thành nhà Hồ</h2>
+    <hr class="section-rule">
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">✨</div>
-                    <h3 class="text-3xl font-semibold mb-3">Cổng đá rực rỡ</h3>
-                    <p class="text-zinc-400">Cổng thành đá vĩ đại được viền bởi ánh sáng phát quang, sáng rực cả một
-                        vùng trời đêm.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">🌊</div>
-                    <h3 class="text-3xl font-semibold mb-3">Hào nước laser</h3>
-                    <p class="text-zinc-400">Tuyến phòng thủ bao quanh nay trở thành mặt gương phản chiếu ánh sáng tương
-                        lai tuyệt đẹp.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">🧱</div>
-                    <h3 class="text-3xl font-semibold mb-3">Kiến trúc số</h3>
-                    <p class="text-zinc-400">Bí ẩn kỹ thuật xếp đá không cần vữa nay được mô phỏng giải mã bằng công
-                        nghệ AR trong mạng lưới số.</p>
-                </div>
+    <!-- EXPLORE GRID -->
+    <div class="content-section">
+        <p class="section-label">Trải nghiệm</p>
+        <h2 class="section-title">Khám phá <em>Thành nhà Hồ</em></h2>
+        <div class="explore-grid">
+            <div class="explore-card">
+                <span class="explore-icon">✨</span>
+                <h3 class="explore-name">Cổng đá rực rỡ</h3>
+                <p class="explore-desc">Cổng thành đá vĩ đại được viền bởi ánh sáng phát quang, sáng rực cả một vùng trời đêm.</p>
+            </div>
+            <div class="explore-card">
+                <span class="explore-icon">🌊</span>
+                <h3 class="explore-name">Hào nước laser</h3>
+                <p class="explore-desc">Tuyến phòng thủ bao quanh nay trở thành mặt gương phản chiếu ánh sáng tuyệt đẹp.</p>
+            </div>
+            <div class="explore-card">
+                <span class="explore-icon">🧱</span>
+                <h3 class="explore-name">Kiến trúc số</h3>
+                <p class="explore-desc">Bí ẩn kỹ thuật xếp đá không cần vữa nay được mô phỏng giải mã bằng công nghệ số.</p>
             </div>
         </div>
-    </section>
+    </div>
+
+    <hr class="section-rule">
+
+    <!-- HISTORY -->
+    <div class="content-section">
+        <p class="section-label" style="text-align:center; margin-bottom: 40px;">Lịch sử &amp; Di sản</p>
+        <div class="history-block">
+            <p>Thành nhà Hồ là công trình kiến trúc bằng đá độc đáo, được UNESCO công nhận là Di sản Văn hóa Thế giới năm 2011. Xây dựng năm 1397 dưới triều đại nhà Hồ, kỹ thuật ghép đá không dùng vữa của thành là minh chứng cho trình độ xây dựng kiệt xuất. LUNAR HERITAGE bảo tồn những khối đá khổng lồ này trong không gian số vĩnh cửu.</p>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block">
+        <h2>Bạn sẵn sàng <em>khám phá</em>?</h2>
+        <p>Gửi lời nguyện ước vượt thời gian tại cổng thành đá hùng vĩ.</p>
+        <button class="btn-primary-page" onclick="launchLantern()">🏮 Thắp đèn lồng</button>
+    </div>
 
     <!-- FOOTER -->
-    <footer class="bg-black py-16 text-center">
-        <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
-        <p class="text-zinc-400 mt-3">Thành nhà Hồ – Di sản Việt Nam dưới ánh trăng tương lai</p>
+    <footer class="page-footer">
+        <div class="page-footer-inner">
+            <div class="page-footer-brand">LUNAR <em>HERITAGE</em></div>
+            <div class="page-footer-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+            </div>
+            <p class="page-footer-copy">© 2026 VKU – Thành nhà Hồ – Thanh Hóa, Việt Nam</p>
+        </div>
     </footer>
+
     <script>
         function launchLantern() {
-            showToast('✨ Chào mừng bạn bước qua cổng Thành nhà Hồ tương lai!');
+            const count = 20;
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'floating-lantern';
+                    el.innerHTML = `<span style="filter: drop-shadow(0 0 8px rgba(184,146,42,0.7));">🏮</span>`;
+                    el.style.left = (Math.random() * 100) + 'vw';
+                    el.style.bottom = '-50px';
+                    el.style.setProperty('--dur', (5 + Math.random() * 5) + 's');
+                    el.style.fontSize = (18 + Math.random() * 20) + 'px';
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 10500);
+                }, i * 220);
+            }
         }
     </script>
+
     <script src="back-btn.js"></script>
-
-    <style>
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
-        }
-
-        .toast {
-            pointer-events: auto;
-            padding: 14px 22px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Outfit', system-ui, sans-serif;
-            color: #f0ece4;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            animation: toast-in 0.35s ease;
-            max-width: 380px;
-            border: 1px solid rgba(184, 146, 42, 0.3);
-        }
-
-        .toast.success {
-            background: rgba(26, 23, 20, 0.92);
-            border-left: 4px solid #b8922a;
-        }
-
-        .toast.error {
-            background: rgba(40, 10, 10, 0.92);
-            border-left: 4px solid #ef4444;
-        }
-
-        .toast.info {
-            background: rgba(20, 20, 40, 0.92);
-            border-left: 4px solid #60a5fa;
-        }
-
-        @keyframes toast-in {
-            from {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes toast-out {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-        }
-    </style>
-    <div class="toast-container" id="toastContainer"></div>
-    <script>
-        function showToast(msg, type = 'success') {
-            let c = document.getElementById('toastContainer');
-            if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
-            const t = document.createElement('div');
-            t.className = 'toast ' + type;
-            t.textContent = msg;
-            c.appendChild(t);
-            setTimeout(() => { t.style.animation = 'toast-out 0.35s ease forwards'; setTimeout(() => t.remove(), 350); }, 3500);
-        }
-    </script>
     <script src="cursor.js"></script>
 </body>
 

@@ -1,294 +1,172 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hội An • LUNAR HERITAGE</title>
+    <meta name="description"
+        content="Phố cổ Hội An – Di sản văn hóa thế giới được UNESCO công nhận. Đô thị thương cảng cổ kính pha trộn văn hóa độc đáo.">
+    <title>Hội An – LUNAR HERITAGE</title>
     <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="modern-heritage.css">
     <link rel="stylesheet" href="di-san-common.css">
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta property="og:title" content="LUNAR HERITAGE – Di sản Việt Nam">
     <meta property="og:description"
-        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
     <meta property="og:image"
         content="https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/654943425_1420466086545390_8388932195770794243_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VJ_XQ9kM9vcQ7kNvwHDR2WA&_nc_oc=Adqa6N4VgCqZzQw7cZYzmdfmAAKRDAEMrc-BJgaOka2L26jGBWbH_B48k4-Vc-0oSFD39rvdjnGDW8lHLSDsckry&_nc_zt=23&_nc_ht=scontent.fdad2-1.fna&_nc_gid=6H_wud4zvp4CMZoHecLbkA&_nc_ss=7b2a8&oh=00_Af-gOF0SPLSUkrp_TMJBMO7phBUYlLIPNAeTRKnevXKowg&oe=6A2C4A8F">
     <meta property="og:url" content="https://lunarheritage.com/">
     <meta property="og:type" content="website">
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="LUNAR HERITAGE ✨ Di sản Việt Nam">
+    <meta name="twitter:title" content="LUNAR HERITAGE – Di sản Việt Nam">
     <meta name="twitter:description"
-        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lang kính công nghệ hiện đại. Noi những câu chuyện ngàn năm được tái sinh trong không gian số.">
+        content="Khám phá vẻ đẹp vĩnh cửu của di sản Việt Nam qua lăng kính công nghệ hiện đại. Nơi những câu chuyện ngàn năm được tái sinh trong không gian số.">
     <meta name="twitter:image"
         content="https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/654943425_1420466086545390_8388932195770794243_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VJ_XQ9kM9vcQ7kNvwHDR2WA&_nc_oc=Adqa6N4VgCqZzQw7cZYzmdfmAAKRDAEMrc-BJgaOka2L26jGBWbH_B48k4-Vc-0oSFD39rvdjnGDW8lHLSDsckry&_nc_zt=23&_nc_ht=scontent.fdad2-1.fna&_nc_gid=6H_wud4zvp4CMZoHecLbkA&_nc_ss=7b2a8&oh=00_Af-gOF0SPLSUkrp_TMJBMO7phBUYlLIPNAeTRKnevXKowg&oe=6A2C4A8F">
 </head>
 
-<body class="bg-zinc-950 text-white overflow-x-hidden">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
-        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div
-                    class="w-11 h-11 bg-gradient-to-br from-[#00f7ff] to-[#c026d3] rounded-2xl flex items-center justify-center text-4xl shadow-2xl shadow-[#00f7ff]/50 relative">
-                    🌕 <span class="absolute -top-1 -right-1 text-xl">🏮</span>
-                </div>
-                <div class="title-font text-4xl tracking-[-3px] neon-glow">LUNAR</div>
-                <div class="title-font text-4xl tracking-[-3px] text-[#00f7ff]">HERITAGE</div>
+    <div class="grain-overlay"></div>
+
+    <!-- NAV -->
+    <nav class="page-nav">
+        <div class="page-nav-inner">
+            <a class="page-logo" href="index.html">LUNAR <em>HERITAGE</em></a>
+            <div class="page-nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+                <a href="dashboard.html">Cộng đồng</a>
+                <a href="hoi-an.html" class="active" style="color:#f0ece4;">Hội An</a>
             </div>
-            <div class="hidden lg:flex items-center gap-x-8 text-sm font-medium">
-                <a href="index.html" class="hover:text-[#00f7ff]">Trang chủ</a>
-                <a href="hoi-an.html" class="text-[#00f7ff] font-bold">Hội An</a>
-                <a href="di-san.html" class="hover:text-[#00f7ff]">Di sản</a>
-            </div>
-            <a href="index.html"
-                class="flex items-center gap-x-3 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black px-8 py-4 rounded-3xl font-bold hover:scale-105 transition-transform">
-                <i class="fa-solid fa-arrow-left"></i> QUAY VỀ TRANG CHỦ
-            </a>
+            <a href="di-san.html" class="back-link">← Bộ sưu tập</a>
         </div>
     </nav>
 
     <!-- HERO -->
-    <section class="hero-bg min-h-screen pt-32 relative flex items-center overflow-hidden">
-        <div id="hoianPlaceholder" class="absolute inset-0" style="z-index:1"></div>
+    <section class="page-hero">
         <img loading="lazy"
             src="https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/654943425_1420466086545390_8388932195770794243_n.jpg?stp=dst-jpg_tt6&cstp=mx1365x2048&ctp=s1365x2048&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VJ_XQ9kM9vcQ7kNvwHDR2WA&_nc_oc=Adqa6N4VgCqZzQw7cZYzmdfmAAKRDAEMrc-BJgaOka2L26jGBWbH_B48k4-Vc-0oSFD39rvdjnGDW8lHLSDsckry&_nc_zt=23&_nc_ht=scontent.fdad2-1.fna&_nc_gid=6H_wud4zvp4CMZoHecLbkA&_nc_ss=7b2a8&oh=00_Af-gOF0SPLSUkrp_TMJBMO7phBUYlLIPNAeTRKnevXKowg&oe=6A2C4A8F"
-            style="object-fit: cover; width: 100%; height: 100%;" alt="Hội An" class="media-placeholder">
-
-        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" style="z-index:2"></div>
-        <div class="max-w-screen-2xl mx-auto px-8 relative" style="z-index:10">
-            <div class="inline-flex items-center px-6 h-9 bg-white/10 rounded-3xl text-sm font-bold border border-[#00f7ff]/30 mb-8"
-                id="liveVisitorCount">
-                🏮 DI SẢN UNESCO • HỘI AN
-            </div>
-            <h1 class="text-7xl lg:text-8xl title-font leading-none neon-glow tracking-[-4px]">
-                HỘI AN
-            </h1>
-            <p class="mt-6 text-3xl text-white font-light max-w-lg">
-                Phố cổ đèn lồng lung linh dưới ánh trăng neon tương lai
-            </p>
-
+            style="object-fit: cover; width: 100%; height: 100%;" alt="Hội An">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <p class="eyebrow">Văn hóa – UNESCO 1999</p>
+            <h1>Hội <em>An</em></h1>
+            <p class="page-hero-desc">Phố cổ đèn lồng lung linh dưới ánh trăng tương lai, nơi giao thoa của văn hóa truyền thống và nét đẹp đương đại.</p>
         </div>
     </section>
 
-    <!-- NỘI DUNG CHI TIẾT -->
-    <section class="py-24 bg-zinc-900">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="grid lg:grid-cols-12 gap-16 items-center">
-                <div class="lg:col-span-7">
-                    <iframe width="100%" height="420" src="https://www.youtube.com/embed/sYmYEu2B-4w" title="Hội An"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen style="display:block;width:100%;border-radius:0;"></iframe>
-                </div>
-                <div class="lg:col-span-5">
-                    <h2 class="title-font text-5xl neon-glow mb-6">Phố cổ đèn lồng dưới ánh trăng neon</h2>
-                    <p class="text-zinc-300 text-xl leading-relaxed">
-                        Phố cổ Hội An với những ngôi nhà mái ngói cổ kính và hàng trăm đèn lồng rực rỡ.
-                        Trong LUNAR HERITAGE, những con phố được bao phủ bởi ánh sáng neon huyền ảo,
-                        tạo nên không gian vừa cổ kính vừa tương lai rực rỡ.
-                    </p>
-                    <div class="mt-10 flex items-center gap-4">
-                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
-                            <p class="text-[#00f7ff] text-4xl">🏛️</p>
-                            <p class="font-bold mt-2">UNESCO 1999</p>
-                        </div>
-                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
-                            <p class="text-[#00f7ff] text-4xl">🏮</p>
-                            <p class="font-bold mt-2">Nghìn đèn lồng</p>
-                        </div>
-                        <div class="flex-1 glass p-6 rounded-3xl text-center border border-[#00f7ff]/30">
-                            <p class="text-[#00f7ff] text-4xl">🌉</p>
-                            <p class="font-bold mt-2">Sông Hoài</p>
-                        </div>
+    <hr class="section-rule">
+
+    <!-- INTRO + VIDEO -->
+    <div class="content-section">
+        <div class="two-col">
+            <div class="media-frame">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/sYmYEu2B-4w" title="Hội An"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <div>
+                <p class="intro-label">Tổng quan</p>
+                <h2 class="intro-title">Phố cổ đèn lồng dưới <em>ánh trăng</em></h2>
+                <p class="intro-desc">Phố cổ Hội An với những ngôi nhà mái ngói cổ kính và hàng trăm đèn lồng rực rỡ. Trong LUNAR HERITAGE, những con phố được bao phủ bởi ánh sáng huyền ảo, tạo nên không gian vừa cổ kính vừa tương lai rực rỡ.</p>
+                <div class="stat-row">
+                    <div class="stat-item">
+                        <span class="stat-val">Sông Hoài</span>
+                        <span class="stat-lbl">Địa danh</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">Nghìn đèn lồng</span>
+                        <span class="stat-lbl">Đặc trưng</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">UNESCO 1999</span>
+                        <span class="stat-lbl">Công nhận</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- KHÁM PHÁ -->
-    <section class="py-24">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <h2 class="title-font text-6xl text-center neon-glow mb-16">Khám phá Hội An</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">🏮</div>
-                    <h3 class="text-3xl font-semibold mb-3">Phố đèn lồng neon</h3>
-                    <p class="text-zinc-400">Hàng nghìn đèn lồng neon thắp sáng khắp phố cổ, tạo hiệu ứng hologram 3D
-                        lung linh chưa từng có.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">🚤</div>
-                    <h3 class="text-3xl font-semibold mb-3">Du thuyền sông Hoài neon</h3>
-                    <p class="text-zinc-400">Du thuyền hiện đại với đèn LED neon chạy dọc thân tàu, phản chiếu lung linh
-                        trên mặt sông Hoài huyền ảo.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl border border-white/10 card-hover">
-                    <div class="text-6xl mb-6">🌉</div>
-                    <h3 class="text-3xl font-semibold mb-3">Chùa Cầu cyber</h3>
-                    <p class="text-zinc-400">Cầu Chùa Nhật Bản được chiếu sáng bằng công nghệ neon, tạo hiệu ứng ánh
-                        sáng 3D lung linh chưa từng có.</p>
-                </div>
+    <hr class="section-rule">
+
+    <!-- EXPLORE GRID -->
+    <div class="content-section">
+        <p class="section-label">Trải nghiệm</p>
+        <h2 class="section-title">Khám phá <em>Hội An</em></h2>
+        <div class="explore-grid">
+            <div class="explore-card">
+                <span class="explore-icon">🏮</span>
+                <h3 class="explore-name">Phố đèn lồng 3D</h3>
+                <p class="explore-desc">Hàng nghìn đèn lồng thắp sáng khắp phố cổ, tạo hiệu ứng hologram 3D lung linh chưa từng có.</p>
+            </div>
+            <div class="explore-card">
+                <span class="explore-icon">🚤</span>
+                <h3 class="explore-name">Du thuyền sông Hoài</h3>
+                <p class="explore-desc">Du thuyền hiện đại với đèn LED chạy dọc thân tàu, phản chiếu lung linh trên mặt sông Hoài huyền ảo.</p>
+            </div>
+            <div class="explore-card">
+                <span class="explore-icon">🌉</span>
+                <h3 class="explore-name">Chùa Cầu cyber</h3>
+                <p class="explore-desc">Chùa Cầu Nhật Bản được chiếu sáng bằng công nghệ ánh sáng 3D lung linh, mang đến trải nghiệm độc đáo.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- LỊCH SỬ & DI SẢN -->
-    <section class="py-24 bg-zinc-900">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="text-center mb-16">
-                <span
-                    class="px-6 py-2 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold rounded-3xl">LỊCH
-                    SỬ & DI SẢN</span>
-            </div>
-            <div class="max-w-3xl mx-auto text-zinc-300 text-lg leading-relaxed">
-                Phố cổ Hội An là di sản văn hóa thế giới, được UNESCO công nhận năm 1999.
-                Đây là đô thị thương cảng cổ nổi tiếng với kiến trúc độc đáo pha trộn Việt – Hoa – Nhật – Pháp.
-                Trong LUNAR HERITAGE, chúng tôi tái tạo lại toàn bộ phố cổ dưới ánh sáng neon tương lai,
-                kết hợp truyền thống với công nghệ 3D để bạn có thể bay lượn và khám phá từng con phố một cách sống
-                động.
-            </div>
+    <hr class="section-rule">
+
+    <!-- HISTORY -->
+    <div class="content-section">
+        <p class="section-label" style="text-align:center; margin-bottom: 40px;">Lịch sử &amp; Di sản</p>
+        <div class="history-block">
+            <p>Phố cổ Hội An là di sản văn hóa thế giới, được UNESCO công nhận năm 1999. Đây là đô thị thương cảng cổ nổi tiếng với kiến trúc độc đáo pha trộn Việt – Hoa – Nhật – Pháp. Trong LUNAR HERITAGE, chúng tôi tái tạo lại toàn bộ phố cổ dưới ánh sáng tương lai, kết hợp truyền thống với công nghệ 3D để bạn có thể bay lượn và khám phá từng con phố một cách sống động.</p>
         </div>
-    </section>
+    </div>
 
-    <!-- CALL TO ACTION -->
-    <section class="py-24 bg-gradient-to-b from-zinc-900 to-black text-center">
-        <h2 class="title-font text-5xl neon-glow mb-8">Bạn sẵn sàng bay vào Hội An?</h2>
-        <button onclick="launchLantern()"
-            class="inline-flex items-center gap-x-4 bg-gradient-to-r from-[#00f7ff] to-[#c026d3] text-black font-bold text-2xl px-14 py-7 rounded-3xl hover:scale-110 transition-all">
-            🏮 THẮP ĐÈN LỒNG & BAY NGAY
-        </button>
-    </section>
+    <!-- CTA -->
+    <div class="cta-block">
+        <h2>Bạn sẵn sàng <em>khám phá</em>?</h2>
+        <p>Gửi điều ước bình an trên dòng sông Hoài qua chiếc đèn lồng ảo.</p>
+        <button class="btn-primary-page" onclick="launchLantern()">🏮 Thắp đèn lồng</button>
+    </div>
 
     <!-- FOOTER -->
-    <footer class="bg-black py-16 text-center">
-        <p class="title-font text-4xl neon-glow">LUNAR HERITAGE</p>
-        <p class="text-zinc-400 mt-3">Hội An • Di sản Việt Nam dưới ánh trăng tương lai</p>
-        <p class="text-xs text-zinc-500 mt-12">© 2026 VKU • BWD 2026</p>
+    <footer class="page-footer">
+        <div class="page-footer-inner">
+            <div class="page-footer-brand">LUNAR <em>HERITAGE</em></div>
+            <div class="page-footer-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="di-san.html">Di sản</a>
+                <a href="ai.html">Thầy Đồ AI</a>
+            </div>
+            <p class="page-footer-copy">© 2026 VKU – Phố cổ Hội An – Quảng Nam, Việt Nam</p>
+        </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-    <script src="api.js"></script>
     <script>
-        function handleHoiAnMedia(e) {
-            const file = e.target.files[0]; if (!file) return;
-            const url = URL.createObjectURL(file);
-            const ph = document.getElementById('hoianPlaceholder');
-            if (file.type.startsWith('video/')) {
-                const v = document.createElement('video');
-                v.src = url; v.autoplay = true; v.muted = true; v.loop = true; v.playsinline = true;
-                v.className = 'media-placeholder'; ph.replaceWith(v);
-            } else {
-                const img = document.createElement('img');
-                img.src = url; img.alt = 'Hội An'; img.className = 'media-placeholder';
-                ph.replaceWith(img);
-            }
-        }
         function launchLantern() {
-            if (window.LunarWS) {
-                LunarWS.send('light_lantern', { lat: 15.8801, lng: 108.3380 });
+            const count = 20;
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'floating-lantern';
+                    el.innerHTML = `<span style="filter: drop-shadow(0 0 8px rgba(184,146,42,0.7));">🏮</span>`;
+                    el.style.left = (Math.random() * 100) + 'vw';
+                    el.style.bottom = '-50px';
+                    el.style.setProperty('--dur', (5 + Math.random() * 5) + 's');
+                    el.style.fontSize = (18 + Math.random() * 20) + 'px';
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 10500);
+                }, i * 220);
             }
-            showToast('🏮 Đèn lồng neon đã bay khắp Phố cổ Hội An!');
         }
-        window.onload = () => {
-            console.log('🌉 Hội An – sẵn sàng chèn ảnh/video!');
-            if (window.LunarWS) {
-                LunarWS.on('visitor_count', (data) => {
-                    if (data.pageName === 'hoi-an') {
-                        const el = document.getElementById('liveVisitorCount');
-                        if (el) el.innerHTML = `🟢 ${data.count} người đang xem Hội An ngay lúc này`;
-                    }
-                });
-                setTimeout(() => LunarWS.send('join_page', 'hoi-an'), 1000);
-            }
-        };
     </script>
+
     <script src="back-btn.js"></script>
-
-
-    <style>
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
-        }
-
-        .toast {
-            pointer-events: auto;
-            padding: 14px 22px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Outfit', system-ui, sans-serif;
-            color: #f0ece4;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            animation: toast-in 0.35s ease;
-            max-width: 380px;
-            border: 1px solid rgba(184, 146, 42, 0.3);
-        }
-
-        .toast.success {
-            background: rgba(26, 23, 20, 0.92);
-            border-left: 4px solid #b8922a;
-        }
-
-        .toast.error {
-            background: rgba(40, 10, 10, 0.92);
-            border-left: 4px solid #ef4444;
-        }
-
-        .toast.info {
-            background: rgba(20, 20, 40, 0.92);
-            border-left: 4px solid #60a5fa;
-        }
-
-        @keyframes toast-in {
-            from {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes toast-out {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-        }
-    </style>
-    <div class="toast-container" id="toastContainer"></div>
-    <script>
-        function showToast(msg, type = 'success') {
-            let c = document.getElementById('toastContainer');
-            if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
-            const t = document.createElement('div');
-            t.className = 'toast ' + type;
-            t.textContent = msg;
-            c.appendChild(t);
-            setTimeout(() => { t.style.animation = 'toast-out 0.35s ease forwards'; setTimeout(() => t.remove(), 350); }, 3500);
-        }
-    </script>
     <script src="cursor.js"></script>
 </body>
 

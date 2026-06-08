@@ -69,7 +69,7 @@ const HERITAGE_FULL = [
     name: 'Cao nguyên đá Đồng Văn', province: 'Hà Giang',
     categories: ['Địa chất', 'Văn hóa'], type: 'địa chất',
     unesco: 2010, page: 'cao-nguyen-da-dong-van.html',
-    image_url: 'https://objectstorage.omzcloud.vn/pys-object-storage/web/uploads/posts/avatar/1665717046.jpg',
+    image_url: 'https://pystravel.vn/_next/image?url=https%3A%2F%2Fbooking.pystravel.vn%2Fuploads%2Fposts%2Falbums%2F5652%2F510244747f8a6263a31b1d4887b8ca52.jpg&w=1920&q=75',
     description: 'Đá vôi 500 triệu năm, 17 dân tộc, con đường Hạnh Phúc.'
   },
   {

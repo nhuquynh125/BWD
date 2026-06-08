@@ -5,9 +5,11 @@
 
 const API_BASE = (() => {
     const h = window.location.hostname;
+    // Chạy local
     if (h === 'localhost' || h === '127.0.0.1') return `http://${h}:8000`;
     if (h === '') return 'http://localhost:8000';
-    return window.location.origin;
+    // Môi trường Deploy: Trỏ thẳng tới backend trên Render
+    return 'https://bwd-backend-vffv.onrender.com';
 })();
 
 // ══════════════════════════════════════════════════════════

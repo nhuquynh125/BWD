@@ -62,23 +62,25 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 // Bơm Google Translate Script
-if (!document.querySelector('script[src*="translate.google.com"]')) {
-    const gtDiv = document.createElement('div');
-    gtDiv.id = 'google_translate_element';
-    document.body.appendChild(gtDiv);
+function injectGoogleTranslate() {
+    if (!document.querySelector('script[src*="translate.google.com"]')) {
+        const gtDiv = document.createElement('div');
+        gtDiv.id = 'google_translate_element';
+        document.body.appendChild(gtDiv);
 
-    window.googleTranslateElementInit = function() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'vi',
-            includedLanguages: 'en,fr,ja,ko,zh-CN',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-        }, 'google_translate_element');
-    };
+        window.googleTranslateElementInit = function() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'vi',
+                includedLanguages: 'en,fr,ja,ko,zh-CN',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        };
 
-    const gtScript = document.createElement('script');
-    gtScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    document.body.appendChild(gtScript);
+        const gtScript = document.createElement('script');
+        gtScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.body.appendChild(gtScript);
+    }
 }
 
 // Logic chuyển đổi ngôn ngữ
@@ -141,7 +143,11 @@ function injectFloatingLang() {
 }
 
 if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', injectFloatingLang);
+    window.addEventListener('DOMContentLoaded', () => {
+        injectGoogleTranslate();
+        injectFloatingLang();
+    });
 } else {
+    injectGoogleTranslate();
     injectFloatingLang();
 }

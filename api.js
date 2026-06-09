@@ -114,7 +114,9 @@ async function apiFetch(path, opts = {}) {
             if (!window.location.pathname.endsWith('login.html')) {
                 window.location.href = 'login.html';
             }
-            throw new Error('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.');
+            if (!path.includes('/api/auth/')) {
+                throw new Error('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.');
+            }
         }
         
         if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);

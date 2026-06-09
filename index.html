@@ -100,10 +100,10 @@
                     </div>
                 </div>
 
-                <div id="google_translate_element" style="opacity: 0; position: absolute; z-index: -1; pointer-events: none;"></div>
+                <div id="google_translate_element" style="position: absolute; top: -9999px; left: -9999px; z-index: -9999;"></div>
                 <script type="text/javascript">
                     function googleTranslateElementInit() {
-                        new google.translate.TranslateElement({ pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+                        new google.translate.TranslateElement({ pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
                     }
                     function toggleLangDropdown(e) {
                         e.stopPropagation();
@@ -111,16 +111,36 @@
                         dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
                     }
                     function changeLanguage(lang) {
+                        // 1. Set cookie as fallback and to persist selection
+                        if (lang === 'vi') {
+                            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname + ";";
+                        } else {
+                            document.cookie = "googtrans=/vi/" + lang + "; path=/;";
+                            document.cookie = "googtrans=/vi/" + lang + "; path=/; domain=" + window.location.hostname + ";";
+                        }
+
+                        // 2. Try to change via DOM
                         const selectElement = document.querySelector('.goog-te-combo');
                         if (selectElement) {
                             selectElement.value = lang;
                             selectElement.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+                            // For older browsers/some specific GT versions
+                            if (document.createEvent) {
+                                const event = document.createEvent('HTMLEvents');
+                                event.initEvent('change', true, true);
+                                selectElement.dispatchEvent(event);
+                            }
                         } else {
-                            console.warn("Google Translate select not found");
+                            // 3. If DOM fails (not loaded yet), just reload to apply cookie
+                            window.location.reload();
                         }
+
                         const dropdown = document.getElementById('custom-lang-dropdown');
                         if(dropdown) dropdown.style.display = 'none';
                     }
+                    
+                    // Hide dropdown when clicking outside
                     document.addEventListener('click', function(e) {
                         const wrapper = document.getElementById('custom-lang-wrapper');
                         if (wrapper && !wrapper.contains(e.target)) {

@@ -17,6 +17,7 @@
   ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 <html lang="vi" class=""><!-- Add theme modifier here, e.g. class="theme-hue" -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,29 +29,29 @@
     -->
     <title>{{ Page Title }} · LUNAR HERITAGE</title>
     <meta name="description" content="{{ 120–160 char description of this heritage site }}">
-    <meta name="keywords"    content="di sản, UNESCO, Việt Nam, {{ site name }}, văn hóa">
-    <link rel="canonical"    href="https://lunarheritage.com/{{ page-slug }}.html">
+    <meta name="keywords" content="di sản, UNESCO, Việt Nam, {{ site name }}, văn hóa">
+    <link rel="canonical" href="https://lunarheritage.com/{{ page-slug }}.html">
 
     <!-- Open Graph -->
-    <meta property="og:type"        content="article">
-    <meta property="og:site_name"   content="LUNAR HERITAGE">
-    <meta property="og:title"       content="{{ Page Title }} · LUNAR HERITAGE">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="LUNAR HERITAGE">
+    <meta property="og:title" content="{{ Page Title }} · LUNAR HERITAGE">
     <meta property="og:description" content="{{ OG description }}">
     <!-- TEMPLATE SLOT: Replace {{ page-image }} with the real hero image slug, e.g. vinh-ha-long -->
-    <meta property="og:image"       content="https://lunarheritage.com/uploads/ex/{{ page-image }}.jpg">
-    <meta property="og:image:type"  content="image/jpeg">
+    <meta property="og:image" content="https://lunarheritage.com/uploads/ex/{{ page-image }}.jpg">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt"   content="{{ Alt text for the hero image — describe what is visible }}">
-    <meta property="og:url"         content="https://lunarheritage.com/{{ page-slug }}.html">
+    <meta property="og:image:alt" content="{{ Alt text for the hero image — describe what is visible }}">
+    <meta property="og:url" content="https://lunarheritage.com/{{ page-slug }}.html">
 
     <!-- Twitter Card -->
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="{{ Page Title }} · LUNAR HERITAGE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ Page Title }} · LUNAR HERITAGE">
     <meta name="twitter:description" content="{{ OG description }}">
     <!-- TEMPLATE SLOT: Replace {{ page-image }} with the real hero image slug -->
-    <meta name="twitter:image"       content="https://lunarheritage.com/uploads/ex/{{ page-image }}.jpg">
-    <meta name="twitter:image:alt"   content="{{ Alt text for the hero image — describe what is visible }}">
+    <meta name="twitter:image" content="https://lunarheritage.com/uploads/ex/{{ page-image }}.jpg">
+    <meta name="twitter:image:alt" content="{{ Alt text for the hero image — describe what is visible }}">
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -85,26 +86,31 @@
   Apply theme modifier on <body> as an alternative to <html>
   so JavaScript can easily swap themes at runtime.
 -->
+
 <body>
 
-<!--
+    <!--
   ══ NO-SCRIPT GRACEFUL DEGRADATION ═══════════════════════════════════════
   Shown only when JavaScript is disabled.
   Hides JS-dependent UI shells; surfaces a static fallback and advice.
   ══════════════════════════════════════════════════════════════════════════
 -->
-<noscript>
-    <style>
-        /* Hide JS-dependent components entirely */
-        .hero__bg,
-        .map-site-nav,
-        .site-nav { display: none !important; }
+    <noscript>
+        <style>
+            /* Hide JS-dependent components entirely */
+            .hero__bg,
+            .map-site-nav,
+            .site-nav {
+                display: none !important;
+            }
 
-        /* Reveal the no-JS message */
-        .no-js-message { display: flex !important; }
-    </style>
+            /* Reveal the no-JS message */
+            .no-js-message {
+                display: flex !important;
+            }
+        </style>
 
-    <div class="no-js-message" role="alert" aria-live="polite" style="
+        <div class="no-js-message" role="alert" aria-live="polite" style="
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -117,64 +123,65 @@
         text-align: center;
         gap: 1.25rem;
     ">
-        <p style="font-size: 1.5rem; font-weight: 700; color: #d4af37; margin: 0;">
-            🌙 LUNAR HERITAGE
-        </p>
-        <p style="font-size: 1rem; max-width: 480px; line-height: 1.7; margin: 0;">
-            Trang web này yêu cầu JavaScript để hiển thị bản đồ tương tác và nội dung đa phương tiện.
-            Vui lòng <strong>bật JavaScript</strong> trong trình duyệt của bạn để có trải nghiệm đầy đủ.
-        </p>
-        <p style="font-size: 0.875rem; color: #999; margin: 0;">
-            Alternatively, view the
-            <a href="static-map.jpg" style="color: #d4af37; text-decoration: underline;"
-               title="Xem bản đồ tĩnh di sản Việt Nam">
-                static heritage map
-            </a>.
-        </p>
-    </div>
-</noscript>
+            <p style="font-size: 1.5rem; font-weight: 700; color: #d4af37; margin: 0;">
+                🌙 LUNAR HERITAGE
+            </p>
+            <p style="font-size: 1rem; max-width: 480px; line-height: 1.7; margin: 0;">
+                Trang web này yêu cầu JavaScript để hiển thị bản đồ tương tác và nội dung đa phương tiện.
+                Vui lòng <strong>bật JavaScript</strong> trong trình duyệt của bạn để có trải nghiệm đầy đủ.
+            </p>
+            <p style="font-size: 0.875rem; color: #999; margin: 0;">
+                Alternatively, view the
+                <a href="static-map.jpg" style="color: #d4af37; text-decoration: underline;"
+                    title="Xem bản đồ tĩnh di sản Việt Nam">
+                    static heritage map
+                </a>.
+            </p>
+        </div>
+    </noscript>
 
-<!-- ══ OPTIONAL: Grain Overlay (decorative, very subtle) ═══════════════ -->
-<div class="grain-overlay" aria-hidden="true"></div>
+    <!-- ══ OPTIONAL: Grain Overlay (decorative, very subtle) ═══════════════ -->
+    <div class="grain-overlay" aria-hidden="true"></div>
 
-<!-- ══ OPTIONAL: Custom Cursor (desktop only) ══════════════════════════ -->
-<div id="cur" aria-hidden="true"></div>
+    <!-- ══ OPTIONAL: Custom Cursor (desktop only) ══════════════════════════ -->
+    <div id="cur" aria-hidden="true"></div>
 
 
-<!-- ════════════════════════════════════════════════════════════════════
+    <!-- ════════════════════════════════════════════════════════════════════
      NAVIGATION  — shared across all heritage pages
      ══════════════════════════════════════════════════════════════════ -->
-<header>
-    <nav class="site-nav" id="site-nav" role="navigation" aria-label="Điều hướng chính">
-        <div class="nav-inner">
+    <header>
+        <nav class="site-nav" id="site-nav" role="navigation" aria-label="Điều hướng chính">
+            <div class="nav-inner">
 
-            <!-- Brand -->
-            <a href="index.html" class="nav-logo" aria-label="LUNAR HERITAGE — Trang chủ">
-                <div class="nav-logo__icon" aria-hidden="true">🏛️</div>
-                <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
-            </a>
+                <!-- Brand -->
+                <a href="index.html" class="nav-logo" aria-label="LUNAR HERITAGE — Trang chủ">
+                    <img src="https://res.cloudinary.com/dwbdopxe1/image/upload/v1780974911/logo..._rkozcq.png"
+                        alt="Logo" style="height: 40px; width: 40px; object-fit: cover; border-radius: 12px;">
+                    <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
+                </a>
 
-            <!-- Primary links -->
-            <nav class="nav-links" aria-label="Điều hướng trang">
-                <a href="index.html"    id="nav-home">Trang Chủ</a>
-                <a href="di-san.html" id="nav-heritage">Di Sản</a>
-                <a href="map.html"    id="nav-map">Bản Đồ</a>
-                <a href="explore.html"id="nav-explore">Khám Phá</a>
-                <a href="ai.html"     id="nav-ai">AI Guide</a>
-            </nav>
+                <!-- Primary links -->
+                <nav class="nav-links" aria-label="Điều hướng trang">
+                    <a href="index.html" id="nav-home">Trang Chủ</a>
+                    <a href="di-san.html" id="nav-heritage">Di Sản</a>
+                    <a href="map.html" id="nav-map">Bản Đồ</a>
+                    <a href="explore.html" id="nav-explore">Khám Phá</a>
+                    <a href="ai.html" id="nav-ai">AI Guide</a>
+                </nav>
 
-            <!-- Back / CTA -->
-            <a href="index.html" class="nav-cta" id="nav-back-btn">
-                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-                Quay về
-            </a>
+                <!-- Back / CTA -->
+                <a href="index.html" class="nav-cta" id="nav-back-btn">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                    Quay về
+                </a>
 
-        </div>
-    </nav>
-</header>
+            </div>
+        </nav>
+    </header>
 
 
-<!-- ════════════════════════════════════════════════════════════════════
+    <!-- ════════════════════════════════════════════════════════════════════
      HERO SECTION
      ──────────────────────────────────────────────────────────────────
      BEM Block: .hero
@@ -191,21 +198,17 @@
        .hero__actions      → CTA button row
        .hero__stats        → horizontal stat items
      ══════════════════════════════════════════════════════════════════ -->
-<section
-    class="hero"
-    id="hero"
-    aria-labelledby="hero-title"
-    aria-describedby="hero-subtitle">
+    <section class="hero" id="hero" aria-labelledby="hero-title" aria-describedby="hero-subtitle">
 
-    <!-- ── Background Layer ───────────────────────────────────────── -->
-    <div class="hero__bg" aria-hidden="true">
+        <!-- ── Background Layer ───────────────────────────────────────── -->
+        <div class="hero__bg" aria-hidden="true">
 
-        <!--
+            <!--
           OPTION A: Static image background (most common)
           Swap `src` for the heritage site's hero image.
           Use <video> with the same class for autoplay video.
         -->
-        <!--
+            <!--
           TEMPLATE SLOT — Hero background image
           ────────────────────────────────────────────────────────────────
           Replace {{ page-image }} with the site-specific slug, e.g.:
@@ -222,110 +225,95 @@
               the visible <h1> already describes the content.
             • width/height prevent layout shift (CLS).
         -->
-        <picture>
-            <!-- WebP — primary format (Chrome, Firefox, Safari 14+, Edge) -->
-            <source
-                type="image/webp"
-                srcset="uploads/ex/{{ page-image }}.webp"
-                media="(min-width: 1px)"
-            >
-            <!-- JPEG — universal fallback -->
-            <img
-                class="hero__bg-img"
-                src="uploads/ex/{{ page-image }}.jpg"
-                alt=""
-                width="1920"
-                height="1080"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-            >
-        </picture>
+            <picture>
+                <!-- WebP — primary format (Chrome, Firefox, Safari 14+, Edge) -->
+                <source type="image/webp" srcset="uploads/ex/{{ page-image }}.webp" media="(min-width: 1px)">
+                <!-- JPEG — universal fallback -->
+                <img class="hero__bg-img" src="uploads/ex/{{ page-image }}.jpg" alt="" width="1920" height="1080"
+                    loading="eager" fetchpriority="high" decoding="async">
+            </picture>
 
-        <!--
+            <!--
           OPTION B: Three.js canvas (remove `hidden` and add initThreeJS())
           The canvas renders inside this container; add z-index:1 via style.
         -->
-        <div id="three-container" class="hero__bg-canvas" hidden aria-hidden="true"></div>
+            <div id="three-container" class="hero__bg-canvas" hidden aria-hidden="true"></div>
 
-        <!-- Animated grid — cosmetic detail, hides under bg image when present -->
-        <div class="hero__bg-grid" aria-hidden="true"></div>
+            <!-- Animated grid — cosmetic detail, hides under bg image when present -->
+            <div class="hero__bg-grid" aria-hidden="true"></div>
 
-        <!-- Dark overlay scrim (always present for text legibility) -->
-        <div class="hero__bg-overlay" aria-hidden="true"></div>
-    </div>
-    <!-- /hero__bg -->
-
-
-    <!-- ── Content Layer ──────────────────────────────────────────── -->
-    <div class="hero__content container">
-
-        <!-- Eyebrow: small tag / category above the title -->
-        <div class="hero-tag" role="text">
-            <!-- e.g.: Di Sản UNESCO · Văn Hóa -->
-            {{ Eyebrow Label }}
+            <!-- Dark overlay scrim (always present for text legibility) -->
+            <div class="hero__bg-overlay" aria-hidden="true"></div>
         </div>
+        <!-- /hero__bg -->
 
-        <!-- Main title: the only <h1> on the page -->
-        <h1 class="hero__title" id="hero-title">
-            <!-- Use <span> lines to apply gradient individually if desired -->
-            <span class="hero__title-line1">{{ Primary Title Line }}</span>
-            <span class="hero__title-line2">{{ Secondary Title Line }}</span>
-        </h1>
 
-        <!-- Subtitle / lead paragraph -->
-        <p class="hero__subtitle" id="hero-subtitle">
-            {{ A 1–2 sentence description of the heritage site, written in Vietnamese. }}
-        </p>
+        <!-- ── Content Layer ──────────────────────────────────────────── -->
+        <div class="hero__content container">
 
-        <!-- CTA row -->
-        <div class="hero__actions" role="group" aria-label="Hành động">
-            <a href="#main-content" class="btn btn-primary" id="hero-cta-primary">
-                <i class="fa-solid fa-compass" aria-hidden="true"></i>
-                Khám phá
-            </a>
+            <!-- Eyebrow: small tag / category above the title -->
+            <div class="hero-tag" role="text">
+                <!-- e.g.: Di Sản UNESCO · Văn Hóa -->
+                {{ Eyebrow Label }}
+            </div>
+
+            <!-- Main title: the only <h1> on the page -->
+            <h1 class="hero__title" id="hero-title">
+                <!-- Use <span> lines to apply gradient individually if desired -->
+                <span class="hero__title-line1">{{ Primary Title Line }}</span>
+                <span class="hero__title-line2">{{ Secondary Title Line }}</span>
+            </h1>
+
+            <!-- Subtitle / lead paragraph -->
+            <p class="hero__subtitle" id="hero-subtitle">
+                {{ A 1–2 sentence description of the heritage site, written in Vietnamese. }}
+            </p>
+
+            <!-- CTA row -->
+            <div class="hero__actions" role="group" aria-label="Hành động">
+                <a href="#main-content" class="btn btn-primary" id="hero-cta-primary">
+                    <i class="fa-solid fa-compass" aria-hidden="true"></i>
+                    Khám phá
+                </a>
+
+            </div>
+
+            <!-- Stats bar -->
+            <div class="hero__stats" role="list" aria-label="Thông tin nổi bật">
+                <div class="hero__stat-item" role="listitem">
+                    <span class="hero__stat-num">{{ Year }}</span>
+                    <span class="hero__stat-lbl">Công nhận UNESCO</span>
+                </div>
+                <div class="hero__stat-separator" aria-hidden="true"></div>
+                <div class="hero__stat-item" role="listitem">
+                    <span class="hero__stat-num">{{ Area }}</span>
+                    <span class="hero__stat-lbl">{{ Unit, e.g. km² }}</span>
+                </div>
+                <div class="hero__stat-separator" aria-hidden="true"></div>
+                <div class="hero__stat-item" role="listitem">
+                    <span class="hero__stat-num">{{ Number }}</span>
+                    <span class="hero__stat-lbl">{{ Label, e.g. Công trình }}</span>
+                </div>
+            </div>
 
         </div>
+        <!-- /hero__content -->
 
-        <!-- Stats bar -->
-        <div class="hero__stats" role="list" aria-label="Thông tin nổi bật">
-            <div class="hero__stat-item" role="listitem">
-                <span class="hero__stat-num">{{ Year }}</span>
-                <span class="hero__stat-lbl">Công nhận UNESCO</span>
-            </div>
-            <div class="hero__stat-separator" aria-hidden="true"></div>
-            <div class="hero__stat-item" role="listitem">
-                <span class="hero__stat-num">{{ Area }}</span>
-                <span class="hero__stat-lbl">{{ Unit, e.g. km² }}</span>
-            </div>
-            <div class="hero__stat-separator" aria-hidden="true"></div>
-            <div class="hero__stat-item" role="listitem">
-                <span class="hero__stat-num">{{ Number }}</span>
-                <span class="hero__stat-lbl">{{ Label, e.g. Công trình }}</span>
-            </div>
-        </div>
+        <!-- Scroll cue -->
+        <a href="#main-content" class="hero__scroll-cue" aria-label="Cuộn xuống để xem nội dung" tabindex="0">
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </a>
 
-    </div>
-    <!-- /hero__content -->
-
-    <!-- Scroll cue -->
-    <a href="#main-content"
-       class="hero__scroll-cue"
-       aria-label="Cuộn xuống để xem nội dung"
-       tabindex="0">
-        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-    </a>
-
-</section>
-<!-- /hero -->
+    </section>
+    <!-- /hero -->
 
 
-<!-- ════════════════════════════════════════════════════════════════════
+    <!-- ════════════════════════════════════════════════════════════════════
      MAIN CONTENT
      The hero scrolls into this section.
      ══════════════════════════════════════════════════════════════════ -->
-<main id="main-content">
-    <!--
+    <main id="main-content">
+        <!--
       Insert page-specific section components here.
       Each should be a <section> with aria-labelledby pointing to an
       in-section heading.
@@ -338,122 +326,122 @@
           </div>
       </section>
     -->
-</main>
+    </main>
 
 
-<!-- ════════════════════════════════════════════════════════════════════
+    <!-- ════════════════════════════════════════════════════════════════════
      FOOTER
      ══════════════════════════════════════════════════════════════════ -->
-<footer class="site-footer" role="contentinfo">
-    <div class="site-footer__inner container">
-        <p class="site-footer__brand">LUNAR HERITAGE</p>
-        <p class="site-footer__copy">
-            Di sản văn hóa Việt Nam · Bảo tồn qua công nghệ số
-        </p>
-        <p class="site-footer__legal">
-            © 2026 VKU · BWD 2026
-        </p>
-    </div>
-</footer>
+    <footer class="site-footer" role="contentinfo">
+        <div class="site-footer__inner container">
+            <p class="site-footer__brand">LUNAR HERITAGE</p>
+            <p class="site-footer__copy">
+                Di sản văn hóa Việt Nam · Bảo tồn qua công nghệ số
+            </p>
+            <p class="site-footer__legal">
+                © 2026 VKU · BWD 2026
+            </p>
+        </div>
+    </footer>
 
 
-<!-- ════════════════════════════════════════════════════════════════════
+    <!-- ════════════════════════════════════════════════════════════════════
      SCRIPTS
      ══════════════════════════════════════════════════════════════════ -->
 
-<!-- API / Auth — site-wide, always last before page scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="api.js"></script>
+    <!-- API / Auth — site-wide, always last before page scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="api.js"></script>
 
-<!-- Nav scroll effect -->
-<script>
-(function () {
-    'use strict';
-    const nav = document.getElementById('site-nav');
-    if (!nav) return;
+    <!-- Nav scroll effect -->
+    <script>
+        (function () {
+            'use strict';
+            const nav = document.getElementById('site-nav');
+            if (!nav) return;
 
-    const onScroll = () => {
-        nav.classList.toggle('scrolled', window.scrollY > 60);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // run once on load
-}());
-</script>
+            const onScroll = () => {
+                nav.classList.toggle('scrolled', window.scrollY > 60);
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll(); // run once on load
+        }());
+    </script>
 
 
-<script>
-(function () {
-    'use strict';
-    
-    if (!cur || window.matchMedia('(pointer: coarse)').matches) {
-        if (cur) cur.remove();
-        return;
-    }
-    document.addEventListener('mousemove', (e) => {
-        cur.style.left = e.clientX + 'px';
-        cur.style.top  = e.clientY + 'px';
-    }, { passive: true });
+    <script>
+        (function () {
+            'use strict';
 
-    document.querySelectorAll('a, button, [role="button"]').forEach((el) => {
-        el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-        el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
-    });
-}());
-</script>
-
-<!-- Scroll-reveal observer -->
-<script>
-(function () {
-    'use strict';
-    if (!('IntersectionObserver' in window)) return;
-
-    const items = document.querySelectorAll('.reveal');
-    if (!items.length) return;
-
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const delay = entry.target.dataset.delay || 0;
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, parseInt(delay, 10));
-                io.unobserve(entry.target);
+            if (!cur || window.matchMedia('(pointer: coarse)').matches) {
+                if (cur) cur.remove();
+                return;
             }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
+            document.addEventListener('mousemove', (e) => {
+                cur.style.left = e.clientX + 'px';
+                cur.style.top = e.clientY + 'px';
+            }, { passive: true });
 
-    items.forEach((el) => io.observe(el));
-}());
-</script>
+            document.querySelectorAll('a, button, [role="button"]').forEach((el) => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+            });
+        }());
+    </script>
 
-<!-- Toast helper (global, replaces duplicated inline versions) -->
-<script>
-window.showToast = function (msg, type = 'success', duration = 3500) {
-    'use strict';
-    let container = document.getElementById('toastContainer');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'toastContainer';
-        container.className = 'toast-container';
-        document.body.appendChild(container);
-    }
-    const t = document.createElement('div');
-    t.className = 'toast ' + type;
-    t.setAttribute('role', 'status');
-    t.setAttribute('aria-live', 'polite');
-    t.textContent = msg;
-    container.appendChild(t);
-    setTimeout(() => {
-        t.style.opacity = '0';
-        t.style.transform = 'translateX(24px)';
-        t.style.transition = 'all 0.35s ease';
-        setTimeout(() => t.remove(), 380);
-    }, duration);
-};
-</script>
+    <!-- Scroll-reveal observer -->
+    <script>
+        (function () {
+            'use strict';
+            if (!('IntersectionObserver' in window)) return;
 
-<!--
+            const items = document.querySelectorAll('.reveal');
+            if (!items.length) return;
+
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.dataset.delay || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, parseInt(delay, 10));
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
+
+            items.forEach((el) => io.observe(el));
+        }());
+    </script>
+
+    <!-- Toast helper (global, replaces duplicated inline versions) -->
+    <script>
+        window.showToast = function (msg, type = 'success', duration = 3500) {
+            'use strict';
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.setAttribute('role', 'status');
+            t.setAttribute('aria-live', 'polite');
+            t.textContent = msg;
+            container.appendChild(t);
+            setTimeout(() => {
+                t.style.opacity = '0';
+                t.style.transform = 'translateX(24px)';
+                t.style.transition = 'all 0.35s ease';
+                setTimeout(() => t.remove(), 380);
+            }, duration);
+        };
+    </script>
+
+    <!--
   THREE.JS (uncomment only on pages that use the 3D canvas)
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -472,10 +460,9 @@ window.showToast = function (msg, type = 'success', duration = 3500) {
   </script>
 -->
 
-<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-  <script src="cursor.js"></script>
+    <script src="cursor.js"></script>
 </body>
+
 </html>
-
-

@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bảng Xếp Hạng — LUNAR HERITAGE</title>
-  <meta name="description" content="Bảng xếp hạng khám phá di sản Việt Nam. Tích lũy điểm, nhận huy hiệu và cạnh tranh cùng cộng đồng.">
+  <meta name="description"
+    content="Bảng xếp hạng khám phá di sản Việt Nam. Tích lũy điểm, nhận huy hiệu và cạnh tranh cùng cộng đồng.">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="leaderboard.css">
 </head>
+
 <body>
 
   <!-- Noise overlay -->
@@ -19,14 +24,15 @@
   <!-- Animated particles -->
   <canvas id="particles-canvas" aria-hidden="true"></canvas>
 
-  
+
   <div id="cur" aria-hidden="true"></div>
 
   <!-- ── NAVIGATION ── -->
   <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
       <a class="nav-logo" href="index.html" aria-label="LUNAR HERITAGE - Trang chủ">
-        <div class="nav-logo__icon" aria-hidden="true">🌕</div>
+        <img src="https://res.cloudinary.com/dwbdopxe1/image/upload/v1780974911/logo..._rkozcq.png" alt="Logo"
+          style="height: 40px; width: 40px; object-fit: cover; border-radius: 12px;">
         <span class="nav-logo__wordmark">LUNAR HERITAGE</span>
       </a>
       <div class="nav-links" role="list">
@@ -39,11 +45,12 @@
       <div class="nav-actions">
         <div id="google_translate_element" style="margin-right: 10px;"></div>
         <script type="text/javascript">
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement({pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-            }
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+          }
         </script>
-        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <script type="text/javascript"
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <a href="dashboard.html" class="nav-cta">
           <i class="fa-solid fa-user" aria-hidden="true"></i>
           <span>Hồ sơ</span>
@@ -74,16 +81,16 @@
 
       <!-- Period tabs -->
       <div class="period-tabs" role="tablist" aria-label="Chu kỳ xếp hạng">
-        <button class="period-tab active" id="tab-alltime" data-period="alltime"
-                role="tab" aria-selected="true" aria-controls="leaderboard-panel">
+        <button class="period-tab active" id="tab-alltime" data-period="alltime" role="tab" aria-selected="true"
+          aria-controls="leaderboard-panel">
           <i class="fa-solid fa-infinity" aria-hidden="true"></i> Tổng
         </button>
-        <button class="period-tab" id="tab-weekly" data-period="weekly"
-                role="tab" aria-selected="false" aria-controls="leaderboard-panel">
+        <button class="period-tab" id="tab-weekly" data-period="weekly" role="tab" aria-selected="false"
+          aria-controls="leaderboard-panel">
           <i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Tuần này
         </button>
-        <button class="period-tab" id="tab-monthly" data-period="monthly"
-                role="tab" aria-selected="false" aria-controls="leaderboard-panel">
+        <button class="period-tab" id="tab-monthly" data-period="monthly" role="tab" aria-selected="false"
+          aria-controls="leaderboard-panel">
           <i class="fa-solid fa-calendar" aria-hidden="true"></i> Tháng này
         </button>
       </div>
@@ -288,200 +295,395 @@
   <!-- Socket.io + App Script -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
-  (() => {
-    'use strict';
+    (() => {
+      'use strict';
 
-    /* ── Config ── */
-    const API = '';
-    const PAGE_LIMIT = 20;
-    let currentPage = 1;
-    let currentPeriod = 'alltime';
-    let currentUser = null;
-    let socket = null;
+      /* ── Config ── */
+      const API = '';
+      const PAGE_LIMIT = 20;
+      let currentPage = 1;
+      let currentPeriod = 'alltime';
+      let currentUser = null;
+      let socket = null;
 
-    /* ── DOM refs ── */
-    const leaderboardBody = document.getElementById('leaderboard-body');
-    const podiumEl        = document.getElementById('podium');
-    const badgesGrid      = document.getElementById('badges-grid');
-    const myBanner        = document.getElementById('my-rank-banner');
-    const prevBtn         = document.getElementById('prev-page');
-    const nextBtn         = document.getElementById('next-page');
-    const pageInfo        = document.getElementById('page-info');
-    const refreshBtn      = document.getElementById('refresh-btn');
-    const lastUpdate      = document.getElementById('last-update');
-    const langToggle      = document.getElementById('lang-toggle');
-    const langLabel       = document.getElementById('lang-label');
-    const pointsToast     = document.getElementById('points-toast');
-    const toastTitle      = document.getElementById('toast-title');
-    const toastSub        = document.getElementById('toast-sub');
+      /* ── DOM refs ── */
+      const leaderboardBody = document.getElementById('leaderboard-body');
+      const podiumEl = document.getElementById('podium');
+      const badgesGrid = document.getElementById('badges-grid');
+      const myBanner = document.getElementById('my-rank-banner');
+      const prevBtn = document.getElementById('prev-page');
+      const nextBtn = document.getElementById('next-page');
+      const pageInfo = document.getElementById('page-info');
+      const refreshBtn = document.getElementById('refresh-btn');
+      const lastUpdate = document.getElementById('last-update');
+      const langToggle = document.getElementById('lang-toggle');
+      const langLabel = document.getElementById('lang-label');
+      const pointsToast = document.getElementById('points-toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastSub = document.getElementById('toast-sub');
 
-    /* ── Locale (simple inline) ── */
-    let lang = localStorage.getItem('lang') || 'vi';
-    const T = {
-      vi: {
-        rank:'Hạng', pts:'điểm', you:'Bạn', loading:'Đang tải...',
-        noBadges:'Chưa có huy hiệu nào', streak:'ngày', sites:'di sản',
-        rarity:{ common:'Phổ biến', rare:'Hiếm', epic:'Sử thi', legendary:'Huyền thoại' }
-      },
-      en: {
-        rank:'Rank', pts:'pts', you:'You', loading:'Loading...',
-        noBadges:'No badges yet', streak:'days', sites:'sites',
-        rarity:{ common:'Common', rare:'Rare', epic:'Epic', legendary:'Legendary' }
+      /* ── Locale (simple inline) ── */
+      let lang = localStorage.getItem('lang') || 'vi';
+      const T = {
+        vi: {
+          rank: 'Hạng', pts: 'điểm', you: 'Bạn', loading: 'Đang tải...',
+          noBadges: 'Chưa có huy hiệu nào', streak: 'ngày', sites: 'di sản',
+          rarity: { common: 'Phổ biến', rare: 'Hiếm', epic: 'Sử thi', legendary: 'Huyền thoại' }
+        },
+        en: {
+          rank: 'Rank', pts: 'pts', you: 'You', loading: 'Loading...',
+          noBadges: 'No badges yet', streak: 'days', sites: 'sites',
+          rarity: { common: 'Common', rare: 'Rare', epic: 'Epic', legendary: 'Legendary' }
+        }
+      };
+      const t = () => T[lang] || T.vi;
+
+      /* ── Custom cursor ── */
+
+      if (cur) {
+        let tx = 0, ty = 0, cx = 0, cy = 0;
+        document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+
       }
-    };
-    const t = () => T[lang] || T.vi;
 
-    /* ── Custom cursor ── */
-    
-    if (cur) {
-      let tx=0,ty=0,cx=0,cy=0;
-      document.addEventListener('mousemove', e => { tx=e.clientX; ty=e.clientY; });
-      
-    }
-
-    /* ── Particle canvas ── */
-    (function initParticles(){
-      const canvas = document.getElementById('particles-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let W, H, particles = [];
-      function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      resize();
-      window.addEventListener('resize', resize);
-      for(let i=0;i<60;i++) particles.push({
-        x:Math.random()*W, y:Math.random()*H,
-        vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
-        r:Math.random()*1.5+.5, a:Math.random()
-      });
-      function draw(){
-        ctx.clearRect(0,0,W,H);
-        particles.forEach(p=>{
-          p.x+=p.vx; p.y+=p.vy; p.a+=.005;
-          if(p.x<0)p.x=W; if(p.x>W)p.x=0;
-          if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-          ctx.beginPath();
-          ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle=`rgba(212,175,55,${.15+.15*Math.sin(p.a)})`;
-          ctx.fill();
+      /* ── Particle canvas ── */
+      (function initParticles() {
+        const canvas = document.getElementById('particles-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+        for (let i = 0; i < 60; i++) particles.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3,
+          r: Math.random() * 1.5 + .5, a: Math.random()
         });
-        requestAnimationFrame(draw);
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          particles.forEach(p => {
+            p.x += p.vx; p.y += p.vy; p.a += .005;
+            if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+            if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(212,175,55,${.15 + .15 * Math.sin(p.a)})`;
+            ctx.fill();
+          });
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      /* ── Scrolled nav ── */
+      window.addEventListener('scroll', () => {
+        document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 60);
+      }, { passive: true });
+
+      /* ── Auth check ── */
+      async function checkAuth() {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) return;
+          const res = await fetch(`${API}/api/users/me`, { headers: { Authorization: `Bearer ${token}` } });
+          if (!res.ok) return;
+          currentUser = await res.json();
+          loadMyRank();
+        } catch { }
       }
-      draw();
-    })();
 
-    /* ── Scrolled nav ── */
-    window.addEventListener('scroll', () => {
-      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive:true });
+      /* ── Load my rank ── */
+      async function loadMyRank() {
+        if (!currentUser) return;
+        try {
+          const token = localStorage.getItem('token');
+          const res = await fetch(`${API}/api/gamification/profile`, { headers: { Authorization: `Bearer ${token}` } });
+          if (!res.ok) return;
+          const data = await res.json();
+          const banner = myBanner;
 
-    /* ── Auth check ── */
-    async function checkAuth(){
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
-        const res = await fetch(`${API}/api/users/me`, { headers:{ Authorization:`Bearer ${token}` } });
-        if (!res.ok) return;
-        currentUser = await res.json();
-        loadMyRank();
-      } catch {}
-    }
+          const avatar = document.getElementById('my-avatar');
+          avatar.src = currentUser.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName || 'U')}&background=d4af37&color=0a0a0b`;
+          avatar.alt = `Avatar của ${currentUser.displayName}`;
 
-    /* ── Load my rank ── */
-    async function loadMyRank(){
-      if (!currentUser) return;
-      try {
-        const token = localStorage.getItem('token');
-        const res = await fetch(`${API}/api/gamification/profile`, { headers:{ Authorization:`Bearer ${token}` } });
-        if (!res.ok) return;
-        const data = await res.json();
-        const banner = myBanner;
+          document.getElementById('my-display-name').textContent = currentUser.displayName || t().you;
+          document.getElementById('my-rank-num').textContent = data.rank ?? '—';
+          document.getElementById('my-points').textContent = (data.totalPoints || 0).toLocaleString('vi-VN');
+          document.getElementById('my-streak').textContent = data.streakDays || 0;
 
-        const avatar = document.getElementById('my-avatar');
-        avatar.src = currentUser.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName||'U')}&background=d4af37&color=0a0a0b`;
-        avatar.alt = `Avatar của ${currentUser.displayName}`;
+          /* Crown for top 3 */
+          const crown = document.getElementById('my-crown');
+          if (data.rank === 1) { crown.textContent = '👑'; crown.hidden = false; }
+          else if (data.rank === 2) { crown.textContent = '🥈'; crown.hidden = false; }
+          else if (data.rank === 3) { crown.textContent = '🥉'; crown.hidden = false; }
 
-        document.getElementById('my-display-name').textContent = currentUser.displayName || t().you;
-        document.getElementById('my-rank-num').textContent = data.rank ?? '—';
-        document.getElementById('my-points').textContent = (data.totalPoints||0).toLocaleString('vi-VN');
-        document.getElementById('my-streak').textContent = data.streakDays || 0;
+          /* Badges strip */
+          const badgesEl = document.getElementById('my-badges');
+          if (data.badges && data.badges.length) {
+            badgesEl.innerHTML = data.badges.slice(0, 5).map(b =>
+              `<span class="mini-badge" title="${b.badgeId?.name?.vi || ''}">${b.badgeId?.iconUrl || '🏅'}</span>`
+            ).join('');
+          }
 
-        /* Crown for top 3 */
-        const crown = document.getElementById('my-crown');
-        if (data.rank === 1) { crown.textContent='👑'; crown.hidden=false; }
-        else if (data.rank === 2) { crown.textContent='🥈'; crown.hidden=false; }
-        else if (data.rank === 3) { crown.textContent='🥉'; crown.hidden=false; }
+          banner.hidden = false;
+          banner.classList.add('visible');
 
-        /* Badges strip */
-        const badgesEl = document.getElementById('my-badges');
-        if (data.badges && data.badges.length) {
-          badgesEl.innerHTML = data.badges.slice(0,5).map(b =>
-            `<span class="mini-badge" title="${b.badgeId?.name?.vi||''}">${b.badgeId?.iconUrl||'🏅'}</span>`
+          /* WebSocket — join personal room */
+          if (socket && currentUser._id) {
+            socket.emit('join', `user:${currentUser._id}`);
+          }
+        } catch { }
+      }
+
+      /* ── Load leaderboard ── */
+      async function loadLeaderboard(page = 1) {
+        currentPage = page;
+        try {
+          const skip = (page - 1) * PAGE_LIMIT;
+          const res = await fetch(`${API}/api/gamification/leaderboard?limit=${PAGE_LIMIT}&page=${page}`);
+          if (!res.ok) throw new Error('API error');
+          const { data, total } = await res.json();
+
+          renderPodium(data.slice(0, 3));
+          renderRows(data, skip);
+          renderPagination(total, page);
+
+          const now = new Date();
+          lastUpdate.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+          lastUpdate.dateTime = now.toISOString();
+        } catch (err) {
+          leaderboardBody.innerHTML = `<div class="lb-error" role="alert">
+          <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+          Không thể tải bảng xếp hạng. <button class="btn-retry" onclick="loadLeaderboard()">Thử lại</button>
+        </div>`;
+        }
+      }
+
+      /* ── Render podium (top 3) ── */
+      function renderPodium(top3) {
+        if (!top3 || !top3.length) {
+          podiumEl.innerHTML = '<p class="lb-empty">Chưa có dữ liệu</p>';
+          return;
+        }
+        // Re-order: 2nd, 1st, 3rd for visual podium effect
+        const order = [top3[1], top3[0], top3[2]].filter(Boolean);
+        const heights = ['70%', '100%', '55%'];
+        const medals = ['🥈', '👑', '🥉'];
+        const classes = ['podium__place--2nd', 'podium__place--1st', 'podium__place--3rd'];
+
+        podiumEl.innerHTML = order.map((u, i) => {
+          if (!u) return '';
+          const isFirst = (i === 1);
+          return `
+        <div class="podium__place ${classes[i]}" role="listitem" aria-label="Hạng ${u.rank}: ${u.displayName || 'Ẩn danh'}">
+          <div class="podium__medal" aria-hidden="true">${medals[i]}</div>
+          <div class="podium__avatar-wrap">
+            <img class="podium__avatar" 
+                 src="${u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName || 'U')}&background=d4af37&color=0a0a0b&size=80`}"
+                 alt="Avatar của ${u.displayName || 'Ẩn danh'}"
+                 width="${isFirst ? 80 : 64}" height="${isFirst ? 80 : 64}">
+            ${isFirst ? '<div class="podium__crown-ring" aria-hidden="true"></div>' : ''}
+          </div>
+          <div class="podium__name">${u.displayName || 'Ẩn danh'}</div>
+          <div class="podium__score" aria-label="${(u.totalPoints || 0).toLocaleString('vi-VN')} điểm">
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            ${(u.totalPoints || 0).toLocaleString('vi-VN')}
+          </div>
+          <div class="podium__bar" style="--bar-height:${heights[i]}" aria-hidden="true">
+            <span class="podium__rank">#${u.rank}</span>
+          </div>
+        </div>`;
+        }).join('');
+      }
+
+      /* ── Render table rows ── */
+      function renderRows(entries, offset) {
+        if (!entries || !entries.length) {
+          leaderboardBody.innerHTML = '<div class="lb-empty" role="status">Chưa có dữ liệu xếp hạng.</div>';
+          return;
+        }
+        leaderboardBody.innerHTML = entries.map((u, i) => {
+          const isMe = currentUser && (u.userId === currentUser._id || u._id === currentUser._id);
+          const rank = (offset + i + 1);
+          const rankDisplay = rank <= 3
+            ? ['🥇', '🥈', '🥉'][rank - 1]
+            : `#${rank}`;
+
+          const badgeHtml = (u.badges || []).slice(0, 3).map(b =>
+            `<span class="row-badge" title="${b.badgeId?.name?.vi || b.slug || 'Huy hiệu'}" aria-label="${b.badgeId?.name?.vi || 'Huy hiệu'}">${b.badgeId?.iconUrl || '🏅'}</span>`
           ).join('');
-        }
 
-        banner.hidden = false;
-        banner.classList.add('visible');
+          return `
+        <div class="lb-row ${isMe ? 'lb-row--me' : ''} ${rank <= 3 ? 'lb-row--top' : ''}"
+             role="row" tabindex="0"
+             aria-label="Hạng ${rank}: ${u.displayName || 'Ẩn danh'}, ${(u.totalPoints || 0).toLocaleString('vi-VN')} điểm"
+             style="--row-delay:${i * 0.04}s">
+          <div class="col-rank" role="cell">
+            <span class="rank-badge rank-badge--${rank <= 3 ? 'top' : 'normal'}" aria-hidden="true">${rankDisplay}</span>
+          </div>
+          <div class="col-user" role="cell">
+            <img class="row-avatar" 
+                 src="${u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName || 'U')}&background=1c2233&color=d4af37&size=40`}"
+                 alt="" aria-hidden="true"
+                 width="40" height="40" loading="lazy">
+            <div class="row-user-info">
+              <span class="row-name">${u.displayName || 'Ẩn danh'}${isMe ? ' <span class="you-tag">(Bạn)</span>' : ''}</span>
+              ${u.visitedSites?.length ? `<span class="row-sub">${u.visitedSites.length} ${t().sites} đã thăm</span>` : ''}
+            </div>
+          </div>
+          <div class="col-badges" role="cell">${badgeHtml || '<span class="text-muted-xs">—</span>'}</div>
+          <div class="col-sites" role="cell">
+            <span class="sites-count">${u.visitedSites?.length || 0}</span>
+          </div>
+          <div class="col-streak" role="cell">
+            ${u.streakDays > 0 ? `<span class="streak-chip" aria-label="${u.streakDays} ngày"><i class="fa-solid fa-fire" aria-hidden="true"></i> ${u.streakDays}</span>` : '<span class="text-muted-xs">—</span>'}
+          </div>
+          <div class="col-points" role="cell">
+            <span class="points-value" aria-label="${(u.totalPoints || 0).toLocaleString('vi-VN')} điểm">
+              ${(u.totalPoints || 0).toLocaleString('vi-VN')}
+            </span>
+          </div>
+        </div>`;
+        }).join('');
 
-        /* WebSocket — join personal room */
-        if (socket && currentUser._id) {
-          socket.emit('join', `user:${currentUser._id}`);
-        }
-      } catch {}
-    }
+        /* Animate rows in */
+        requestAnimationFrame(() => {
+          document.querySelectorAll('.lb-row').forEach((row, i) => {
+            setTimeout(() => row.classList.add('visible'), i * 40);
+          });
+        });
+      }
 
-    /* ── Load leaderboard ── */
-    async function loadLeaderboard(page = 1){
-      currentPage = page;
-      try {
-        const skip = (page-1)*PAGE_LIMIT;
-        const res  = await fetch(`${API}/api/gamification/leaderboard?limit=${PAGE_LIMIT}&page=${page}`);
-        if (!res.ok) throw new Error('API error');
-        const { data, total } = await res.json();
+      /* ── Render pagination ── */
+      function renderPagination(total, page) {
+        const totalPages = Math.ceil(total / PAGE_LIMIT);
+        pageInfo.textContent = `Trang ${page} / ${totalPages}`;
+        pageInfo.setAttribute('aria-label', `Trang ${page} trên ${totalPages}`);
+        prevBtn.disabled = page <= 1;
+        nextBtn.disabled = page >= totalPages;
+      }
 
-        renderPodium(data.slice(0,3));
-        renderRows(data, skip);
-        renderPagination(total, page);
+      /* ── Load badges ── */
+      async function loadBadges() {
+        try {
+          const res = await fetch(`${API}/api/gamification/badges`);
+          if (!res.ok) return;
+          const { data } = await res.json();
+          if (!data || !data.length) {
+            badgesGrid.innerHTML = `<p class="lb-empty" role="status">${t().noBadges}</p>`;
+            return;
+          }
+          const rarityOrder = { legendary: 0, epic: 1, rare: 2, common: 3 };
+          const sorted = [...data].sort((a, b) => (rarityOrder[a.rarity] || 3) - (rarityOrder[b.rarity] || 3));
+          badgesGrid.innerHTML = sorted.map(badge => {
+            const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || badge.slug;
+            const desc = (typeof badge.description === 'object' ? badge.description[lang] : badge.description) || '';
+            return `
+          <div class="badge-card badge-card--${badge.rarity || 'common'}" role="listitem" tabindex="0"
+               aria-label="${name}: ${desc}">
+            <div class="badge-card__icon" aria-hidden="true">${badge.iconUrl || '🏅'}</div>
+            <div class="badge-card__rarity badge-card__rarity--${badge.rarity || 'common'}" aria-label="Độ hiếm: ${t().rarity[badge.rarity || 'common']}">
+              ${t().rarity[badge.rarity || 'common'] || ''}
+            </div>
+            <div class="badge-card__name">${name}</div>
+            <div class="badge-card__desc">${desc}</div>
+          </div>`;
+          }).join('');
+        } catch { }
+      }
 
-        const now = new Date();
-        lastUpdate.textContent = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-        lastUpdate.dateTime = now.toISOString();
-      } catch(err) {
-        leaderboardBody.innerHTML = `<div class="lb-error" role="alert">
+      /* ── Socket.io real-time ── */
+      function initSocket() {
+        try {
+          socket = io({ transports: ['websocket', 'polling'] });
+          socket.on('connect', () => {
+            if (currentUser?._id) socket.emit('join', `user:${currentUser._id}`);
+          });
+          socket.on('points_update', ({ totalPoints, pointsGained, action }) => {
+            showPointsToast(pointsGained, action);
+            /* Refresh leaderboard after short delay */
+            setTimeout(() => loadLeaderboard(currentPage), 2000);
+          });
+          socket.on('badge_earned', ({ badge }) => {
+            const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || 'Huy hiệu';
+            showPointsToast(null, null, `🏅 Huy hiệu mới: ${name}`);
+          });
+        } catch { }
+      }
+
+      /* ── Points toast ── */
+      let toastTimer = null;
+      function showPointsToast(pts, action, customMsg) {
+        const actionLabels = {
+          site_visit: 'Thăm di sản', comment: 'Bình luận', booking: 'Đặt tour',
+          daily_login: 'Đăng nhập', share: 'Chia sẻ', first_visit: 'Lần đầu thăm'
+        };
+        toastTitle.textContent = customMsg || (action ? actionLabels[action] || 'Điểm mới' : 'Điểm mới');
+        toastSub.textContent = pts !== null ? `+${pts} điểm` : '';
+        pointsToast.hidden = false;
+        pointsToast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          pointsToast.classList.remove('show');
+          setTimeout(() => { pointsToast.hidden = true; }, 400);
+        }, 3500);
+      }
+
+      /* ── Period tabs ── */
+      document.querySelectorAll('.period-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.period-tab').forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          currentPeriod = btn.dataset.period;
+          currentPage = 1;
+          loadLeaderboard(1);
+        });
+      });
+
+      /* ── Pagination ── */
+      prevBtn.addEventListener('click', () => { if (currentPage > 1) loadLeaderboard(currentPage - 1); });
+    } catch (err) {
+      leaderboardBody.innerHTML = `<div class="lb-error" role="alert">
           <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
           Không thể tải bảng xếp hạng. <button class="btn-retry" onclick="loadLeaderboard()">Thử lại</button>
         </div>`;
-      }
+    }
     }
 
     /* ── Render podium (top 3) ── */
-    function renderPodium(top3){
+    function renderPodium(top3) {
       if (!top3 || !top3.length) {
         podiumEl.innerHTML = '<p class="lb-empty">Chưa có dữ liệu</p>';
         return;
       }
       // Re-order: 2nd, 1st, 3rd for visual podium effect
       const order = [top3[1], top3[0], top3[2]].filter(Boolean);
-      const heights = ['70%','100%','55%'];
-      const medals = ['🥈','👑','🥉'];
-      const classes = ['podium__place--2nd','podium__place--1st','podium__place--3rd'];
+      const heights = ['70%', '100%', '55%'];
+      const medals = ['🥈', '👑', '🥉'];
+      const classes = ['podium__place--2nd', 'podium__place--1st', 'podium__place--3rd'];
 
-      podiumEl.innerHTML = order.map((u,i) => {
+      podiumEl.innerHTML = order.map((u, i) => {
         if (!u) return '';
-        const isFirst = (i===1);
+        const isFirst = (i === 1);
         return `
-        <div class="podium__place ${classes[i]}" role="listitem" aria-label="Hạng ${u.rank}: ${u.displayName||'Ẩn danh'}">
+        <div class="podium__place ${classes[i]}" role="listitem" aria-label="Hạng ${u.rank}: ${u.displayName || 'Ẩn danh'}">
           <div class="podium__medal" aria-hidden="true">${medals[i]}</div>
           <div class="podium__avatar-wrap">
             <img class="podium__avatar" 
-                 src="${u.avatar||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=d4af37&color=0a0a0b&size=80`}"
-                 alt="Avatar của ${u.displayName||'Ẩn danh'}"
-                 width="${isFirst?80:64}" height="${isFirst?80:64}">
+                 src="${u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName || 'U')}&background=d4af37&color=0a0a0b&size=80`}"
+                 alt="Avatar của ${u.displayName || 'Ẩn danh'}"
+                 width="${isFirst ? 80 : 64}" height="${isFirst ? 80 : 64}">
             ${isFirst ? '<div class="podium__crown-ring" aria-hidden="true"></div>' : ''}
           </div>
           <div class="podium__name">${u.displayName || 'Ẩn danh'}</div>
-          <div class="podium__score" aria-label="${(u.totalPoints||0).toLocaleString('vi-VN')} điểm">
+          <div class="podium__score" aria-label="${(u.totalPoints || 0).toLocaleString('vi-VN')} điểm">
             <i class="fa-solid fa-star" aria-hidden="true"></i>
-            ${(u.totalPoints||0).toLocaleString('vi-VN')}
+            ${(u.totalPoints || 0).toLocaleString('vi-VN')}
           </div>
           <div class="podium__bar" style="--bar-height:${heights[i]}" aria-hidden="true">
             <span class="podium__rank">#${u.rank}</span>
@@ -491,7 +693,7 @@
     }
 
     /* ── Render table rows ── */
-    function renderRows(entries, offset){
+    function renderRows(entries, offset) {
       if (!entries || !entries.length) {
         leaderboardBody.innerHTML = '<div class="lb-empty" role="status">Chưa có dữ liệu xếp hạng.</div>';
         return;
@@ -500,41 +702,41 @@
         const isMe = currentUser && (u.userId === currentUser._id || u._id === currentUser._id);
         const rank = (offset + i + 1);
         const rankDisplay = rank <= 3
-          ? ['🥇','🥈','🥉'][rank-1]
+          ? ['🥇', '🥈', '🥉'][rank - 1]
           : `#${rank}`;
 
-        const badgeHtml = (u.badges||[]).slice(0,3).map(b =>
-          `<span class="row-badge" title="${b.badgeId?.name?.vi||b.slug||'Huy hiệu'}" aria-label="${b.badgeId?.name?.vi||'Huy hiệu'}">${b.badgeId?.iconUrl||'🏅'}</span>`
+        const badgeHtml = (u.badges || []).slice(0, 3).map(b =>
+          `<span class="row-badge" title="${b.badgeId?.name?.vi || b.slug || 'Huy hiệu'}" aria-label="${b.badgeId?.name?.vi || 'Huy hiệu'}">${b.badgeId?.iconUrl || '🏅'}</span>`
         ).join('');
 
         return `
-        <div class="lb-row ${isMe?'lb-row--me':''} ${rank<=3?'lb-row--top':''}"
+        <div class="lb-row ${isMe ? 'lb-row--me' : ''} ${rank <= 3 ? 'lb-row--top' : ''}"
              role="row" tabindex="0"
-             aria-label="Hạng ${rank}: ${u.displayName||'Ẩn danh'}, ${(u.totalPoints||0).toLocaleString('vi-VN')} điểm"
-             style="--row-delay:${i*0.04}s">
+             aria-label="Hạng ${rank}: ${u.displayName || 'Ẩn danh'}, ${(u.totalPoints || 0).toLocaleString('vi-VN')} điểm"
+             style="--row-delay:${i * 0.04}s">
           <div class="col-rank" role="cell">
-            <span class="rank-badge rank-badge--${rank<=3?'top':'normal'}" aria-hidden="true">${rankDisplay}</span>
+            <span class="rank-badge rank-badge--${rank <= 3 ? 'top' : 'normal'}" aria-hidden="true">${rankDisplay}</span>
           </div>
           <div class="col-user" role="cell">
             <img class="row-avatar" 
-                 src="${u.avatar||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=1c2233&color=d4af37&size=40`}"
+                 src="${u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName || 'U')}&background=1c2233&color=d4af37&size=40`}"
                  alt="" aria-hidden="true"
                  width="40" height="40" loading="lazy">
             <div class="row-user-info">
-              <span class="row-name">${u.displayName||'Ẩn danh'}${isMe?' <span class="you-tag">(Bạn)</span>':''}</span>
+              <span class="row-name">${u.displayName || 'Ẩn danh'}${isMe ? ' <span class="you-tag">(Bạn)</span>' : ''}</span>
               ${u.visitedSites?.length ? `<span class="row-sub">${u.visitedSites.length} ${t().sites} đã thăm</span>` : ''}
             </div>
           </div>
           <div class="col-badges" role="cell">${badgeHtml || '<span class="text-muted-xs">—</span>'}</div>
           <div class="col-sites" role="cell">
-            <span class="sites-count">${u.visitedSites?.length||0}</span>
+            <span class="sites-count">${u.visitedSites?.length || 0}</span>
           </div>
           <div class="col-streak" role="cell">
-            ${u.streakDays>0 ? `<span class="streak-chip" aria-label="${u.streakDays} ngày"><i class="fa-solid fa-fire" aria-hidden="true"></i> ${u.streakDays}</span>` : '<span class="text-muted-xs">—</span>'}
+            ${u.streakDays > 0 ? `<span class="streak-chip" aria-label="${u.streakDays} ngày"><i class="fa-solid fa-fire" aria-hidden="true"></i> ${u.streakDays}</span>` : '<span class="text-muted-xs">—</span>'}
           </div>
           <div class="col-points" role="cell">
-            <span class="points-value" aria-label="${(u.totalPoints||0).toLocaleString('vi-VN')} điểm">
-              ${(u.totalPoints||0).toLocaleString('vi-VN')}
+            <span class="points-value" aria-label="${(u.totalPoints || 0).toLocaleString('vi-VN')} điểm">
+              ${(u.totalPoints || 0).toLocaleString('vi-VN')}
             </span>
           </div>
         </div>`;
@@ -542,14 +744,14 @@
 
       /* Animate rows in */
       requestAnimationFrame(() => {
-        document.querySelectorAll('.lb-row').forEach((row,i) => {
-          setTimeout(() => row.classList.add('visible'), i*40);
+        document.querySelectorAll('.lb-row').forEach((row, i) => {
+          setTimeout(() => row.classList.add('visible'), i * 40);
         });
       });
     }
 
     /* ── Render pagination ── */
-    function renderPagination(total, page){
+    function renderPagination(total, page) {
       const totalPages = Math.ceil(total / PAGE_LIMIT);
       pageInfo.textContent = `Trang ${page} / ${totalPages}`;
       pageInfo.setAttribute('aria-label', `Trang ${page} trên ${totalPages}`);
@@ -558,7 +760,7 @@
     }
 
     /* ── Load badges ── */
-    async function loadBadges(){
+    async function loadBadges() {
       try {
         const res = await fetch(`${API}/api/gamification/badges`);
         if (!res.ok) return;
@@ -567,29 +769,29 @@
           badgesGrid.innerHTML = `<p class="lb-empty" role="status">${t().noBadges}</p>`;
           return;
         }
-        const rarityOrder = { legendary:0, epic:1, rare:2, common:3 };
-        const sorted = [...data].sort((a,b) => (rarityOrder[a.rarity]||3) - (rarityOrder[b.rarity]||3));
+        const rarityOrder = { legendary: 0, epic: 1, rare: 2, common: 3 };
+        const sorted = [...data].sort((a, b) => (rarityOrder[a.rarity] || 3) - (rarityOrder[b.rarity] || 3));
         badgesGrid.innerHTML = sorted.map(badge => {
           const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || badge.slug;
           const desc = (typeof badge.description === 'object' ? badge.description[lang] : badge.description) || '';
           return `
-          <div class="badge-card badge-card--${badge.rarity||'common'}" role="listitem" tabindex="0"
+          <div class="badge-card badge-card--${badge.rarity || 'common'}" role="listitem" tabindex="0"
                aria-label="${name}: ${desc}">
-            <div class="badge-card__icon" aria-hidden="true">${badge.iconUrl||'🏅'}</div>
-            <div class="badge-card__rarity badge-card__rarity--${badge.rarity||'common'}" aria-label="Độ hiếm: ${t().rarity[badge.rarity||'common']}">
-              ${t().rarity[badge.rarity||'common']||''}
+            <div class="badge-card__icon" aria-hidden="true">${badge.iconUrl || '🏅'}</div>
+            <div class="badge-card__rarity badge-card__rarity--${badge.rarity || 'common'}" aria-label="Độ hiếm: ${t().rarity[badge.rarity || 'common']}">
+              ${t().rarity[badge.rarity || 'common'] || ''}
             </div>
             <div class="badge-card__name">${name}</div>
             <div class="badge-card__desc">${desc}</div>
           </div>`;
         }).join('');
-      } catch {}
+      } catch { }
     }
 
     /* ── Socket.io real-time ── */
-    function initSocket(){
+    function initSocket() {
       try {
-        socket = io({ transports:['websocket','polling'] });
+        socket = io({ transports: ['websocket', 'polling'] });
         socket.on('connect', () => {
           if (currentUser?._id) socket.emit('join', `user:${currentUser._id}`);
         });
@@ -602,18 +804,18 @@
           const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || 'Huy hiệu';
           showPointsToast(null, null, `🏅 Huy hiệu mới: ${name}`);
         });
-      } catch {}
+      } catch { }
     }
 
     /* ── Points toast ── */
     let toastTimer = null;
-    function showPointsToast(pts, action, customMsg){
+    function showPointsToast(pts, action, customMsg) {
       const actionLabels = {
-        site_visit:'Thăm di sản', comment:'Bình luận', booking:'Đặt tour',
-        daily_login:'Đăng nhập', share:'Chia sẻ', first_visit:'Lần đầu thăm'
+        site_visit: 'Thăm di sản', comment: 'Bình luận', booking: 'Đặt tour',
+        daily_login: 'Đăng nhập', share: 'Chia sẻ', first_visit: 'Lần đầu thăm'
       };
-      toastTitle.textContent = customMsg || (action ? actionLabels[action]||'Điểm mới' : 'Điểm mới');
-      toastSub.textContent   = pts !== null ? `+${pts} điểm` : '';
+      toastTitle.textContent = customMsg || (action ? actionLabels[action] || 'Điểm mới' : 'Điểm mới');
+      toastSub.textContent = pts !== null ? `+${pts} điểm` : '';
       pointsToast.hidden = false;
       pointsToast.classList.add('show');
       clearTimeout(toastTimer);
@@ -628,10 +830,10 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('.period-tab').forEach(b => {
           b.classList.remove('active');
-          b.setAttribute('aria-selected','false');
+          b.setAttribute('aria-selected', 'false');
         });
         btn.classList.add('active');
-        btn.setAttribute('aria-selected','true');
+        btn.setAttribute('aria-selected', 'true');
         currentPeriod = btn.dataset.period;
         currentPage = 1;
         loadLeaderboard(1);
@@ -639,203 +841,8 @@
     });
 
     /* ── Pagination ── */
-    prevBtn.addEventListener('click', () => { if(currentPage>1) loadLeaderboard(currentPage-1); });
-      } catch(err) {
-        leaderboardBody.innerHTML = `<div class="lb-error" role="alert">
-          <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-          Không thể tải bảng xếp hạng. <button class="btn-retry" onclick="loadLeaderboard()">Thử lại</button>
-        </div>`;
-      }
-    }
-
-    /* ── Render podium (top 3) ── */
-    function renderPodium(top3){
-      if (!top3 || !top3.length) {
-        podiumEl.innerHTML = '<p class="lb-empty">Chưa có dữ liệu</p>';
-        return;
-      }
-      // Re-order: 2nd, 1st, 3rd for visual podium effect
-      const order = [top3[1], top3[0], top3[2]].filter(Boolean);
-      const heights = ['70%','100%','55%'];
-      const medals = ['🥈','👑','🥉'];
-      const classes = ['podium__place--2nd','podium__place--1st','podium__place--3rd'];
-
-      podiumEl.innerHTML = order.map((u,i) => {
-        if (!u) return '';
-        const isFirst = (i===1);
-        return `
-        <div class="podium__place ${classes[i]}" role="listitem" aria-label="Hạng ${u.rank}: ${u.displayName||'Ẩn danh'}">
-          <div class="podium__medal" aria-hidden="true">${medals[i]}</div>
-          <div class="podium__avatar-wrap">
-            <img class="podium__avatar" 
-                 src="${u.avatar||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=d4af37&color=0a0a0b&size=80`}"
-                 alt="Avatar của ${u.displayName||'Ẩn danh'}"
-                 width="${isFirst?80:64}" height="${isFirst?80:64}">
-            ${isFirst ? '<div class="podium__crown-ring" aria-hidden="true"></div>' : ''}
-          </div>
-          <div class="podium__name">${u.displayName || 'Ẩn danh'}</div>
-          <div class="podium__score" aria-label="${(u.totalPoints||0).toLocaleString('vi-VN')} điểm">
-            <i class="fa-solid fa-star" aria-hidden="true"></i>
-            ${(u.totalPoints||0).toLocaleString('vi-VN')}
-          </div>
-          <div class="podium__bar" style="--bar-height:${heights[i]}" aria-hidden="true">
-            <span class="podium__rank">#${u.rank}</span>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    /* ── Render table rows ── */
-    function renderRows(entries, offset){
-      if (!entries || !entries.length) {
-        leaderboardBody.innerHTML = '<div class="lb-empty" role="status">Chưa có dữ liệu xếp hạng.</div>';
-        return;
-      }
-      leaderboardBody.innerHTML = entries.map((u, i) => {
-        const isMe = currentUser && (u.userId === currentUser._id || u._id === currentUser._id);
-        const rank = (offset + i + 1);
-        const rankDisplay = rank <= 3
-          ? ['🥇','🥈','🥉'][rank-1]
-          : `#${rank}`;
-
-        const badgeHtml = (u.badges||[]).slice(0,3).map(b =>
-          `<span class="row-badge" title="${b.badgeId?.name?.vi||b.slug||'Huy hiệu'}" aria-label="${b.badgeId?.name?.vi||'Huy hiệu'}">${b.badgeId?.iconUrl||'🏅'}</span>`
-        ).join('');
-
-        return `
-        <div class="lb-row ${isMe?'lb-row--me':''} ${rank<=3?'lb-row--top':''}"
-             role="row" tabindex="0"
-             aria-label="Hạng ${rank}: ${u.displayName||'Ẩn danh'}, ${(u.totalPoints||0).toLocaleString('vi-VN')} điểm"
-             style="--row-delay:${i*0.04}s">
-          <div class="col-rank" role="cell">
-            <span class="rank-badge rank-badge--${rank<=3?'top':'normal'}" aria-hidden="true">${rankDisplay}</span>
-          </div>
-          <div class="col-user" role="cell">
-            <img class="row-avatar" 
-                 src="${u.avatar||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=1c2233&color=d4af37&size=40`}"
-                 alt="" aria-hidden="true"
-                 width="40" height="40" loading="lazy">
-            <div class="row-user-info">
-              <span class="row-name">${u.displayName||'Ẩn danh'}${isMe?' <span class="you-tag">(Bạn)</span>':''}</span>
-              ${u.visitedSites?.length ? `<span class="row-sub">${u.visitedSites.length} ${t().sites} đã thăm</span>` : ''}
-            </div>
-          </div>
-          <div class="col-badges" role="cell">${badgeHtml || '<span class="text-muted-xs">—</span>'}</div>
-          <div class="col-sites" role="cell">
-            <span class="sites-count">${u.visitedSites?.length||0}</span>
-          </div>
-          <div class="col-streak" role="cell">
-            ${u.streakDays>0 ? `<span class="streak-chip" aria-label="${u.streakDays} ngày"><i class="fa-solid fa-fire" aria-hidden="true"></i> ${u.streakDays}</span>` : '<span class="text-muted-xs">—</span>'}
-          </div>
-          <div class="col-points" role="cell">
-            <span class="points-value" aria-label="${(u.totalPoints||0).toLocaleString('vi-VN')} điểm">
-              ${(u.totalPoints||0).toLocaleString('vi-VN')}
-            </span>
-          </div>
-        </div>`;
-      }).join('');
-
-      /* Animate rows in */
-      requestAnimationFrame(() => {
-        document.querySelectorAll('.lb-row').forEach((row,i) => {
-          setTimeout(() => row.classList.add('visible'), i*40);
-        });
-      });
-    }
-
-    /* ── Render pagination ── */
-    function renderPagination(total, page){
-      const totalPages = Math.ceil(total / PAGE_LIMIT);
-      pageInfo.textContent = `Trang ${page} / ${totalPages}`;
-      pageInfo.setAttribute('aria-label', `Trang ${page} trên ${totalPages}`);
-      prevBtn.disabled = page <= 1;
-      nextBtn.disabled = page >= totalPages;
-    }
-
-    /* ── Load badges ── */
-    async function loadBadges(){
-      try {
-        const res = await fetch(`${API}/api/gamification/badges`);
-        if (!res.ok) return;
-        const { data } = await res.json();
-        if (!data || !data.length) {
-          badgesGrid.innerHTML = `<p class="lb-empty" role="status">${t().noBadges}</p>`;
-          return;
-        }
-        const rarityOrder = { legendary:0, epic:1, rare:2, common:3 };
-        const sorted = [...data].sort((a,b) => (rarityOrder[a.rarity]||3) - (rarityOrder[b.rarity]||3));
-        badgesGrid.innerHTML = sorted.map(badge => {
-          const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || badge.slug;
-          const desc = (typeof badge.description === 'object' ? badge.description[lang] : badge.description) || '';
-          return `
-          <div class="badge-card badge-card--${badge.rarity||'common'}" role="listitem" tabindex="0"
-               aria-label="${name}: ${desc}">
-            <div class="badge-card__icon" aria-hidden="true">${badge.iconUrl||'🏅'}</div>
-            <div class="badge-card__rarity badge-card__rarity--${badge.rarity||'common'}" aria-label="Độ hiếm: ${t().rarity[badge.rarity||'common']}">
-              ${t().rarity[badge.rarity||'common']||''}
-            </div>
-            <div class="badge-card__name">${name}</div>
-            <div class="badge-card__desc">${desc}</div>
-          </div>`;
-        }).join('');
-      } catch {}
-    }
-
-    /* ── Socket.io real-time ── */
-    function initSocket(){
-      try {
-        socket = io({ transports:['websocket','polling'] });
-        socket.on('connect', () => {
-          if (currentUser?._id) socket.emit('join', `user:${currentUser._id}`);
-        });
-        socket.on('points_update', ({ totalPoints, pointsGained, action }) => {
-          showPointsToast(pointsGained, action);
-          /* Refresh leaderboard after short delay */
-          setTimeout(() => loadLeaderboard(currentPage), 2000);
-        });
-        socket.on('badge_earned', ({ badge }) => {
-          const name = (typeof badge.name === 'object' ? badge.name[lang] : badge.name) || 'Huy hiệu';
-          showPointsToast(null, null, `🏅 Huy hiệu mới: ${name}`);
-        });
-      } catch {}
-    }
-
-    /* ── Points toast ── */
-    let toastTimer = null;
-    function showPointsToast(pts, action, customMsg){
-      const actionLabels = {
-        site_visit:'Thăm di sản', comment:'Bình luận', booking:'Đặt tour',
-        daily_login:'Đăng nhập', share:'Chia sẻ', first_visit:'Lần đầu thăm'
-      };
-      toastTitle.textContent = customMsg || (action ? actionLabels[action]||'Điểm mới' : 'Điểm mới');
-      toastSub.textContent   = pts !== null ? `+${pts} điểm` : '';
-      pointsToast.hidden = false;
-      pointsToast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        pointsToast.classList.remove('show');
-        setTimeout(() => { pointsToast.hidden = true; }, 400);
-      }, 3500);
-    }
-
-    /* ── Period tabs ── */
-    document.querySelectorAll('.period-tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.period-tab').forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected','false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected','true');
-        currentPeriod = btn.dataset.period;
-        currentPage = 1;
-        loadLeaderboard(1);
-      });
-    });
-
-    /* ── Pagination ── */
-    prevBtn.addEventListener('click', () => { if(currentPage>1) loadLeaderboard(currentPage-1); });
-    nextBtn.addEventListener('click', () => loadLeaderboard(currentPage+1));
+    prevBtn.addEventListener('click', () => { if (currentPage > 1) loadLeaderboard(currentPage - 1); });
+    nextBtn.addEventListener('click', () => loadLeaderboard(currentPage + 1));
 
     /* ── Refresh ── */
     refreshBtn.addEventListener('click', () => {
@@ -846,7 +853,7 @@
     });
 
     /* ── Init ── */
-    async function init(){
+    async function init() {
       await checkAuth();
       initSocket();
       await loadLeaderboard(1);
@@ -854,9 +861,10 @@
     }
     init();
 
-  })();
+  }) ();
   </script>
   <script src="back-btn.js"></script>
   <script src="cursor.js"></script>
 </body>
+
 </html>

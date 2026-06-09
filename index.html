@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <div id="google_translate_element" style="display: none;"></div>
+                <div id="google_translate_element" style="opacity: 0; position: absolute; z-index: -1; pointer-events: none;"></div>
                 <script type="text/javascript">
                     function googleTranslateElementInit() {
                         new google.translate.TranslateElement({ pageLanguage: 'vi', includedLanguages: 'en,fr,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
@@ -114,9 +114,12 @@
                         const selectElement = document.querySelector('.goog-te-combo');
                         if (selectElement) {
                             selectElement.value = lang;
-                            selectElement.dispatchEvent(new Event('change'));
+                            selectElement.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+                        } else {
+                            console.warn("Google Translate select not found");
                         }
-                        document.getElementById('custom-lang-dropdown').style.display = 'none';
+                        const dropdown = document.getElementById('custom-lang-dropdown');
+                        if(dropdown) dropdown.style.display = 'none';
                     }
                     document.addEventListener('click', function(e) {
                         const wrapper = document.getElementById('custom-lang-wrapper');

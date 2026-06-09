@@ -320,79 +320,209 @@
         <div class="sec-title" data-i18n="common:intangible_title">Di sản phi vật thể</div>
         <div class="sec-sub">Âm nhạc - Lễ hội - Nghệ thuật - Phong tục</div>
       </div>
-      <span class="sec-count">14 di sản UNESCO</span>
+      <span class="sec-count">17 di sản UNESCO</span>
     </div>
 
-    <div class="intang-grid reveal">
-
-      <div class="intang-card">
-        <!-- -- (Không cần ảnh - dùng icon biểu tượng) -- -->
-        <div class="intang-icon">🎵</div>
-        <div class="intang-name">Nhã nhạc Cung đình Huế</div>
-        <div class="intang-year">UNESCO 2003</div>
-        <div class="intang-desc">Âm nhạc nghi lễ của triều đình nhà Nguyễn, được UNESCO công nhận đầu tiên tại Việt Nam.
-        </div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🥁</div>
-        <div class="intang-name">Cồng chiêng Tây Nguyên</div>
-        <div class="intang-year">UNESCO 2005</div>
-        <div class="intang-desc">Không gian văn hóa cồng chiêng ✨ thanh âm của rừng núi và các tộc người Tây Nguyên.
-        </div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🎶</div>
-        <div class="intang-name">Dân ca Quan họ</div>
-        <div class="intang-year">UNESCO 2009</div>
-        <div class="intang-desc">Làn điệu giao duyên của vùng đồng bằng Bắc Bộ, Kinh Bắc xưa.</div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🎭</div>
-        <div class="intang-name">Ca trù</div>
-        <div class="intang-year">UNESCO 2009</div>
-        <div class="intang-desc">Nghệ thuật ca hát thính phòng tinh tế của người Việt Bắc Bộ.</div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🌸</div>
-        <div class="intang-name">Hát Xoan Phú Thọ</div>
-        <div class="intang-year">UNESCO 2011 & 2017</div>
-        <div class="intang-desc">Hình thức ca hát nghi lễ thờ vua Hùng, truyền từ thời dựng nước.</div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🍜</div>
-        <div class="intang-name">Phở Việt Nam</div>
-        <div class="intang-year">UNESCO 2024</div>
-        <div class="intang-desc">Đặc sản ẩm thực đặc trưng, biểu tượng văn hóa ẩm thực Việt Nam trên toàn thế giới.
-        </div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🎋</div>
-        <div class="intang-name">Đờn ca tài tử Nam Bộ</div>
-        <div class="intang-year">UNESCO 2013</div>
-        <div class="intang-desc">Âm nhạc đặc trưng miền Nam, phong cách đậm chất tự do, phóng khoáng.</div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">🎉</div>
-        <div class="intang-name">Bài Chòi Trung Bộ</div>
-        <div class="intang-year">UNESCO 2017</div>
-        <div class="intang-desc">Trò chơi dân gian kết hợp Âm nhạc và hô hát đặc trưng miền Trung.</div>
-      </div>
-
-      <div class="intang-card">
-        <div class="intang-icon">💃</div>
-        <div class="intang-name">Nghệ thuật Xòe Thái</div>
-        <div class="intang-year">UNESCO 2021</div>
-        <div class="intang-desc">Điệu múa tập thể của người Thái Tây Bắc ✨ biểu tượng của đoàn kết cộng đồng.</div>
-      </div>
-
+    <div class="reveal" style="color: rgba(255,255,255,0.85); font-size: 1.05rem; line-height: 1.6; margin-bottom: 2rem;">
+      Việt Nam sở hữu một kho tàng văn hóa phi vật thể vô cùng đồ sộ và đặc sắc. Tính đến nay, Việt Nam đã có 17 di sản văn hóa phi vật thể được UNESCO vinh danh (bao gồm các di sản đại diện của nhân loại và các di sản cần bảo vệ khẩn cấp). Dưới đây là bảng tổng hợp chi tiết toàn bộ các di sản, ngày tháng năm công nhận và thông tin cốt lõi của từng di sản:
     </div>
+
+    <style>
+      .heritage-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        border: 1px solid rgba(180, 160, 120, 0.2);
+        background: rgba(20, 20, 20, 0.4);
+        backdrop-filter: blur(12px);
+      }
+      .heritage-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+        color: rgba(255,255,255,0.85);
+      }
+      .heritage-table th {
+        background: rgba(180, 160, 120, 0.15);
+        color: #f0ece4;
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        text-align: left;
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(180, 160, 120, 0.3);
+        white-space: nowrap;
+      }
+      .heritage-table td {
+        padding: 16px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        line-height: 1.6;
+        vertical-align: top;
+      }
+      .heritage-table tr:last-child td {
+        border-bottom: none;
+      }
+      .heritage-table tr:hover {
+        background: rgba(180, 160, 120, 0.08);
+      }
+      .heritage-table .stt {
+        width: 50px;
+        text-align: center;
+        color: #b4a078;
+        font-weight: 600;
+      }
+      .heritage-table .name {
+        font-weight: 500;
+        color: #f0ece4;
+        width: 25%;
+      }
+      .heritage-table .date {
+        white-space: nowrap;
+        width: 15%;
+        color: rgba(255,255,255,0.7);
+        font-size: 0.95rem;
+      }
+      .heritage-table .info {
+        width: 55%;
+      }
+      .note-box {
+        background: rgba(180, 160, 120, 0.1);
+        border-left: 4px solid #b4a078;
+        padding: 16px 20px;
+        border-radius: 0 8px 8px 0;
+        color: rgba(255,255,255,0.85);
+        line-height: 1.6;
+        margin-bottom: 4rem;
+        font-style: italic;
+      }
+      .note-box strong {
+        color: #f0ece4;
+        font-weight: 600;
+      }
+    </style>
+
+    <div class="heritage-table-wrapper reveal">
+      <table class="heritage-table">
+        <thead>
+          <tr>
+            <th class="stt">STT</th>
+            <th class="name">Tên Di Sản</th>
+            <th class="date">Ngày, Tháng, Năm Công Nhận</th>
+            <th class="info">Thông Tin Cốt Lõi Về Di Sản</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="stt">1</td>
+            <td class="name">Nhã nhạc cung đình Huế</td>
+            <td class="date">07/11/2003</td>
+            <td class="info">Là thể loại nhạc chính thống, bác học của cung đình thời phong kiến, biểu diễn trong các dịp lễ tế, đại lễ của triều đình. Đạt đến đỉnh cao hoàn chỉnh dưới triều Nguyễn.</td>
+          </tr>
+          <tr>
+            <td class="stt">2</td>
+            <td class="name">Không gian văn hóa Cồng chiêng Tây Nguyên</td>
+            <td class="date">25/11/2005</td>
+            <td class="info">Trải rộng khắp 5 tỉnh Tây Nguyên. Cồng chiêng gắn liền với vòng đời người và các lễ hội tâm linh, là cầu nối giữa con người và thế giới thần linh (Giàng).</td>
+          </tr>
+          <tr>
+            <td class="stt">3</td>
+            <td class="name">Dân ca Quan họ Bắc Ninh</td>
+            <td class="date">30/09/2009</td>
+            <td class="info">Hình thức hát giao duyên đối đáp tinh tế giữa các "liền anh", "liền chị" vùng Kinh Bắc, mang đậm tính cộng đồng, nghĩa tình và phong cách ứng xử văn hóa.</td>
+          </tr>
+          <tr>
+            <td class="stt">4</td>
+            <td class="name">Nghệ thuật hát Ca trù</td>
+            <td class="date">01/10/2009</td>
+            <td class="info">(Nằm trong danh sách cần bảo vệ khẩn cấp). Thể loại âm nhạc thính phòng truyền thống rất phức tạp, kết hợp giữa thơ ca và âm nhạc độc đáo với bộ ba: ca nương (gõ phách), kép đàn (đàn đáy) và quan viên (đánh trống chầu).</td>
+          </tr>
+          <tr>
+            <td class="stt">5</td>
+            <td class="name">Hội Gióng ở đền Phù Đổng và đền Sóc</td>
+            <td class="date">16/11/2010</td>
+            <td class="info">Lễ hội truyền thống tại Hà Nội nhằm tưởng nhớ và ca ngợi chiến công của vị anh hùng thần thoại Thánh Gióng, mang tính biểu tượng giáo dục lòng yêu nước sâu sắc.</td>
+          </tr>
+          <tr>
+            <td class="stt">6</td>
+            <td class="name">Nghệ thuật Hát Xoan Phú Thọ</td>
+            <td class="date">24/11/2011 (Ghi danh khẩn cấp)<br>08/12/2017 (Chuyển sang di sản đại diện)</td>
+            <td class="info">Loại hình dân ca nghi lễ phong tục gắn liền với tín ngưỡng thờ cúng Hùng Vương tại vùng đất Tổ Phú Thọ, có sự kết hợp hài hòa giữa nhạc, thơ và múa.</td>
+          </tr>
+          <tr>
+            <td class="stt">7</td>
+            <td class="name">Tín ngưỡng thờ cúng Hùng Vương ở Phú Thọ</td>
+            <td class="date">06/12/2012</td>
+            <td class="info">Di sản mang tính biểu tượng cho khối đại đoàn kết dân tộc, thể hiện đạo lý "Uống nước nhớ nguồn", gắn kết cộng đồng qua việc thờ chung một ông Tổ dòng máu.</td>
+          </tr>
+          <tr>
+            <td class="stt">8</td>
+            <td class="name">Nghệ thuật Đờn ca tài tử Nam Bộ</td>
+            <td class="date">05/12/2013</td>
+            <td class="info">Loại hình nghệ thuật dân gian đặc trưng của vùng sông nước Nam Bộ, phản ánh lối sống phóng khoáng, bình dị nhưng đầy tính nghệ thuật của người dân phương Nam.</td>
+          </tr>
+          <tr>
+            <td class="stt">9</td>
+            <td class="name">Dân ca Ví, Giặm Nghệ Tĩnh</td>
+            <td class="date">27/11/2014</td>
+            <td class="info">Loại hình hát dân gian không nhạc đệm, gắn liền với các hoạt động lao động, dệt vải, chèo thuyền... của người dân hai tỉnh Nghệ An và Hà Tĩnh.</td>
+          </tr>
+          <tr>
+            <td class="stt">10</td>
+            <td class="name">Nghi lễ và trò chơi Kéo co</td>
+            <td class="date">02/12/2015</td>
+            <td class="info">(Hồ sơ đa quốc gia: Việt Nam, Campuchia, Hàn Quốc, Philippines). Thể hiện ước nguyện cầu cho mưa thuận gió hòa, mùa màng tươi tốt và thắt chặt tình đoàn kết cộng đồng.</td>
+          </tr>
+          <tr>
+            <td class="stt">11</td>
+            <td class="name">Thực hành Tín ngưỡng thờ Mẫu Tam phủ của người Việt</td>
+            <td class="date">01/12/2016</td>
+            <td class="info">Tín ngưỡng bản địa tôn thờ các vị nữ thần (Mẫu) cai quản trời, sông nước, rừng núi. Trung tâm của thực hành là nghi lễ lên đồng kết hợp âm nhạc Chầu văn, trang phục và múa thiêng.</td>
+          </tr>
+          <tr>
+            <td class="stt">12</td>
+            <td class="name">Nghệ thuật Bài Chòi Trung Bộ</td>
+            <td class="date">07/12/2017</td>
+            <td class="info">Loại hình nghệ thuật đa dạng kết hợp âm nhạc, thơ ca, diễn xướng, hội họa và văn học, phổ biến ở các tỉnh miền Trung, thường tổ chức vào dịp Tết Nguyên Đán.</td>
+          </tr>
+          <tr>
+            <td class="stt">13</td>
+            <td class="name">Thực hành Then của người Tày, Nùng, Thái</td>
+            <td class="date">13/12/2019</td>
+            <td class="info">Khối nghi lễ tâm linh gắn với cây đàn Tính, phản ánh thế giới quan về con người, thiên nhiên và mường trời của các đồng bào dân tộc thiểu số miền núi phía Bắc.</td>
+          </tr>
+          <tr>
+            <td class="stt">14</td>
+            <td class="name">Nghệ thuật Xòe Thái</td>
+            <td class="date">15/12/2021</td>
+            <td class="info">Hình thức múa dân gian biểu tượng cho sự đoàn kết, gắn kết cộng đồng của người Thái ở vùng Tây Bắc, xuất hiện trong các dịp lễ hội, ngày vui của bản làng.</td>
+          </tr>
+          <tr>
+            <td class="stt">15</td>
+            <td class="name">Nghệ thuật làm gốm của người Chăm</td>
+            <td class="date">29/11/2022</td>
+            <td class="info">(Nằm trong danh sách cần bảo vệ khẩn cấp). Kỹ thuật làm gốm hoàn toàn bằng tay, người thợ đi giật lùi quanh khối đất để tạo hình ("làm bằng tay, xoay bằng chân") của làng gốm Bàu Trúc, Bình Đức.</td>
+          </tr>
+          <tr>
+            <td class="stt">16</td>
+            <td class="name">Lễ hội Vía Bà Chúa Xứ núi Sam</td>
+            <td class="date">04/12/2024</td>
+            <td class="info">Lễ hội tâm linh lớn bậc nhất Nam Bộ (An Giang), thể hiện sự giao thoa văn hóa giữa các dân tộc Kinh, Hoa, Khmer, Chăm và mang đậm tín ngưỡng thờ mẫu phương Nam.</td>
+          </tr>
+          <tr>
+            <td class="stt">17</td>
+            <td class="name">Nghề làm tranh dân gian Đông Hồ</td>
+            <td class="date">Tháng 12/2025</td>
+            <td class="info">(Nằm trong danh sách cần bảo vệ khẩn cấp). Dòng tranh in khắc gỗ thủ công nổi tiếng của làng Đông Hồ (Bắc Ninh), sử dụng giấy điệp và màu tự nhiên, mang đậm hồn cốt nông thôn và khát vọng năm mới bình an.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-box reveal">
+      <strong>Lưu ý ý nghĩa:</strong> Sự công nhận của UNESCO không chỉ là niềm tự hào quốc gia mà còn đi kèm trách nhiệm bảo tồn. Trong đó, Việt Nam đã có một thành tựu rất lớn là đưa Hát Xoan Phú Thọ ra khỏi danh sách "Cần bảo vệ khẩn cấp" để chuyển sang danh sách di sản "Đại diện của nhân loại" nhờ vào các nỗ lực bảo tồn hiệu quả và bền vững của cộng đồng.
+    </div>
+
 
   </div><!-- /main -->
 

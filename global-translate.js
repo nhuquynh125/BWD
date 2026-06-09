@@ -3,10 +3,13 @@ const style = document.createElement('style');
 style.innerHTML = `
     .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame { display: none !important; }
     body { top: 0px !important; position: static !important; }
-    html { top: 0px !important; }
+    html { top: 0px !important; height: 100% !important; }
     #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
     .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
     #google_translate_element { display: none !important; }
+    iframe.skiptranslate { display: none !important; }
+    body > .skiptranslate { display: none !important; }
+    .VIpgJd-ZVi9od-aZ2wEe-wOHMyf, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc { display: none !important; }
 
     /* Floating language button styles */
     .floating-lang-wrapper {

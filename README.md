@@ -46,12 +46,18 @@ Khám phá các di sản Việt Nam qua không gian 3D tương tác sống độ
 - **AR View:** Xem di sản qua góc nhìn thực tế tăng cường (Augmented Reality) ngay trên trình duyệt.
 - Hỗ trợ giao diện chuyên biệt cho thiết bị di động.
 
-### 🤖 Tích Hợp AI (Google Gemini)
+### 🤖 Tích Hợp AI & Kiến Trúc (Google Gemini)
+Hệ thống AI của Lunar Heritage được thiết kế với luồng tương tác chặt chẽ, an toàn giữa Frontend và Backend:
 - **Thầy Đồ Neon:** Chatbot AI am hiểu văn hóa, lịch sử Việt Nam.
 - **Nhận diện ảnh AI:** Phân tích hình ảnh di sản tải lên để cung cấp thông tin lịch sử chi tiết.
 - **Lên lịch trình AI:** Tự động tạo kế hoạch du lịch cá nhân hóa.
 - **AI Phục Dựng (Reconstruction):** Phân tích ảnh di tích và dùng AI phác họa lại kiến trúc nguyên thủy.
-- **Fine-tuning AI:** Dataset di sản (`heritage_dataset.jsonl`) và Modelfile để tinh chỉnh mô hình AI chuyên biệt về văn hóa Việt Nam.
+
+**Kiến trúc xử lý & Tích hợp (AI Integration Architecture):**
+1. **Frontend (Giao diện & Logic):** Lớp xử lý UI (`ai.html`, `ai.css`, `ai.js`) chịu trách nhiệm thu thập đầu vào (văn bản, ảnh, tùy chọn lịch trình). Sau đó, `ai.js` gọi qua `api.js` (Frontend API Client) để chuẩn hóa và đóng gói request gửi lên server.
+2. **Data Validation (Lớp Bảo Mật):** Mọi dữ liệu truyền từ `api.js` lên server sẽ được kiểm duyệt qua `schemas.js`. Các Zod schemas (như `aiChatSchema`, `aiImageAnalysisSchema`) sẽ chặn dữ liệu xấu và dọn dẹp chống XSS trước khi đưa vào xử lý logic.
+3. **Backend & AI Engine:** File `routes/aiRoutes.js` tiếp nhận dữ liệu hợp lệ, tương tác trực tiếp với API của Google Gemini (`@google/generative-ai`), trích xuất câu trả lời và định dạng JSON trả về cho Frontend.
+4. **Fine-tuning AI:** Cung cấp dataset mẫu (`heritage_dataset.jsonl`) và Modelfile để huấn luyện, tối ưu độ chính xác của AI theo ngữ cảnh di sản Việt.
 
 ### 🌍 Đa Ngôn Ngữ (i18n)
 - Hỗ trợ **Tiếng Việt** và **Tiếng Anh** (`locales/vi`, `locales/en`).
@@ -156,7 +162,9 @@ Mở trình duyệt và truy cập: **[http://localhost:8000](http://localhost:8
 /
 ├── server.js                  # Điểm khởi đầu Express, Socket.io, cấu hình middleware
 ├── db.js                      # Kết nối MongoDB với Mongoose
-├── schemas.js                 # Mongoose schemas cho toàn bộ dữ liệu
+├── schemas.js                 # Zod validation schemas kiểm duyệt an toàn dữ liệu API
+├── api.js                     # Frontend API Client: Cầu nối giao tiếp với Backend
+├── ai.js                      # Frontend Logic: Xử lý giao diện và tương tác AI
 ├── auth.js                    # Middleware xác thực JWT
 │
 ├── routes/                    # API Routes (MVC)

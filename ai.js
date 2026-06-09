@@ -142,25 +142,30 @@ async function sendChat() {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
+    let buffer = '';
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      const lines = chunk.split('\n');
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // Keep incomplete line in buffer
+
       for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const dataStr = line.substring(6);
-          if (dataStr === '[DONE]') break;
-          try {
-            const data = JSON.parse(dataStr);
-            if (data.error) throw new Error(data.error);
-            if (data.text) {
-              fullReply += data.text;
-              msgNode.innerHTML = fullReply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-              document.getElementById('chat-msgs').scrollTop = document.getElementById('chat-msgs').scrollHeight;
-            }
-          } catch (err) { console.error(err); }
+        if (!line.startsWith('data: ')) continue;
+        const dataStr = line.substring(6).trim();
+        if (dataStr === '[DONE]') break;
+        try {
+          const data = JSON.parse(dataStr);
+          if (data.error) throw new Error(data.error);
+          if (data.text) {
+            fullReply += data.text;
+            msgNode.innerHTML = fullReply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            document.getElementById('chat-msgs').scrollTop = document.getElementById('chat-msgs').scrollHeight;
+          }
+        } catch (err) { 
+          if (dataStr.includes('"error"')) throw err;
+          console.error('JSON parse error on stream:', err, dataStr);
         }
       }
     }

@@ -3,6 +3,7 @@ const style = document.createElement('style');
 style.innerHTML = `
     .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame { display: none !important; }
     body { top: 0px !important; position: static !important; }
+    html { top: 0px !important; }
     #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
     .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
     #google_translate_element { display: none !important; }
@@ -120,6 +121,9 @@ document.addEventListener('click', function(e) {
 
 // Bơm nút floating nếu trên trang chưa có nút Language
 function injectFloatingLang() {
+    const isIndexPage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') || window.location.pathname.endsWith('\\index.html');
+    if (!isIndexPage) return;
+
     if (!document.getElementById('custom-lang-wrapper') && !document.getElementById('floating-lang-wrapper')) {
         const wrapper = document.createElement('div');
         wrapper.id = 'floating-lang-wrapper';

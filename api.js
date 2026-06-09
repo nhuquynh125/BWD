@@ -172,16 +172,9 @@ const LunarWS = {
             const pageName = window.location.pathname.split('/').pop() || 'index';
             this._socket.emit('join_page', pageName);
             
-            // Real-time Visitor tracking
+            // Real-time Visitor tracking (Disabled per user request)
             this._socket.on('visitor_count', ({ count }) => {
-                let badge = document.getElementById('visitor-count-badge');
-                if (!badge) {
-                    badge = document.createElement('div');
-                    badge.id = 'visitor-count-badge';
-                    badge.style.cssText = 'position:fixed;bottom:20px;left:20px;background:rgba(0,0,0,0.7);color:#fff;padding:8px 12px;border-radius:20px;font-size:12px;z-index:9999;backdrop-filter:blur(4px);display:flex;align-items:center;gap:6px;transition:all 0.3s ease;';
-                    document.body.appendChild(badge);
-                }
-                badge.innerHTML = `<span style="display:inline-block;width:8px;height:8px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px #4ade80"></span> ${count} người đang xem`;
+                // Feature removed
             });
 
             // Real-time Lantern Effect across clients

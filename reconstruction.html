@@ -347,12 +347,13 @@
     </div>
   </footer>
 
+  <script src="api.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     (() => {
       'use strict';
 
-      const API = '';
+      const API = typeof API_BASE !== 'undefined' ? API_BASE : '';
       let currentFile = null;
       let currentJobId = null;
       let analysisHistory = JSON.parse(localStorage.getItem('rc_history') || '[]');
@@ -473,9 +474,18 @@
         try {
           /* Try /reconstruct endpoint first, fallback to /analyze-image */
           let endpoint = `${API}/api/ai/reconstruct`;
+          if (window.LunarAPI && !LunarAPI.getCsrfToken()) await LunarAPI.fetchCsrfToken();
+          
+          let headers = {};
+          if (window.LunarAPI && LunarAPI.getToken()) headers['Authorization'] = `Bearer ${LunarAPI.getToken()}`;
+          else if (localStorage.getItem('token')) headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+          
+          if (window.LunarAPI && LunarAPI.getCsrfToken()) headers['X-CSRF-Token'] = LunarAPI.getCsrfToken();
+
           let res = await fetch(endpoint, {
             method: 'POST',
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` },
+            credentials: 'include',
+            headers: headers,
             body: formData
           });
 
@@ -486,7 +496,8 @@
             formData2.append('file', currentFile);
             res = await fetch(endpoint, {
               method: 'POST',
-              headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` },
+              credentials: 'include',
+              headers: headers,
               body: formData2
             });
           }

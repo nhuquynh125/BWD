@@ -45,16 +45,13 @@ const server = http.createServer(app);
 const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5500', 'http://127.0.0.1:5500'];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || origin === 'null' || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    // Cho phép mọi origin để hỗ trợ deploy trên Vercel
+    callback(null, true);
   },
   credentials: true
 };
 app.use(cors(corsOptions));
-const io = socketIo(server, { cors: { origin: allowedOrigins, credentials: true } });
+const io = socketIo(server, { cors: { origin: true, credentials: true } });
 
 // Middlewares
 app.use(helmet());
@@ -68,8 +65,8 @@ app.use(globalLimiter);
 const csrfProtection = csurf({ 
   cookie: { 
     httpOnly: true, 
-    secure: process.env.NODE_ENV === 'production', 
-    sameSite: 'lax' 
+    secure: true, 
+    sameSite: 'none' 
   } 
 });
 app.use(csrfProtection);

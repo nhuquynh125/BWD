@@ -124,9 +124,17 @@ async function sendChat() {
     const msgNode = addMsg('', 'bot');
     let fullReply = '';
 
+    if (!window.LunarAPI) { throw new Error('API Client không sẵn sàng'); }
+    if (!LunarAPI.getCsrfToken()) await LunarAPI.fetchCsrfToken();
+    
+    const headers = { 'Content-Type': 'application/json' };
+    if (LunarAPI.getToken()) headers['Authorization'] = `Bearer ${LunarAPI.getToken()}`;
+    if (LunarAPI.getCsrfToken()) headers['X-CSRF-Token'] = LunarAPI.getCsrfToken();
+
     const response = await fetch(`${API}/api/ai/chat-stream`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      headers: headers,
       body: JSON.stringify({ messages: chatHist.slice(-12) })
     });
 
@@ -208,10 +216,7 @@ async function analyzeImage() {
   const result = document.getElementById('img-result');
   result.style.display = 'block'; result.innerHTML = '<div class="spinner"></div>';
   try {
-    const fd = new FormData(); fd.append('file', selectedFile);
-    const res = await fetch(`${API}/api/ai/analyze-image`, { method: 'POST', body: fd });
-    if (!res.ok) throw new Error(await readApiError(res));
-    const data = await res.json();
+    const data = await LunarAPI.analyzeImage(selectedFile);
     result.innerHTML = `
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
         <span style="font-size:1.2rem">✨</span>
@@ -237,19 +242,11 @@ async function generateItinerary() {
   const result = document.getElementById('it-result');
   result.style.display = 'block'; result.innerHTML = '<div class="spinner"></div><p style="text-align:center;color:rgba(255,255,255,.4);font-size:.82rem;margin-top:8px">Thầy Đồ đang nghiên cứu lịch trình tối ưu cho bạn...</p>';
   try {
-    const res = await fetch(`${API}/api/ai/itinerary`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        destination: dest,
-        days: parseInt(document.getElementById('f-days').value),
-        budget: document.getElementById('f-budget').value,
-        interests,
-        travelers: document.getElementById('f-traveler').value,
-        start_from: document.getElementById('f-from').value || null,
-      })
-    });
-    if (!res.ok) throw new Error(await readApiError(res));
-    const { itinerary } = await res.json();
+    const days = parseInt(document.getElementById('f-days').value);
+    const budget = document.getElementById('f-budget').value;
+    const travelers = document.getElementById('f-traveler').value;
+    const start_from = document.getElementById('f-from').value || null;
+    const { itinerary } = await LunarAPI.createItinerary(dest, days, budget, interests, travelers, start_from);
     renderItinerary(result, itinerary);
   } catch (e) { result.innerHTML = `<p style="color:#ef4444;padding:16px">❌ ${e.message}</p>`; }
   btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> TẠO LỊCH TRÌNH NGAY';

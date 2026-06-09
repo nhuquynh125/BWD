@@ -343,6 +343,8 @@ const LunarAPI = {
     isLoggedIn: () => Auth.isLogged(),
     currentUser: () => Auth.getUser(),
     getToken: () => Auth.getToken(),
+    getCsrfToken: () => csrfToken,
+    fetchCsrfToken,
     /**
      * setUser – persist a user object to localStorage via Auth.
      * Keeps LunarAPI.setUser(u) as a public alias so callers (e.g. profile.js)

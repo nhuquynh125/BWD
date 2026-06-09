@@ -117,8 +117,8 @@ document.addEventListener('click', function(e) {
 });
 
 // Bơm nút floating nếu trên trang chưa có nút Language
-window.addEventListener('DOMContentLoaded', () => {
-    if (!document.getElementById('custom-lang-wrapper')) {
+function injectFloatingLang() {
+    if (!document.getElementById('custom-lang-wrapper') && !document.getElementById('floating-lang-wrapper')) {
         const wrapper = document.createElement('div');
         wrapper.id = 'floating-lang-wrapper';
         wrapper.className = 'floating-lang-wrapper';
@@ -138,4 +138,10 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
         document.body.appendChild(wrapper);
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', injectFloatingLang);
+} else {
+    injectFloatingLang();
+}

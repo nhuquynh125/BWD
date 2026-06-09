@@ -127,8 +127,9 @@ function validateRequest(schema) {
       req.validatedBody = validated;
       next();
     } catch (error) {
-      const message = error.errors?.[0]?.message || 'Dữ liệu không hợp lệ';
-      res.status(400).json({ error: message, details: error.errors });
+      const issues = error.issues || error.errors || [];
+      const message = issues[0]?.message || 'Dữ liệu không hợp lệ';
+      res.status(400).json({ error: message, details: issues });
     }
   };
 }

@@ -15,7 +15,7 @@
 ## ✨ Tính Năng Nổi Bật
 
 ### 🌐 Mạng Xã Hội Đa Dạng
-- **Đăng ký / Đăng nhập an toàn:** Xác thực bằng JWT, mã hóa mật khẩu với bcrypt. Hỗ trợ đăng nhập nhanh bằng tài khoản Google.
+- **Đăng ký / Đăng nhập an toàn:** Xác thực bằng JWT, mã hóa mật khẩu với bcrypt.
 - **Tương tác bài viết:** Khám phá feed bài viết, chia sẻ cảm nghĩ, tải ảnh lên, thả tim (like) và bình luận. Dữ liệu lưu trữ MongoDB.
 - **Kết nối người dùng:** Tìm kiếm, xem hồ sơ, theo dõi (Follow/Unfollow) bạn bè. Quản lý hồ sơ cá nhân.
 - **Real-time Chat:** Nhắn tin trực tiếp thời gian thực, lưu trữ và gửi ảnh qua Socket.io.
@@ -78,7 +78,7 @@ Khám phá các di sản Việt Nam qua không gian 3D tương tác sống độ
 | **Map & 3D** | Leaflet.js, Three.js |
 | **Backend** | Node.js, Express.js v5 |
 | **Database** | MongoDB + Mongoose |
-| **Authentication** | JWT, bcryptjs, google-auth-library |
+| **Authentication** | JWT, bcryptjs |
 | **Real-time** | Socket.io v4 |
 | **AI** | Google Gemini 2.0 Flash (`@google/generative-ai`) |
 | **Security** | Helmet, csurf, express-rate-limit, xss, zod |
@@ -122,9 +122,6 @@ JWT_SECRET=lunar-heritage-secret-key-super-secure
 
 # API Key để sử dụng tính năng AI Thầy Đồ / Nhận diện ảnh
 GEMINI_API_KEY=your_gemini_api_key_here
-
-# Google Client ID để hỗ trợ chức năng đăng nhập qua Google
-GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
 **3. Khởi tạo Dữ liệu mẫu (Tùy chọn)**
@@ -163,7 +160,7 @@ Mở trình duyệt và truy cập: **[http://localhost:8000](http://localhost:8
 ├── auth.js                    # Middleware xác thực JWT
 │
 ├── routes/                    # API Routes (MVC)
-│   ├── authRoutes.js          #   Đăng ký, đăng nhập, Google OAuth
+│   ├── authRoutes.js          #   Đăng ký, đăng nhập
 │   ├── userRoutes.js          #   Hồ sơ, follow/unfollow, tìm kiếm
 │   ├── postRoutes.js          #   Bài viết, like, bình luận
 │   ├── heritageRoutes.js      #   Di sản, check-in, thông tin địa điểm
@@ -221,7 +218,6 @@ Mở trình duyệt và truy cập: **[http://localhost:8000](http://localhost:8
 | Port 8000 đã được sử dụng | Đổi giá trị `PORT` trong `.env` |
 | Chức năng AI báo lỗi | Kiểm tra `GEMINI_API_KEY` đã được điền chính xác |
 | Lỗi tải ảnh | Kiểm tra thư mục `uploads/` có quyền đọc/ghi |
-| Google OAuth lỗi | Kiểm tra `GOOGLE_CLIENT_ID` và cấu hình OAuth Consent Screen trên Google Cloud |
 | CSRF Token mismatch | Xóa cache trình duyệt và đăng nhập lại |
 
 ---
@@ -229,7 +225,7 @@ Mở trình duyệt và truy cập: **[http://localhost:8000](http://localhost:8
 ## 🎯 Roadmap
 
 ### ✅ Đã Hoàn Thành
-- [x] Hệ thống xác thực JWT & Google OAuth
+- [x] Hệ thống xác thực JWT
 - [x] Mạng xã hội: đăng bài, like, bình luận, follow
 - [x] Real-time Chat với Socket.io
 - [x] Admin Dashboard quản trị hệ thống

@@ -2,7 +2,7 @@ const rateLimit = require('express-rate-limit');
 
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 1000, // Tăng lên 1000 cho dev
   message: 'Quá nhiều yêu cầu từ IP này. Vui lòng thử lại sau.',
   standardHeaders: true,
   legacyHeaders: false,
@@ -10,7 +10,7 @@ const globalLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  max: 50, // Tăng lên 50 cho dev
   skipSuccessfulRequests: true,
   message: 'Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.',
 });

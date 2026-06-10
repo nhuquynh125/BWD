@@ -64,7 +64,7 @@ nav {
 /* -- HERO -- */
 .hero {
   min-height:38vh; padding-top:90px;
-  background:radial-gradient(ellipse at 20% 10%,#1a0033 0%,#06061a 55%,#000 100%);
+  background:radial-gradient(ellipse at 20% 10%,rgba(26,0,51,0.4) 0%,rgba(6,6,26,0.2) 55%,transparent 100%);
   display:flex; align-items:center;
 }
 

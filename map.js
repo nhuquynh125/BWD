@@ -112,12 +112,12 @@ function renderList(list) {
     const safeName = h.name.replace(/'/g, "\\'");
     return `
       <button class="heritage-item" onclick="focusHeritage('${safeName}')">
-        ${img ? `<img src="${img}" alt="${h.name}">` : '<div style="width:54px;height:54px;background:rgba(255,255,255,0.1);border-radius:10px;flex-shrink:0;'></div>'}
+        ${img ? `<img src="${img}" alt="${h.name}">` : '<div style="width:54px;height:54px;background:rgba(255,255,255,0.1);border-radius:10px;flex-shrink:0;"></div>'}
         <div class="info">
           <h4>${h.name}</h4>
           <p>📍 ${h.province || cats.join(', ')}</p>
         </div>
-      </button>\`; 
+      </button>`; 
   }).join('');
 
   window.currentRenderedList = list;

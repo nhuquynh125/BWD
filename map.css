@@ -149,11 +149,14 @@ body {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  text-decoration: none;
+}
+
+.map-nav-text {
   background: linear-gradient(90deg, #d4af37, #f8f9fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-decoration: none;
 }
 
 .leaflet-popup-content-wrapper {

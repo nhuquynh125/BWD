@@ -117,7 +117,7 @@ function renderList(list) {
           <h4>${h.name}</h4>
           <p>📍 ${h.province || cats.join(', ')}</p>
         </div>
-      </button>'; 
+      </button>\`; 
   }).join('');
 
   window.currentRenderedList = list;

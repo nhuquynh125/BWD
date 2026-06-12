@@ -370,6 +370,158 @@ li {
     }
 }
 
+/* ── Mobile UX Restructure ─────────────────────────────── */
+
+/* Fix reveal animation: must start hidden so fadeInUp works */
+.reveal {
+    opacity: 0;
+}
+.reveal.visible {
+    opacity: 1;
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ── Tablet (≤ 768px) ────────────────────────────────── */
+@media (max-width: 768px) {
+    :root {
+        --section-pad: 72px;
+    }
+
+    /* Hero: let stats wrap cleanly */
+    .hero-stats {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px !important;
+        text-align: center;
+    }
+
+    /* Heritage section header: stack title + "Xem tất cả" */
+    .section-head {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px;
+        margin-bottom: 36px !important;
+    }
+
+    /* Heritage grid → horizontal scroll carousel */
+    .heritage-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 20px !important;
+        padding-bottom: 16px; /* room for scrollbar */
+        /* hide scrollbar visually but keep functional */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(212,175,55,0.3) transparent;
+    }
+    .heritage-grid::-webkit-scrollbar {
+        height: 4px;
+    }
+    .heritage-grid::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .heritage-grid::-webkit-scrollbar-thumb {
+        background: rgba(212,175,55,0.35);
+        border-radius: 2px;
+    }
+    /* Each heritage card: fixed-width snap item */
+    .heritage-grid > .glass {
+        flex: 0 0 82vw !important;
+        max-width: 340px !important;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+    /* Reduce tall card images on mobile */
+    .heritage-grid > .glass > div[style*="height: 400px"] {
+        height: 240px !important;
+    }
+
+    /* Folk games: 2×2 grid */
+    .folk-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+    }
+
+    /* Heritage modal: stack image above text */
+    .heritage-modal-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .heritage-modal-grid > div:first-child {
+        min-height: 220px !important;
+        height: 220px !important;
+    }
+
+    /* Lantern card: clamp padding */
+    .lantern-card {
+        padding: clamp(32px, 8vw, 80px) clamp(20px, 5vw, 40px) !important;
+    }
+
+    /* Footer bottom bar: stack on small screens */
+    .footer-bottom {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+    }
+    .footer-bottom > div {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+}
+
+/* ── Small phone (≤ 480px) ───────────────────────────── */
+@media (max-width: 480px) {
+    :root {
+        --section-pad: 60px;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    /* Nav: hide auth text-buttons, rely on hamburger menu */
+    #nav-actions .btn {
+        display: none !important;
+    }
+
+    /* Heritage carousel: near full-width cards */
+    .heritage-grid > .glass {
+        flex: 0 0 88vw !important;
+        max-width: 320px !important;
+    }
+
+    /* Folk games: single column on very small screens */
+    .folk-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Hero CTA buttons: full width */
+    .hero-ctas {
+        flex-direction: column !important;
+        width: 100%;
+    }
+    .hero-ctas .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Reduce folk game card padding */
+    .folk-grid > .glass {
+        padding: 28px 20px !important;
+    }
+
+    /* Scroll indicator hint for heritage carousel */
+    .heritage-scroll-hint {
+        display: flex !important;
+    }
+}
+
+/* Desktop: hide scroll hint */
+.heritage-scroll-hint {
+    display: none;
+}
+
 /* ── Floating Lantern Animation ─────────────────────────── */
 @keyframes lanternFloat {
     0% {

@@ -30,19 +30,33 @@ Khi được cung cấp hình ảnh di sản hoặc tàn tích, hãy trả về 
   "confidence": 0.85
 }`,
   itinerary: `Bạn là một chuyên gia lên lịch trình du lịch Việt Nam.
-Dựa vào các thông tin sau, hãy tạo một lịch trình chi tiết theo từng ngày (tối đa 5 ngày).
+Dựa vào các thông tin sau, hãy tạo một lịch trình chi tiết theo từng ngày.
 Chỉ trả về ĐÚNG MỘT khối JSON hợp lệ theo định dạng sau (không chứa markdown hay text nào khác):
 {
   "title": "Tiêu đề chuyến đi",
+  "summary": "Tóm tắt ngắn gọn",
+  "best_season": "Mùa đẹp nhất",
+  "total_budget": "Dự kiến chi phí",
   "days": [
     {
       "day": 1,
-      "activities": [
-        {"time": "08:00", "description": "Hoạt động 1"},
-        {"time": "14:00", "description": "Hoạt động 2"}
-      ]
+      "title": "Chủ đề ngày",
+      "locations": [
+        {
+          "name": "Tên địa điểm",
+          "time": "08:00",
+          "duration": "2 giờ",
+          "description": "Mô tả hoạt động",
+          "tip": "Mẹo nhỏ",
+          "lat": 16.0463,
+          "lng": 108.2062
+        }
+      ],
+      "food": "Gợi ý ăn uống",
+      "transport": "Gợi ý di chuyển"
     }
-  ]
+  ],
+  "tips": ["Mẹo chung 1", "Mẹo chung 2"]
 }`
 };
 

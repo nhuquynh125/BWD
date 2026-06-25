@@ -116,7 +116,7 @@ app.use('/api/booking', bookingRoutes);
 
 // Health check
 app.get('/api/health', (_, res) =>
-  res.json({ ok: true, model: process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite', ai: genAI ? 'Gemini ✅' : '⚠️ GEMINI_API_KEY missing' }));
+  res.json({ ok: true, model: process.env.GEMINI_MODEL || 'gemini-1.5-flash', ai: genAI ? 'Gemini ✅' : '⚠️ GEMINI_API_KEY missing' }));
 
 // Init Socket
 initSocket(io);

@@ -11,7 +11,7 @@ if (GEMINI_API_KEY) {
   logger.warn('GEMINI_API_KEY is not set. AI features will be disabled.');
 }
 
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
 
 const AI_SYS = {
   chat: 'Bạn là Thầy Đồ Neon – AI chuyên gia về di sản văn hóa, lịch sử và du lịch Việt Nam. Trả lời ngắn gọn, chính xác bằng tiếng Việt, dùng ngôn ngữ thân thiện, dùng emoji phù hợp. Nếu được yêu cầu gợi ý lịch trình, hãy trình bày rõ ràng từng ngày bằng danh sách (bullet points) và hướng dẫn người dùng qua tab "Lịch trình du lịch" để xem bản đồ chi tiết.',

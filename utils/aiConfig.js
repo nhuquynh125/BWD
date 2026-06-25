@@ -12,6 +12,31 @@ if (GEMINI_API_KEY) {
 }
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+const FALLBACK_MODEL = 'gemini-1.5-flash';
+
+async function executeGeminiWithRetry(operationFn, maxRetries = 3, baseDelayMs = 1500) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operationFn(attempt);
+    } catch (e) {
+      if (attempt === maxRetries) throw e;
+      
+      const isRetryable = e.status === 503 || e.status === 429 || 
+                          (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand') || e.message.includes('overloaded')));
+                          
+      if (!isRetryable) throw e;
+      
+      const delay = baseDelayMs * Math.pow(2, attempt - 1);
+      if (logger && logger.warn) {
+        logger.warn(`[Gemini API] Retryable error. Attempt ${attempt}/${maxRetries} after ${delay}ms... (${e.message})`);
+      } else {
+        console.warn(`[Gemini API] Retryable error. Attempt ${attempt}/${maxRetries} after ${delay}ms... (${e.message})`);
+      }
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
 
 const AI_SYS = {
   chat: 'Bạn là Thầy Đồ Neon – AI chuyên gia về di sản văn hóa, lịch sử và du lịch Việt Nam. Trả lời ngắn gọn, chính xác bằng tiếng Việt, dùng ngôn ngữ thân thiện, dùng emoji phù hợp. Nếu được yêu cầu gợi ý lịch trình, hãy trình bày rõ ràng từng ngày bằng danh sách (bullet points) và hướng dẫn người dùng qua tab "Lịch trình du lịch" để xem bản đồ chi tiết.',
@@ -62,21 +87,27 @@ Chỉ trả về ĐÚNG MỘT khối JSON hợp lệ theo định dạng sau (kh
 
 async function geminiChat(messages, systemInstruction, maxOutputTokens = 800, responseMimeType = "text/plain") {
   if (!genAI) throw new Error('Gemini chưa được cấu hình (thiếu API Key)');
-  const model = genAI.getGenerativeModel({
-    model: GEMINI_MODEL,
-    systemInstruction,
-    generationConfig: { maxOutputTokens, responseMimeType }
+
+  return await executeGeminiWithRetry(async (attempt) => {
+    // If it's the last attempt and we are failing, try the more stable fallback model
+    const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
+    
+    const model = genAI.getGenerativeModel({
+      model: currentModelName,
+      systemInstruction,
+      generationConfig: { maxOutputTokens, responseMimeType }
+    });
+    
+    const history = messages.slice(0, -1).map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: String(m.content) }],
+    }));
+    const last = messages[messages.length - 1];
+    
+    const chat = model.startChat({ history });
+    const result = await chat.sendMessage(String(last.content));
+    return result.response.text();
   });
-  
-  const history = messages.slice(0, -1).map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: String(m.content) }],
-  }));
-  const last = messages[messages.length - 1];
-  
-  const chat = model.startChat({ history });
-  const result = await chat.sendMessage(String(last.content));
-  return result.response.text();
 }
 
 function sendAiError(res, e) {
@@ -89,5 +120,7 @@ module.exports = {
   GEMINI_MODEL,
   AI_SYS,
   geminiChat,
-  sendAiError
+  sendAiError,
+  executeGeminiWithRetry,
+  FALLBACK_MODEL
 };

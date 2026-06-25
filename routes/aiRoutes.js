@@ -3,7 +3,7 @@ const fs = require('fs');
 const { requireAuth, optionalAuth } = require('../auth');
 const { upload, validateImage } = require('../middlewares/upload');
 const { AiChatHistory } = require('../db');
-const { genAI, GEMINI_MODEL, AI_SYS, geminiChat, sendAiError } = require('../utils/aiConfig');
+const { genAI, GEMINI_MODEL, AI_SYS, geminiChat, sendAiError, executeGeminiWithRetry, FALLBACK_MODEL } = require('../utils/aiConfig');
 
 const router = express.Router();
 
@@ -23,23 +23,25 @@ router.post('/reconstruct', optionalAuth, upload.single('file'), validateImage, 
     const b64      = fs.readFileSync(req.file.path).toString('base64');
     const mimeType = req.file.mimetype;
 
-    const model = genAI.getGenerativeModel({
-      model: GEMINI_MODEL,
-      systemInstruction: AI_SYS.reconstruct,
-      generationConfig: {
-        maxOutputTokens: depth === 'detailed' ? 2000 : 1000,
-        responseMimeType: 'application/json',
-      }
-    });
-
     const userPrompt = lang === 'en'
       ? 'Analyze this heritage site image. Provide detailed architectural analysis and reconstruction recommendations in English. Return valid JSON only.'
       : 'Phân tích hình ảnh di sản này. Đưa ra phân tích kiến trúc chi tiết và đề xuất phục dựng bằng tiếng Việt. Chỉ trả về JSON hợp lệ.';
 
-    const result = await model.generateContent([
-      { inlineData: { data: b64, mimeType } },
-      userPrompt
-    ]);
+    const result = await executeGeminiWithRetry(async (attempt) => {
+      const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
+      const model = genAI.getGenerativeModel({
+        model: currentModelName,
+        systemInstruction: AI_SYS.reconstruct,
+        generationConfig: {
+          maxOutputTokens: depth === 'detailed' ? 2000 : 1000,
+          responseMimeType: 'application/json',
+        }
+      });
+      return await model.generateContent([
+        { inlineData: { data: b64, mimeType } },
+        userPrompt
+      ]);
+    });
 
     const rawText = result.response.text();
 
@@ -94,21 +96,22 @@ router.post('/chat-stream', optionalAuth, async (req, res) => {
       return res.end();
     }
 
-    // Move generationConfig to model level (not startChat) — fixes SDK parsing issues
-    const model = genAI.getGenerativeModel({
-      model: GEMINI_MODEL,
-      systemInstruction: AI_SYS.chat,
-      generationConfig: { maxOutputTokens: 800 }
-    });
-
     const history = messages.slice(0, -1).map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: String(m.content) }],
     }));
     const last = messages[messages.length - 1];
-    const chat = model.startChat({ history });
 
-    const result = await chat.sendMessageStream(String(last.content));
+    const result = await executeGeminiWithRetry(async (attempt) => {
+      const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
+      const model = genAI.getGenerativeModel({
+        model: currentModelName,
+        systemInstruction: AI_SYS.chat,
+        generationConfig: { maxOutputTokens: 800 }
+      });
+      const chat = model.startChat({ history });
+      return await chat.sendMessageStream(String(last.content));
+    });
 
     for await (const chunk of result.stream) {
       let text = '';
@@ -127,9 +130,12 @@ router.post('/analyze-image', optionalAuth, upload.single('file'), validateImage
   if (!genAI) return res.status(500).json({ error: 'Gemini chưa cấu hình' });
   if (!req.file) return res.status(400).json({ error: 'Không có file' });
   try {
-    const model  = genAI.getGenerativeModel({ model: GEMINI_MODEL, systemInstruction: AI_SYS.image });
     const b64    = fs.readFileSync(req.file.path).toString('base64');
-    const result = await model.generateContent([{ inlineData: { data: b64, mimeType: req.file.mimetype } }, 'Phân tích ảnh này.']);
+    const result = await executeGeminiWithRetry(async (attempt) => {
+      const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
+      const model  = genAI.getGenerativeModel({ model: currentModelName, systemInstruction: AI_SYS.image });
+      return await model.generateContent([{ inlineData: { data: b64, mimeType: req.file.mimetype } }, 'Phân tích ảnh này.']);
+    });
     res.json({ analysis: result.response.text() });
   } catch (e) { sendAiError(res, e); }
   finally { fs.unlink(req.file.path, () => {}); }

@@ -22,7 +22,7 @@ async function executeGeminiWithRetry(operationFn, maxRetries = 3, baseDelayMs =
       if (attempt === maxRetries) throw e;
       
       const isRetryable = e.status === 503 || e.status === 429 || 
-                          (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand') || e.message.includes('overloaded')));
+                          (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand') || e.message.includes('overloaded') || e.message.includes('Failed to parse stream')));
                           
       if (!isRetryable) throw e;
       

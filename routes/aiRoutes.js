@@ -128,7 +128,7 @@ router.post('/chat-stream', optionalAuth, async (req, res) => {
         success = true;
       } catch (e) {
         const isRetryable = e.status === 503 || e.status === 429 || 
-            (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand')));
+            (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand') || e.message.includes('Failed to parse stream')));
             
         // If we already sent chunks, it's too late to retry silently without duplicating text
         if (!isRetryable || attempt === maxRetries || chunksSent > 0) {

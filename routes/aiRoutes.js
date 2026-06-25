@@ -102,21 +102,42 @@ router.post('/chat-stream', optionalAuth, async (req, res) => {
     }));
     const last = messages[messages.length - 1];
 
-    const result = await executeGeminiWithRetry(async (attempt) => {
-      const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
-      const model = genAI.getGenerativeModel({
-        model: currentModelName,
-        systemInstruction: AI_SYS.chat,
-        generationConfig: { maxOutputTokens: 800 }
-      });
-      const chat = model.startChat({ history });
-      return await chat.sendMessageStream(String(last.content));
-    });
+    let success = false;
+    let attempt = 1;
+    let maxRetries = 3;
+    let delayMs = 1500;
+    let chunksSent = 0;
 
-    for await (const chunk of result.stream) {
-      let text = '';
-      try { text = chunk.text(); } catch { /* skip malformed chunk */ }
-      if (text) res.write(`data: ${JSON.stringify({ text })}\n\n`);
+    while (attempt <= maxRetries && !success) {
+      try {
+        const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
+        const model = genAI.getGenerativeModel({
+          model: currentModelName,
+          systemInstruction: AI_SYS.chat,
+          generationConfig: { maxOutputTokens: 800 }
+        });
+        const chat = model.startChat({ history });
+        const result = await chat.sendMessageStream(String(last.content));
+
+        for await (const chunk of result.stream) {
+          chunksSent++;
+          let text = '';
+          try { text = chunk.text(); } catch { /* skip malformed chunk */ }
+          if (text) res.write(`data: ${JSON.stringify({ text })}\n\n`);
+        }
+        success = true;
+      } catch (e) {
+        const isRetryable = e.status === 503 || e.status === 429 || 
+            (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand')));
+            
+        // If we already sent chunks, it's too late to retry silently without duplicating text
+        if (!isRetryable || attempt === maxRetries || chunksSent > 0) {
+          throw e; 
+        }
+        attempt++;
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+        delayMs *= 2;
+      }
     }
     res.write('data: [DONE]\n\n');
     res.end();

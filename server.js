@@ -65,8 +65,8 @@ app.use(globalLimiter);
 const csrfProtection = csurf({ 
   cookie: { 
     httpOnly: true, 
-    secure: true, 
-    sameSite: 'none' 
+    secure: process.env.NODE_ENV === 'production', 
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   } 
 });
 app.use(csrfProtection);
@@ -116,7 +116,7 @@ app.use('/api/booking', bookingRoutes);
 
 // Health check
 app.get('/api/health', (_, res) =>
-  res.json({ ok: true, ai: genAI ? 'Gemini ✅' : '⚠️ GEMINI_API_KEY missing' }));
+  res.json({ ok: true, model: process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite', ai: genAI ? 'Gemini ✅' : '⚠️ GEMINI_API_KEY missing' }));
 
 // Init Socket
 initSocket(io);

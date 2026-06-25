@@ -102,7 +102,7 @@ async function apiFetch(path, opts = {}) {
     opts.credentials = 'include';
 
     const controller = new AbortController();
-    const tid = setTimeout(() => controller.abort(), 12000);
+    const tid = setTimeout(() => controller.abort(), opts.timeout || 12000);
 
     try {
         const res = await fetch(`${API_BASE}${path}`, { ...opts, headers, signal: controller.signal });
@@ -290,9 +290,9 @@ const LunarAPI = {
     lanternStats: () => apiFetch('/api/stats'),
 
     // AI
-    chat: messages => apiFetch('/api/ai/chat', { method:'POST', body: JSON.stringify({ messages }) }),
-    async analyzeImage(file) { const fd = new FormData(); fd.append('file', file); return apiFetch('/api/ai/analyze-image', { method:'POST', body: fd }); },
-    createItinerary: (destination,days,budget,interests,travelers,start_from=null) => apiFetch('/api/ai/itinerary', { method:'POST', body: JSON.stringify({ destination, days, budget, interests, travelers, start_from }) }),
+    chat: messages => apiFetch('/api/ai/chat', { method:'POST', body: JSON.stringify({ messages }), timeout: 60000 }),
+    async analyzeImage(file) { const fd = new FormData(); fd.append('file', file); return apiFetch('/api/ai/analyze-image', { method:'POST', body: fd, timeout: 90000 }); },
+    createItinerary: (destination,days,budget,interests,travelers,start_from=null) => apiFetch('/api/ai/itinerary', { method:'POST', body: JSON.stringify({ destination, days, budget, interests, travelers, start_from }), timeout: 90000 }),
 
     // AI Chat History (server-side per user)
     getAiHistory: (session='default') => apiFetch(`/api/ai/history?session=${session}`),

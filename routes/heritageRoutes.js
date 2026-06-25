@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const { HeritageSite } = require('../db');
 const { optionalAuth, requireAuth } = require('../auth');
 const { awardPoints } = require('../services/GamificationService');

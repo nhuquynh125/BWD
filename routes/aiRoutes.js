@@ -80,31 +80,44 @@ router.post('/chat', optionalAuth, async (req, res) => {
 
 router.post('/chat-stream', optionalAuth, async (req, res) => {
   if (!genAI) return res.status(500).end('Gemini chưa cấu hình');
+
+  // Send SSE headers immediately — BEFORE awaiting the stream
+  // so the response is writable even if the stream call throws.
+  res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
   try {
-    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL, systemInstruction: AI_SYS.chat });
     const messages = req.body.messages || [];
+    if (!messages.length) {
+      res.write(`data: ${JSON.stringify({ error: 'Không có tin nhắn' })}\n\n`);
+      return res.end();
+    }
+
+    // Move generationConfig to model level (not startChat) — fixes SDK parsing issues
+    const model = genAI.getGenerativeModel({
+      model: GEMINI_MODEL,
+      systemInstruction: AI_SYS.chat,
+      generationConfig: { maxOutputTokens: 800 }
+    });
+
     const history = messages.slice(0, -1).map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: String(m.content) }],
     }));
     const last = messages[messages.length - 1];
-    const chat = model.startChat({ history, generationConfig: { maxOutputTokens: 800 } });
-    
+    const chat = model.startChat({ history });
+
     const result = await chat.sendMessageStream(String(last.content));
-    
-    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-    
+
     for await (const chunk of result.stream) {
-      const text = chunk.text();
-      if (text) {
-        res.write(`data: ${JSON.stringify({ text })}\n\n`);
-      }
+      let text = '';
+      try { text = chunk.text(); } catch { /* skip malformed chunk */ }
+      if (text) res.write(`data: ${JSON.stringify({ text })}\n\n`);
     }
     res.write('data: [DONE]\n\n');
     res.end();
-  } catch (e) { 
+  } catch (e) {
     res.write(`data: ${JSON.stringify({ error: e.message })}\n\n`);
     res.end();
   }

@@ -11,18 +11,41 @@ if (GEMINI_API_KEY) {
   logger.warn('GEMINI_API_KEY is not set. AI features will be disabled.');
 }
 
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
-const FALLBACK_MODEL = 'gemini-1.5-flash';
+const DEFAULT_GEMINI_MODEL = 'gemini-3.5-flash';
+const RETIRED_GEMINI_MODELS = new Set([
+  'gemini-1.5-flash',
+  'models/gemini-1.5-flash',
+  'gemini-1.5-pro',
+  'models/gemini-1.5-pro',
+]);
+
+function normalizeGeminiModel(model) {
+  const value = String(model || '').trim();
+  if (!value || RETIRED_GEMINI_MODELS.has(value)) return DEFAULT_GEMINI_MODEL;
+  return value.replace(/^models\//, '');
+}
+
+const GEMINI_MODEL = normalizeGeminiModel(process.env.GEMINI_MODEL);
+const GEMINI_FALLBACK_MODELS = (process.env.GEMINI_FALLBACK_MODELS || 'gemini-2.5-flash,gemini-2.0-flash,gemini-2.5-flash-lite')
+  .split(',')
+  .map(normalizeGeminiModel)
+  .filter(Boolean);
+const FALLBACK_MODEL = GEMINI_FALLBACK_MODELS[0] || DEFAULT_GEMINI_MODEL;
+
+function getGeminiModelForAttempt(attempt) {
+  const candidates = [...new Set([GEMINI_MODEL, ...GEMINI_FALLBACK_MODELS])];
+  return candidates[Math.min(Math.max(attempt, 1) - 1, candidates.length - 1)];
+}
 
 async function executeGeminiWithRetry(operationFn, maxRetries = 3, baseDelayMs = 1500) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      return await operationFn(attempt);
+      return await operationFn(attempt, getGeminiModelForAttempt(attempt));
     } catch (e) {
       if (attempt === maxRetries) throw e;
       
-      const isRetryable = e.status === 503 || e.status === 429 || 
-                          (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('Service Unavailable') || e.message.includes('high demand') || e.message.includes('overloaded') || e.message.includes('Failed to parse stream')));
+      const isRetryable = e.status === 503 || e.status === 429 || e.status === 404 ||
+                          (e.message && (e.message.includes('503') || e.message.includes('429') || e.message.includes('404') || e.message.includes('not found') || e.message.includes('Service Unavailable') || e.message.includes('high demand') || e.message.includes('overloaded') || e.message.includes('Failed to parse stream')));
                           
       if (!isRetryable) throw e;
       
@@ -88,10 +111,7 @@ Chỉ trả về ĐÚNG MỘT khối JSON hợp lệ theo định dạng sau (kh
 async function geminiChat(messages, systemInstruction, maxOutputTokens = 800, responseMimeType = "text/plain") {
   if (!genAI) throw new Error('Gemini chưa được cấu hình (thiếu API Key)');
 
-  return await executeGeminiWithRetry(async (attempt) => {
-    // If it's the last attempt and we are failing, try the more stable fallback model
-    const currentModelName = (attempt === 3 && GEMINI_MODEL !== FALLBACK_MODEL) ? FALLBACK_MODEL : GEMINI_MODEL;
-    
+  return await executeGeminiWithRetry(async (_attempt, currentModelName) => {
     const model = genAI.getGenerativeModel({
       model: currentModelName,
       systemInstruction,
@@ -118,9 +138,11 @@ function sendAiError(res, e) {
 module.exports = {
   genAI,
   GEMINI_MODEL,
+  GEMINI_FALLBACK_MODELS,
   AI_SYS,
   geminiChat,
   sendAiError,
   executeGeminiWithRetry,
-  FALLBACK_MODEL
+  FALLBACK_MODEL,
+  getGeminiModelForAttempt
 };

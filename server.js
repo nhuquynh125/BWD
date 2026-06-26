@@ -17,7 +17,7 @@ const { initDb } = require('./db');
 const logger = require('./utils/logger');
 const { globalLimiter } = require('./middlewares/rateLimiter');
 const initSocket = require('./utils/socket');
-const { genAI } = require('./utils/aiConfig');
+const { genAI, GEMINI_MODEL } = require('./utils/aiConfig');
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
@@ -116,7 +116,7 @@ app.use('/api/booking', bookingRoutes);
 
 // Health check
 app.get('/api/health', (_, res) =>
-  res.json({ ok: true, model: process.env.GEMINI_MODEL || 'gemini-1.5-flash', ai: genAI ? 'Gemini ✅' : '⚠️ GEMINI_API_KEY missing' }));
+  res.json({ ok: true, model: GEMINI_MODEL, ai: genAI ? 'Gemini ✅' : '⚠️ GEMINI_API_KEY missing' }));
 
 // Init Socket
 initSocket(io);
